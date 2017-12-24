@@ -12,17 +12,17 @@ For a list of ROM formats it'll read, look inside the ROMniscience.Handlers name
 Obligatory disclaimer about piracy goes here, because I said the word "ROM".  
 
 Things that are going to happen when I do them:  
-	- Read datfiles from No-Intro, Maybe-Intro, Redump, etc. These won't be distributed with it, for three reasons:  
-		1) They're updated like every week it seems so I'd either have to keep updating them or just have old files and I don't like that  
-		2) Some of these sites might not like their XML files being redistributed, they don't really say but it's best to not risk it  
-		3) They're big! Some are over 2MB by themselves, but when you distribute them all together, you have 100MB worth of files for a small program weighing in at 56KB at the time of writing.  
+  - Read datfiles from No-Intro, Maybe-Intro, Redump, etc. These won't be distributed with it, for three reasons:  
+    1) They're updated like every week it seems so I'd either have to keep updating them or just have old files and I don't like that  
+    2) Some of these sites might not like their XML files being redistributed, they don't really say but it's best to not risk it  
+    3) They're big! Some are over 2MB by themselves, but when you distribute them all together, you have 100MB worth of files for a small program weighing in at 56KB at the time of writing.  
 		Anyway, that should make it significantly more useful, because now you can find out what your files actually are.  
-	- Read compressed files (zip and 7z are very important, maybe gzip and bzip2 should be possible, fuck RAR)  
-	- Improve the functionality to view an individual file, right now it makes a lot of assumptions about filetypes and the actual type  
-	- Include a shell script for Linux that launches it with Mono, so I can drag and drop stuff easier, or maybe a .desktop entry  
-	- Export to CSV/TSV/XLSX/ODS, something that'll enable me to escape the boundaries of a kinda okay but kinda crappy grid view widget, and have all the nice sorting and whatnot  
-	- More handlers! I know there's headers for a lot more ROM formats that I can get relatively interesting info out of, just need to find more documentation.  
-	- On that note, once I add a generic way to read CD images (since the byte alignment on .bin/.cue and .iso are different), add support for disc based systems. I could leverage the Megadrive handler to read Mega CD discs since the header is actually the same, but then again, I could also add 32X and Sega Pico support right now and I haven't...  
+  - Read compressed files (zip and 7z are very important, maybe gzip and bzip2 should be possible, fuck RAR)  
+  - Improve the functionality to view an individual file, right now it makes a lot of assumptions about filetypes and the actual type  
+  - Include a shell script for Linux that launches it with Mono, so I can drag and drop stuff easier, or maybe a .desktop entry  
+  - Export to CSV/TSV/XLSX/ODS, something that'll enable me to escape the boundaries of a kinda okay but kinda crappy grid view widget, and have all the nice sorting and whatnot  
+  - More handlers! I know there's headers for a lot more ROM formats that I can get relatively interesting info out of, just need to find more documentation.  
+  - On that note, once I add a generic way to read CD images (since the byte alignment on .bin/.cue and .iso are different), add support for disc based systems. I could leverage the Megadrive handler to read Mega CD discs since the header is actually the same, but then again, I could also add 32X and Sega Pico support right now and I haven't...  
 
 I know these can be done because I've ended up doing them in my experiments trying to find a combination of language/GUI toolkit that is easy for me to work with, easy for me to distribute, and easy for users to use. I just felt like putting this on Github before I started doing them.  
 
