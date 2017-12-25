@@ -36,7 +36,7 @@ namespace ROMniscience.Handlers {
 	class N64: Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"z64", "Nintendo 64 ROM"},
-			//TODO Support v64/byteswapped n64 (maybe even detect the things)
+			//TODO Support v64/byteswapped n64
 			//TODO 64DD (.ndd) once I have that figured out
 			};
 		public override string name => "Nintendo 64";
@@ -68,7 +68,7 @@ namespace ROMniscience.Handlers {
 		readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {
 			{'\0', "Homebrew"},
 			{'N', "Cartridge"},
-			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but curiously Pokemon Stadium 2 uses this as well
+			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but curiously Pocket Monsters Stadium and Ocarina of Time use this as well
 			{'D', "64DD disk"}, //64DD disk dumps use a different format entirely, but there's a hack of SimCity 64 to make it function as a normal cart/ROM file which uses this
 			{'E', "64DD expansion for cartridge"},
 			{'Z', "Seta Aleck64 arcade board"}, //While these would usually be MAME romsets, it's possible to extract the file representing the game and it's just a byteswapped N64 rom
