@@ -14,7 +14,7 @@ namespace ROMniscience.Handlers {
 		};
 		public override string name => "Sega Pico";
 
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			Megadrive.parseMegadriveROM(info, file.stream);
 		}
 	}

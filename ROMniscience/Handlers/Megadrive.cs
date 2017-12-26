@@ -254,7 +254,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Region", regions, MEGADRIVE_REGIONS);
 		}
 
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			if(isSMD(file.stream)) {
 				info.addInfo("Detected format", "Super Magic Drive interleaved");
 				parseMegadriveROM(info, decodeSMD(file.stream));

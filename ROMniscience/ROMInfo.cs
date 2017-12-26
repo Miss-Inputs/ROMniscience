@@ -76,7 +76,7 @@ namespace ROMniscience {
 
 				//TODO Datfile stuff here
 
-				handler.addROMInfo(info, extension, rom);
+				handler.addROMInfo(info, rom);
 			} catch (Exception e) {
 				info.addInfo("Exception", e);
 			}

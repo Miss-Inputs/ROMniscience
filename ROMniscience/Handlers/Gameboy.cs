@@ -116,7 +116,7 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Game Boy";
 
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream f = file.stream;
 			long originalPos = f.Position;
 			try {

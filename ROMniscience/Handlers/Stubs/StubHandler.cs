@@ -32,7 +32,7 @@ namespace ROMniscience.Handlers.Stubs {
 	//they don't have a header at all. This way you still get generic info like size and filename
 	//and more usefully datfile matches once I implement that
 	abstract class StubHandler : Handler{
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 		}
 	}

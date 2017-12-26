@@ -219,7 +219,7 @@ namespace ROMniscience.Handlers {
 
 		//TODO DSi animated icon (just need to know how to store animated icons)
 
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream s = file.stream;
 			long origPos = s.Position;
 			try {

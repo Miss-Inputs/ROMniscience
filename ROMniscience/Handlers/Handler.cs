@@ -69,7 +69,7 @@ namespace ROMniscience.Handlers {
 
 		public bool configured => SettingsManager.doesKeyExist(name);
 
-		public abstract void addROMInfo(ROMInfo info, string extension, ROMFile file);
+		public abstract void addROMInfo(ROMInfo info, ROMFile file);
 
 		public static ICollection<Handler> allHandlers {
 			get {

@@ -116,7 +116,7 @@ namespace ROMniscience.Handlers {
 			return false;
 		}
 
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 			InputStream f = file.stream;
 

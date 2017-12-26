@@ -119,7 +119,7 @@ namespace ROMniscience.Handlers {
 			return N64ROMFormat.UNKNOWN;
 		}
 
-		public override void addROMInfo(ROMInfo info, string extension, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Nintendo 64");
 
 			InputStream s = file.stream;
