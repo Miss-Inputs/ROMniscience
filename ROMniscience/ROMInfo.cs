@@ -64,19 +64,22 @@ namespace ROMniscience {
 		public static ROMInfo getROMInfo(Handler handler, ROMFile rom) {
 			//TODO Error handling
 			ROMInfo info = new ROMInfo();
-			info.addInfo("Filename", rom.path.Name);
-			info.addInfo("Folder", rom.path.DirectoryName);
-			info.addSizeInfo("Size", rom.length);
-			//TODO Uncompressed filename, compressed size, compression ratio
+			try {
+				info.addInfo("Filename", rom.path.Name);
+				info.addInfo("Folder", rom.path.DirectoryName);
+				info.addSizeInfo("Size", rom.length);
+				//TODO Uncompressed filename, compressed size, compression ratio
 
-			string extension = rom.extension;
-			string fileType = handler.getFiletypeName(extension);
-			info.addInfo("File type", fileType ?? "Unknown");
+				string extension = rom.extension;
+				string fileType = handler.getFiletypeName(extension);
+				info.addInfo("File type", fileType ?? "Unknown");
 
-			//TODO Datfile stuff here
+				//TODO Datfile stuff here
 
-			handler.addROMInfo(info, extension, rom);
-			
+				handler.addROMInfo(info, extension, rom);
+			} catch (Exception e) {
+				info.addInfo("Exception", e);
+			}
 			return info;
 		}
 
