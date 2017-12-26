@@ -304,7 +304,7 @@ namespace ROMniscience.Handlers {
 
 				byte[] secureAreaChecksum = s.read(2);
 				info.addExtraInfo("Secure area checksum", secureAreaChecksum);
-				//TODO How is that calculated?
+				//TODO Calculate (CRC16 of 0x20 to 0x7fff)
 				int secureAreaDelay = s.readShortLE(); //131kHz units, 0x051e = 10ms, 0x0d7e = 26ms
 				info.addExtraInfo("Secure area delay (ms)", secureAreaDelay / 131);
 

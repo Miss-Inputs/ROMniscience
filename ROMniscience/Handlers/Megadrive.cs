@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
@@ -197,11 +198,16 @@ namespace ROMniscience.Handlers {
 			}
 
 			string copyright = s.read(16, Encoding.ASCII).Trim('\0').Trim();
-			//Copyright _should_ be separated into a strict format with the company name being 4
-			//characters and the date being in some specific format that I forgot, but it won't always be
-			//TODO Try and parse copyright to get some useful info, but fail gracefully if it's in a
-			//weird format
 			info.addInfo("Copyright", copyright);
+			Regex copyrightRegex = new Regex(@"\(C\)(\S{4}) (\d{4}\..{3})");
+			var matches = copyrightRegex.Match(copyright);
+			if(matches.Success) {
+				info.addInfo("Manufacturer", matches.Groups[1].Value); //TODO This should be a map actually
+				if(DateTime.TryParseExact(matches.Groups[2].Value, "yyyy.MMM", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None, out DateTime date)) {
+					info.addInfo("Date", date);
+				}
+			}
+
 
 			string domesticName = s.read(48, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Internal name", domesticName);
