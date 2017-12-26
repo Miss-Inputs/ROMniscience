@@ -97,22 +97,19 @@ namespace ROMniscience.Handlers {
 
 		bool attemptDetectSappy(InputStream s) {
 			//Adapted from sappy_detector.c from GBAMusRipper by Bregalad and CaptainSwag101
-			//FIXME This algorithm doesn't work. Test it individually on Azumanga Daioh Advance, which according to
-			//https://www.caitsith2.com/gsf/ofslist.txt should contain the Sappy driver
+			//FIXME This is way too slow to be usable
 			long originalPos = s.Position;
-			try{
+			try {
 				s.Seek(0xe4, SeekOrigin.Begin); //We know it's not in the header anywhere so skip over that
 				while(s.Position <= s.Length - SAPPY_SELECTSONG.Length) {
-					//Console.WriteLine(s.Position);
 					byte[] buf = s.read(SAPPY_SELECTSONG.Length);
-					if(Array.Equals(buf, SAPPY_SELECTSONG)) {
+					if(SAPPY_SELECTSONG.SequenceEqual(buf)) {
 						return true;
 					}
 					s.Seek(-SAPPY_SELECTSONG.Length + 1, SeekOrigin.Current);
-					//Console.WriteLine(s.Position);
 				}
 
-				
+
 			} finally {
 				s.Seek(originalPos, SeekOrigin.Begin);
 			}
@@ -175,7 +172,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Multiboot slave ID", multibootSlaveID);
 			//0xe0 contains a joybus entry point if joybus stuff is set, meh
 
-			//TODO Try and detect save point
+			//TODO Try and detect save type
 			//info.addInfo("Sound driver", attemptDetectSappy(f) ? "Sappy" : "Unknown");
 			//TODO Krawall is open source, see if we can detect that
 		}
