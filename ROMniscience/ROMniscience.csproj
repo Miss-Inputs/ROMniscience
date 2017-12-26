@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\32X.cs" />
     <Compile Include="Handlers\DS.cs" />
     <Compile Include="Handlers\GBA.cs" />
     <Compile Include="Handlers\Gameboy.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Handlers\Megadrive.cs" />
     <Compile Include="Handlers\N64.cs" />
     <Compile Include="Handlers\NintendoHandheldCommon.cs" />
+    <Compile Include="Handlers\Pico.cs" />
     <Compile Include="Handlers\Stubs\Atari2600.cs" />
     <Compile Include="Handlers\Stubs\StubHandler.cs" />
     <Compile Include="IO\FileInputStream.cs" />
