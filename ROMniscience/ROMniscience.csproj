@@ -74,6 +74,7 @@
     <Compile Include="Datfiles\ROM.cs" />
     <Compile Include="Datfiles\XMLDatfile.cs" />
     <Compile Include="Handlers\32X.cs" />
+    <Compile Include="Handlers\Atari7800.cs" />
     <Compile Include="Handlers\DS.cs" />
     <Compile Include="Handlers\GBA.cs" />
     <Compile Include="Handlers\Gameboy.cs" />
