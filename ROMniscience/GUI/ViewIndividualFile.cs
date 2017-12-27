@@ -94,11 +94,15 @@ namespace ROMniscience {
 						//You goof
 					}
 				}
-				if(value is byte[]) {
-					value = BitConverter.ToString((byte[])value);
+				if(value is byte[] bytes){
+					value = BitConverter.ToString(bytes);
 				}
 				if(value is string[]) {
 					value = String.Join(", ", value);
+				}
+				if(value is string str) {
+					//TextBox doesn't like null chars. I dunno what the best thing to replace it with is, but that'll do
+					value = str.Replace('\0', ' ');
 				}
 				
 				me.notALabel.Text += String.Format("{0} => {1}{2}", thing.Key, value, Environment.NewLine);
