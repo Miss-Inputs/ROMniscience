@@ -12,11 +12,6 @@ For a list of ROM formats it'll read, look inside the ROMniscience.Handlers name
 Obligatory disclaimer about piracy goes here, because I said the word "ROM".  
 
 Things that are going to happen when I do them:  
-  - Read datfiles from No-Intro, Maybe-Intro, Redump, etc. These won't be distributed with it, for three reasons:  
-    1) They're updated like every week it seems so I'd either have to keep updating them or just have old files and I don't like that  
-    2) Some of these sites might not like their XML files being redistributed, they don't really say but it's best to not risk it  
-    3) They're big! Some are over 2MB by themselves, but when you distribute them all together, you have 100MB worth of files for a small program weighing in at 56KB at the time of writing.  
-		Anyway, that should make it significantly more useful, because now you can find out what your files actually are.  
   - Read compressed files (zip and 7z are very important, maybe gzip and bzip2 should be possible, fuck RAR)  
   - Improve the functionality to view an individual file, right now it makes a lot of assumptions about filetypes and the actual type  
   - Include a shell script for Linux that launches it with Mono, so I can drag and drop stuff easier, or maybe a .desktop entry  
