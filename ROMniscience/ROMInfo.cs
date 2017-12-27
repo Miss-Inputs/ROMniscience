@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ROMniscience.Datfiles;
 using ROMniscience.Handlers;
 
 namespace ROMniscience {
@@ -60,8 +61,11 @@ namespace ROMniscience {
 		private readonly IDictionary<string, Tuple<object, FormatMode>> _info = new Dictionary<string, Tuple<object, FormatMode>>();
 		private readonly IDictionary<string, Tuple<object, FormatMode>> _extraInfo = new Dictionary<string, Tuple<object, FormatMode>>();
 
-		//TODO Use .dat files (No-Intro, Redump, etc)
 		public static ROMInfo getROMInfo(Handler handler, ROMFile rom) {
+			return getROMInfo(handler, rom, null);
+		}
+
+		public static ROMInfo getROMInfo(Handler handler, ROMFile rom, DatfileCollection datfiles) {
 			//TODO Error handling
 			ROMInfo info = new ROMInfo();
 			try {
@@ -74,7 +78,19 @@ namespace ROMniscience {
 				string fileType = handler.getFiletypeName(extension);
 				info.addInfo("File type", fileType ?? "Unknown");
 
-				//TODO Datfile stuff here
+				if(datfiles != null) {
+					XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream);
+					info.addInfo("Datfile", result?.datfile.name);
+					info.addInfo("Datfile game name", result?.game.name);
+					info.addInfo("Datfile game category", result?.game.category);
+					info.addExtraInfo("Datfile game description", result?.game.description); //So far I haven't seen this not be the same as the name
+					info.addInfo("Datfile ROM name", result?.rom.name);
+					info.addInfo("Datfile ROM status", result?.rom.status);
+					if(result != null) {
+						//Lowkey hate that I can't just do result? here
+						info.addExtraSizeInfo("Datfile ROM size", result.rom.size);
+					}
+				}
 
 				handler.addROMInfo(info, rom);
 			} catch (Exception e) {

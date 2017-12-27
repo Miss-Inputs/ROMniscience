@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ROMniscience.Datfiles;
 using ROMniscience.Handlers;
 
 namespace ROMniscience {
@@ -55,7 +56,14 @@ namespace ROMniscience {
 			//TODO More importantly, handle gracefully if there are no handlers, or let the user force a specific
 			//handler to take a look at it
 			Handler handler = handlers[0];
-			ROMInfo info = ROMInfo.getROMInfo(handler, rom);
+
+			string datFolder = SettingsManager.readSetting("datfiles");
+			DatfileCollection datfiles = null;
+			if(datFolder != null) {
+				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
+			}
+
+			ROMInfo info = ROMInfo.getROMInfo(handler, rom, datfiles);
 			IDictionary<string, Tuple<object, ROMInfo.FormatMode>> combinedInfo = new Dictionary<string, Tuple<object, ROMInfo.FormatMode>>();
 			foreach(var thing in info.info) {
 				combinedInfo.Add(thing);
@@ -92,7 +100,7 @@ namespace ROMniscience {
 				if(value is string[]) {
 					value = String.Join(", ", value);
 				}
-
+				
 				me.notALabel.Text += String.Format("{0} => {1}{2}", thing.Key, value, Environment.NewLine);
 			}
 
@@ -145,9 +153,9 @@ namespace ROMniscience {
 			// 
 			// fuckinPanelIGuess
 			// 
-			this.fuckinPanelIGuess.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.fuckinPanelIGuess.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.fuckinPanelIGuess.Controls.Add(this.notALabel);
 			this.fuckinPanelIGuess.Location = new System.Drawing.Point(13, 13);
 			this.fuckinPanelIGuess.Name = "fuckinPanelIGuess";

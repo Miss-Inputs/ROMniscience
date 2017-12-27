@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ROMniscience.Handlers;
 using System.IO;
+using ROMniscience.Datfiles;
 
 namespace ROMniscience {
 	class MainWindow: Form {
@@ -184,6 +185,12 @@ namespace ROMniscience {
 			table.Rows.Clear();
 			//TODO Separate this logic from the GUI, and notify when all workers are finished
 
+			DatfileCollection datfiles = null;
+			string datFolder = SettingsManager.readSetting("datfiles");
+			if(datFolder != null) {
+				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
+			}
+
 			foreach(Handler handler in Handler.allHandlers) {
 				if(handler.configured) {
 					BackgroundWorker bw = new BackgroundWorker();
@@ -195,7 +202,7 @@ namespace ROMniscience {
 						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
 							if(handler.handlesExtension(f.Extension)) {
 								ROMFile file = new ROMFile(f);
-								ROMInfo info = ROMInfo.getROMInfo(handler, file);
+								ROMInfo info = ROMInfo.getROMInfo(handler, file, datfiles);
 
 								table.Invoke(new addRowDelegate(addRow), info.info);
 							}

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- //Not that you would want to reuse this code anyway, yuck
+//Not that you would want to reuse this code anyway, yuck
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,16 +36,46 @@ namespace ROMniscience {
 	//TODO: Fix current caveat of not being able to store equals signs as values
 	class SettingsDialog: Form {
 		private IList<FolderEditor> editors = new List<FolderEditor>();
+		TextBox datFolderBox;
 
 		public SettingsDialog() {
 			Text = "ROMniscience settings";
 			MinimumSize = new System.Drawing.Size(500, 500);
 			Size = MinimumSize;
 
-			GroupBox editorHolderHolder = new GroupBox() {
+			Label datFolderLabel = new Label() {
+				Text = "Datfile folder",
 				Left = 10,
 				Top = 10,
-				Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 60),
+				Size = new System.Drawing.Size(100, 30), //I hope that'll be enough
+				Anchor = AnchorStyles.Top | AnchorStyles.Left,
+			};
+			Controls.Add(datFolderLabel);
+			datFolderBox = new TextBox() {
+				Left = datFolderLabel.Left + datFolderLabel.Width,
+				Top = 10,
+				Size = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + 20 + 80), 30),
+				Anchor = AnchorStyles.Top | AnchorStyles.Left,
+				Text = SettingsManager.readSetting("datfiles"),
+			};
+
+			Controls.Add(datFolderBox);
+			Button datFolderButt = new Button() {
+				Text = "Browse...",
+				Top = 10,
+				Left = datFolderBox.Left + datFolderBox.Width + 10,
+				MaximumSize = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + datFolderBox.Width + 30), 30),
+			};
+			Controls.Add(datFolderButt);
+			datFolderButt.Click += delegate {
+				browseForFolder(datFolderBox);
+			};
+
+
+			GroupBox editorHolderHolder = new GroupBox() {
+				Left = 10,
+				Top = 40,
+				Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 90),
 				Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left,
 				Text = "Folder Locations"
 			};
@@ -57,7 +87,7 @@ namespace ROMniscience {
 			};
 			editorHolderHolder.Controls.Add(editorHolder);
 			Controls.Add(editorHolderHolder);
-			foreach(Handler h in Handler.allHandlers) {
+			foreach(Handler h in Handler.allHandlers.OrderBy((Handler h) => h.name)) {
 				string existingValue = null;
 				if(h.configured) {
 					existingValue = h.folder.FullName;
@@ -67,10 +97,11 @@ namespace ROMniscience {
 				editorHolder.Controls.Add(fe);
 				editors.Add(fe);
 			}
+			//Need to add an empty label to the end or else the last FolderEditor will act weird and I don't fuckin know
 			editorHolder.Controls.Add(new Label());
 
 			Panel buttonHolder = new Panel() {
-				Top = 10 + editorHolder.Height,
+				Top = editorHolderHolder.Top + editorHolderHolder.Height,
 				Left = 10,
 				Size = new System.Drawing.Size(ClientSize.Width - 20, 50),
 				Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
@@ -149,32 +180,40 @@ namespace ROMniscience {
 					Left = texty.Right + texty.Margin.Right,
 				};
 				butt.Click += delegate {
-					using(var folderBrowserThing = new FolderBrowserDialog()) {
-						//FUCK C# only lets you use the fucking shitty ass bullshit folder chooser
-						//Nah fuck it this is a TODO fuckin let's trick the file open dialog into selecting a folder I reckon it can be done
-
-						if(folderBrowserThing.ShowDialog() == DialogResult.OK) {
-							texty.Text = folderBrowserThing.SelectedPath;
-						}
-					}
-					
+					browseForFolder(texty);
 				};
 				Controls.Add(butt);
 				Height = (new int[] { label.Height, texty.Height, butt.Height }).Max();
 			}
 		}
 
+		private static void browseForFolder(Control result) {
+			using(var folderBrowserThing = new FolderBrowserDialog()) {
+				//FUCK C# only lets you use the fucking shitty ass bullshit folder chooser
+				//Nah fuck it this is a TODO fuckin let's trick the file open dialog into selecting a folder I reckon it can be done
+
+				if(folderBrowserThing.ShowDialog() == DialogResult.OK) {
+					result.Text = folderBrowserThing.SelectedPath;
+				}
+			}
+		}
+
 		private void saveSettings() {
 			IDictionary<string, string> settings = new Dictionary<string, string>();
 			foreach(FolderEditor f in editors) {
-				string value = f.texty.Text?.Trim().Replace('=', '-');
-				if(String.IsNullOrEmpty(value)) {
-					settings.Add(f.Name, null);
-				} else {
-					settings.Add(f.Name, f.texty.Text);
-				}
+				saveSetting(settings, f.Name, f.texty.Text);
 			}
+			saveSetting(settings, "datfiles", datFolderBox.Text);
 			SettingsManager.writeSettings(settings);
+		}
+
+		private void saveSetting(IDictionary<string, string> settings, string name, string value) {
+			value = value?.Trim().Replace('=', '-');
+			if(String.IsNullOrEmpty(value)) {
+				settings.Add(name, null);
+			} else {
+				settings.Add(name, value);
+			}
 		}
 	}
 }
