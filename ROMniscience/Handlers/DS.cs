@@ -243,7 +243,7 @@ namespace ROMniscience.Handlers {
 				int encryption_seed = s.read(); //From 0 to 7, usually 0
 				info.addExtraInfo("Encryption seed", encryption_seed);
 				long romSize = (128 * 1024) << s.read();
-				info.addSizeInfo("ROM size", romSize);
+				info.addInfo("ROM size", romSize, ROMInfo.FormatMode.SIZE);
 
 				//Should be 0 filled (Pokemon Black 2 doesn't 0 fill it, so maybe it doesn't have to be)
 				byte[] reserved = s.read(7);
@@ -266,7 +266,7 @@ namespace ROMniscience.Handlers {
 				int arm9RAMAddress = s.readIntLE();
 				info.addExtraInfo("ARM9 RAM address", arm9RAMAddress);
 				int arm9Size = s.readIntLE();
-				info.addExtraSizeInfo("ARM9 size", arm9Size);
+				info.addExtraInfo("ARM9 size", arm9Size, ROMInfo.FormatMode.SIZE);
 
 				int arm7Offset = s.readIntLE();
 				info.addExtraInfo("ARM7 offset", arm7Offset);
@@ -275,24 +275,24 @@ namespace ROMniscience.Handlers {
 				int arm7RAMAddress = s.readIntLE();
 				info.addExtraInfo("ARM7 RAM address", arm7RAMAddress);
 				int arm7Size = s.readIntLE();
-				info.addExtraSizeInfo("ARM7 size", arm7Size);
+				info.addExtraInfo("ARM7 size", arm7Size, ROMInfo.FormatMode.SIZE);
 
 				int filenameTableOffset = s.readIntLE();
 				info.addExtraInfo("Filename table offset", filenameTableOffset);
 				int filenameTableSize = s.readIntLE();
-				info.addExtraSizeInfo("Filename table size", filenameTableSize);
+				info.addExtraInfo("Filename table size", filenameTableSize, ROMInfo.FormatMode.SIZE);
 				int fatOffset = s.readIntLE();
 				info.addExtraInfo("File allocation table offset", fatOffset);
 				int fatSize = s.readIntLE();
-				info.addExtraSizeInfo("File allocation table size", fatSize);
+				info.addExtraInfo("File allocation table size", fatSize, ROMInfo.FormatMode.SIZE);
 				int fileARM9OverlayOffset = s.readIntLE();
 				info.addExtraInfo("File ARM9 overlay offset", fileARM9OverlayOffset);
 				int fileARM9OverlaySize = s.readIntLE();
-				info.addExtraSizeInfo("File ARM9 overlay size", fileARM9OverlaySize);
+				info.addExtraInfo("File ARM9 overlay size", fileARM9OverlaySize, ROMInfo.FormatMode.SIZE);
 				int fileARM7OverlayOffset = s.readIntLE();
 				info.addExtraInfo("File ARM7 overlay offset", fileARM7OverlayOffset);
 				int fileARM7OverlaySize = s.readIntLE();
-				info.addExtraSizeInfo("File ARM7 overlay size", fileARM7OverlaySize);
+				info.addExtraInfo("File ARM7 overlay size", fileARM7OverlaySize, ROMInfo.FormatMode.SIZE);
 
 				byte[] normalCommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x00586000
 				info.addExtraInfo("Normal command setting", normalCommandSetting);
@@ -317,9 +317,9 @@ namespace ROMniscience.Handlers {
 				info.addExtraInfo("Secure area disable", secureAreaDisable);
 
 				int usedROMSize = s.readIntLE(); //Excludes DSi area
-				info.addSizeInfo("Used ROM size", usedROMSize);
+				info.addInfo("Used ROM size", usedROMSize, ROMInfo.FormatMode.SIZE);
 				int romHeaderSize = s.readIntLE();
-				info.addSizeInfo("Header size", romHeaderSize);
+				info.addInfo("Header size", romHeaderSize, ROMInfo.FormatMode.SIZE);
 
 				byte[] reserved3 = s.read(0x38); //0 filled except on DSi which uses first 12 bytes for some purpose
 				info.addExtraInfo("Reserved 3", reserved3);
@@ -333,7 +333,7 @@ namespace ROMniscience.Handlers {
 				int debugROMOffset = s.readIntLE();
 				info.addExtraInfo("Debug ROM offset", debugROMOffset);
 				int debugSize = s.readIntLE();
-				info.addExtraSizeInfo("Debug ROM size", debugSize);
+				info.addExtraInfo("Debug ROM size", debugSize, ROMInfo.FormatMode.SIZE);
 				int debugRAMAddress = s.readIntLE();
 				info.addExtraInfo("Debug RAM address", debugRAMAddress);
 
@@ -347,7 +347,7 @@ namespace ROMniscience.Handlers {
 					//TODO: Should stop being a lazy sod and read the rest of the DSi header
 					s.Seek(0x210, System.IO.SeekOrigin.Begin);
 					usedROMSize = s.readIntLE();
-					info.addSizeInfo("Used ROM size including DSi area", usedROMSize);
+					info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
 				}
 				//TODO Secure area at 0x400
 				//TODO Read FNT/FAT maybe?

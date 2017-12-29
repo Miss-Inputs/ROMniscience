@@ -76,7 +76,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", title);
 
 			int romSize = s.readIntBE(); //Excluding this header
-			info.addSizeInfo("ROM size", romSize);
+			info.addInfo("ROM size", romSize, ROMInfo.FormatMode.SIZE);
 
 			int specialCartType = s.read();
 			info.addInfo("Special cart type data", specialCartType);

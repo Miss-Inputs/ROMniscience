@@ -173,11 +173,20 @@ namespace ROMniscience {
 			}
 			if(ROMInfo.FormatMode.SIZE.Equals(args.CellStyle.Tag)) {
 				try {
-					args.Value = ROMInfo.formatByteSize((long)args.Value);
+					//Okay so apparently I have to double cast to avoid weird boxing shit that's weird
+					args.Value = ROMInfo.formatByteSize(args.Value is long ? (long)args.Value : (int)args.Value);
 					args.FormattingApplied = true;
-				} catch(InvalidCastException) {
+				} catch(InvalidCastException e) {
+					Console.WriteLine(e.Message);
+					Console.WriteLine(args.Value?.GetType().Name);
+					Console.WriteLine(args.Value);
 					args.FormattingApplied = false;
 				}
+				return;
+			}
+			if(ROMInfo.FormatMode.PERCENT.Equals(args.CellStyle.Tag)) {
+				args.Value = String.Format("{0:P2}", args.Value);
+				args.FormattingApplied = true;
 				return;
 			}
 		}

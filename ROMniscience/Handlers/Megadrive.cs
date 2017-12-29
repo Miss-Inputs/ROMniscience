@@ -234,19 +234,19 @@ namespace ROMniscience.Handlers {
 			info.addExtraInfo("ROM start", romStart);
 			int romEnd = s.readIntBE();
 			info.addExtraInfo("ROM end", romStart);
-			info.addSizeInfo("ROM size", romEnd - romStart);
+			info.addInfo("ROM size", romEnd - romStart, ROMInfo.FormatMode.SIZE);
 			int ramStart = s.readIntBE();
 			info.addExtraInfo("RAM start", ramStart);
 			int ramEnd = s.readIntBE();
 			info.addExtraInfo("RAM end", ramEnd);
-			info.addSizeInfo("RAM size", ramEnd - ramStart);
+			info.addInfo("RAM size", ramEnd - ramStart, ROMInfo.FormatMode.SIZE);
 			byte[] backupRamID = s.read(4);
 			info.addExtraInfo("Backup RAM ID", backupRamID);
 			int backupRamStart = s.readIntBE();
 			info.addExtraInfo("Backup RAM start", backupRamStart);
 			int backupRamEnd = s.readIntBE();
 			info.addExtraInfo("Backup RAM end", backupRamEnd);
-			info.addSizeInfo("Save size", backupRamEnd - backupRamStart);
+			info.addInfo("Save size", backupRamEnd - backupRamStart, ROMInfo.FormatMode.SIZE);
 			byte[] modemData = s.read(12);
 			info.addInfo("Modem data", modemData);
 			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported

@@ -145,10 +145,10 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Type", cartType, CART_TYPES);
 
 				int romSize = f.read();
-				info.addSizeInfo("ROM size", romSize, ROM_SIZES);
+				info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
 
 				int ramSize = f.read();
-				info.addSizeInfo("Save size", ramSize, RAM_SIZES);
+				info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
 
 				int destinationCode = f.read();
 				info.addInfo("Destination code", destinationCode); //Don't want to call this "Region", it's soorrrta what it is but only sorta. 0 is Japan and anything else is non-Japan basically

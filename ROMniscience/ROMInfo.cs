@@ -35,6 +35,7 @@ namespace ROMniscience {
 		public enum FormatMode {
 			NONE,
 			SIZE,
+			PERCENT,
 		}
 
 		public static string formatByteSize(long bytes) {
@@ -71,14 +72,14 @@ namespace ROMniscience {
 			try {
 				info.addInfo("Filename", rom.path.Name);
 				info.addInfo("Folder", rom.path.DirectoryName);
-				info.addSizeInfo("Size", rom.length);
+				info.addInfo("Size", rom.length, ROMInfo.FormatMode.SIZE);
 
 				if(rom.compressed) {
 					info.addInfo("Uncompressed filename", rom.name);
-					info.addSizeInfo("Compressed size", rom.compressedLength);
-					info.addInfo("Compression ratio", 1 - ((double)rom.compressedLength / rom.length));
+					info.addInfo("Compressed size", rom.compressedLength, ROMInfo.FormatMode.SIZE);
+					info.addInfo("Compression ratio", 1 - ((double)rom.compressedLength / rom.length), ROMInfo.FormatMode.PERCENT);
 				}
-				
+
 				string extension = rom.extension;
 				string fileType = handler.getFiletypeName(extension);
 				info.addInfo("File type", fileType ?? "Unknown");
@@ -93,12 +94,12 @@ namespace ROMniscience {
 					info.addInfo("Datfile ROM status", result?.rom.status);
 					if(result != null) {
 						//Lowkey hate that I can't just do result? here
-						info.addExtraSizeInfo("Datfile ROM size", result.rom.size);
+						info.addExtraInfo("Datfile ROM size", result.rom.size, ROMInfo.FormatMode.SIZE);
 					}
 				}
 
 				handler.addROMInfo(info, rom);
-			} catch (Exception e) {
+			} catch(Exception e) {
 				info.addInfo("Exception", e);
 			}
 			return info;
@@ -110,7 +111,8 @@ namespace ROMniscience {
 		//TODO Refactor to avoid duplication
 
 		public void addInfo(string key, object value) {
-			info.Add(key, new Tuple<object, FormatMode>(value, FormatMode.NONE));
+			//info.Add(key, new Tuple<object, FormatMode>(value, FormatMode.NONE));
+			addInfo(key, value, FormatMode.NONE);
 		}
 
 		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict) {
@@ -129,7 +131,7 @@ namespace ROMniscience {
 
 			string[] stuff = new string[value.Length];
 			for(var i = 0; i < value.Length; ++i) {
-				if(dict.TryGetValue(value[i], out string v)){
+				if(dict.TryGetValue(value[i], out string v)) {
 					stuff[i] = v;
 				} else {
 					stuff[i] = String.Format("Unknown ({0})", value[i]);
@@ -138,13 +140,13 @@ namespace ROMniscience {
 			addInfo(key, stuff);
 		}
 
-		public void addSizeInfo(string key, long value) {
-			info.Add(key, new Tuple<object, FormatMode>(value, FormatMode.SIZE));
+		public void addInfo(string key, object value, FormatMode format) {
+			info.Add(key, new Tuple<object, FormatMode>(value, format));
 		}
 
-		public void addSizeInfo<K>(string key, K value, IDictionary<K, long> dict) {
-			if(dict.TryGetValue(value, out long v)) {
-				addSizeInfo(key, v);
+		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {
+			if(dict.TryGetValue(value, out V v)) {
+				addInfo(key, v, format);
 			} else {
 				addInfo(key, String.Format("Unknown ({0})", value));
 			}
@@ -170,7 +172,7 @@ namespace ROMniscience {
 
 			string[] stuff = new string[value.Length];
 			for(var i = 0; i < value.Length; ++i) {
-				if(dict.TryGetValue(value[i], out string v)){
+				if(dict.TryGetValue(value[i], out string v)) {
 					stuff[i] = v;
 				} else {
 					stuff[i] = String.Format("Unknown ({0})", value[i]);
@@ -179,13 +181,13 @@ namespace ROMniscience {
 			addExtraInfo(key, stuff);
 		}
 
-		public void addExtraSizeInfo(string key, long value) {
-			extraInfo.Add(key, new Tuple<object, FormatMode>(value, FormatMode.SIZE));
+		public void addExtraInfo(string key, object value, FormatMode format) {
+			extraInfo.Add(key, new Tuple<object, FormatMode>(value, format));
 		}
 
-		public void addExtraSizeInfo<K>(string key, K value, IDictionary<K, long> dict) {
-			if(dict.TryGetValue(value, out long v)) {
-				addExtraSizeInfo(key, v);
+		public void addExtraInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {
+			if(dict.TryGetValue(value, out V v)) {
+				addExtraInfo(key, v, format);
 			} else {
 				addExtraInfo(key, String.Format("Unknown ({0})", value));
 			}
