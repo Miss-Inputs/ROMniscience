@@ -235,6 +235,7 @@ namespace ROMniscience.Handlers {
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
 			//5L (Hello Kitty's Cube Frenzy) Dev: Torus Games / Pub: Ubisoft
 			//5V (Cookie & Cream demo) FromSoftware I guess?
+			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
 			//7G (Pocket Music GBC) Jester Interactive / Rage Software
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
