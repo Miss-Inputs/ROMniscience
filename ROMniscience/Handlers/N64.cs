@@ -68,7 +68,8 @@ namespace ROMniscience.Handlers {
 		readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {
 			{'\0', "Homebrew"},
 			{'N', "Cartridge"},
-			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but curiously Pocket Monsters Stadium and Ocarina of Time use this as well
+			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but Pocket Monsters 
+			//Stadium and Ocarina of Time use this as well (since they were going to have expansions which more or less ended up being Pokemon Stadium (international) and Majora's Mask)
 			{'D', "64DD disk"}, //64DD disk dumps use a different format entirely, but there's a hack of SimCity 64 to make it function as a normal cart/ROM file which uses this
 			{'E', "64DD expansion for cartridge"},
 			{'Z', "Seta Aleck64 arcade board"}, //While these would usually be MAME romsets, it's possible to extract the file representing the game and it's just a byteswapped N64 rom

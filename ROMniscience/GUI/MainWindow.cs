@@ -32,6 +32,7 @@ using System.Windows.Forms;
 using ROMniscience.Handlers;
 using System.IO;
 using ROMniscience.Datfiles;
+using System.IO.Compression;
 
 namespace ROMniscience {
 	class MainWindow: Form {
