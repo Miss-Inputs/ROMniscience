@@ -29,14 +29,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using ROMniscience.IO;
+using System.IO.Compression;
 
 namespace ROMniscience {
-	class ROMFile : IDisposable{
-		//TODO Support archives
+	class ROMFile: IDisposable {
+		private ZipArchiveEntry zae;
+
 		public ROMFile(FileInfo f) {
 			path = f;
-			name = f.Name;
-			stream = new FileInputStream(f);
+			stream = new WrappedInputStream(File.OpenRead(f.FullName));
+		}
+
+		public ROMFile(ZipArchiveEntry zae, FileInfo path) {
+			this.zae = zae;
+			this.path = path;
+			stream = new WrappedInputStream(zae.Open());
 		}
 
 		public FileInfo path {
@@ -44,16 +51,42 @@ namespace ROMniscience {
 		}
 
 		public string name {
-			get;
+			get {
+				if(compressed) {
+					return zae.Name;
+				} else {
+					return path.Name;
+				}
+			}
 		}
 
 		public InputStream stream {
 			get;
 		}
 
-		public long length => stream.Length;
+		public bool compressed => zae != null;
 
-		public string extension => Path.GetExtension(path.Name);
+		public long length {
+			get {
+				if(compressed) {
+					return zae.Length;
+				} else {
+					return stream.Length;					
+				}
+			}
+		}
+
+		public long compressedLength {
+			get {
+				if(compressed) {
+					return zae.CompressedLength;
+				} else {
+					throw new NotImplementedException();
+				}
+			}
+		}
+
+		public string extension => Path.GetExtension(name);
 		
 		//ACKSHUALLY it is being disposed, but because it's an auto property, it complains about the backing store being not disposed directly because bug
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed")]

@@ -201,6 +201,22 @@ namespace ROMniscience {
 							return;
 						}
 						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
+							if(f.Extension != null && f.Extension.ToLowerInvariant().Equals(".zip")) {
+								using(ZipArchive zip = ZipFile.OpenRead(f.FullName)) {
+									foreach(ZipArchiveEntry zae in zip.Entries) {
+										if(handler.handlesExtension(Path.GetExtension(zae.Name))) {
+											ROMInfo info;
+											using(ROMFile file = new ROMFile(zae, f)) {
+												info = ROMInfo.getROMInfo(handler, file, datfiles);
+											}
+
+											table.Invoke(new addRowDelegate(addRow), info.info);
+										}
+									}
+								}
+								continue;
+							}
+
 							if(handler.handlesExtension(f.Extension)) {
 								ROMInfo info;
 								using(ROMFile file = new ROMFile(f)) {
@@ -219,7 +235,7 @@ namespace ROMniscience {
 				}
 			}
 		}
-
+		
 		private delegate void addRowDelegate(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data);
 
 		private void addRow(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data) {

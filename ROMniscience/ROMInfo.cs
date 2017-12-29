@@ -72,8 +72,13 @@ namespace ROMniscience {
 				info.addInfo("Filename", rom.path.Name);
 				info.addInfo("Folder", rom.path.DirectoryName);
 				info.addSizeInfo("Size", rom.length);
-				//TODO Uncompressed filename, compressed size, compression ratio
 
+				if(rom.compressed) {
+					info.addInfo("Uncompressed filename", rom.name);
+					info.addSizeInfo("Compressed size", rom.compressedLength);
+					info.addInfo("Compression ratio", 1 - ((double)rom.compressedLength / rom.length));
+				}
+				
 				string extension = rom.extension;
 				string fileType = handler.getFiletypeName(extension);
 				info.addInfo("File type", fileType ?? "Unknown");

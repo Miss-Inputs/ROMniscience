@@ -31,6 +31,7 @@ using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
 	class Megadrive: Handler {
+		//Some stuff adapted from https://www.zophar.net/fileuploads/2/10614uauyw/Genesis_ROM_Format.txt
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"gen", "Sega Genesis/Megadrive ROM"},
 			{"bin", "Sega Genesis/Megadrive ROM"},
@@ -43,7 +44,7 @@ namespace ROMniscience.Handlers {
 
 		public readonly static IDictionary<string, string> MEGADRIVE_PRODUCT_TYPES = new Dictionary<string, string> {
 			{"GM", "Game"},
-			{"AI", "Education"},
+			{"AI", "Education"}, //Or is it Al? Need to find something that actually uses this
 			{"OS", "Operating system"}, //Genesis OS ROM uses this
 			{"BR", "Boot ROM"}, //Mega CD BIOS etc
 			{"SF", "Super Fighter Team game"}, //Beggar Price, Legend of Wukong, Star Odyssey, etc
@@ -224,7 +225,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 
 			int checksum = s.readShortBE();
-			//TODO calc checksum (add every byte in the ROM starting from 0x200, 16 bit overflow)
+			//TODO calc checksum (add every byte in the ROM starting from 0x200 in 2-byte chunks (first byte multiplied by 256), use only first 16 bits of result)
 			info.addExtraInfo("Checksum", checksum);
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
@@ -248,6 +249,8 @@ namespace ROMniscience.Handlers {
 			info.addSizeInfo("Save size", backupRamEnd - backupRamStart);
 			byte[] modemData = s.read(12);
 			info.addInfo("Modem data", modemData);
+			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported
+
 			string memo = s.read(40, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Memo", memo);
 			char[] regions = s.read(3, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
