@@ -201,8 +201,10 @@ namespace ROMniscience {
 						}
 						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
 							if(handler.handlesExtension(f.Extension)) {
-								ROMFile file = new ROMFile(f);
-								ROMInfo info = ROMInfo.getROMInfo(handler, file, datfiles);
+								ROMInfo info;
+								using(ROMFile file = new ROMFile(f)) {
+									info = ROMInfo.getROMInfo(handler, file, datfiles);
+								}
 
 								table.Invoke(new addRowDelegate(addRow), info.info);
 							}

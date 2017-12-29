@@ -46,7 +46,9 @@ namespace ROMniscience {
 		}
 
 		public static void viewFile(FileInfo path) {
-			viewFile(new ROMFile(path));
+			using(ROMFile f = new ROMFile(path)) {
+				viewFile(f);
+			}
 		}
 
 		public static void viewFile(ROMFile rom) {
