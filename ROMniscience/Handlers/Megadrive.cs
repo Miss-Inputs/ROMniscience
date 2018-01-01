@@ -182,7 +182,7 @@ namespace ROMniscience.Handlers {
 			{"T-54", "Face"},
 			{"T-55", "Nuvision Entertainment"},
 			{"T-56", "Razorsoft"},
-			{"T-58", "Jaleco"},
+			{"T-57", "Jaleco"},
 			{"T-58", "Visco"},
 			{"T-60", "Victor"},
 			{"T-61", "Wonder Amusement Studio"},
