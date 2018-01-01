@@ -158,7 +158,6 @@ namespace ROMniscience {
 			};
 			Menu.MenuItems.Add(autosizeRowsItem);
 
-			//TODO Put something to export to CSV/Excel/etc in here
 			MenuItem exportItem = new MenuItem("Export to TSV");
 			exportItem.Click += delegate {
 				SaveFileDialog fileDialog = new SaveFileDialog() {
