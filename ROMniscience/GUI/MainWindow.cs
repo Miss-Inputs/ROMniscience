@@ -115,8 +115,19 @@ namespace ROMniscience {
 			if(args.CellValue1 is string && !(args.CellValue2 is string)) {
 				args.SortResult = 1;
 				args.Handled = true;
+				return;
 			} else if(args.CellValue2 is string && !(args.CellValue1 is string)) {
 				args.SortResult = -1;
+				args.Handled = true;
+				return;
+			}
+
+			if(args.CellValue1 is int && args.CellValue2 is long) {
+				//Are you fuckin serious
+				args.SortResult = ((long)(int)args.CellValue1).CompareTo((long)args.CellValue2);
+				args.Handled = true;
+			} else if(args.CellValue1 is long && args.CellValue2 is int) {
+				args.SortResult = ((long)args.CellValue1).CompareTo((int)args.CellValue2);
 				args.Handled = true;
 			}
 		}
@@ -182,7 +193,7 @@ namespace ROMniscience {
 					//Okay so apparently I have to double cast to avoid weird boxing shit that's weird
 					args.Value = ROMInfo.formatByteSize(args.Value is long ? (long)args.Value : (int)args.Value);
 					args.FormattingApplied = true;
-				} catch(InvalidCastException e) {
+				} catch(InvalidCastException) {
 					args.FormattingApplied = false;
 				}
 				return;
