@@ -33,6 +33,7 @@ using ROMniscience.Handlers;
 using System.IO;
 using ROMniscience.Datfiles;
 using System.IO.Compression;
+using System.Collections.Concurrent;
 
 namespace ROMniscience {
 	class MainWindow: Form {
@@ -198,6 +199,8 @@ namespace ROMniscience {
 				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
 			}
 
+			ConcurrentDictionary<string, bool> runningWorkers = new ConcurrentDictionary<string, bool>();
+
 			foreach(Handler handler in Handler.allHandlers) {
 				if(handler.configured) {
 					BackgroundWorker bw = new BackgroundWorker();
@@ -233,15 +236,21 @@ namespace ROMniscience {
 							}
 						}
 					};
+
+
 					bw.RunWorkerCompleted += delegate {
-						Console.WriteLine(String.Format("{0} completed", handler.name));
+						runningWorkers[handler.name] = false;
+						Console.WriteLine("Currently running: {0}", String.Join(", ", runningWorkers.Where(kv => kv.Value).Select(kv => kv.Key)));
 					};
-					Console.WriteLine(String.Format("{0} started", handler.name));
+					runningWorkers.TryAdd(handler.name, true);
+					Console.WriteLine("Currently running: {0}", String.Join(", ", runningWorkers.Where(kv => kv.Value).Select(kv => kv.Key)));
+
+
 					bw.RunWorkerAsync();
 				}
 			}
 		}
-		
+
 		private delegate void addRowDelegate(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data);
 
 		private void addRow(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data) {
