@@ -42,7 +42,7 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Megadrive/Genesis";
 
-		public readonly static IDictionary<string, string> MEGADRIVE_PRODUCT_TYPES = new Dictionary<string, string> {
+		public readonly static IDictionary<string, string> PRODUCT_TYPES = new Dictionary<string, string> {
 			{"GM", "Game"},
 			{"AI", "Education"}, //Or is it Al? Need to find something that actually uses this
 			{"OS", "Operating system"}, //Genesis OS ROM uses this
@@ -76,7 +76,7 @@ namespace ROMniscience.Handlers {
 			//Misused completely in 16 Zhang Majiang, which is a bootleg
 		};
 
-		public readonly static IDictionary<char, string> MEGADRIVE_IO_SUPPORT = new Dictionary<char, string> {
+		public readonly static IDictionary<char, string> IO_SUPPORT = new Dictionary<char, string> {
 			{'J', "Joypad"},
 			{'6', "6-button joypad"},
 			{'K', "Keyboard"},
@@ -104,7 +104,7 @@ namespace ROMniscience.Handlers {
 			//"The best" as the product type and code
 		};
 
-		public readonly static IDictionary<char, string> MEGADRIVE_REGIONS = new Dictionary<char, string> {
+		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string> {
 			{'E', "Europe"},
 			{'J', "Japan"},
 			{'U', "USA"},
@@ -127,6 +127,159 @@ namespace ROMniscience.Handlers {
 			//There's a 2 in the Multi-Mega BIOS, not sure what it means, as far as I can tell
 			//that BIOS is just for Europe which it also has as a country code
 			//Puggsy protoype has "NOV" in this field which seems to be misused
+		};
+
+		public readonly static IDictionary<string, string> MANUFACTURERS = new Dictionary<string, string> {
+			{"SEGA", "Sega"}, //Interestingly enough
+			{"ACLD", "Ballistic"},
+			{"ASCI", "Asciiware"},
+			{"RSI", "Razorsoft"},
+			{"TREC", "Treco"},
+			{"VRGN", "Virgin"},
+			{"WSTN", "Westone"},
+			//https://segaretro.org/Third-party_T-series_codes
+			{"T-10", "Takara"},
+			{"T-11", "Taito"},
+			{"T-12", "Capcom"},
+			{"T-13", "Data East"},
+			{"T-14", "Namco"},
+			{"T-15", "Sunsoft"},
+			{"T-16", "Ma-Ba (Mattel + Bandai)"},
+			{"T-17", "Dempa"},
+			{"T-18", "Technosoft"},
+			{"T-19", "Technosoft (19)"},
+			{"T-20", "Asmik"},
+			{"T-21", "ASCII"},
+			{"T-22", "Micronet"},
+			{"T-23", "VIC Tokai"},
+			{"T-24", "Treco or Sammy"},
+			{"T-25", "Nippon Computer Systems (Masaya)"},
+			{"T-26", "Sigma"},
+			{"T-27", "Toho"},
+			{"T-28", "Hot-B"},
+			{"T-29", "Kyugo"},
+			{"T-30", "Video System"},
+			{"T-31", "SNK"},
+			{"T-32", "Wolf Team"},
+			{"T-33", "Kaneko"},
+			{"T-34", "Dreamworks"},
+			{"T-35", "Seismic Softare"},
+			{"T-36", "Tecmo"},
+			{"T-40", "Toaplan"},
+			{"T-41", "UNIPACC"},
+			{"T-42", "UFL"},
+			{"T-43", "Human"},
+			{"T-44", "Sanritsu"},
+			{"T-45", "Game Arts"},
+			{"T-46", "Kodansha"},
+			{"T-47", "Sage's Creation"},
+			{"T-48", "Tengen"},
+			{"T-49", "Telenet"},
+			{"T-50", "Electronic Arts"},
+			{"T-51", "Microcabin"},
+			{"T-52", "Systemsoft"},
+			{"T-53", "Riverhillsoft"},
+			{"T-54", "Face"},
+			{"T-55", "Nuvision Entertainment"},
+			{"T-56", "Razorsoft"},
+			{"T-58", "Jaleco"},
+			{"T-58", "Visco"},
+			{"T-60", "Victor"},
+			{"T-61", "Wonder Amusement Studio"},
+			{"T-62", "Sony Imagesoft"},
+			{"T-63", "Toshiba EMI"},
+			{"T-64", "Information Global Service"},
+			{"T-65", "Tsukuda Ideal"},
+			{"T-66", "Compile"},
+			{"T-67", "Home Data/Magical"},
+			{"T-68", "CSK Research Institute"},
+			{"T-69", "Arena"}, //nice
+			{"T-70", "Virgin"},
+			{"T-71", "Nichibutsu"},
+			{"T-72", "Varie"},
+			{"T-73", "Coconuts Japan or Soft Vision"},
+			{"T-74", "Palsoft"},
+			{"T-75", "Pony Canyon"},
+			{"T-76", "Koei"},
+			{"T-77", "Takeru/Sur De Wave"},
+			{"T-79", "U.S. Gold"},
+			{"T-81", "Acclaim"},
+			{"T-83", "Gametek"},
+			{"T-84", "Datawest"},
+			{"T-85", "PCM Complete"},
+			{"T-86", "Absolute"},
+			{"T-87", "Mindscape"},
+			{"T-88", "Domark"},
+			{"T-89", "Parker Bros"},
+			{"T-91", "Pack-in-Soft"},
+			{"T-92", "Polydor"},
+			{"T-93", "Sony"},
+			{"T-95", "Konami"},
+			{"T-97", "Tradewest/Williams/Midway"},
+			{"T-99", "Success"},
+			{"T-100", "THQ"},
+			{"T-101", "Tecmagik"},
+			{"T-102", "Samsung"}, //Used for Pico titles
+			{"T-103", "Takara"},
+			{"T-105", "Shogakukan"},
+			{"T-106", "Electronic Arts Victor"},
+			{"T-107", "Electro Brain"},
+			{"T-109", "Saddleback Graphics"},
+			{"T-110", "Dynamix"},
+			{"T-111", "American Laser Games"},
+			{"T-112", "Hi-Tech Expressions"},
+			{"T-113", "Psygnosis"},
+			{"T-114", "T&E Soft"},
+			{"T-115", "Core Design"},
+			{"T-118", "The Learning Company"},
+			{"T-119", "Accolade"},
+			{"T-120", "Codemasters"},
+			{"T-121", "ReadySoft"},
+			{"T-123", "Gremlin"},
+			{"T-124", "Spectrum Holobyte"},
+			{"T-125", "Interplay"},
+			{"T-126", "Maxis"},
+			{"T-127", "Working Designs"},
+			{"T-130", "Activision"},
+			{"T-132", "Playmates"},
+			{"T-133", "Bandai"},
+			{"T-135", "CapDisc"},
+			{"T-137", "ASC Games"},
+			{"T-139", "Viacom"},
+			{"T-141", "Toei"},
+			{"T-143", "Hudson"},
+			{"T-144", "Atlus"},
+			{"T-145", "Sony"},
+			{"T-146", "Takara"},
+			{"T-147", "Sansan"},
+			{"T-149", "Nisshouiwai Infocom"},
+			{"T-150", "Imagineer"},
+			{"T-151", "Infogrames"},
+			{"T-152", "Davidson & Associates"},
+			{"T-153", "Rocket Science Games"},
+			{"T-154", "Technos Japan"},
+			{"T-157", "Angel"},
+			{"T-158", "Mindscape"},
+			{"T-159", "Crystal Dynamics"},
+			{"T-160", "Sales Curve"},
+			{"T-161", "Fox"},
+			{"T-162", "Digital Pictures"},
+			{"T-164", "Ocean Software"},
+			{"T-165", "Seta"},
+			{"T-166", "Altron"},
+			{"T-167", "ASK Kodansha"},
+			{"T-168", "Athena"},
+			{"T-169", "Gakken"},
+			{"T-170", "General Entertainment"},
+			{"T-174", "Glams"},
+			{"T-176", "ASCII Something Good"},
+			{"T-177", "Ubisoft"},
+			{"T-178", "Hitachi"},
+			{"T-180", "BMG"},
+			{"T-181", "Obunsha"},
+			{"T-182", "Thinking Cap"},
+			//TODO The rest
+			{"T-239", "Disney"},
 		};
 
 		public static InputStream decodeSMD(InputStream s) {
@@ -200,22 +353,21 @@ namespace ROMniscience.Handlers {
 
 			string copyright = s.read(16, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Copyright", copyright);
-			Regex copyrightRegex = new Regex(@"\(C\)(\S{4}) (\d{4}\..{3})");
+			Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
 			var matches = copyrightRegex.Match(copyright);
 			if(matches.Success) {
-				info.addInfo("Manufacturer", matches.Groups[1].Value); //TODO This should be a map actually
+				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
 				if(DateTime.TryParseExact(matches.Groups[2].Value, "yyyy.MMM", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None, out DateTime date)) {
 					info.addInfo("Date", date);
 				}
 			}
-
 
 			string domesticName = s.read(48, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Internal name", domesticName);
 			string overseasName = s.read(48, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Overseas name", overseasName);
 			string productType = s.read(2, Encoding.ASCII);
-			info.addInfo("Type", productType, MEGADRIVE_PRODUCT_TYPES);
+			info.addInfo("Type", productType, PRODUCT_TYPES);
 
 			s.read(); //Space for padding
 			string serialNumber = s.read(8, Encoding.ASCII).Trim('\0').Trim();
@@ -229,7 +381,7 @@ namespace ROMniscience.Handlers {
 			info.addExtraInfo("Checksum", checksum);
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
-			info.addInfo("IO support", ioSupportList, MEGADRIVE_IO_SUPPORT);
+			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
 			int romStart = s.readIntBE();
 			info.addExtraInfo("ROM start", romStart);
 			int romEnd = s.readIntBE();
@@ -254,7 +406,7 @@ namespace ROMniscience.Handlers {
 			string memo = s.read(40, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Memo", memo);
 			char[] regions = s.read(3, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
-			info.addInfo("Region", regions, MEGADRIVE_REGIONS);
+			info.addInfo("Region", regions, REGIONS);
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
