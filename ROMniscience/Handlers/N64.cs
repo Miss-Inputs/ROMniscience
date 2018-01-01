@@ -87,28 +87,6 @@ namespace ROMniscience.Handlers {
 			Z64, N64, V64, UNKNOWN
 		}
 
-		enum N64CICChip {
-			//Apparently they're actually called this, though only ShoutWiki makes reference to these names
-			//TODO: Looks like you crc32 the entire bootcode to identify the CIC
-
-			//6101, only used by Star Fox 64. Doesn't relocate the entry point, crc32 = 0x6170a4a1
-			STARF,
-			//7102, only used by Lylat Wars. Possibly works the same way as STARF?
-			LYLAT,
-			//6102-7101 (Super Mario 64, CD64 BIOS, apparently the standard for NTSC), crc32 = 0x90bb6cb5
-			//Doesn't relocate entry point
-			MARIO,
-			//6103-7103 (Banjo-Kazooie, Paper Mario.. the rest of the chips seemed to be named after games that use them, I wonder if Diddy Kong Racing uses it)
-			//Subtracts 0x0100000 from entry entry point, crc32 = 0x0b050ee0
-			DIDDY,
-			//6105-7105 (Ocarina of Time, Majora's Mask), crc32 = 0x98bc2c86
-			//Doesn't relocate entry point
-			ZELDA,
-			//6106-7106 (Yoshi's Story, F-Zero X), crc32 = 0xacc8580a
-			//Subtracts 0x0200000 from entry point
-			YOSHI, 
-		}
-
 		static N64ROMFormat detectFormat(byte[] header) {
 			if(header[0] == 0x80 && header[1] == 0x37 && header[2] == 0x12 && header[3] == 0x40) {
 				return N64ROMFormat.Z64;
@@ -171,8 +149,37 @@ namespace ROMniscience.Handlers {
 			int version = s.read();
 			info.addInfo("Version", version);
 
-			byte[] bootCode = s.read(4032);
+			//byte[] bootCode = s.read(4032);
+			//info.addExtraInfo("Boot code", bootCode);
+			int[] bootCode = new int[1008];
+			uint bootCodeChecksum = 0;
+			for(var i = 0; i < 1008; ++i) {
+				bootCode[i] = s.readIntBE();
+				bootCodeChecksum = (uint)(bootCodeChecksum + bootCode[i]) & 0xffffffff;
+			}
 			info.addExtraInfo("Boot code", bootCode);
+
+			switch(bootCodeChecksum) {
+				case 0x27fdf31:
+					info.addInfo("CIC chip", "6101/7102 (Star Fox 64)");
+					break;
+				case 0x57c85244:
+					info.addInfo("CIC chip", "6102/7101 (standard, Super Mario 64 etc)");
+					break;
+				case 0x497e414b:
+					info.addInfo("CIC chip", "6103/7103 (Banjo-Kazooie, Paper Mario etc)");
+					break;
+				case 0x49f60e96:
+					info.addInfo("CIC chip", "6105/7105 (Ocarina of Time etc)");
+					break;
+				case 0xd5be5580:
+					info.addInfo("CIC chip", "6106/7106 (F-Zero X, Yoshi's Story etc)");
+					break;
+				default:
+					info.addInfo("CIC chip", String.Format("Unknown {0:X}", bootCodeChecksum));
+					break;
+			}
+
 			//Might be a way to detect save type, also number of players and rumble (Project64 shows me
 			//the latter two for some ROMs it explicitly says it doesn't have in its database so it knows something
 			//I don't know)
