@@ -177,9 +177,6 @@ namespace ROMniscience {
 					args.Value = ROMInfo.formatByteSize(args.Value is long ? (long)args.Value : (int)args.Value);
 					args.FormattingApplied = true;
 				} catch(InvalidCastException e) {
-					Console.WriteLine(e.Message);
-					Console.WriteLine(args.Value?.GetType().Name);
-					Console.WriteLine(args.Value);
 					args.FormattingApplied = false;
 				}
 				return;
