@@ -15,7 +15,6 @@ Things that are going to happen when I do them:
   - Read compressed files (zip and 7z are very important, maybe gzip and bzip2 should be possible, fuck RAR)  
   - Improve the functionality to view an individual file, right now it makes a lot of assumptions about filetypes and the actual type  
   - Include a shell script for Linux that launches it with Mono, so I can drag and drop stuff easier, or maybe a .desktop entry  
-  - Export to CSV/TSV/XLSX/ODS, something that I can open in LibreOffice or whatever
   - More handlers! I know there's headers for a lot more ROM formats that I can get relatively interesting info out of, just need to find more documentation.  
   - On that note, once I add a generic way to read CD images (since the byte alignment on .bin/.cue and .iso are different), add support for disc based systems. I could leverage the Megadrive handler to read Mega CD discs since the header is actually the same.
 
