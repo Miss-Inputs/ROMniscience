@@ -287,10 +287,8 @@ namespace ROMniscience {
 		private void setStatus(ConcurrentDictionary<string, bool> runningWorkers) {
 			var currentlyRunning = runningWorkers.Where(kv => kv.Value);
 			if(currentlyRunning.Count() == 0) {
-				//statusText.Text = "Done!";
 				setStatus("Done!");
 			} else {
-				//statusText.Text = String.Format("Currently running: {0}", String.Join(", ", currentlyRunning.Select(kv => kv.Key)));
 				setStatus(String.Format("Currently running: {0}", String.Join(", ", currentlyRunning.Select(kv => kv.Key))));
 			}
 			statusBar.Refresh();
