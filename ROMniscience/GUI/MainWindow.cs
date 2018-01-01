@@ -38,6 +38,8 @@ using System.Collections.Concurrent;
 namespace ROMniscience {
 	class MainWindow: Form {
 		DataGridView table = new DoubleBufferedDataGridView();
+		StatusStrip statusBar = new StatusStrip();
+		ToolStripStatusLabel statusText = new ToolStripStatusLabel();
 
 		readonly string[] DEFAULT_COLUMNS = {
 			"Filename",
@@ -94,6 +96,9 @@ namespace ROMniscience {
 			}
 			table.Dock = DockStyle.Fill;
 			Controls.Add(table);
+
+			statusBar.Items.Add(statusText);
+			Controls.Add(statusBar);
 
 			setupMenu();
 		}
@@ -193,11 +198,15 @@ namespace ROMniscience {
 			table.Rows.Clear();
 			//TODO Separate this logic from the GUI, and notify when all workers are finished
 
+			statusText.Text = "Loading datfiles";
+			statusBar.Refresh();
 			DatfileCollection datfiles = null;
 			string datFolder = SettingsManager.readSetting("datfiles");
 			if(datFolder != null) {
 				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
 			}
+			statusText.Text = "Datfiles loaded";
+			statusBar.Refresh();
 
 			ConcurrentDictionary<string, bool> runningWorkers = new ConcurrentDictionary<string, bool>();
 
@@ -240,15 +249,35 @@ namespace ROMniscience {
 
 					bw.RunWorkerCompleted += delegate {
 						runningWorkers[handler.name] = false;
-						Console.WriteLine("Currently running: {0}", String.Join(", ", runningWorkers.Where(kv => kv.Value).Select(kv => kv.Key)));
+						//Console.WriteLine("Currently running: {0}", String.Join(", ", runningWorkers.Where(kv => kv.Value).Select(kv => kv.Key)));
+						statusBar.Invoke(new setStatusDelegate(setStatus), runningWorkers);
 					};
 					runningWorkers.TryAdd(handler.name, true);
-					Console.WriteLine("Currently running: {0}", String.Join(", ", runningWorkers.Where(kv => kv.Value).Select(kv => kv.Key)));
+					setStatus(runningWorkers);
 
 
 					bw.RunWorkerAsync();
 				}
 			}
+		}
+
+		private delegate void setStatusDelegate(ConcurrentDictionary<string, bool> runningWorkers);
+
+		private void setStatus(ConcurrentDictionary<string, bool> runningWorkers) {
+			var currentlyRunning = runningWorkers.Where(kv => kv.Value);
+			if(currentlyRunning.Count() == 0) {
+				//statusText.Text = "Done!";
+				setStatus("Done!");
+			} else {
+				//statusText.Text = String.Format("Currently running: {0}", String.Join(", ", currentlyRunning.Select(kv => kv.Key)));
+				setStatus(String.Format("Currently running: {0}", String.Join(", ", currentlyRunning.Select(kv => kv.Key))));
+			}
+			statusBar.Refresh();
+		}
+
+		private void setStatus(string text) {
+			statusText.Text = text;
+			statusBar.Refresh();
 		}
 
 		private delegate void addRowDelegate(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data);
