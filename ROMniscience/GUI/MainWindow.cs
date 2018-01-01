@@ -159,6 +159,17 @@ namespace ROMniscience {
 			Menu.MenuItems.Add(autosizeRowsItem);
 
 			//TODO Put something to export to CSV/Excel/etc in here
+			MenuItem exportItem = new MenuItem("Export to TSV");
+			exportItem.Click += delegate {
+				SaveFileDialog fileDialog = new SaveFileDialog() {
+					DefaultExt = ".tsv"
+				};
+				if(fileDialog.ShowDialog() == DialogResult.OK) {
+					TSVWriter.writeCSV(table, new FileInfo(fileDialog.FileName));
+					MessageBox.Show("Done!");
+				}
+			};
+			fileMenu.MenuItems.Add(exportItem);
 
 			MenuItem settingsItem = new MenuItem("Settings");
 			settingsItem.Click += delegate {
@@ -335,5 +346,6 @@ namespace ROMniscience {
 				table.AutoResizeRow(newRow);
 			}
 		}
+
 	}
 }
