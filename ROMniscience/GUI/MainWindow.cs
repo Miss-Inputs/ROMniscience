@@ -158,13 +158,13 @@ namespace ROMniscience {
 			};
 			Menu.MenuItems.Add(autosizeRowsItem);
 
-			MenuItem exportItem = new MenuItem("Export to TSV");
+			MenuItem exportItem = new MenuItem("Export to CSV");
 			exportItem.Click += delegate {
 				SaveFileDialog fileDialog = new SaveFileDialog() {
-					DefaultExt = ".tsv"
+					DefaultExt = ".csv"
 				};
 				if(fileDialog.ShowDialog() == DialogResult.OK) {
-					TSVWriter.writeCSV(table, new FileInfo(fileDialog.FileName));
+					CSVWriter.writeCSV(table, new FileInfo(fileDialog.FileName));
 					MessageBox.Show("Done!");
 				}
 			};
@@ -240,21 +240,6 @@ namespace ROMniscience {
 							return;
 						}
 						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
-							/*if(f.Extension != null && f.Extension.ToLowerInvariant().Equals(".zip")) {
-								using(ZipArchive zip = ZipFile.OpenRead(f.FullName)) {
-									foreach(ZipArchiveEntry zae in zip.Entries) {
-										if(handler.handlesExtension(Path.GetExtension(zae.Name))) {
-											ROMInfo info;
-											using(ROMFile file = new ROMFile(zae, f)) {
-												info = ROMInfo.getROMInfo(handler, file, datfiles);
-											}
-
-											table.Invoke(new addRowDelegate(addRow), info.info);
-										}
-									}
-								}
-								continue;
-							}*/
 							if(IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
 								using(IArchive archive = ArchiveFactory.Open(f)) {
 									foreach(IArchiveEntry entry in archive.Entries) {

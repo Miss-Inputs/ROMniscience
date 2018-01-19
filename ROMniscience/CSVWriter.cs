@@ -27,9 +27,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ROMniscience {
-	static class TSVWriter {
+	static class CSVWriter {
 		public static void writeCSV(System.Windows.Forms.DataGridView table, FileInfo filename) {
 			string[] headers = new string[table.Columns.Count];
 			for(var i = 0; i < headers.Length; ++i) {
@@ -66,19 +67,17 @@ namespace ROMniscience {
 			}
 		}
 
+		static readonly Regex CONTROL_CHARS = new Regex(@"[\x00-\x1f]");
 		private static void writeValue(StreamWriter sw, string value, bool final) {
 			if(value != null) {
-				value = value.Replace("\t", "  "); //Taking the easy way out here, I don't think anyone will mind
-				if(value.Contains('"')) {
-					sw.Write('"' + value.Replace("\"", "\"\"") + '"');
-				} else {
-					sw.Write(value);
-				}
+				value = value.Replace("\"", "\"\"");
+				value = CONTROL_CHARS.Replace(value, String.Empty); //LibreOffice does not like the output otherwise
+				sw.Write('"' + value + '"');
 			}
 			if(final) {
 				sw.WriteLine();
 			} else {
-				sw.Write('\t');
+				sw.Write(",");
 			}
 		}
 	}
