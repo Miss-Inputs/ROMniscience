@@ -40,7 +40,14 @@ namespace ROMniscience {
 			string[,] data = new string[table.Rows.Count, headers.Length];
 			for(int i = 0; i < table.Rows.Count; ++i) {
 				for(int j = 0; j < headers.Length; ++j) {
-					data[i, j] = table[j, i].Value?.ToString();
+					object value = table[j, i].Value;
+					if(value is byte[] bytes) {
+						data[i, j] = BitConverter.ToString(bytes);
+					} else if(value is string[] strings) {
+						data[i, j] = String.Join(", ", strings);
+					} else {
+						data[i, j] = value?.ToString();
+					}
 				}
 			}
 
