@@ -32,7 +32,7 @@ using System.Windows.Forms;
 using ROMniscience.Handlers;
 using System.IO;
 using ROMniscience.Datfiles;
-using System.IO.Compression;
+using SharpCompress.Archives;
 using System.Collections.Concurrent;
 
 namespace ROMniscience {
@@ -240,7 +240,7 @@ namespace ROMniscience {
 							return;
 						}
 						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
-							if(f.Extension != null && f.Extension.ToLowerInvariant().Equals(".zip")) {
+							/*if(f.Extension != null && f.Extension.ToLowerInvariant().Equals(".zip")) {
 								using(ZipArchive zip = ZipFile.OpenRead(f.FullName)) {
 									foreach(ZipArchiveEntry zae in zip.Entries) {
 										if(handler.handlesExtension(Path.GetExtension(zae.Name))) {
@@ -254,6 +254,20 @@ namespace ROMniscience {
 									}
 								}
 								continue;
+							}*/
+							if(IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
+								using(IArchive archive = ArchiveFactory.Open(f)) {
+									foreach(IArchiveEntry entry in archive.Entries) {
+										if(handler.handlesExtension(Path.GetExtension(entry.Key))){
+											ROMInfo info;
+											using(ROMFile file = new ROMFile(entry, f)) {
+												info = ROMInfo.getROMInfo(handler, file, datfiles);
+											}
+
+											table.Invoke(new addRowDelegate(addRow), info.info);
+										}
+									}
+								}
 							}
 
 							if(handler.handlesExtension(f.Extension)) {

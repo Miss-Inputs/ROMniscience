@@ -7,12 +7,11 @@ It runs on .NET because I like C# and it's cool, but also should run on Linux wi
 
 It's useful for when you have some weirdly named ROM file and you're trying to figure out what the heck it is, or you really like emulation and have a large collection of ROMs and want to make a list of what you have (I think that's why I originally started developing this), or maybe you just like to poke around in hidden things and see internal names and whatnot, I don't judge.  
 
-For a list of ROM formats it'll read, look inside the ROMniscience.Handlers namespace.
+For a list of ROM formats it'll read, look inside the ROMniscience.Handlers namespace. Maybe I should make a thing that makes a human readable thing that lists them all.
 
-Obligatory disclaimer about piracy goes here, because I said the word "ROM".  
+This uses the rather nifty library [SharpCompress](https://github.com/adamhathcock/sharpcompress) so you'll probably need to build that, though if I understand Visual Studio correctly, and I probably don't, you can right click the solution and do "Restore NuGet Packages" and it should all work.
 
 Things that are going to happen when I do them:  
-  - Read compressed files (zip and 7z are very important, maybe gzip and bzip2 should be possible, fuck RAR)  
   - Improve the functionality to view an individual file, right now it makes a lot of assumptions about filetypes and the actual type  
   - Include a shell script for Linux that launches it with Mono, so I can drag and drop stuff easier, or maybe a .desktop entry  
   - More handlers! I know there's headers for a lot more ROM formats that I can get relatively interesting info out of, just need to find more documentation.  

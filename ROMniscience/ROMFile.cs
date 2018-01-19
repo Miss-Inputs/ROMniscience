@@ -29,21 +29,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using ROMniscience.IO;
-using System.IO.Compression;
+using SharpCompress.Archives;
 
 namespace ROMniscience {
 	class ROMFile: IDisposable {
-		private ZipArchiveEntry zae;
+		private IArchiveEntry entry;
 
 		public ROMFile(FileInfo f) {
 			path = f;
 			stream = new WrappedInputStream(File.OpenRead(f.FullName));
 		}
 
-		public ROMFile(ZipArchiveEntry zae, FileInfo path) {
-			this.zae = zae;
+		public ROMFile(IArchiveEntry entry, FileInfo path) {
+			this.entry = entry;
 			this.path = path;
-			stream = new WrappedInputStream(zae.Open());
+			stream = new WrappedInputStream(entry.OpenEntryStream());
 		}
 
 		public FileInfo path {
@@ -53,7 +53,7 @@ namespace ROMniscience {
 		public string name {
 			get {
 				if(compressed) {
-					return zae.Name;
+					return entry.Key;
 				} else {
 					return path.Name;
 				}
@@ -64,12 +64,12 @@ namespace ROMniscience {
 			get;
 		}
 
-		public bool compressed => zae != null;
+		public bool compressed => entry != null;
 
 		public long length {
 			get {
 				if(compressed) {
-					return zae.Length;
+					return entry.Size;
 				} else {
 					return stream.Length;					
 				}
@@ -79,7 +79,7 @@ namespace ROMniscience {
 		public long compressedLength {
 			get {
 				if(compressed) {
-					return zae.CompressedLength;
+					return entry.CompressedSize;
 				} else {
 					throw new NotImplementedException();
 				}
