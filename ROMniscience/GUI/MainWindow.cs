@@ -38,8 +38,13 @@ using System.Collections.Concurrent;
 namespace ROMniscience {
 	class MainWindow: Form {
 		DataGridView table = new DoubleBufferedDataGridView();
-		StatusStrip statusBar = new StatusStrip();
-		ToolStripStatusLabel statusText = new ToolStripStatusLabel();
+		StatusStrip statusBar = new StatusStrip() {
+			LayoutStyle = ToolStripLayoutStyle.Flow,
+			ShowItemToolTips = true,
+		};
+		ToolStripStatusLabel statusText = new ToolStripStatusLabel() {
+			Spring = true,
+		};
 
 		readonly string[] DEFAULT_COLUMNS = {
 			"Filename",
