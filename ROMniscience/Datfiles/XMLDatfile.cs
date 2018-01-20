@@ -138,7 +138,7 @@ namespace ROMniscience.Datfiles {
 						return new IdentifyResult(this, game, rom);
 					}
 
-					if(crc32.ToString("X2").Equals(rom.crc32?.ToUpperInvariant())) {
+					if(crc32.ToString("x2").Equals(rom.crc32)) {
 						return new IdentifyResult(this, game, rom);
 					}
 				}
