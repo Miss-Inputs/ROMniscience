@@ -129,14 +129,6 @@ namespace ROMniscience.Datfiles {
 			}
 		}
 
-		private static string convertByteArray(byte[] bytes) {
-			StringBuilder sb = new StringBuilder(bytes.Length * 2);
-			foreach(byte b in bytes) {
-				sb.AppendFormat("{0:X2}", b);
-			}
-			return sb.ToString();
-		}
-
 		private static byte[] parseHexBytes(string s) {
 			if(s == null) {
 				return new byte[0];
@@ -148,9 +140,30 @@ namespace ROMniscience.Datfiles {
 
 			byte[] b = new byte[s.Length / 2];
 			for(int i = 0; i < s.Length; i += 2) {
-				b[i / 2] = Convert.ToByte(s.Substring(i, 2), 16);
+				b[i / 2] = Convert.ToByte(String.Empty + s[i] + s[i + 1], 16);
 			}
 			return b;
+		}
+
+		private static bool byteArraysEqual(byte[] b1, byte[] b2) {
+			if(b1 == null) {
+				return b2 == null;
+			}
+			if(b2 == null) {
+				return b1 == null;
+			}
+
+			int length = b1.Length;
+			if(length != b2.Length) {
+				return false;
+			}
+
+			for(int i = 0; i < length; ++i) {
+				if(b1[i] != b2[i]) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public IdentifyResult identify(int crc32, byte[] md5, byte[] sha1) {
@@ -158,11 +171,11 @@ namespace ROMniscience.Datfiles {
 				foreach(ROM rom in game.roms) {
 					//Still need to check all three in case a datfile only has a checksum for one of them
 
-					if(sha1.SequenceEqual(rom.sha1)) {
+					if(byteArraysEqual(sha1, rom.sha1)) {
 						return new IdentifyResult(this, game, rom);
 					}
 
-					if(md5.SequenceEqual(rom.md5)) {
+					if(byteArraysEqual(md5, rom.md5)) {
 						return new IdentifyResult(this, game, rom);
 					}
 
