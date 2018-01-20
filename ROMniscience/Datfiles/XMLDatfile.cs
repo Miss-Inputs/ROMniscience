@@ -88,9 +88,15 @@ namespace ROMniscience.Datfiles {
 						rom.size = actualSize;
 					}
 
-					rom.crc32 = romNode.Attribute("crc")?.Value;
-					rom.md5 = romNode.Attribute("md5")?.Value;
-					rom.sha1 = romNode.Attribute("sha1")?.Value;
+					//rom.crc32 = romNode.Attribute("crc")?.Value;
+					var crc32Attrib = romNode.Attribute("crc");
+					rom.crc32 = null;
+					if(crc32Attrib != null) {
+						rom.crc32 = Convert.ToInt32(crc32Attrib.Value, 16);
+					}
+
+					rom.md5 = parseHexBytes(romNode.Attribute("md5")?.Value);
+					rom.sha1 = parseHexBytes(romNode.Attribute("sha1")?.Value);
 					rom.status = romNode.Attribute("status")?.Value;
 					if(rom.status == null) {
 						//The DTD (which I don't feel like using and don't really need to use) defines this as the default
@@ -131,20 +137,36 @@ namespace ROMniscience.Datfiles {
 			return sb.ToString();
 		}
 
+		private static byte[] parseHexBytes(string s) {
+			if(s == null) {
+				return new byte[0];
+			}
+
+			if(s.Length % 2 == 1) {
+				s = '0' + s;
+			}
+
+			byte[] b = new byte[s.Length / 2];
+			for(int i = 0; i < s.Length; i += 2) {
+				b[i / 2] = Convert.ToByte(s.Substring(i, 2), 16);
+			}
+			return b;
+		}
+
 		public IdentifyResult identify(int crc32, byte[] md5, byte[] sha1) {
 			foreach(Game game in games) {
 				foreach(ROM rom in game.roms) {
 					//Still need to check all three in case a datfile only has a checksum for one of them
 
-					if(convertByteArray(sha1).Equals(rom.sha1)) {
+					if(sha1.SequenceEqual(rom.sha1)) {
 						return new IdentifyResult(this, game, rom);
 					}
 
-					if(convertByteArray(md5).Equals(rom.md5)) {
+					if(md5.SequenceEqual(rom.md5)) {
 						return new IdentifyResult(this, game, rom);
 					}
 
-					if(crc32.ToString("X2").Equals(rom.crc32)) {
+					if(crc32 == rom.crc32) {
 						return new IdentifyResult(this, game, rom);
 					}
 				}

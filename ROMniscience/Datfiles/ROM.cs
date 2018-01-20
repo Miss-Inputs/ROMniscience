@@ -35,13 +35,13 @@ namespace ROMniscience.Datfiles {
 		public long size {
 			get; set;
 		}
-		public string crc32 {
+		public Nullable<int> crc32 {
 			get; set;
 		}
-		public string md5 {
+		public byte[] md5 {
 			get; set;
 		}
-		public string sha1 {
+		public byte[] sha1 {
 			get; set;
 		}
 		public string status {
