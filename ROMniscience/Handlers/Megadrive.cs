@@ -163,7 +163,7 @@ namespace ROMniscience.Handlers {
 			{"T-32", "Wolf Team"},
 			{"T-33", "Kaneko"},
 			{"T-34", "Dreamworks"},
-			{"T-35", "Seismic Software"},
+			{"T-35", "Seismic Software/Compile"},
 			{"T-36", "Tecmo"},
 			{"T-40", "Toaplan"},
 			{"T-41", "UNIPACC"},
