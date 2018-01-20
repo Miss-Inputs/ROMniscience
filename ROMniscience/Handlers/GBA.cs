@@ -53,7 +53,9 @@ namespace ROMniscience.Handlers {
 			{'V', "Rumble"}, //Drill Dozer
 			{'M', "GBA Video"}, //Also used by mb2gba and any multiboot roms converted by it
 			{'T', "Test cart"}, //AGS Aging Cartridge
-			{'Z', "DS expansion"}, //Daigassou! Band-Brothers - Request Selection (it's just a slot 2 device for a DS game, but it has a GBA ROM header surprisingly)
+			{'Z', "DS expansion"}, //Daigassou! Band-Brothers - Request Selection (it's just a slot 2 device for a DS game, but it has a
+			//GBA ROM header surprisingly), also Nintendo MP3 Player which was marketed as being for the DS so maybe "DS expansion" isn't quite
+			//the right name but it'll have to do
 			//Have also seen J for the Pokemon Aurora Ticket distribution cart, and G for GameCube multiboot images (they just use the product code of the GameCube disc they were from usually)
 		};
 
@@ -66,6 +68,7 @@ namespace ROMniscience.Handlers {
 			{'I', "Italy"},
 			{'S', "Spain"},
 			{'X', "Europe (X)"},
+			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA
 		};
 
 		public static readonly IDictionary<int, string> GBA_MULTIBOOT_MODES = new Dictionary<int, string> {

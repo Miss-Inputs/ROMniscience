@@ -129,20 +129,54 @@ namespace ROMniscience.Handlers {
 				info.addExtraInfo("Nintendo logo", nintendoLogo);
 				info.addInfo("Nintendo logo valid?", GB_NINTENDO_LOGO.SequenceEqual(nintendoLogo));
 
-				string title = f.read(11, Encoding.ASCII).Trim('\0');
-				info.addInfo("Internal name", title);
-				//TODO Some games don't use manufacturer code and include those 4 bytes in the title
-				//and some don't use CGB flag either and use that 1 byte in the title, how do I detect that?
-				//Other than if the CGB flag is garbo		
-				string manufacturerCode = f.read(4, Encoding.ASCII);
-				info.addInfo("Product code", manufacturerCode);
-				int cgbFlag = f.read();
-				info.addInfo("Game Boy Color Flag", cgbFlag, CGB_FLAGS);
+				//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
+				//string title = f.read(11, Encoding.ASCII).Trim('\0');
+				byte[] title = f.read(16);
+				//This gets tricky because only early games use the full 16 characters and then
+				//at some point the last byte became the CGB flag, and then afterwards 4 characters
+				//became the product code leaving only 11 characters for the title and there's not
+				//really a 100% accurate heuristic to detect if the game uses 11 or 15 characters
+				//Most emulators and whatnot use 11 if the game uses a new licensee code and 15
+				//otherwise, but stuff like Pokemon Yellow and Gameboy Camera disprove that theory
+				int titleLength = 16;
+				//At least we can reliably detect if the game uses a CGB flag or not because the only
+				//two valid values aren't valid inside titles
+				if(CGB_FLAGS.ContainsKey(title[15])) {
+					titleLength = 15;
+					info.addInfo("Game Boy Color flag", title[15], CGB_FLAGS);
+					//Here's the tricky part... well, we know that any game old enough to not
+					//have a CGB flag isn't going to have a product code either, because those are new
+					//and also I looked at every single commercially released GB/GBC ROM I have to figure out
+					//what works and what doesn't
+					//We also know that any game that uses the _old_ licensee code _isn't_ going to have a
+					//product code, but a game that uses the new licensee code might have a product code and
+					//also might not as previously mentioned
+					//We can also see that any game that is exclusive to the Game Boy Color will have a
+					//product code - but not necessarily a game that is merely GBC enhanced but GB compatible
+					//With that in mind... for now, I'll only use 11 characters + product code if I know for sure it has one
+					if(title[15] == 0xc0) {
+						titleLength = 11;
+						string productCode = Encoding.ASCII.GetString(title, 11, 4);
+						info.addInfo("Product code", productCode);
+						//No documentation I've found at all knows what the product type means! It looks like it works the same way
+						//as GBA, right down to V being the product type for rumble-enabled games. How about that?
+						char gameType = productCode[0];
+						info.addInfo("Type", gameType, GBA.GBA_GAME_TYPES);
+						string shortTitle = productCode.Substring(1, 2);
+						info.addInfo("Short title", shortTitle);
+						char region = productCode[3];
+						info.addInfo("Region", region, GBA.GBA_GAME_REGIONS);
+					}
+				}
+
+				//Now we can add what's left of the title
+				info.addInfo("Internal name", Encoding.ASCII.GetString(title, 0, titleLength).TrimEnd('\0', ' '));
+	
 				string licenseeCode = f.read(2, Encoding.ASCII);
 				bool isSGB = f.read() == 3;
 				info.addInfo("Super Game Boy Enhanced?", isSGB);
 				int cartType = f.read();
-				info.addInfo("Type", cartType, CART_TYPES);
+				info.addInfo("ROM type", cartType, CART_TYPES);
 
 				int romSize = f.read();
 				info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
