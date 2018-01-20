@@ -34,7 +34,8 @@ namespace ROMniscience.Handlers.Stubs {
 		//Adapted mostly from http://www.pokemon-mini.net/documentation/cartridge/
 
 		public static readonly IDictionary<char, string> GAME_TYPES = new Dictionary<char, string> {
-			{'M', "Game cart"}, //I guess
+			{'M', "Game cart"}, //That's all that's used for the few official games released
+			{'K', "Prototype"}, //There's a prototype that's been seen that includes a cart that hasn't been dumped, but it has MIN-KCFO-01 as the serial
 		};
 
 		public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
@@ -47,6 +48,7 @@ namespace ROMniscience.Handlers.Stubs {
 			{'I', "Italy"},
 			{'S', "Spain"},
 			{'X', "Europe (X)"},
+			{'O', "International"}
 		};
 
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
@@ -74,7 +76,7 @@ namespace ROMniscience.Handlers.Stubs {
 			s.Seek(0x2100, SeekOrigin.Begin);
 
 			string marker = s.read(2, Encoding.ASCII);
-			info.addInfo("Marker", marker);
+			info.addExtraInfo("Marker", marker);
 
 			info.addExtraInfo("Entry point", s.read(6));
 			//What the heck is all this
@@ -106,7 +108,7 @@ namespace ROMniscience.Handlers.Stubs {
 			info.addExtraInfo("Cartridge IRQ", s.read(6));
 
 			string headerMagic = s.read("NINTENDO".Length, Encoding.ASCII);
-			info.addInfo("Header magic", headerMagic); //Should be "NINTENDO"
+			info.addExtraInfo("Header magic", headerMagic); //Should be "NINTENDO"
 
 			string productCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Product code", productCode);
