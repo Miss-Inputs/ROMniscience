@@ -30,6 +30,8 @@ using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
 	//Mostly referenced from 7800header (GPL, included with 7800AsmDevKit)
+	//TODO Many ROMs, in particular No-Intro ROMs, don't use this header (which is unofficial), should detect if it's there or not
+
 	class Atari7800: Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"a78", "Atari 7800 ROM"},
