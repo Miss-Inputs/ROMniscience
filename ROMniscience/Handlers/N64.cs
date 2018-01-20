@@ -66,6 +66,7 @@ namespace ROMniscience.Handlers {
 
 		readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {
 			{'\0', "Homebrew"},
+			{'H', "Homebrew"},
 			{'N', "Cartridge"},
 			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but Pocket Monsters 
 			//Stadium and Ocarina of Time use this as well (since they were going to have expansions which more or less ended up being Pokemon Stadium (international) and Majora's Mask)
