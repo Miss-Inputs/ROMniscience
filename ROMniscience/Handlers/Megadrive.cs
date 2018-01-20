@@ -331,9 +331,6 @@ namespace ROMniscience.Handlers {
 
 		private static Encoding getTitleEncoding() {
 			try {
-				//The N64 does use Shift-JIS for its internal names, and if anyone says it is
-				//ASCII I will smack them on the head with a copy of Densha de Go 64. However
-				//just to be annoying, it's not guaranteed to exist on all .NET platforms
 				return Encoding.GetEncoding("shift_jis");
 			} catch(ArgumentException ae) {
 				//Bugger
