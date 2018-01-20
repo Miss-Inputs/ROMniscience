@@ -202,6 +202,7 @@ namespace ROMniscience.Handlers {
 			{"7D", "Vivendi"},
 			{"BJ", "Compile"},
 			{"GD", "Square Enix"},
+			{"BL", "MTO"},
 
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
@@ -227,33 +228,35 @@ namespace ROMniscience.Handlers {
 			//Bitte 8 Bit (homebrew): \xfe\xaf
 			//mooneye-gb test ROMs: ZZ
 
-			//Official GB/GBA/DS roms, but I want to confirm by seeing if more than one title uses them:
+			//Official GB/GBA/DS roms, but I want to confirm by seeing if more titles use them:
 			//1P (Chee-Chai Alien): Creatures
 			//2N (Keitai Denjuu Telefang) Accordingly, Pokemon Diamond and presumably Jade have this too (Smilesoft/Natsume?)
 			//2P (Pokemon TCG GB, Pokemon TCG Asobitai): Pokemon Company? Creatures again?
 			//36 (Cannon Fodder) Could be Codemasters (developer) or Activision (publisher)
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
-			//5L (Hello Kitty's Cube Frenzy) Dev: Torus Games / Pub: Ubisoft
+			//5L (Hello Kitty's Cube Frenzy (Dev: Torus Games / Pub: Ubisoft), Dora the Explorer: The Search for the Pirate Pig's Treasure (Dev: Cinegroupe / Pub: NewKidsCo))
 			//5V (Cookie & Cream demo) FromSoftware I guess?
 			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
 			//7G (Pocket Music GBC) Jester Interactive / Rage Software
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
 			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street)
-			//B4 (Dragon Warrior Monsters 2): Dev: TOSE / Pub: Enix Dragon Warrior Monsters 1 uses Eidos
-			//BL (Hello Kitty no Happy House) MTO / Tenyo?
+			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)) could be just Nick Jr licensed games?
+			//B4 (Dragon Warrior Monsters 2, Dragon Warrior I + II, Dragon Warrior III GBC): Dev: TOSE / Pub: Enix Dragon Warrior Monsters 1 uses Eidos
 			//DK (Initial D Gaiden) MTO / Kodansha?
 			//FQ (WarioWare: Touched iQue version aka Momo Waliou Zhizao) Alpha-Unit (according to the banner)? Intelligent Systems? iQue itself or Wei Yen?
 			//G0 (Monster Finder (albeit a bad dump) aka Foto Showdown outside JP) Alpha Unit
 			//GT (Picture Perfect Hair Salon): 505 Games
 			//H4 (Doki Doki Majo Shinpan!): SNK
-			//HF (Professor Layton and the Curious Village (Level 5 / Nintendo), DSVision Starter Kit (am3 Inc, DSVision itself is just Nintendo))... what the?
+			//HC (Jam Sessions demo) Dev: Plato / Pub: Ubisoft
+			//HF (Professor Layton and the Curious Village (Level 5 / Nintendo))
+			//K0 (DSVision Starter Kit (am3 Inc, DSVision itself is just Nintendo))
 			//MV (Contact beta): Dev: Grasshopper Manufacture / Pub: Marvelous (JP), Atlus (US), Rising Star Games (PAL)
 			//NJ (System Flaw Europe): Enjoy Gaming
 			//NK (Cocoto: Kart Racer beta): Dev: Neko Entertainment / Pub: BigBen Interactive (EU), Conspiracy Games (US), Kemco (JP)
 			//PQ (Peggle: Dual Shot): Popcap Games
 			//QH (Intellivision Lives): Virtual Play Games
-			//SY (System Flaw USA): Storm City Entertainment
+			//SZ (System Flaw USA): Storm City Entertainment
 			//WR (Scribblenauts, Super Scribblenauts): Warner Bros
 
 			//Darkrai Distribution cart and Surfing Pikachu Distribution cart have KX, but as they're
