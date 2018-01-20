@@ -203,6 +203,7 @@ namespace ROMniscience.Handlers {
 			{"BJ", "Compile"},
 			{"GD", "Square Enix"},
 			{"BL", "MTO"},
+			{"2P", "The Pokémon Company"},
 
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
@@ -231,7 +232,6 @@ namespace ROMniscience.Handlers {
 			//Official GB/GBA/DS roms, but I want to confirm by seeing if more titles use them:
 			//1P (Chee-Chai Alien): Creatures
 			//2N (Keitai Denjuu Telefang) Accordingly, Pokemon Diamond and presumably Jade have this too (Smilesoft/Natsume?)
-			//2P (Pokemon TCG GB, Pokemon TCG Asobitai): Pokemon Company? Creatures again?
 			//36 (Cannon Fodder) Could be Codemasters (developer) or Activision (publisher)
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
 			//5L (Hello Kitty's Cube Frenzy (Dev: Torus Games / Pub: Ubisoft), Dora the Explorer: The Search for the Pirate Pig's Treasure (Dev: Cinegroupe / Pub: NewKidsCo))
