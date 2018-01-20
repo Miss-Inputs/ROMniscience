@@ -31,6 +31,7 @@ using System.Drawing;
 
 namespace ROMniscience.Handlers {
 	class DS: Handler {
+		//Mostly adapted from http://problemkaputt.de/gbatek.htm
 
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"nds", "Nintendo DS ROM"},
@@ -344,10 +345,100 @@ namespace ROMniscience.Handlers {
 				info.addExtraInfo("Reserved 5", reserved5);
 
 				if(unitCode >= 2) {
-					//TODO: Should stop being a lazy sod and read the rest of the DSi header
 					s.Seek(0x210, System.IO.SeekOrigin.Begin);
 					usedROMSize = s.readIntLE();
 					info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
+
+					info.addExtraInfo("DSi reserved", s.read(4));
+					info.addExtraInfo("DSi reserved 2", s.read(4));
+					info.addExtraInfo("DSi reserved 3", s.read(4));
+
+					int modcryptOffset = s.readIntLE();
+					info.addExtraInfo("Modcrypt area 1 offset", modcryptOffset);
+					int modcryptSize = s.readIntLE();
+					info.addExtraInfo("Modcrypt area 1 size", modcryptSize, ROMInfo.FormatMode.SIZE);
+					int modcryptOffset2 = s.readIntLE();
+					info.addExtraInfo("Modcrypt area 2 offset", modcryptOffset2);
+					int modcryptSize2 = s.readIntLE();
+					info.addExtraInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE);
+
+					string emagCode = s.read(4, Encoding.ASCII);
+					info.addInfo("DSi product code", emagCode);
+					int dsiType = s.read();
+					info.addInfo("Filetype", dsiType);
+					byte[] titleIDReserved = s.read(3);
+					info.addExtraInfo("DSi title ID reserved", titleIDReserved);
+
+					int publicSaveSize = s.readIntLE();
+					info.addInfo("DSiWare public.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
+					int privateSaveSize = s.readIntLE();
+					info.addInfo("DSiWare private.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
+
+					info.addExtraInfo("DSi reserved 4", s.read(176));
+
+					int ceroByte = s.read();
+					if((ceroByte & 128) > 0) {
+						info.addInfo("Banned in Japan", (ceroByte & 64) > 0);
+						info.addInfo("CERO rating", ceroByte & 0x1f, CERO_RATINGS);
+					}
+
+					int esrbByte = s.read();
+					if((esrbByte & 128) > 0) {
+						info.addInfo("Banned in USA", (esrbByte & 64) > 0);
+						info.addInfo("ESRB rating", esrbByte & 0x1f, ESRB_RATINGS);
+					}
+
+					int reservedRatingByte = s.read();
+					if((reservedRatingByte & 128) > 0) {
+						//Who knows maybe it's not so reserved after all, it does seem out of place in the middle here
+						info.addInfo("Banned in <reserved>", (reservedRatingByte & 64) > 0);
+						info.addInfo("<reserved> rating", reservedRatingByte & 0x1f);
+					}
+
+					int uskByte = s.read();
+					if((uskByte & 128) > 0) {
+						info.addInfo("Banned in Germany", (uskByte & 64) > 0);
+						info.addInfo("USK rating", uskByte & 0x1f, USK_RATINGS);
+					}
+
+					int pegiByte = s.read();
+					if((pegiByte & 128) > 0) {
+						info.addInfo("Banned in Europe", (pegiByte & 64) > 0);
+						info.addInfo("PEGI (Europe) rating", pegiByte & 0x1f, PEGI_RATINGS);
+					}
+
+					int reservedRating2Byte = s.read();
+					if((reservedRating2Byte & 128) > 0) {
+						info.addInfo("Banned in <reserved 2>", (reservedRating2Byte & 64) > 0);
+						info.addInfo("<reserved 2> rating", reservedRating2Byte & 0x1f);
+					}
+
+					int pegiPortugalByte = s.read();
+					if((pegiPortugalByte & 128) > 0) {
+						info.addInfo("Banned in Portgual", (pegiPortugalByte & 64) > 0);
+						info.addInfo("PEGI (Portgual) rating", pegiPortugalByte & 0x1f, PEGI_PORTUGAL_RATINGS);
+					}
+
+					int pegiUKByte = s.read();
+					if((pegiUKByte & 128) > 0) {
+						info.addInfo("Banned in the UK", (pegiUKByte & 64) > 0);
+						info.addInfo("PEGI rating", pegiUKByte & 0x1f, PEGI_UK_RATINGS);
+					}
+
+					int agcbByte = s.read();
+					if((agcbByte & 128) > 0) {
+						info.addInfo("Banned in Australia", (agcbByte & 64) > 0);
+						info.addInfo("AGCB rating", agcbByte & 0x1f, AGCB_RATINGS);
+					}
+
+					int grbByte = s.read();
+					if((grbByte & 128) > 0) {
+						info.addInfo("Banned in South Korea", (grbByte & 64) > 0);
+						info.addInfo("GRB rating", grbByte & 0x1f, GRB_RATINGS);
+					}
+					//The next 6 bytes are reserved, and then there's apparently
+					//something involving DEJUS (Brazil), GSRMR (Taiwan) and
+					//PEGI (Finland) in there*
 				}
 				//TODO Secure area at 0x400
 				//TODO Read FNT/FAT maybe?
