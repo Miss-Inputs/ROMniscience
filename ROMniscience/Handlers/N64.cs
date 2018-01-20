@@ -43,7 +43,6 @@ namespace ROMniscience.Handlers {
 
 		readonly static IDictionary<char, string> N64_REGIONS = new Dictionary<char, string> {
 			{'\0', "Homebrew"},
-			{'7', "Beta"}, //Used by Starcraft 64 beta, but not any other betas from what I can tell... might not really be valid
 			{'A', "Asia"},
 			{'B', "Brazil"},
 			{'C', "China"},
