@@ -123,22 +123,28 @@ namespace ROMniscience.Datfiles {
 			}
 		}
 
+		private static string convertByteArray(byte[] bytes) {
+			StringBuilder sb = new StringBuilder(bytes.Length * 2);
+			foreach(byte b in bytes) {
+				sb.AppendFormat("{0:X2}", b);
+			}
+			return sb.ToString();
+		}
+
 		public IdentifyResult identify(int crc32, byte[] md5, byte[] sha1) {
 			foreach(Game game in games) {
 				foreach(ROM rom in game.roms) {
-					//TODO: See if there are actually any CRC32/MD5 hash collisions across dat files
-					//from No-Intro, Redump, and various other places. If not then it'll be safe to
-					//just use those which would be faster than SHA-1
+					//Still need to check all three in case a datfile only has a checksum for one of them
 
-					if(BitConverter.ToString(sha1).Replace("-", "").Equals(rom.sha1?.ToUpperInvariant())){
+					if(convertByteArray(sha1).Equals(rom.sha1)) {
 						return new IdentifyResult(this, game, rom);
 					}
 
-					if(BitConverter.ToString(md5).Replace("-", "").Equals(rom.md5?.ToUpperInvariant())) {
+					if(convertByteArray(md5).Equals(rom.md5)) {
 						return new IdentifyResult(this, game, rom);
 					}
 
-					if(crc32.ToString("x2").Equals(rom.crc32)) {
+					if(crc32.ToString("X2").Equals(rom.crc32)) {
 						return new IdentifyResult(this, game, rom);
 					}
 				}
