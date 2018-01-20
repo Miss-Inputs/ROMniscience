@@ -95,6 +95,7 @@
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
     <Compile Include="Handlers\Stubs\Atari2600.cs" />
     <Compile Include="Handlers\Stubs\Atari5200.cs" />
+    <Compile Include="Handlers\Stubs\BenesseePocketChallenge.cs" />
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />
@@ -112,6 +113,8 @@
     <Compile Include="Handlers\Stubs\Loopy.cs" />
     <Compile Include="Handlers\Stubs\Lynx.cs" />
     <Compile Include="Handlers\Stubs\MasterSystem.cs" />
+    <Compile Include="Handlers\Stubs\MSX.cs" />
+    <Compile Include="Handlers\Stubs\MSX2.cs" />
     <Compile Include="Handlers\Stubs\NeoGeoPocket.cs" />
     <Compile Include="Handlers\Stubs\NES.cs" />
     <Compile Include="Handlers\Stubs\Odyssey2.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="Handlers\Stubs\Vectrex.cs" />
     <Compile Include="Handlers\Stubs\VirtualBoy.cs" />
     <Compile Include="Handlers\Stubs\VSmile.cs" />
+    <Compile Include="Handlers\Stubs\WiiWare.cs" />
     <Compile Include="Handlers\Stubs\Wonderswan.cs" />
     <Compile Include="IO\ArchiveHelpers.cs" />
     <Compile Include="IO\FileInputStream.cs" />
