@@ -39,11 +39,13 @@ namespace ROMniscience {
 	class MainWindow: Form {
 		DataGridView table = new DoubleBufferedDataGridView();
 		StatusStrip statusBar = new StatusStrip() {
-			LayoutStyle = ToolStripLayoutStyle.Flow,
+			//So the thing is Mono is just gonna be weird about this and put stuff in the middle, which looks even
+			//uglier compared to cutting off stuff
+			LayoutStyle = MainProgram.isMono ? ToolStripLayoutStyle.Table : ToolStripLayoutStyle.Flow,
 			ShowItemToolTips = true,
 		};
 		ToolStripStatusLabel statusText = new ToolStripStatusLabel() {
-			Spring = true,
+			Spring = !MainProgram.isMono,
 		};
 
 		readonly string[] DEFAULT_COLUMNS = {
