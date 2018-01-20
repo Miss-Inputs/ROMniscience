@@ -159,7 +159,8 @@ namespace ROMniscience.Handlers {
 						string productCode = Encoding.ASCII.GetString(title, 11, 4);
 						info.addInfo("Product code", productCode);
 						//No documentation I've found at all knows what the product type means! It looks like it works the same way
-						//as GBA, right down to V being the product type for rumble-enabled games. How about that?
+						//as GBA, right down to V being the product type for rumble-enabled games and Kirby's Tilt and Tumble
+						//using K. How about that?
 						char gameType = productCode[0];
 						info.addInfo("Type", gameType, GBA.GBA_GAME_TYPES);
 						string shortTitle = productCode.Substring(1, 2);

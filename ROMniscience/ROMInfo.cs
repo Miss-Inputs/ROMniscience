@@ -67,7 +67,6 @@ namespace ROMniscience {
 		}
 
 		public static ROMInfo getROMInfo(Handler handler, ROMFile rom, DatfileCollection datfiles) {
-			//TODO Error handling
 			ROMInfo info = new ROMInfo();
 			try {
 				info.addInfo("Filename", rom.path.Name);
@@ -108,7 +107,7 @@ namespace ROMniscience {
 		public IDictionary<string, Tuple<object, FormatMode>> info => _info;
 		public IDictionary<string, Tuple<object, FormatMode>> extraInfo => _extraInfo;
 
-		//TODO Refactor to avoid duplication
+		//TODO Refactor to avoid duplication between addInfo overloads and addExtraInfo overloads
 
 		public void addInfo(string key, object value) {
 			//info.Add(key, new Tuple<object, FormatMode>(value, FormatMode.NONE));
