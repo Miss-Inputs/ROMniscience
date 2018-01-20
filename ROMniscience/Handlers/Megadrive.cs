@@ -328,6 +328,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
+		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
 			s.Seek(0x100, System.IO.SeekOrigin.Begin);
 
@@ -344,8 +345,6 @@ namespace ROMniscience.Handlers {
 				// better have "SEGA" at the start of the header or a real
 				// console won't boot it, which means there is inevitably a
 				// bootleg game that doesn't have it there
-				// TODO: Detect Mega CD properly by seeking to start and looking
-				// for 'SEGADISCSYSTEM'
 				info.addInfo("Platform", "Sega 32X");
 			} else {
 				info.addInfo("Platform", "Sega Megadrive/Genesis");
@@ -353,7 +352,6 @@ namespace ROMniscience.Handlers {
 
 			string copyright = s.read(16, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Copyright", copyright);
-			Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
 			var matches = copyrightRegex.Match(copyright);
 			if(matches.Success) {
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
@@ -401,7 +399,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Save size", backupRamEnd - backupRamStart, ROMInfo.FormatMode.SIZE);
 			byte[] modemData = s.read(12);
 			info.addInfo("Modem data", modemData);
-			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported
+			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported but it isn't
 
 			string memo = s.read(40, Encoding.ASCII).Trim('\0').Trim();
 			info.addInfo("Memo", memo);
