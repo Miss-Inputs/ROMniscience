@@ -127,7 +127,7 @@ namespace ROMniscience.Handlers {
 				info.addExtraInfo("Entry point", startVector);
 				byte[] nintendoLogo = f.read(48);
 				info.addExtraInfo("Nintendo logo", nintendoLogo);
-				info.addInfo("Nintendo logo valid?", Array.Equals(nintendoLogo, GB_NINTENDO_LOGO));
+				info.addInfo("Nintendo logo valid?", GB_NINTENDO_LOGO.SequenceEqual(nintendoLogo));
 
 				string title = f.read(11, Encoding.ASCII).Trim('\0');
 				info.addInfo("Internal name", title);
