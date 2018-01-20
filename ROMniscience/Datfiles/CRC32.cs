@@ -32,7 +32,10 @@ using System.Security.Cryptography;
 namespace ROMniscience.Datfiles {
 	static class CRC32 {
 
-		private static Lazy<uint[]> crc32Table = new Lazy<uint[]>(() => {
+		private static readonly uint[] crc32Table = initTable();
+
+		private static uint[] initTable() {
+
 			uint[] a = new uint[256];
 			for(uint i = 0; i < 256; ++i) {
 				uint k = i;
@@ -47,7 +50,7 @@ namespace ROMniscience.Datfiles {
 				a[i] = k;
 			}
 			return a;
-		});
+		}
 
 		public static int crc32(byte[] buf) {
 			return crc32(buf, 0);
@@ -56,7 +59,7 @@ namespace ROMniscience.Datfiles {
 		public static int crc32(byte[] buf, int existing) {
 			uint crc = ~(uint)existing;
 			foreach(byte b in buf) {
-				crc = (crc >> 8) ^ crc32Table.Value[(crc & 0xff) ^ b];
+				crc = (crc >> 8) ^ crc32Table[(crc & 0xff) ^ b];
 			}
 			return ~(int)crc;
 		}
