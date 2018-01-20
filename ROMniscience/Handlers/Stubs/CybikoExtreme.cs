@@ -30,9 +30,9 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers.Stubs {
 	class CybikoExtreme: StubHandler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
-			{"app", "Cybiko Classic application"}
+			{"app", "Cybiko Extreme application"}
 		};
 
-		public override string name => "Cybiko Classic";
+		public override string name => "Cybiko Extreme";
 	}
 }
