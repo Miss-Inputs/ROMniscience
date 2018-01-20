@@ -182,6 +182,12 @@ namespace ROMniscience.Handlers {
 				default:
 					info.addInfo("CIC chip", String.Format("Unknown {0:X}", bootCodeChecksum));
 					break;
+
+				//Others:
+				//64DD modem: D1055850 (IIRC, this doesn't actually have a CIC chip at all)
+				//2C21F6CA in most Aleck64 games hacked to run on retail N64 carts via Everdrive, although Tower & Shaft uses 1950CEA5 and Star Soldier Vanishing Earth Arcade uses AC11F6CA
+				//Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
+				//SimCity 64DD cart hack: 3BC19870
 			}
 
 			//Might be a way to detect save type, also number of players and rumble (Project64 shows me
