@@ -93,10 +93,11 @@ namespace ROMniscience.Handlers {
 			{'M', "Mouse"},
 			{'A', "Analog joystick"}, //After Burner (is this the XE-1 AP?)
 			{'G', "Menacer"},
+			{'O', "J-Cart"},
 			
 			//I would think the Ten Key Pad would have its own entry here but who knows
 			//Others I've seen but I don't know:
-			//D (pretty much every homebrew, could it mean "demo" or "development"?)
+			//D (pretty much every homebrew, could it mean "demo" or "development"? SGDK inserts this with no explanation)
 			//Roadwar 2000 seems to corrupt and misuse this field entirely
 			//Outline 2017 demo seems to misuse both this field and the
 			//product type field
@@ -380,6 +381,7 @@ namespace ROMniscience.Handlers {
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
+
 			int romStart = s.readIntBE();
 			info.addExtraInfo("ROM start", romStart);
 			int romEnd = s.readIntBE();
@@ -391,12 +393,13 @@ namespace ROMniscience.Handlers {
 			info.addExtraInfo("RAM end", ramEnd);
 			info.addInfo("RAM size", ramEnd - ramStart, ROMInfo.FormatMode.SIZE);
 			byte[] backupRamID = s.read(4);
-			info.addExtraInfo("Backup RAM ID", backupRamID);
+			info.addInfo("Backup RAM ID", backupRamID);
 			int backupRamStart = s.readIntBE();
 			info.addExtraInfo("Backup RAM start", backupRamStart);
 			int backupRamEnd = s.readIntBE();
 			info.addExtraInfo("Backup RAM end", backupRamEnd);
 			info.addInfo("Save size", backupRamEnd - backupRamStart, ROMInfo.FormatMode.SIZE);
+
 			byte[] modemData = s.read(12);
 			info.addInfo("Modem data", modemData);
 			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported but it isn't
