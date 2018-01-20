@@ -74,7 +74,7 @@ namespace ROMniscience {
 			}
 		}
 
-		static readonly Regex CONTROL_CHARS = new Regex(@"[\x00-\x1f]");
+		static readonly Regex CONTROL_CHARS = new Regex(@"[\x00-\x09\x0b\x0c\x0e-\x1f]");
 		private static void writeValue(StreamWriter sw, string value, bool final) {
 			if(value != null) {
 				value = value.Replace("\"", "\"\"");
