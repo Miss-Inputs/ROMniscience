@@ -75,8 +75,8 @@ namespace ROMniscience.Datfiles {
 				SHA1 sha1 = SHA1.Create();
 				int crc32 = 0;
 
-				byte[] buf;// = new byte[1024];
-				while((buf = s.read(1024)).Length > 0) {
+				byte[] buf;
+				while((buf = s.read(1024 * 1024)).Length > 0) {
 					md5.TransformBlock(buf, 0, buf.Length, buf, 0);
 					sha1.TransformBlock(buf, 0, buf.Length, buf, 0);
 					crc32 = CRC32.crc32(buf, crc32);
