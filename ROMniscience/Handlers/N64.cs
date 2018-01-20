@@ -98,6 +98,20 @@ namespace ROMniscience.Handlers {
 			return N64ROMFormat.UNKNOWN;
 		}
 
+		private static Encoding getTitleEncoding() {
+			try {
+				//The N64 does use Shift-JIS for its internal names, and if anyone says it is
+				//ASCII I will smack them on the head with a copy of Densha de Go 64. However
+				//just to be annoying, it's not guaranteed to exist on all .NET platforms
+				return Encoding.GetEncoding("shift_jis");
+			} catch(ArgumentException ae) {
+				//Bugger
+				System.Diagnostics.Trace.TraceWarning(ae.Message);
+				return Encoding.ASCII;
+			}
+		}
+		private static readonly Encoding titleEncoding = getTitleEncoding();
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Nintendo 64");
 
@@ -117,22 +131,14 @@ namespace ROMniscience.Handlers {
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
 			info.addExtraInfo("Unknown", unknown);
 
-			string name;
-			try {
-				//Yes it's Shift-JIS and if you say it's ASCII I will smack you on the head with a copy of Mario no Photopi
-				name = s.read(20, Encoding.GetEncoding("shift_jis")).Trim('\0');
-			} catch (ArgumentException ae) {
-				//Bugger (why isn't this natively supported by .NET anyway?)
-				System.Diagnostics.Trace.TraceWarning(ae.Message);
-				name = s.read(20, Encoding.ASCII).Trim('\0');
-			}
+			string name = s.read(20, titleEncoding).Trim('\0');
 			info.addInfo("Internal name", name);
 
 			byte[] unknown2 = s.read(4);
 			info.addExtraInfo("Unknown 2", unknown2);
 			byte[] unknown3 = s.read(3);
-			info.addExtraInfo("Unknown 3", unknown3
-				);
+			info.addExtraInfo("Unknown 3", unknown3);
+
 			//A lot of N64 documentation seems to think the media type (or in the case of
 			//n64dev, the manufacturer which is not what these bytes are for) is 4 bytes, but it's
 			//just one byte, these are just there, all I know is that Custom Robo's fan
@@ -149,8 +155,6 @@ namespace ROMniscience.Handlers {
 			int version = s.read();
 			info.addInfo("Version", version);
 
-			//byte[] bootCode = s.read(4032);
-			//info.addExtraInfo("Boot code", bootCode);
 			int[] bootCode = new int[1008];
 			uint bootCodeChecksum = 0;
 			for(var i = 0; i < 1008; ++i) {
