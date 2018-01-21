@@ -87,7 +87,7 @@ namespace ROMniscience.Handlers {
 			{"5A", "Mindscape"},
 			{"5B", "Romstar"},
 			{"5C", "Naxat Soft"},
-			{"5D", "Midway/Tradewest"},
+			{"5D", "Midway/Tradewest/Williams"}, //They're all the same thing really, everyone's buying out everyone
 			{"60", "Titus"},
 			{"61", "Virgin"},
 			{"64", "LucasArts"},
