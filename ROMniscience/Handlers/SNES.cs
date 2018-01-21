@@ -174,7 +174,6 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Platform", name);
 
 			InputStream s = file.stream;
-			bool isHeadered = false;
 
 			long offset = 0;
 
@@ -240,10 +239,6 @@ namespace ROMniscience.Handlers {
 					offset = 0x7fc0;
 				}
 			}
-
-			//if(isHeadered) {
-			//	offset += 512;
-			//}
 
 			parseSNESHeader(s, info, offset);
 		}
