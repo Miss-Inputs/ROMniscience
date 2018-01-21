@@ -248,17 +248,23 @@ namespace ROMniscience {
 						}
 						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
 							if(IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
-								using(IArchive archive = ArchiveFactory.Open(f)) {
-									foreach(IArchiveEntry entry in archive.Entries) {
-										if(handler.handlesExtension(Path.GetExtension(entry.Key))){
-											ROMInfo info;
-											using(ROMFile file = new ROMFile(entry, f)) {
-												info = ROMInfo.getROMInfo(handler, file, datfiles);
-											}
+								try {
+									using(IArchive archive = ArchiveFactory.Open(f)) {
+										foreach(IArchiveEntry entry in archive.Entries) {
+											if(handler.handlesExtension(Path.GetExtension(entry.Key))) {
+												ROMInfo info;
+												using(ROMFile file = new ROMFile(entry, f)) {
+													info = ROMInfo.getROMInfo(handler, file, datfiles);
+												}
 
-											table.Invoke(new addRowDelegate(addRow), info.info);
+												table.Invoke(new addRowDelegate(addRow), info.info);
+											}
 										}
 									}
+								} catch (Exception ex) {
+									//HECK
+									//TODO Add the archive and this exception as a row
+									Console.WriteLine(ex);
 								}
 							}
 
