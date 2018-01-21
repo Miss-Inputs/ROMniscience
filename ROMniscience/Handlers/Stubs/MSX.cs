@@ -32,6 +32,7 @@ namespace ROMniscience.Handlers.Stubs {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"rom", "Microsoft MSX ROM"},
 			{"cas", "Microsoft MSX casette image"},
+			{"tap", "Microsoft MSX Virtual MSX casette image"},
 			{"dsk", "Microsoft MSX disk image"},
 			{"img", "Microsoft MSX disk image"},
 			{"msx", "Microsoft MSX updownc disk image"},
