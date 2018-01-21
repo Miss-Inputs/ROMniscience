@@ -117,7 +117,7 @@ namespace ROMniscience.Handlers {
 			s.Seek(offset, SeekOrigin.Begin);
 
 			//Finally now I can get on with the fun stuff
-			string name = s.read(21, Encoding.ASCII).TrimEnd('\0', ' ');
+			string name = s.read(21, titleEncoding).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", name);
 
 			int layout = s.read();
@@ -183,6 +183,7 @@ namespace ROMniscience.Handlers {
 			} else {
 				info.addInfo("Detected format", "Plain");
 			}
+			//TODO If file size < 0x7fc0 (there are a few 32KB homebrews), don't try and read a header that isn't even there
 
 			s.Seek(isHeadered ? 0xffd5 + 512 : 0xffd5, SeekOrigin.Current);
 			if((s.read() & 0x21) == 0x21) {
