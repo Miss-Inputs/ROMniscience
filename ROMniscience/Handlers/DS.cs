@@ -224,7 +224,7 @@ namespace ROMniscience.Handlers {
 			InputStream s = file.stream;
 			long origPos = s.Position;
 			try {
-				string title = s.read(12, Encoding.ASCII).Trim('\0');
+				string title = s.read(12, Encoding.ASCII).TrimEnd('\0');
 				info.addInfo("Internal name", title);
 
 				string gameCode = s.read(4, Encoding.ASCII);
@@ -462,24 +462,24 @@ namespace ROMniscience.Handlers {
 					byte[] iconPalette = s.read(0x20);
 					info.addInfo("Icon", decodeDSIcon(iconBitmap, iconPalette));
 
-					string japaneseTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+					string japaneseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 					info.addInfo("Japanese title", japaneseTitle);
-					string englishTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+					string englishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 					info.addInfo("English title", englishTitle);
-					string frenchTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+					string frenchTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 					info.addInfo("French title", frenchTitle);
-					string germanTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+					string germanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 					info.addInfo("German title", germanTitle);
-					string italianTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+					string italianTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 					info.addInfo("Italian title", italianTitle);
-					string spanishTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+					string spanishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 					info.addInfo("Spanish title", spanishTitle);
 					if(bannerVersion >= 2) {
-						string chineseTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+						string chineseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 						info.addInfo("Chinese title", chineseTitle);
 					}
 					if(bannerVersion >= 3) {
-						string koreanTitle = s.read(256, Encoding.Unicode).Trim('\0').Replace("\n", "\r\n");
+						string koreanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
 						info.addInfo("Korean title", koreanTitle);
 					}
 

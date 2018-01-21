@@ -132,7 +132,7 @@ namespace ROMniscience.Handlers {
 			//to a user handler identified using the device type)
 			//0x9b bits 0 and 1 also have some crap in them but I don't even know
 
-			string title = f.read(12, Encoding.ASCII).Trim('\0');
+			string title = f.read(12, Encoding.ASCII).TrimEnd('\0');
 			info.addInfo("Internal name", title);
 			string gameCode = f.read(4, Encoding.ASCII);
 			info.addInfo("Product code", gameCode);

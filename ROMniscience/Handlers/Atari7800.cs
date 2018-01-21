@@ -74,7 +74,7 @@ namespace ROMniscience.Handlers {
 			//Don't really need it, other than to detect which ROMs actually use this header format, but what would I do with those that don't
 			info.addExtraInfo("Header magic", atari7800Magic);
 
-			string title = s.read(32, Encoding.ASCII).Trim('\0').Trim();
+			string title = s.read(32, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", title);
 
 			int romSize = s.readIntBE(); //Excluding this header

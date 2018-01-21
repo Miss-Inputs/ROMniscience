@@ -130,7 +130,6 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Nintendo logo valid?", GB_NINTENDO_LOGO.SequenceEqual(nintendoLogo));
 
 				//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
-				//string title = f.read(11, Encoding.ASCII).Trim('\0');
 				byte[] title = f.read(16);
 				//This gets tricky because only early games use the full 16 characters and then
 				//at some point the last byte became the CGB flag, and then afterwards 4 characters

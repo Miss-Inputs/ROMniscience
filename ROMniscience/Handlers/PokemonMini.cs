@@ -120,7 +120,7 @@ namespace ROMniscience.Handlers {
 			char region = productCode[3];
 			info.addInfo("Region", region, REGIONS);
 
-			string title = s.read(12, titleEncoding).TrimEnd('\0').TrimEnd();
+			string title = s.read(12, titleEncoding).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", title);
 
 			string manufacturer = s.read(2, Encoding.ASCII);

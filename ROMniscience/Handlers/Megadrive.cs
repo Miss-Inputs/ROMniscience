@@ -547,7 +547,7 @@ namespace ROMniscience.Handlers {
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
 			s.Seek(0x100, System.IO.SeekOrigin.Begin);
 
-			string consoleName = s.read(16, Encoding.ASCII).Trim('\0').Trim();
+			string consoleName = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Console name", consoleName);
 			if(consoleName.StartsWith("SEGA 32X")) {
 				// There are a few homebrew apps (32xfire, Shymmer) and also Doom
@@ -565,25 +565,26 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Platform", "Sega Megadrive/Genesis");
 			}
 
-			string copyright = s.read(16, Encoding.ASCII).Trim('\0').Trim();
+			string copyright = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Copyright", copyright);
 			var matches = copyrightRegex.Match(copyright);
 			if(matches.Success) {
+				//TODO Sometimes you have stuff like T-075 instead of T-75
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
 				if(DateTime.TryParseExact(matches.Groups[2].Value, "yyyy.MMM", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None, out DateTime date)) {
 					info.addInfo("Date", date);
 				}
 			}
 
-			string domesticName = s.read(48, titleEncoding).Trim('\0').Trim();
+			string domesticName = s.read(48, titleEncoding).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", domesticName);
-			string overseasName = s.read(48, titleEncoding).Trim('\0').Trim();
+			string overseasName = s.read(48, titleEncoding).TrimEnd('\0', ' ');
 			info.addInfo("Overseas name", overseasName);
 			string productType = s.read(2, Encoding.ASCII);
 			info.addInfo("Type", productType, PRODUCT_TYPES);
 
 			s.read(); //Space for padding
-			string serialNumber = s.read(8, Encoding.ASCII).Trim('\0').Trim();
+			string serialNumber = s.read(8, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Product code", serialNumber);
 			s.read(); //- for padding
 			string version = s.read(2, Encoding.ASCII);
@@ -618,7 +619,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Modem data", modemData);
 			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported but it isn't
 
-			string memo = s.read(40, Encoding.ASCII).Trim('\0').Trim();
+			string memo = s.read(40, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Memo", memo);
 			char[] regions = s.read(3, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("Region", regions, REGIONS);

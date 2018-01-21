@@ -127,7 +127,7 @@ namespace ROMniscience.Handlers {
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
 			info.addExtraInfo("Unknown", unknown);
 
-			string name = s.read(20, titleEncoding).Trim('\0');
+			string name = s.read(20, titleEncoding).TrimEnd('\0');
 			info.addInfo("Internal name", name);
 
 			byte[] unknown2 = s.read(4);
