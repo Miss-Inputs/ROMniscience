@@ -45,7 +45,7 @@ namespace ROMniscience.Handlers {
 			{'F', "France"},
 			{'I', "Italy"},
 			{'J', "Japan"},
-			{'O', "International"}
+			{'O', "International"},
 			{'P', "Europe"},
 			{'S', "Spain"},
 			{'X', "Europe (X)"},
