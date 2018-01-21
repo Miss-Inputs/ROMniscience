@@ -61,18 +61,18 @@ namespace ROMniscience.Handlers {
 			{0x00, "ROM only"},
 			{0x01, "ROM + RAM"},
 			{0x02, "ROM + Save RAM"},
-			{0x03, "DSP1"},
-			{0x04, "DSP1 + RAM"},
-			{0x05, "DSP1 + Save RAM"},
+			{0x03, "DSP-1"},
+			{0x04, "DSP-1 + RAM"},
+			{0x05, "DSP-1 + Save RAM"}, //Also used for SD Gundam GX, which actually uses the DSP3. Maybe it has nothing to do with save RAM at all...
 			{0x12, "ROM + Save RAM"},
 			{0x13, "SuperFX"},
-			{0x14, "SuperFX (0x14)"},
+			{0x14, "SuperFX (0x14)"}, //Used by Doom... could be GSU-2 maybe? I'd need Yoshi's Island or Winter Gold to know
 			{0x15, "SuperFX + Save RAM"},
 			{0x1a, "SuperFX + Save RAM (0x1A)"},
 			{0x34, "SA-1"},
-			{0x35, "SA-1 (0x35)"},
-			{0xe3, "ROM + RAM + GameBoy data"},
-			{0xf6, "ROM + DSP2"},
+			{0x35, "SA-1 (0x35)"}, //Kirby Super Star, Kirby's Dream Land 3, and Super Mario RPG all use this... only this homebrew zoomer thing uses 0x34
+			{0xe3, "ROM + RAM + Gameboy hardware"},
+			{0xf6, "ROM + ST011"},
 		};
 
 		public static readonly IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
@@ -171,6 +171,8 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+
 			InputStream s = file.stream;
 			bool isHeadered = false;
 
