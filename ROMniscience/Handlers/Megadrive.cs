@@ -43,12 +43,12 @@ namespace ROMniscience.Handlers {
 		public override string name => "Megadrive/Genesis";
 
 		public readonly static IDictionary<string, string> PRODUCT_TYPES = new Dictionary<string, string> {
-			{"GM", "Game"},
 			{"AI", "Education"}, //Or is it Al? Need to find something that actually uses this
-			{"OS", "Operating system"}, //Genesis OS ROM uses this
 			{"BR", "Boot ROM"}, //Mega CD BIOS etc
-			{"SF", "Super Fighter Team game"}, //Beggar Price, Legend of Wukong, Star Odyssey, etc
+			{"GM", "Game"},
+			{"OS", "Operating system"}, //Genesis OS ROM uses this
 			{"PX", "Pictures"}, //Hentai Collection homebrew (lol) etc
+			{"SF", "Super Fighter Team game"}, //Beggar Price, Legend of Wukong, Star Odyssey, etc
 
 			//Also seen:
 			//BL (32X Shymmer demo)
@@ -77,23 +77,23 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> IO_SUPPORT = new Dictionary<char, string> {
-			{'J', "Joypad"},
-			{'6', "6-button joypad"},
-			{'K', "Keyboard"},
-			{'P', "Printer"},
-			{'B', "Control ball"},
-			{'F', "Floppy drive"},
-			{'L', "Activator"},
-			{'4', "Team Play"},
 			{'0', "Master System joypad"},
+			{'4', "Team Play"},
+			{'6', "6-button joypad"},
+			{'A', "Analog joystick"}, //After Burner (is this the XE-1 AP?)
+			{'B', "Control ball"},
+			{'C', "CD-ROM"},
+			{'F', "Floppy drive"},
+			{'G', "Menacer"},
+			{'J', "Joypad"},
+			{'K', "Keyboard"},
+			{'L', "Activator"},
+			{'M', "Mouse"},
+			{'O', "J-Cart"},
+			{'P', "Printer"},
 			{'R', "Serial RS232C"},
 			{'T', "Tablet"},
 			{'V', "Paddle"},
-			{'C', "CD-ROM"},
-			{'M', "Mouse"},
-			{'A', "Analog joystick"}, //After Burner (is this the XE-1 AP?)
-			{'G', "Menacer"},
-			{'O', "J-Cart"},
 			
 			//I would think the Ten Key Pad would have its own entry here but who knows
 			//Others I've seen but I don't know:
@@ -106,19 +106,19 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string> {
-			{'E', "Europe"},
-			{'J', "Japan"},
-			{'U', "USA"},
+			{'4', "Brazil (4) or USA"},
+			{'8', "Hong Kong"},
 			{'A', "Asia"},
 			{'B', "Brazil"},
-			{'4', "Brazil (4) or USA"},
-			{'F', "France"}, //But then I've heard this can also be used for region-free
-			{'8', "Hong Kong"},
-
 			{'C', "USA + Europe"},
+			{'E', "Europe"},
+			{'F', "France"}, //But then I've heard this can also be used for region-free
 			{'G', "Germany"},
-			{'S', "Spain"},
+
 			{'I', "Italy"},
+			{'J', "Japan"},
+			{'S', "Spain"},
+			{'U', "USA"},
 			{'e', "Europe"},
 	
 			//Not sure about these ones, I've only seen them in 32X stuff so far

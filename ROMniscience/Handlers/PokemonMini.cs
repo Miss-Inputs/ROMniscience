@@ -40,15 +40,15 @@ namespace ROMniscience.Handlers.Stubs {
 
 		public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
 			//I know J, P, and E are used, I just took the GBA region list because I'm pretty sure there are European language ROMs and whatnot
-			{'J', "Japan"},
-			{'P', "Europe"},
-			{'E', "USA"},
 			{'D', "Germany"},
+			{'E', "USA"},
 			{'F', "France"},
 			{'I', "Italy"},
+			{'J', "Japan"},
+			{'O', "International"}
+			{'P', "Europe"},
 			{'S', "Spain"},
 			{'X', "Europe (X)"},
-			{'O', "International"}
 		};
 
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {

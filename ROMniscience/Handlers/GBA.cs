@@ -60,15 +60,15 @@ namespace ROMniscience.Handlers {
 		};
 
 		public static readonly IDictionary<char, string> GBA_GAME_REGIONS = new Dictionary<char, string> {
-			{'J', "Japan"},
-			{'P', "Europe"},
-			{'E', "USA"},
+			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
 			{'D', "Germany"},
+			{'E', "USA"},
 			{'F', "France"},
 			{'I', "Italy"},
+			{'J', "Japan"},
+			{'P', "Europe"},
 			{'S', "Spain"},
 			{'X', "Europe (X)"},
-			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA
 		};
 
 		public static readonly IDictionary<int, string> GBA_MULTIBOOT_MODES = new Dictionary<int, string> {
