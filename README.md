@@ -18,16 +18,16 @@ It's useful for when you have some weirdly named ROM file and you're trying to f
 As they always say with anything ROM/emulation-related, don't commit piracy, because that makes me look bad. But in the context of this, I guess it's just... don't download games that aren't released for free just to see what their ROM header looks like? I say "that aren't released for free", because if a game's license permits you to download it from the internet (as with most homebrew), go nuts. Basically, ROMniscience grants you no additional permissions over the licenses of existing software that it happens to interact with. That's not how the MIT license works. That's not how anything works.  
 
 For a list of ROM formats it'll read, look inside the ROMniscience.Handlers namespace. Maybe I should make a thing that makes a human readable thing that lists them all. I don't really want to update this readme every time I add a new handler, but as of the time of writing:  
-	- Sega Megadrive/Genesis, and by extension 32X and Sega Pico since they're the same format  
-	- Atari 7800 (but only the community-developed header)  
-	- Nintendo DS  
-	- Game Boy/Game Boy Color  
-	- Game Boy Advance  
-	- Nintendo 64  
-	- Neo Geo Pocket/Neo Geo Pocket Color  
-	- Pokemon Mini  
-	- SNES  
-	- Vectrex  
+  - Sega Megadrive/Genesis, and by extension 32X and Sega Pico since they're the same format  
+  - Atari 7800 (but only the community-developed header)  
+  - Nintendo DS  
+  - Game Boy/Game Boy Color  
+  - Game Boy Advance  
+  - Nintendo 64  
+  - Neo Geo Pocket/Neo Geo Pocket Color  
+  - Pokemon Mini  
+  - SNES  
+  - Vectrex  
 Many other systems have support for listing ROMs and matching against datfiles (No-Intro is the primary reason for me doing this) but not reading the header, including that one obscure system you were about to think of to try and trip me up. You can't defeat me, I'm a huge nerd about this kind of thing and I also have no life.
 
 This uses the rather nifty library [SharpCompress](https://github.com/adamhathcock/sharpcompress) so you'll probably need that to build, though if I understand Visual Studio correctly, and I probably don't, you can right click the solution and do "Restore NuGet Packages" and it should all work. For end users, just make sure SharpCompress.dll is somewhere where I can see it, like in the same folder as ROMniscience.exe. That's why I put it there in each release.  
