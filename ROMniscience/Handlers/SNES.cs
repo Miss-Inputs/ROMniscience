@@ -176,28 +176,74 @@ namespace ROMniscience.Handlers {
 			InputStream s = file.stream;
 			bool isHeadered = false;
 
-			long offset;
-			if(file.length % 1024 != 0) {
+			long offset = 0;
+
+			if(file.length % 1024 == 512) {
 				//We have a frickin' header
-				//TODO Read these headers, detect which type exactly
-				info.addInfo("Detected format", "Headered");
-				isHeadered = true;
+
+				s.Seek(8, SeekOrigin.Begin);
+				int magic1 = s.read();
+				int magic2 = s.read();
+				int magic3 = s.read();
+				if(magic1 == 0xaa && magic2 == 0xbb && magic3 == 4) {
+					info.addInfo("Detected format", "Super Wild Card");
+					s.Seek(2, SeekOrigin.Begin);
+
+					int swcFlags = s.read();
+					info.addInfo("Jump to 0x8000", (swcFlags & 0x80) == 0x80);
+					info.addInfo("Split file but not last part", (swcFlags & 0x40) == 0x40);
+					if((swcFlags & 0x30) == 0x30) {
+						offset = 0x101c0;
+					} else {
+						offset = 0x81c0;
+					}
+					//Everything else should be in the _real_ ROM header anyway
+				} else {
+					if(file.extension.Equals(".fig")) {
+						info.addInfo("Detected format", "Pro Fighter");
+						s.Seek(2, SeekOrigin.Begin);
+						bool isSplit = s.read() == 0x40;
+						bool isHiROM = s.read() == 0x80;
+						byte[] dspSettings = s.read(2);
+
+						info.addInfo("Split file but not last part", isSplit);
+						info.addInfo("DSP-1 settings", dspSettings);
+						if(isHiROM) {
+							offset = 0x101c0;
+						} else {
+							offset = 0x81c0;
+						}
+					} else {
+						//I'll just assume it's SMC until I see anyone use any copier header that isn't SMC, SWC, or FIG
+						info.addInfo("Detected format", "Super Magicom");
+						s.Seek(2, SeekOrigin.Begin);
+						int flags = s.read();
+						if((flags & 0x30) == 0x30) {
+							offset = 0x101c0;
+						} else {
+							offset = 0x81c0;
+						}
+					}
+				}
 			} else {
 				info.addInfo("Detected format", "Plain");
 			}
 			//TODO If file size < 0x7fc0 (there are a few 32KB homebrews), don't try and read a header that isn't even there
 
-			s.Seek(isHeadered ? 0xffd5 + 512 : 0xffd5, SeekOrigin.Current);
-			if((s.read() & 0x21) == 0x21) {
-				//TODO This method of detecting HiROM/LoROM sucks and is not okay and doesn't even work most of the time
-				offset = 0xffc0;
-			} else {
-				offset = 0x7fc0;
+			if(offset == 0) {
+				//If we haven't detected it from a copier header
+				s.Seek(0xffd5, SeekOrigin.Current);
+				if((s.read() & 0x21) == 0x21) {
+					//TODO This method of detecting HiROM/LoROM sucks and is not okay and doesn't even work most of the time
+					offset = 0xffc0;
+				} else {
+					offset = 0x7fc0;
+				}
 			}
 
-			if(isHeadered) {
-				offset += 512;
-			}
+			//if(isHeadered) {
+			//	offset += 512;
+			//}
 
 			parseSNESHeader(s, info, offset);
 		}
