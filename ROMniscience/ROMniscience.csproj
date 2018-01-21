@@ -86,7 +86,7 @@
     <Compile Include="Handlers\Handler.cs" />
     <Compile Include="Handlers\Megadrive.cs" />
     <Compile Include="Handlers\N64.cs" />
-    <Compile Include="Handlers\NintendoHandheldCommon.cs" />
+    <Compile Include="Handlers\NintendoCommon.cs" />
     <Compile Include="Handlers\Pico.cs" />
     <Compile Include="Handlers\Stubs\3DS.cs" />
     <Compile Include="Handlers\Stubs\AdvenutreVision.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="Handlers\Stubs\PV1000.cs" />
     <Compile Include="Handlers\Stubs\RCAStudio2.cs" />
     <Compile Include="Handlers\Stubs\SG1000.cs" />
-    <Compile Include="Handlers\Stubs\SNES.cs" />
+    <Compile Include="Handlers\SNES.cs" />
     <Compile Include="Handlers\Stubs\StubHandler.cs" />
     <Compile Include="Handlers\Stubs\SuperAcan.cs" />
     <Compile Include="Handlers\Stubs\SuperCasetteVision.cs" />

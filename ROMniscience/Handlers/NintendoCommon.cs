@@ -30,7 +30,8 @@ using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers {
 	//Actually it looks like these are used by Gamecube discs as well
-	class NintendoHandheldCommon {
+	//Anyway they're definitely used by SNES, GB, GBA, and DS, and sort of Pokemon Mini
+	class NintendoCommon {
 		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
 			{"00", "Nobody"}, //Probably homebrew
 			{"01", "Nintendo"},

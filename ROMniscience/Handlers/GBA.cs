@@ -144,7 +144,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Region", region, GBA_GAME_REGIONS);
 
 			string makerCode = f.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", makerCode, NintendoHandheldCommon.LICENSEE_CODES);
+			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
 			int fixedValue = f.read();
 			info.addExtraInfo("Fixed value", fixedValue);
 			info.addInfo("Fixed value valid?", fixedValue == 0x96);

@@ -237,7 +237,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Region", region, REGIONS);
 
 				string makerCode = s.read(2, Encoding.ASCII);
-				info.addInfo("Manufacturer", makerCode, NintendoHandheldCommon.LICENSEE_CODES);
+				info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
 				int unitCode = s.read();
 				info.addInfo("Unit code", unitCode, UNIT_CODES);
 				info.addInfo("Platform", unitCode == 3 ? "DSi" : "DS");

@@ -124,7 +124,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", title);
 
 			string manufacturer = s.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", manufacturer, NintendoHandheldCommon.LICENSEE_CODES);
+			info.addInfo("Manufacturer", manufacturer, NintendoCommon.LICENSEE_CODES);
 
 			byte[] reserved = s.read(18);
 			info.addExtraInfo("Reserved", reserved); //Should be 0 filled
