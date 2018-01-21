@@ -55,11 +55,11 @@ namespace ROMniscience.IO {
 			throw new NotImplementedException();
 		}
 
-		public int read() => ReadByte();
+		public virtual int read() => ReadByte();
 
-		public byte[] read(int bytes) {
+		public virtual byte[] read(int bytes) {
 			byte[] buf = new byte[bytes];
-			int bytesRead = this.Read(buf, 0, bytes);
+			int bytesRead = Read(buf, 0, bytes);
 			if(bytesRead == 0) {
 				return new byte[] { };
 			} else if(bytesRead == bytes) {

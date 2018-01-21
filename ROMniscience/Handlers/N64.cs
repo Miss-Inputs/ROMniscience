@@ -36,7 +36,8 @@ namespace ROMniscience.Handlers {
 	class N64: Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"z64", "Nintendo 64 ROM"},
-			//TODO Support v64/byteswapped n64
+			{"v64", "Nintendo 64 Doctor 64 ROM"}, //Byteswapped
+			{"n64", "Nintendo 64 word swapped ROM"},
 			//TODO 64DD (.ndd) once I have that figured out
 			};
 		public override string name => "Nintendo 64";
@@ -112,12 +113,7 @@ namespace ROMniscience.Handlers {
 		}
 		private static readonly Encoding titleEncoding = getTitleEncoding();
 
-		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			info.addInfo("Platform", "Nintendo 64");
-
-			InputStream s = file.stream;
-			byte[] header = s.read(4);
-			info.addInfo("Detected format", detectFormat(header));
+		public static void parseN64ROM(InputStream s, ROMInfo info) {
 			int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
 			info.addExtraInfo("Clock rate", clockRate);
 			int programCounter = s.readIntBE(); //This technically is the entry point but the CIC chip might alter that
@@ -183,16 +179,33 @@ namespace ROMniscience.Handlers {
 					info.addInfo("CIC chip", String.Format("Unknown {0:X}", bootCodeChecksum));
 					break;
 
-				//Others:
-				//64DD modem: D1055850 (IIRC, this doesn't actually have a CIC chip at all)
-				//2C21F6CA in most Aleck64 games hacked to run on retail N64 carts via Everdrive, although Tower & Shaft uses 1950CEA5 and Star Soldier Vanishing Earth Arcade uses AC11F6CA
-				//Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
-				//SimCity 64DD cart hack: 3BC19870
+					//Others:
+					//64DD modem: D1055850 (IIRC, this doesn't actually have a CIC chip at all)
+					//2C21F6CA in most Aleck64 games hacked to run on retail N64 carts via Everdrive, although Tower & Shaft uses 1950CEA5 and Star Soldier Vanishing Earth Arcade uses AC11F6CA
+					//Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
+					//SimCity 64DD cart hack: 3BC19870
 			}
 
 			//Might be a way to detect save type, also number of players and rumble (Project64 shows me
 			//the latter two for some ROMs it explicitly says it doesn't have in its database so it knows something
 			//I don't know)
+		}
+
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", "Nintendo 64");
+
+			InputStream s = file.stream;
+			byte[] header = s.read(4);
+			N64ROMFormat format = detectFormat(header);
+			info.addInfo("Detected format", detectFormat(header));
+
+			if(format == N64ROMFormat.V64) {
+				ByteSwappedInputStream swappedInputStream = new ByteSwappedInputStream(s);
+				parseN64ROM(swappedInputStream, info);
+			} else {
+				parseN64ROM(s, info);
+			}
+			//Haha I'm sure word swapping will be a lot of fun
 		}
 
 	}

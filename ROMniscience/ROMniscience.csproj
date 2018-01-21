@@ -134,6 +134,7 @@
     <Compile Include="Handlers\Stubs\WiiWare.cs" />
     <Compile Include="Handlers\Stubs\Wonderswan.cs" />
     <Compile Include="IO\ArchiveHelpers.cs" />
+    <Compile Include="IO\ByteSwappedInputStream.cs" />
     <Compile Include="IO\FileInputStream.cs" />
     <Compile Include="IO\InputStream.cs" />
     <Compile Include="IO\MemoryInputStream.cs" />
