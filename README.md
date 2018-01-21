@@ -27,6 +27,7 @@ For a list of ROM formats it'll read, look inside the ROMniscience.Handlers name
 	- Neo Geo Pocket/Neo Geo Pocket Color  
 	- Pokemon Mini  
 	- SNES  
+	- Vectrex  
 Many other systems have support for listing ROMs and matching against datfiles (No-Intro is the primary reason for me doing this) but not reading the header, including that one obscure system you were about to think of to try and trip me up. You can't defeat me, I'm a huge nerd about this kind of thing and I also have no life.
 
 This uses the rather nifty library [SharpCompress](https://github.com/adamhathcock/sharpcompress) so you'll probably need that to build, though if I understand Visual Studio correctly, and I probably don't, you can right click the solution and do "Restore NuGet Packages" and it should all work. For end users, just make sure SharpCompress.dll is somewhere where I can see it, like in the same folder as ROMniscience.exe. That's why I put it there in each release.  
