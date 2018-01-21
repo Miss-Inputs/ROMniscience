@@ -115,7 +115,7 @@
     <Compile Include="Handlers\Stubs\MasterSystem.cs" />
     <Compile Include="Handlers\Stubs\MSX.cs" />
     <Compile Include="Handlers\Stubs\MSX2.cs" />
-    <Compile Include="Handlers\Stubs\NeoGeoPocket.cs" />
+    <Compile Include="Handlers\NeoGeoPocket.cs" />
     <Compile Include="Handlers\Stubs\NES.cs" />
     <Compile Include="Handlers\Stubs\Odyssey2.cs" />
     <Compile Include="Handlers\Stubs\PCEngine.cs" />
