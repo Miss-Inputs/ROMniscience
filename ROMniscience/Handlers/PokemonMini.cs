@@ -57,18 +57,6 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Pokemon Mini";
 
-		private static Encoding getTitleEncoding() {
-			try {
-				//All the Japanese exclusive games use some kind of JIS (maybe the Japanese versions of worldwide games do too)
-				return Encoding.GetEncoding("shift_jis");
-			} catch(ArgumentException ae) {
-				//Bugger
-				System.Diagnostics.Trace.TraceWarning(ae.Message);
-				return Encoding.ASCII;
-			}
-		}
-		private static readonly Encoding titleEncoding = getTitleEncoding();
-
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Pokemon Mini");
 
@@ -120,7 +108,8 @@ namespace ROMniscience.Handlers {
 			char region = productCode[3];
 			info.addInfo("Region", region, REGIONS);
 
-			string title = s.read(12, titleEncoding).TrimEnd('\0', ' ');
+			//All the Japanese exclusive games use some kind of JIS (maybe the Japanese versions of worldwide games do too)
+			string title = s.read(12, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", title);
 
 			string manufacturer = s.read(2, Encoding.ASCII);

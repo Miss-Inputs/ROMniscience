@@ -101,23 +101,13 @@ namespace ROMniscience.Handlers {
 		}
 		public static readonly IDictionary<int, long> ROM_RAM_SIZES = generateROMSizeDict();
 
-		private static Encoding getTitleEncoding() {
-			try {
-				//IT"S FUCKING SHIFT JIS WHY DOES EVERY SINGLE __FUCKING__ PIECE OF DOCUMENTATION SAY IT"S ASCII DID YOU EVEN LOOK TO SEE IF ANY SNES GAMES AT ALL USE HALF_WIDTH KANA AND NOT NECESSARILY ASCII CHARACTERS I BET YOU FUCKING DIDN"T BECAUSE GUESS WHAT THERE ARE GAMES THAT DO THAT AND GUESS WHAT KANA CAN"T BE REPRESENTED IN ASCII SO IT"S NOT!!! FUCKING!!! ASCIIII!!!!!!!! YOU JACKASSES
-				return Encoding.GetEncoding("shift_jis");
-			} catch(ArgumentException ae) {
-				//Bugger
-				System.Diagnostics.Trace.TraceWarning(ae.Message);
-				return Encoding.ASCII;
-			}
-		}
-		private static readonly Encoding titleEncoding = getTitleEncoding();
-
 		public static void parseSNESHeader(InputStream s, ROMInfo info, long offset) {
 			s.Seek(offset, SeekOrigin.Begin);
 
 			//Finally now I can get on with the fun stuff
-			string name = s.read(21, titleEncoding).TrimEnd('\0', ' ');
+
+			//IT"S FUCKING SHIFT JIS WHY DOES EVERY SINGLE __FUCKING__ PIECE OF DOCUMENTATION SAY IT"S ASCII DID YOU EVEN LOOK TO SEE IF ANY SNES GAMES AT ALL USE HALF_WIDTH KANA AND NOT NECESSARILY ASCII CHARACTERS I BET YOU FUCKING DIDN"T BECAUSE GUESS WHAT THERE ARE GAMES THAT DO THAT AND GUESS WHAT KANA CAN"T BE REPRESENTED IN ASCII SO IT"S NOT!!! FUCKING!!! ASCIIII!!!!!!!! YOU JACKASSES
+			string name = s.read(21, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", name);
 
 			int layout = s.read();

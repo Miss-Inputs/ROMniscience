@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -48,5 +49,19 @@ namespace ROMniscience {
 		private static Lazy<bool> _isMono => new Lazy<bool>(() => Type.GetType("Mono.Runtime") != null);
 
 		public static bool isMono => _isMono.Value;
+
+		private static Encoding getShiftJIS() {
+			try {
+				//Just to be annoying, Shift-JIS isn't always available (it _probably_ is, but it's possible that
+				//it isn't, since it's not listed as having ".NET Framework Support" in that one table on MSDN or
+				//whatever). But we need it for a lot of stuff
+				return Encoding.GetEncoding("shift_jis");
+			} catch(ArgumentException ae) {
+				//Bugger... well, I guess the worst that can happen is that there's question marks everywhere
+				System.Diagnostics.Trace.TraceWarning(ae.Message);
+				return Encoding.ASCII;
+			}
+		}
+		public static readonly Encoding shiftJIS = getShiftJIS();
 	}
 }

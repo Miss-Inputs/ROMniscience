@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,20 +98,6 @@ namespace ROMniscience.Handlers {
 			return N64ROMFormat.UNKNOWN;
 		}
 
-		private static Encoding getTitleEncoding() {
-			try {
-				//The N64 does use Shift-JIS for its internal names, and if anyone says it is
-				//ASCII I will smack them on the head with a copy of Densha de Go 64. However
-				//just to be annoying, it's not guaranteed to exist on all .NET platforms
-				return Encoding.GetEncoding("shift_jis");
-			} catch(ArgumentException ae) {
-				//Bugger
-				System.Diagnostics.Trace.TraceWarning(ae.Message);
-				return Encoding.ASCII;
-			}
-		}
-		private static readonly Encoding titleEncoding = getTitleEncoding();
-
 		public static void parseN64ROM(InputStream s, ROMInfo info) {
 			int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
 			info.addExtraInfo("Clock rate", clockRate);
@@ -127,7 +112,9 @@ namespace ROMniscience.Handlers {
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
 			info.addExtraInfo("Unknown", unknown);
 
-			string name = s.read(20, titleEncoding).TrimEnd('\0');
+			//The N64 does use Shift-JIS for its internal names, and if anyone says it is
+			//ASCII I will smack them on the head with a copy of Densha de Go 64
+			string name = s.read(20, MainProgram.shiftJIS).TrimEnd('\0');
 			info.addInfo("Internal name", name);
 
 			byte[] unknown2 = s.read(4);

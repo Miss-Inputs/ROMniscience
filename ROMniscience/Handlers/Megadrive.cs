@@ -532,17 +532,6 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		private static Encoding getTitleEncoding() {
-			try {
-				return Encoding.GetEncoding("shift_jis");
-			} catch(ArgumentException ae) {
-				//Bugger
-				System.Diagnostics.Trace.TraceWarning(ae.Message);
-				return Encoding.ASCII;
-			}
-		}
-		private static readonly Encoding titleEncoding = getTitleEncoding();
-
 		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
 			s.Seek(0x100, System.IO.SeekOrigin.Begin);
@@ -576,9 +565,9 @@ namespace ROMniscience.Handlers {
 				}
 			}
 
-			string domesticName = s.read(48, titleEncoding).TrimEnd('\0', ' ');
+			string domesticName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", domesticName);
-			string overseasName = s.read(48, titleEncoding).TrimEnd('\0', ' ');
+			string overseasName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Overseas name", overseasName);
 			string productType = s.read(2, Encoding.ASCII);
 			info.addInfo("Type", productType, PRODUCT_TYPES);
