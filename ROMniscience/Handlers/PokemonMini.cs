@@ -29,7 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ROMniscience.IO;
 
-namespace ROMniscience.Handlers.Stubs {
+namespace ROMniscience.Handlers {
 	class PokemonMini: Handler {
 		//Adapted mostly from http://www.pokemon-mini.net/documentation/cartridge/
 
