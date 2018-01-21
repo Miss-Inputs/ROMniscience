@@ -26,13 +26,98 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ROMniscience.IO;
 
-namespace ROMniscience.Handlers.Stubs {
-	class NES: StubHandler {
+namespace ROMniscience.Handlers {
+	class NES: Handler {
+		//https://wiki.nesdev.com/w/index.php/INES
+		//https://wiki.nesdev.com/w/index.php/NES_2.0
+		//TODO: https://wiki.nesdev.com/w/index.php/TNES and http://wiki.nesdev.com/w/index.php/UNIF maybe?
+
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"nes", "Nintendo Entertainment System ROM"},
 			{"fds", "Nintendo Famicom Disk System disk image" },
 		};
 		public override string name => "Nintendo Entertainment System";
+
+		public static void parseiNES(ROMInfo info, InputStream s) {
+			//It is assumed that we've already just read the header magic, which we now don't need, and hence are at offset 4
+
+			int prgSize = s.read();
+			int chrSize = s.read();
+			//0 means it uses CHR RAM instead
+
+			int flags = s.read();
+			string mirroring = (flags & 1) == 1 ? "Vertical" : "Horizontal";
+			info.addInfo("Contains battery", (flags & 2) == 2);
+			info.addInfo("Contains trainer", (flags & 4) == 4);
+			bool ignoreMirroring = (flags & 8) == 8;
+			if(ignoreMirroring) {
+				info.addInfo("Four screen VRAM", true);
+			} else {
+				info.addInfo("Four screen VRAM", false);
+				info.addInfo("Mirroring", mirroring);
+			}
+			int mapperLow = flags & 0b11110000;
+
+			int flags2 = s.read();
+			info.addInfo("VS Unisystem", (flags2 & 1) == 1);
+			info.addInfo("PlayChoice-10", (flags2 & 2) == 2);
+			int mapperHigh = flags & 0b11110000;
+			if((flags2 & 0x0c) == 0x0c) {
+				//This is the fun part
+				info.addInfo("Detected format", "NES 2.0");
+
+				int flags3 = s.read();
+				info.addInfo("Submapper", flags3 & 0b11110000 >> 4);
+				int mapperHi2 = flags3 & 0b00001111;
+				int mapper = (mapperHi2 << 8) & mapperHigh & (mapperLow >> 4);
+				info.addInfo("Mapper", mapper);
+
+				int flags4 = s.read();
+				int prgSizeHi = flags4 & 0b00001111;
+				int chrSizeHi = flags4 & 0b11110000;
+
+				info.addInfo("PRG ROM size", ((prgSizeHi << 8) & prgSize) * 16 * 1024);
+				info.addInfo("CHR ROM size", ((chrSizeHi << 8) & chrSize) * 8 * 1024);
+
+				//TODO: Bytes 10 to 14. I can't be stuffed and I also don't have any NES 2.0 ROMs so I'm programming all of this blind basically
+			} else {
+				info.addInfo("Detected format", "iNES");
+				info.addInfo("Mapper", mapperHigh & (mapperLow >> 4));
+				info.addInfo("PRG ROM size", prgSize * 16 * 1024, ROMInfo.FormatMode.SIZE);
+				info.addInfo("CHR ROM size", chrSize * 8 * 1024, ROMInfo.FormatMode.SIZE);
+
+				int ramSize = s.read() * 8 * 1024;
+				info.addInfo("PRG RAM size", ramSize, ROMInfo.FormatMode.SIZE);
+
+				int flags3 = s.read();
+				info.addInfo("TV type", (flags3 & 1) == 1 ? "PAL" : "NTSC");
+				info.addInfo("Byte 9 reserved", flags3 & 0xfe);
+
+				//Byte 10 isn't actually part of the specification so screw it
+				info.addInfo("Reserved", s.read(6));
+			}
+		}
+
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+
+			InputStream s = file.stream;
+			byte[] headerMagic = s.read(4);
+
+			if(headerMagic[0] == 0x4E && headerMagic[1] == 0x45 && headerMagic[2] == 0x53 && (headerMagic[3] == 0x1A || headerMagic[3] == 0x00)) {
+				//iNES but could also be NES 2.0
+				//Wii U VC apparently uses 00 as the fourth byte instead of 1A but we still know what you're up to Nintendo
+				parseiNES(info, s);
+			} else if(headerMagic[0] == 0x46 && headerMagic[1] == 0x44 && headerMagic[2] == 0x53 && headerMagic[3] == 0x1A) {
+				//TODO I'm too lazy at the moment to add the number of sides of disks, which I might as well do at some point
+				//TODO Wait hang on there's actually an internal header http://wiki.nesdev.com/w/index.php/Family_Computer_Disk_System#.FDS_format
+				//So once I can be bothered, read that even if it's a FDS image without this fwNES header... damn that looks juicy
+				info.addInfo("Detected format", "fwNES");
+			} else {
+				info.addInfo("Detected format", "Unknown");
+			}
+		}
 	}
 }
