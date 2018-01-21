@@ -42,26 +42,7 @@ namespace ROMniscience.Handlers {
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream s = file.stream;
-			/*200000 - 20001B	- License information
-20001C - 20001E	- Initial program counter
-20001F			- Weird address
-200020 - 200021	- Game number
-			- Known game numbers:
-				0020	- Puzzle Bobble Mini
-				0021	- Metal Slug 1st Mission
-				0023	- King of Fighters R2
-				0027	- Master of Shyougi
-				0030	- Samurai Shodown 2 (Japan?)
-				0038	- Crush Roller
-				0039	- Neo Cup 98
-				0053	- Biomotor Unitron
-200022			- one unknown byte
-200023			- 10 - neogeo pocket color rom
-200024 - 20002F	- Game name
-200030 - 20003F	- 00's
-200040			- Start of real ROM data
 
-*/
 			string copyrightInfo = s.read(28, Encoding.ASCII);
 			info.addExtraInfo("Copyright string", copyrightInfo);
 			//For first party games this should say that, and for third party games it should say " LICENSED BY SNK CORPORATION"
