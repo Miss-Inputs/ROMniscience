@@ -139,10 +139,10 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 
 			//TODO Calculate this stuff and check if valid and whatever
+			byte[] checksumComplement = s.read(2);
+			info.addExtraInfo("Checksum complement", checksumComplement);
 			byte[] checksum = s.read(2);
 			info.addExtraInfo("Checksum", checksum);
-			byte[] checksumComplement = s.read(2);
-			info.addExtraInfo("Checksum complement", checksum);
 
 			if(usesExtendedHeader) {
 				//Heck you
