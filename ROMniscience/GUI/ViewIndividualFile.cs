@@ -143,10 +143,18 @@ namespace ROMniscience {
 		public static void viewFile(ROMFile rom) {
 			IList<Handler> handlers = findHandlersForExtension(rom.extension);
 
-			//TODO Prompt user for multiple handlers if there are multiple handlers for an extension
-			//TODO More importantly, handle gracefully if there are no handlers, or let the user force a specific
-			//handler to take a look at it
-			Handler handler = handlers[0];
+			Handler handler = null;
+			if(handlers.Count == 0) {
+				//TODO Let user force a given handler to deal with it
+				MessageBox.Show("I don't know how to deal with this file");
+				return;
+			} else {
+				handler = chooseChoices(handlers.OrderBy((h) => h.name), "name", 
+					"This file extension could be a number of things. Which handler do you want to try and read this with?", "Choose Handler");
+			}
+			if(handler == null) {
+				return;
+			}
 
 			string datFolder = SettingsManager.readSetting("datfiles");
 			DatfileCollection datfiles = null;
@@ -184,6 +192,9 @@ namespace ROMniscience {
 					} catch(InvalidCastException) {
 						//You goof
 					}
+				}
+				if(thing.Value.Item2 == ROMInfo.FormatMode.PERCENT) {
+					value = String.Format("{0:P2}", value);
 				}
 				if(value is byte[] bytes) {
 					value = BitConverter.ToString(bytes);
