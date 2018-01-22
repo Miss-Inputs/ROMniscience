@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ROMniscience.Datfiles;
 using ROMniscience.Handlers;
+using SharpCompress.Archives;
 
 namespace ROMniscience {
 	//TODO Have a way to get to here from the main form (view details of selected row)
@@ -41,13 +42,101 @@ namespace ROMniscience {
 		private Button showImagesButton;
 		private IDictionary<string, Image> images = new Dictionary<string, Image>();
 
+		public static T chooseChoices<T>(IEnumerable<T> choices, string displayKey, string helpText, string title) where T: class {
+			if(choices.Count() == 1) {
+				return choices.First();
+			}
+
+			Form f = new Form() {
+				DialogResult = DialogResult.Cancel,
+				Size = new Size(500, 500),
+				MinimumSize = new Size(500, 500),
+				Text = "ROMniscience: " + title,
+			};
+			T choice = null;
+
+			Label helpLabel = new Label() {
+				Text = helpText,
+				Width = f.ClientSize.Width - 20,
+				Height = 50,
+				Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+				Top = 10,
+				Left = 10,
+			};
+			f.Controls.Add(helpLabel);
+
+			ListBox list = new ListBox() {
+				DisplayMember = displayKey,
+				SelectionMode = SelectionMode.One,
+				Width = f.ClientSize.Width - 20,
+				Height = 350,
+				Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top,
+				Top = helpLabel.Bottom + 10,
+				Left = 10,
+			};
+
+			f.Controls.Add(list);
+			foreach(T t in choices) {
+				list.Items.Add(t);
+			}
+
+			Button okButton = new Button() {
+				Anchor = AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right,
+				Text = "OK",
+				Top = list.Bottom + 10,
+			};
+			okButton.Left = (f.ClientSize.Width - 10) - okButton.Width;
+			okButton.Click += delegate {
+				choice = (T)list.SelectedItem;
+				f.DialogResult = DialogResult.OK;
+				f.Close();
+			};
+
+			Button cancelButton = new Button() {
+				Anchor = AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right,
+				Text = "Cancel",
+				Top = list.Bottom + 10,
+			};
+			cancelButton.Left = (okButton.Left - 10) - cancelButton.Width;
+			cancelButton.Click += delegate {
+				f.Close();
+			};
+
+			f.Controls.Add(okButton);
+			f.Controls.Add(cancelButton);
+			f.AcceptButton = okButton;
+			f.CancelButton = cancelButton;
+
+			DialogResult result = f.ShowDialog();
+			if(result == DialogResult.OK) {
+				return choice;
+			}
+			return null;
+		}
+
 		public static void viewFile(string path) {
 			viewFile(new FileInfo(path));
 		}
 
 		public static void viewFile(FileInfo path) {
-			using(ROMFile f = new ROMFile(path)) {
-				viewFile(f);
+			if(IO.ArchiveHelpers.isArchiveExtension(path.Extension)) {
+				try {
+					using(IArchive archive = ArchiveFactory.Open(path)) {
+						string helpString = "This is an archive and there's multiple files in it. Please choose which one you want to view the info for.";
+						IArchiveEntry choice = chooseChoices(archive.Entries, "Key", helpString, "Choose File in Archive");
+						if(choice != null) {
+							using(ROMFile f = new ROMFile(choice, path)) {
+								viewFile(f);
+							}
+						}
+					}
+				} catch(Exception ex) {
+					MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o");
+				}
+			} else {
+				using(ROMFile f = new ROMFile(path)) {
+					viewFile(f);
+				}
 			}
 		}
 
@@ -96,7 +185,7 @@ namespace ROMniscience {
 						//You goof
 					}
 				}
-				if(value is byte[] bytes){
+				if(value is byte[] bytes) {
 					value = BitConverter.ToString(bytes);
 				}
 				if(value is string[]) {
@@ -106,7 +195,7 @@ namespace ROMniscience {
 					//TextBox doesn't like null chars. I dunno what the best thing to replace it with is, but that'll do
 					value = str.Replace('\0', ' ');
 				}
-				
+
 				me.notALabel.Text += String.Format("{0} => {1}{2}", thing.Key, value, Environment.NewLine);
 			}
 
