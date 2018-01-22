@@ -188,8 +188,8 @@ namespace ROMniscience {
 				if(value is byte[] bytes) {
 					value = BitConverter.ToString(bytes);
 				}
-				if(value is string[]) {
-					value = String.Join(", ", value);
+				if(value is string[] strings) {
+					value = String.Join(", ", strings);
 				}
 				if(value is string str) {
 					//TextBox doesn't like null chars. I dunno what the best thing to replace it with is, but that'll do
