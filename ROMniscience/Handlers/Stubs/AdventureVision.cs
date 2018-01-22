@@ -28,7 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers.Stubs {
-	class AdvenutreVision: StubHandler {
+	class AdventureVision: StubHandler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"bin", "Entrex Adventure Vision ROM"},
 		};

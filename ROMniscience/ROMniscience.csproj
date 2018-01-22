@@ -89,7 +89,7 @@
     <Compile Include="Handlers\NintendoCommon.cs" />
     <Compile Include="Handlers\Pico.cs" />
     <Compile Include="Handlers\Stubs\3DS.cs" />
-    <Compile Include="Handlers\Stubs\AdvenutreVision.cs" />
+    <Compile Include="Handlers\Stubs\AdventureVision.cs" />
     <Compile Include="Handlers\Stubs\APF.cs" />
     <Compile Include="Handlers\Stubs\Arcadia.cs" />
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
