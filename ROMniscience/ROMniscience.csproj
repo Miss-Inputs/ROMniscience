@@ -113,6 +113,7 @@
     <Compile Include="Handlers\Stubs\Loopy.cs" />
     <Compile Include="Handlers\Stubs\Lynx.cs" />
     <Compile Include="Handlers\Stubs\MasterSystem.cs" />
+    <Compile Include="Handlers\Stubs\MegaDuck.cs" />
     <Compile Include="Handlers\Stubs\MSX.cs" />
     <Compile Include="Handlers\Stubs\MSX2.cs" />
     <Compile Include="Handlers\NeoGeoPocket.cs" />
