@@ -78,8 +78,8 @@ namespace ROMniscience.Handlers {
 				int prgSizeHi = flags4 & 0b00001111;
 				int chrSizeHi = flags4 & 0b11110000;
 
-				info.addInfo("PRG ROM size", ((prgSizeHi << 8) & prgSize) * 16 * 1024);
-				info.addInfo("CHR ROM size", ((chrSizeHi << 8) & chrSize) * 8 * 1024);
+				info.addInfo("PRG ROM size", ((prgSizeHi << 8) & prgSize) * 16 * 1024, ROMInfo.FormatMode.SIZE);
+				info.addInfo("CHR ROM size", ((chrSizeHi << 8) & chrSize) * 8 * 1024, ROMInfo.FormatMode.SIZE);
 
 				//TODO: Bytes 10 to 14. I can't be stuffed and I also don't have any NES 2.0 ROMs so I'm programming all of this blind basically
 			} else {
