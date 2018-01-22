@@ -84,11 +84,11 @@ namespace ROMniscience {
 				Anchor = AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right,
 				Text = "OK",
 				Top = list.Bottom + 10,
+				DialogResult = DialogResult.OK,
 			};
 			okButton.Left = (f.ClientSize.Width - 10) - okButton.Width;
 			okButton.Click += delegate {
 				choice = (T)list.SelectedItem;
-				f.DialogResult = DialogResult.OK;
 				f.Close();
 			};
 
@@ -96,12 +96,10 @@ namespace ROMniscience {
 				Anchor = AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right,
 				Text = "Cancel",
 				Top = list.Bottom + 10,
+				DialogResult = DialogResult.Cancel,
 			};
 			cancelButton.Left = (okButton.Left - 10) - cancelButton.Width;
-			cancelButton.Click += delegate {
-				f.Close();
-			};
-
+			
 			f.Controls.Add(okButton);
 			f.Controls.Add(cancelButton);
 			f.AcceptButton = okButton;
