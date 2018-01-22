@@ -207,8 +207,7 @@ namespace ROMniscience {
 			}
 			if(ROMInfo.FormatMode.SIZE.Equals(args.CellStyle.Tag)) {
 				try {
-					//Okay so apparently I have to double cast to avoid weird boxing shit that's weird
-					args.Value = ROMInfo.formatByteSize(args.Value is long ? (long)args.Value : (int)args.Value);
+					args.Value = ROMInfo.formatByteSize(Convert.ToInt64(args.Value));
 					args.FormattingApplied = true;
 				} catch(InvalidCastException) {
 					args.FormattingApplied = false;
