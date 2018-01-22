@@ -188,9 +188,10 @@ namespace ROMniscience {
 				}
 				if(thing.Value.Item2 == ROMInfo.FormatMode.SIZE) {
 					try {
-						value = ROMInfo.formatByteSize((long)value);
+						value = ROMInfo.formatByteSize(Convert.ToInt64(value));
 					} catch(InvalidCastException) {
 						//You goof
+						value = String.Format("{0} cannot be casted to long, it is {1}", value, value?.GetType());
 					}
 				}
 				if(thing.Value.Item2 == ROMInfo.FormatMode.PERCENT) {
