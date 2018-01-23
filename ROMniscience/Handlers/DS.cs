@@ -462,24 +462,24 @@ namespace ROMniscience.Handlers {
 					byte[] iconPalette = s.read(0x20);
 					info.addInfo("Icon", decodeDSIcon(iconBitmap, iconPalette));
 
-					string japaneseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+					string japaneseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 					info.addInfo("Japanese title", japaneseTitle);
-					string englishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+					string englishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 					info.addInfo("English title", englishTitle);
-					string frenchTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+					string frenchTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 					info.addInfo("French title", frenchTitle);
-					string germanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+					string germanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 					info.addInfo("German title", germanTitle);
-					string italianTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+					string italianTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 					info.addInfo("Italian title", italianTitle);
-					string spanishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+					string spanishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 					info.addInfo("Spanish title", spanishTitle);
 					if(bannerVersion >= 2) {
-						string chineseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+						string chineseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 						info.addInfo("Chinese title", chineseTitle);
 					}
 					if(bannerVersion >= 3) {
-						string koreanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", "\r\n");
+						string koreanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
 						info.addInfo("Korean title", koreanTitle);
 					}
 
