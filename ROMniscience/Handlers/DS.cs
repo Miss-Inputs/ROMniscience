@@ -208,8 +208,6 @@ namespace ROMniscience.Handlers {
 						for(int x = 0; x < 4; ++x) {
 							icon.SetPixel((x * 2) + (8 * tile_x), y + 8 * tile_y, actualPalette[bitmap[pos] & 0x0f]);
 							icon.SetPixel((x * 2 + 1) + (8 * tile_x), y + 8 * tile_y, actualPalette[(bitmap[pos] & 0xf0) >> 4]);
-							//icon.SetPixel((x * 2) + (8 * tile_x), y + 8 * tile_y, actualPalette[(bitmap[pos] & 0xf0) >> 4]);
-							//icon.SetPixel((x * 2 + 1) + (8 * tile_x), y + 8 * tile_y, actualPalette[bitmap[pos] & 0x0f]);
 							pos++;
 						}
 					}
@@ -363,7 +361,7 @@ namespace ROMniscience.Handlers {
 					info.addExtraInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE);
 
 					string emagCode = s.read(4, Encoding.ASCII);
-					info.addInfo("DSi product code", emagCode);
+					info.addExtraInfo("Game code backwards", emagCode);
 					int dsiType = s.read();
 					info.addInfo("Filetype", dsiType);
 					byte[] titleIDReserved = s.read(3);
