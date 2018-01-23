@@ -127,7 +127,7 @@ namespace ROMniscience.Handlers {
 			info.addExtraInfo("Entry point", entryPoint);
 			byte[] nintendoLogo = f.read(156);
 			info.addExtraInfo("Nintendo logo", nintendoLogo);
-			//TODO: Get the proper Nintendo logo that the BIOS validates against, which would be in the BIOS image somewhere
+			//TODO: Get the hash of the actual GBA Nintendo logo to check if this is valid
 			//TODO: Bits 2 and 7 of nintendoLogo[0x99] enable debugging functions when set (undefined instruction exceptions are sent
 			//to a user handler identified using the device type)
 			//0x9b bits 0 and 1 also have some crap in them but I don't even know

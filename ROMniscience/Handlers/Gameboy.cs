@@ -32,9 +32,9 @@ using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
 	class Gameboy : Handler{
-		static readonly byte[] GB_NINTENDO_LOGO = {0xce, 0xed, 0x66, 0x66, 0xcc, 0x0d, 0x00, 0x0b, 0x03, 0x73, 0x00, 0x83, 0x00, 0x0c, 0x00, 0x0d,
-			0x00, 0x08, 0x11, 0x1f, 0x88, 0x89, 0x00, 0x0e, 0xdc, 0xcc, 0x6e, 0xe6, 0xdd, 0xdd, 0xd9, 0x99,
-			0xbb, 0xbb, 0x67, 0x63, 0x6e, 0x0e, 0xec, 0xcc, 0xdd, 0xdc, 0x99, 0x9f, 0xbb, 0xb9, 0x33, 0x3e };
+		//static readonly byte[] GB_NINTENDO_LOGO_MD5 = {0x86, 0x61, 0xCE, 0x8A, 0x0E, 0xBE, 0xDE, 0x95, 0xE8, 0xA1, 31, 0xA0, 0xAA, 17, 17, 0xF6};
+		const int GB_NINTENDO_LOGO_CRC32 = 0x46195417;
+
 
 		static readonly IDictionary<int, string> CART_TYPES = new Dictionary<int, string>() {
 			{0, "ROM only"},
@@ -116,6 +116,10 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Game Boy";
 
+		static bool isNintendoLogoEqual(byte[] nintendoLogo) {
+			return Datfiles.CRC32.crc32(nintendoLogo) == GB_NINTENDO_LOGO_CRC32;
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream f = file.stream;
 			long originalPos = f.Position;
@@ -127,7 +131,7 @@ namespace ROMniscience.Handlers {
 				info.addExtraInfo("Entry point", startVector);
 				byte[] nintendoLogo = f.read(48);
 				info.addExtraInfo("Nintendo logo", nintendoLogo);
-				info.addInfo("Nintendo logo valid?", GB_NINTENDO_LOGO.SequenceEqual(nintendoLogo));
+				info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
 
 				//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
 				byte[] title = f.read(16);
