@@ -119,7 +119,14 @@ namespace ROMniscience.Handlers {
 			return false;
 		}
 
-		public override void addROMInfo(ROMInfo info, ROMFile file) {
+        const int GBA_LOGO_CRC32 = -0x2F414AA2;
+
+        static bool isNintendoLogoEqual(byte[] nintendoLogo)
+        {
+            return Datfiles.CRC32.crc32(nintendoLogo) == GBA_LOGO_CRC32;
+        }
+
+        public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 			InputStream f = file.stream;
 
@@ -127,7 +134,7 @@ namespace ROMniscience.Handlers {
 			info.addExtraInfo("Entry point", entryPoint);
 			byte[] nintendoLogo = f.read(156);
 			info.addExtraInfo("Nintendo logo", nintendoLogo);
-			//TODO: Get the hash of the actual GBA Nintendo logo to check if this is valid
+            info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
 			//TODO: Bits 2 and 7 of nintendoLogo[0x99] enable debugging functions when set (undefined instruction exceptions are sent
 			//to a user handler identified using the device type)
 			//0x9b bits 0 and 1 also have some crap in them but I don't even know
