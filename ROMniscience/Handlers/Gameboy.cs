@@ -147,23 +147,32 @@ namespace ROMniscience.Handlers {
 				if(CGB_FLAGS.ContainsKey(title[15])) {
 					titleLength = 15;
 					info.addInfo("Game Boy Color flag", title[15], CGB_FLAGS);
-					//Here's the tricky part... well, we know that any game old enough to not
-					//have a CGB flag isn't going to have a product code either, because those are new
-					//and also I looked at every single commercially released GB/GBC ROM I have to figure out
-					//what works and what doesn't
-					//We also know that any game that uses the _old_ licensee code _isn't_ going to have a
-					//product code, but a game that uses the new licensee code might have a product code and
-					//also might not as previously mentioned
-					//We can also see that any game that is exclusive to the Game Boy Color will have a
-					//product code - but not necessarily a game that is merely GBC enhanced but GB compatible
-					//With that in mind... for now, I'll only use 11 characters + product code if I know for sure it has one
-					if(title[15] == 0xc0) {
+                    //Here's the tricky part... well, we know that any game old enough to not
+                    //have a CGB flag isn't going to have a product code either, because those are new
+                    //and also I looked at every single commercially released GB/GBC ROM I have to figure out
+                    //what works and what doesn't
+                    //We also know that any game that uses the _old_ licensee code _isn't_ going to have a
+                    //product code, but a game that uses the new licensee code might have a product code and
+                    //also might not as previously mentioned
+                    //We can also see that any game that is exclusive to the Game Boy Color will have a
+                    //product code - but not necessarily a game that is merely GBC enhanced but GB compatible
+                    //With that in mind... for now, I'll only use 11 characters + product code if I know for sure it has one
+
+                    //The other way would be to check if there are extra characters beyond the first null character, because
+                    //you're not allowed to have a null character in the middle of a title so if I see characters after that, then
+                    //it's the manufacturer code (which is always in the same place)
+                    //So if the null character appears inside the 11 bytes, then it definitely ends the string, and then we can
+                    //just check to see if there's a manufacturer code afterwards
+                    int lastNullCharIndex = title.ToList().IndexOf(0);
+					if(title[15] == 0xc0 || ((lastNullCharIndex != -1 && lastNullCharIndex <= 11) && title[14] != 0)) {
 						titleLength = 11;
 						string productCode = Encoding.ASCII.GetString(title, 11, 4);
 						info.addInfo("Product code", productCode);
 						//No documentation I've found at all knows what the product type means! It looks like it works the same way
 						//as GBA, right down to V being the product type for rumble-enabled games and Kirby's Tilt and Tumble
 						//using K. How about that?
+                        //Anyway yeah it all works out except for homebrews that stuff up my heuristic and don't really have
+                        //product codes, and Robopon games which have a H for game type? That probably means something involving their infrared stuff
 						char gameType = productCode[0];
 						info.addInfo("Type", gameType, GBA.GBA_GAME_TYPES);
 						string shortTitle = productCode.Substring(1, 2);
@@ -175,8 +184,9 @@ namespace ROMniscience.Handlers {
 
 				//Now we can add what's left of the title
 				info.addInfo("Internal name", Encoding.ASCII.GetString(title, 0, titleLength).TrimEnd('\0', ' '));
-	
-				string licenseeCode = f.read(2, Encoding.ASCII);
+               
+
+                string licenseeCode = f.read(2, Encoding.ASCII);
 				bool isSGB = f.read() == 3;
 				info.addInfo("Super Game Boy Enhanced?", isSGB);
 				int cartType = f.read();
