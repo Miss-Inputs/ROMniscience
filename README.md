@@ -44,8 +44,6 @@ I know these can be done because I've ended up doing them in my experiments tryi
 
 Note that on Linux, it won't display any images (like Nintendo DS icons) inside the table, because Mono is weird and kept screwing up the rest of the cells when I did that. I guess I should raise that as an issue with myself.  
 
-The SNES handler kinda sucks at the moment because it doesn't do a good enough job at figuring out where the header actually is. Soz.  
-
 ## Why's it called ROMniscience? That name sucks.
 Well, because it's like omniscience, which is knowing all the things, and it's like ROM, and it knows all the things about your ROMs (in theory), so ROM + omniscience = ROMniscience and... look, naming stuff is hard, okay?  
 
