@@ -77,7 +77,6 @@ namespace ROMniscience.Handlers {
 				foreach(var type in System.Reflection.Assembly.GetCallingAssembly().GetTypes()) {
 					if(type.IsSubclassOf(typeof(Handler)) && !type.IsAbstract) {
 						Handler h = (Handler)Activator.CreateInstance(type);
-						Console.WriteLine("Handler {0} found, name = {1}", type, h.name);
 						list.Add(h);
 					}
 				}
