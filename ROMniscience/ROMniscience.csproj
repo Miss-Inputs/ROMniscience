@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteSearch.cs" />
     <Compile Include="Datfiles\DatfileCollection.cs" />
     <Compile Include="Datfiles\Game.cs" />
     <Compile Include="Datfiles\CRC32.cs" />

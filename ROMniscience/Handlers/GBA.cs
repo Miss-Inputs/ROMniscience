@@ -125,6 +125,35 @@ namespace ROMniscience.Handlers {
             return Datfiles.CRC32.crc32(nintendoLogo) == GBA_LOGO_CRC32;
         }
 
+        //There's no official way to detect the save type, but Nintendo's SDK ends up
+        //putting these strings in the ROM according to what it uses, apparently
+        static byte[] EEPROM = Encoding.ASCII.GetBytes("EEPROM_V");
+        static byte[] SRAM = Encoding.ASCII.GetBytes("SRAM_V");
+        static byte[] SRAM_F = Encoding.ASCII.GetBytes("SRAM_F_V");
+        static byte[] FLASH = Encoding.ASCII.GetBytes("FLASH_V");
+        static byte[] FLASH_512 = Encoding.ASCII.GetBytes("FLASH512_V");
+        static byte[] FLASH_1024 = Encoding.ASCII.GetBytes("FLASH1M_V");
+        //It also puts this in for games that use the real time clock
+        static byte[] RTC = Encoding.ASCII.GetBytes("SIIRTC_V");
+
+        static void detectSaveType(ROMInfo info, byte[] bytes) { 
+
+            if(ByteSearch.contains(bytes, EEPROM)) {
+                info.addInfo("Save type", "EEPROM");
+                //Can't tell the save size from this, it's either 512 or 8192 though
+            } else if(ByteSearch.contains(bytes, SRAM) || ByteSearch.contains(bytes, SRAM_F)) {
+                info.addInfo("Save type", "SRAM");
+                info.addInfo("Save size", 32 * 1024, ROMInfo.FormatMode.SIZE);
+            } else if(ByteSearch.contains(bytes, FLASH) || ByteSearch.contains(bytes, FLASH_512)) {
+                info.addInfo("Save type", "Flash");
+                info.addInfo("Save size", 64 * 1024, ROMInfo.FormatMode.SIZE);
+            } else if(ByteSearch.contains(bytes, FLASH_1024)) {
+                info.addInfo("Save type", "Flash");
+                info.addInfo("Save size", 128 * 1024, ROMInfo.FormatMode.SIZE);
+            }
+
+        }
+
         public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 			InputStream f = file.stream;
@@ -179,9 +208,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Multiboot mode", multibootMode, GBA_MULTIBOOT_MODES);
 			int multibootSlaveID = f.read();
 			info.addInfo("Multiboot slave ID", multibootSlaveID);
-			//0xe0 contains a joybus entry point if joybus stuff is set, meh
+            //0xe0 contains a joybus entry point if joybus stuff is set, meh
 
-			//TODO Try and detect save type
+            byte[] restOfCart = f.read((int)f.Length);
+            detectSaveType(info, restOfCart);
+            info.addInfo("Uses RTC", ByteSearch.contains(restOfCart, RTC));
 			//info.addInfo("Sound driver", attemptDetectSappy(f) ? "Sappy" : "Unknown");
 			//TODO Krawall is open source, see if we can detect that
 		}
