@@ -68,13 +68,17 @@ namespace ROMniscience.Handlers {
 			InputStream s = file.stream;
 
 			int headerVersion = s.read();
-			info.addInfo("Header version", headerVersion);
-
 			string atari7800Magic = s.read(16, Encoding.ASCII); //Should be "ATARI7800" null padded
-			//Don't really need it, other than to detect which ROMs actually use this header format, but what would I do with those that don't
-			info.addExtraInfo("Header magic", atari7800Magic);
+            if(!"ATARI7800\0\0\0\0\0\0\0".Equals(atari7800Magic)) {
+                info.addInfo("Detected format", "Non-headered");
+                return;
+            }
+            info.addInfo("Detected format", "Headered");
+            info.addExtraInfo("Header magic", atari7800Magic);
+            info.addInfo("Header version", headerVersion);
 
-			string title = s.read(32, Encoding.ASCII).TrimEnd('\0', ' ');
+
+            string title = s.read(32, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", title);
 
 			int romSize = s.readIntBE(); //Excluding this header
