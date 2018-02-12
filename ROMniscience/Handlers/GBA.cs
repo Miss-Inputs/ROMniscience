@@ -121,8 +121,7 @@ namespace ROMniscience.Handlers {
 
         const int GBA_LOGO_CRC32 = -0x2F414AA2;
 
-        static bool isNintendoLogoEqual(byte[] nintendoLogo)
-        {
+        static bool isNintendoLogoEqual(byte[] nintendoLogo) {
             return Datfiles.CRC32.crc32(nintendoLogo) == GBA_LOGO_CRC32;
         }
 
