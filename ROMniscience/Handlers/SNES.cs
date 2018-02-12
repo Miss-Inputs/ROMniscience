@@ -358,13 +358,6 @@ namespace ROMniscience.Handlers {
 
             if (offset == 0) {
                 //If we haven't detected it from a copier header
-                //s.Seek(0xffd5, SeekOrigin.Current);
-                //if ((s.read() & 0x21) == 0x21) {
-                //    //TODO This method of detecting HiROM/LoROM sucks and is not okay and doesn't even work most of the time
-                //    offset = 0xffc0;
-                //} else {
-                //    offset = 0x7fc0;
-                //}
                 offset = findHeaderOffset(s);
             }
 
