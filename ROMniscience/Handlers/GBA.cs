@@ -98,27 +98,6 @@ namespace ROMniscience.Handlers {
 			0xC9, 0x18, 0x89, 0x00, 0x89, 0x18, 0x0A, 0x68,
 			0x01, 0x68, 0x10, 0x1C, 0x00, 0xF0};
 
-		bool attemptDetectSappy(InputStream s) {
-			//Adapted from sappy_detector.c from GBAMusRipper by Bregalad and CaptainSwag101
-			//FIXME This is way too slow to be usable
-			long originalPos = s.Position;
-			try {
-				s.Seek(0xe4, SeekOrigin.Begin); //We know it's not in the header anywhere so skip over that
-				while(s.Position <= s.Length - SAPPY_SELECTSONG.Length) {
-					byte[] buf = s.read(SAPPY_SELECTSONG.Length);
-					if(SAPPY_SELECTSONG.SequenceEqual(buf)) {
-						return true;
-					}
-					s.Seek(-SAPPY_SELECTSONG.Length + 1, SeekOrigin.Current);
-				}
-
-
-			} finally {
-				s.Seek(originalPos, SeekOrigin.Begin);
-			}
-			return false;
-		}
-
         const int GBA_LOGO_CRC32 = -0x2F414AA2;
 
         static bool isNintendoLogoEqual(byte[] nintendoLogo) {
@@ -127,17 +106,16 @@ namespace ROMniscience.Handlers {
 
         //There's no official way to detect the save type, but Nintendo's SDK ends up
         //putting these strings in the ROM according to what it uses, apparently
-        static byte[] EEPROM = Encoding.ASCII.GetBytes("EEPROM_V");
-        static byte[] SRAM = Encoding.ASCII.GetBytes("SRAM_V");
-        static byte[] SRAM_F = Encoding.ASCII.GetBytes("SRAM_F_V");
-        static byte[] FLASH = Encoding.ASCII.GetBytes("FLASH_V");
-        static byte[] FLASH_512 = Encoding.ASCII.GetBytes("FLASH512_V");
-        static byte[] FLASH_1024 = Encoding.ASCII.GetBytes("FLASH1M_V");
+        readonly static byte[] EEPROM = Encoding.ASCII.GetBytes("EEPROM_V");
+        readonly static byte[] SRAM = Encoding.ASCII.GetBytes("SRAM_V");
+        readonly static byte[] SRAM_F = Encoding.ASCII.GetBytes("SRAM_F_V");
+        readonly static byte[] FLASH = Encoding.ASCII.GetBytes("FLASH_V");
+        readonly static byte[] FLASH_512 = Encoding.ASCII.GetBytes("FLASH512_V");
+        readonly static byte[] FLASH_1024 = Encoding.ASCII.GetBytes("FLASH1M_V");
         //It also puts this in for games that use the real time clock
-        static byte[] RTC = Encoding.ASCII.GetBytes("SIIRTC_V");
+        readonly static byte[] RTC = Encoding.ASCII.GetBytes("SIIRTC_V");
 
         static void detectSaveType(ROMInfo info, byte[] bytes) { 
-
             if(ByteSearch.contains(bytes, EEPROM)) {
                 info.addInfo("Save type", "EEPROM");
                 //Can't tell the save size from this, it's either 512 or 8192 though
@@ -151,7 +129,6 @@ namespace ROMniscience.Handlers {
                 info.addInfo("Save type", "Flash");
                 info.addInfo("Save size", 128 * 1024, ROMInfo.FormatMode.SIZE);
             }
-
         }
 
         public override void addROMInfo(ROMInfo info, ROMFile file) {
@@ -213,7 +190,7 @@ namespace ROMniscience.Handlers {
             byte[] restOfCart = f.read((int)f.Length);
             detectSaveType(info, restOfCart);
             info.addInfo("Uses RTC", ByteSearch.contains(restOfCart, RTC));
-			//info.addInfo("Sound driver", attemptDetectSappy(f) ? "Sappy" : "Unknown");
+            info.addInfo("Sound driver", ByteSearch.contains(restOfCart, SAPPY_SELECTSONG) ? "Sappy" : "Unknown");
 			//TODO Krawall is open source, see if we can detect that
 		}
 	}
