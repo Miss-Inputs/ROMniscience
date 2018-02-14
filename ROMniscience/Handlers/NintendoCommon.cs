@@ -29,10 +29,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers {
-	//Actually it looks like these are used by Gamecube discs as well
-	//Anyway they're definitely used by SNES, GB, GBA, and DS, and sort of Pokemon Mini
 	class NintendoCommon {
-		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
+
+        public static readonly IDictionary<char, string> GAME_REGIONS = new Dictionary<char, string> {
+            //Used by GBC and GBA, DS might have a few differences (still unsure about A)
+            {'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
+			{'D', "Germany"},
+            {'E', "USA"},
+            {'F', "France"},
+            {'I', "Italy"},
+            {'J', "Japan"},
+            {'K', "Korea"},
+            {'P', "Europe"},
+            {'S', "Spain"},
+            {'X', "Europe (X)"},
+        };
+
+        public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
+            //These look like they're used by Gamecube discs as well
+	        //Anyway they're definitely used by SNES, GB, GBA, and DS, and sort of Pokemon Mini
+
 			{"00", "Nobody"}, //Probably homebrew
 			{"01", "Nintendo"},
 			{"08", "Capcom"},

@@ -59,18 +59,6 @@ namespace ROMniscience.Handlers {
 			//Have also seen J for the Pokemon Aurora Ticket distribution cart, and G for GameCube multiboot images (they just use the product code of the GameCube disc they were from usually)
 		};
 
-		public static readonly IDictionary<char, string> GBA_GAME_REGIONS = new Dictionary<char, string> {
-			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
-			{'D', "Germany"},
-			{'E', "USA"},
-			{'F', "France"},
-			{'I', "Italy"},
-			{'J', "Japan"},
-			{'P', "Europe"},
-			{'S', "Spain"},
-			{'X', "Europe (X)"},
-		};
-
 		public static readonly IDictionary<int, string> GBA_MULTIBOOT_MODES = new Dictionary<int, string> {
 			{0, "Not multiboot"},
 			{1, "Joybus"},
@@ -153,7 +141,7 @@ namespace ROMniscience.Handlers {
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
 			char region = gameCode[3];
-			info.addInfo("Region", region, GBA_GAME_REGIONS);
+			info.addInfo("Region", region, NintendoCommon.GAME_REGIONS);
 
 			string makerCode = f.read(2, Encoding.ASCII);
 			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
