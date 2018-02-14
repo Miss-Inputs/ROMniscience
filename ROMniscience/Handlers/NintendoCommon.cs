@@ -217,6 +217,7 @@ namespace ROMniscience.Handlers {
 			{"GD", "Square Enix"},
 			{"BL", "MTO"},
 			{"2P", "The Pokémon Company"},
+            {"B4", "Enix"},
 
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
@@ -243,20 +244,34 @@ namespace ROMniscience.Handlers {
 			//mooneye-gb test ROMs: ZZ
 
 			//Official GB/GBA/DS roms, but I want to confirm by seeing if more titles use them:
-			//1P (Chee-Chai Alien): Creatures
-			//2N (Keitai Denjuu Telefang) Accordingly, Pokemon Diamond and presumably Jade have this too (Smilesoft/Natsume?)
+            //03: SD Ultra Battle: Seven Densetsu, SD Ultra Battle: Ultraman Densetsu (dev Tom Create, pub Bandai)
+            //1P (Chee-Chai Alien): Creatures
+			//1Q: McDonalds Monogatari: Honobono Tenchou Ikusei Game (GBC) TDK Core (might be TDK in Japan?)
+            //2N (Keitai Denjuu Telefang) Accordingly, Pokemon Diamond and presumably Jade have this too (Smilesoft/Natsume?)
 			//36 (Cannon Fodder) Could be Codemasters (developer) or Activision (publisher)
+            //4S: SimCity 2000 (SNES) (dev Maxis pub THQ for Europe version that this is from)
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
 			//5L (Hello Kitty's Cube Frenzy (Dev: Torus Games / Pub: Ubisoft), Dora the Explorer: The Search for the Pirate Pig's Treasure (Dev: Cinegroupe / Pub: NewKidsCo))
 			//5V (Cookie & Cream demo) FromSoftware I guess?
+            //5Z: Microsoft: The Best of Entertainment Pack (dev: Cryo Interactive & Sapphire, pub Microsoft Home), Microsoft: The 6 in 1 Puzzle Collection Entertainment Pack (dev Conspiracy Entertainment pub Swing Entertainment); anyway it's _probably_ Microsoft but maybe not? There's also ), The Flinstones: Burgertime in Bedrock (dev Conspiracy Entertainment pub Classified Games USA Swing Entertainment France)
+            //62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
 			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
+            //6B: Super Solitaire (SNES European proto), dunno about USA version (dev: Beam Software / pub: Extreme Entertainment Group, only known for Riddick Bowe Boxing)
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
+            //6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games)
 			//7G (Pocket Music GBC) Jester Interactive / Rage Software
+            //82: Cosmo Gang the Video (SNES) (just Namco? wat)
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
-			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street)
-			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)) could be just Nick Jr licensed games?
-			//B4 (Dragon Warrior Monsters 2, Dragon Warrior I + II, Dragon Warrior III GBC): Dev: TOSE / Pub: Enix Dragon Warrior Monsters 1 uses Eidos
+			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street), endrift also uses this for Scrum: A Game Very Vaguely About Programming
+			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)) could be just Nick Jr licensed games? But the other Dora games don't use this one
+            //9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
+            //9M: Mario Family (GBC) Dev: Natsume Pub: Jaguar (not to be confused with the Atari Jaguar, this Jaguar makes sewing machines)
+            //A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet
+            //AL: Wizardry 1/2/3 (SNES) (dev: Game Studio / pub: Media Factory)
+            //BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
+            //CL: Oekaki Logic (SNES) (Sekaibunka Publishing)
 			//DK (Initial D Gaiden) MTO / Kodansha?
+            //F9 Spectre (SNES) (Mac dev: Peninsula Gameworks / pub: Velocity Development) (SNES dev: Synergistic Software / pub: US Cybersoft EU GameTek)
 			//FQ (WarioWare: Touched iQue version aka Momo Waliou Zhizao) Alpha-Unit (according to the banner)? Intelligent Systems? iQue itself or Wei Yen?
 			//G0 (Monster Finder (albeit a bad dump) aka Foto Showdown outside JP) Alpha Unit
 			//GT (Picture Perfect Hair Salon): 505 Games
@@ -275,6 +290,8 @@ namespace ROMniscience.Handlers {
 			//Darkrai Distribution cart and Surfing Pikachu Distribution cart have KX, but as they're
 			//not supposed to be released, I think that doesn't count. Or it could mean
 			//Game Freak themselves, but it's interesting because every other Pokemon DS distro cart has Nintendo as the maker code
+            //And then also to be confusing, Puyo Nexus's translation of Puyo Puyo 7 uses KX as well, but the
+            //official Puyo Puyo 7 just uses 8P/Sega
 			//Kirby's Amazing Mirror prototype has MA as the maker, but it also has
 			//MAKO as the game code (and MAKOTOSAMPLE as the internal name)
 			//Beer Belly Bill uses MV, and Krawall Demo uses NP, but does that mean anything or
