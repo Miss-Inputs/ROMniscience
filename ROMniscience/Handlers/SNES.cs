@@ -76,16 +76,23 @@ namespace ROMniscience.Handlers {
             {0x02, "ROM + Save RAM"},
             {0x03, "DSP-1"},
             {0x04, "DSP-1 + RAM"},
-            {0x05, "DSP-1 + Save RAM"}, //Also used for SD Gundam GX, which actually uses the DSP3. Maybe it has nothing to do with save RAM at all...
+            {0x05, "DSP-1 + Save RAM"}, //Also used for SD Gundam GX, which actually uses the DSP-3, and Dungeon Master which uses DSP-2. Maybe it has nothing to do with save RAM at all and it indicates DSP version, or maybe it's not DSP-1 specifically and it's any DSP version...
 			{0x12, "ROM + Save RAM"},
             {0x13, "SuperFX"},
             {0x14, "SuperFX (0x14)"}, //Used by Doom... could be GSU-2 maybe? I'd need Yoshi's Island or Winter Gold to know
 			{0x15, "SuperFX + Save RAM"},
             {0x1a, "SuperFX + Save RAM (0x1A)"},
+            {0x25, "OBC-1"},
             {0x34, "SA-1"},
-            {0x35, "SA-1 (0x35)"}, //Kirby Super Star, Kirby's Dream Land 3, and Super Mario RPG all use this... only this homebrew zoomer thing uses 0x34
+            {0x35, "SA-1 (0x35)"}, //Kirby Super Star, Kirby's Dream Land 3, and Super Mario RPG all use this... only this homebrew zoomer thing and DBZ: Hyper Dimension fan translation use 0x34
+            {0x45, "S-DD1"},
+            {0x55, "ROM + RTC"}, //S-RTC used in Daikaijuu Monogatari II
 			{0xe3, "ROM + RAM + Gameboy hardware"},
-            {0xf6, "ROM + ST011"},
+            {0xe5, "Satellaview BS-X BIOS"},
+            {0xf3, "CX4"},
+            {0xf5, "ST018"},
+            {0xf6, "ROM + ST010/ST011"},
+            {0xf9, "SPC7110"},
         };
 
         public static readonly IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
