@@ -360,11 +360,12 @@ namespace ROMniscience.Handlers {
             int version = s.read();
             info.addInfo("Version", version);
 
-            //TODO Calculate this stuff and check if valid and whatever
-            byte[] checksumComplement = s.read(2);
-            info.addExtraInfo("Checksum complement", checksumComplement);
-            byte[] checksum = s.read(2);
+            ushort inverseChecksum = (ushort)s.readShortLE();
+            info.addExtraInfo("Inverse checksum", inverseChecksum);
+            ushort checksum = (ushort)s.readShortLE();
             info.addExtraInfo("Checksum", checksum);
+            info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);
+            info.addInfo("Checksum valid?", checksum == calcChecksum(s));
 
             if (usesExtendedHeader) {
                 //Heck you
@@ -389,6 +390,20 @@ namespace ROMniscience.Handlers {
                 info.addExtraInfo("Unknown", unknown);
             } else {
                 info.addInfo("Region", countryCode, REGIONS);
+            }
+        }
+
+        public static int calcChecksum(InputStream s) {
+            long pos = s.Position;
+            try {
+                s.Position = s.Length % 1024; //Avoid starting at weird places for copier headered ROMs
+                int checksum = 0;
+                while (s.Position < s.Length) {
+                    checksum = (checksum + s.read()) & 0xffff;
+                }
+                return checksum;
+            } finally {
+                s.Position = pos;
             }
         }
 
