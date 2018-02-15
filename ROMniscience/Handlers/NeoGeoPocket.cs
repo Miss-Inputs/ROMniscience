@@ -58,7 +58,7 @@ namespace ROMniscience.Handlers {
 			info.addExtraInfo("Version", version);
 
 			bool isColor = s.read() == 0x10;
-			info.addInfo("Is color", isColor);
+			info.addInfo("Is colour", isColor);
 
 			string internalName = s.read(12, Encoding.ASCII);
 			info.addInfo("Internal name", internalName);

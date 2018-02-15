@@ -146,7 +146,7 @@ namespace ROMniscience.Handlers {
 				//two valid values aren't valid inside titles
 				if(CGB_FLAGS.ContainsKey(title[15])) {
 					titleLength = 15;
-					info.addInfo("Game Boy Color flag", title[15], CGB_FLAGS);
+					info.addInfo("Is colour", title[15], CGB_FLAGS);
                     //Here's the tricky part... well, we know that any game old enough to not
                     //have a CGB flag isn't going to have a product code either, because those are new
                     //and also I looked at every single commercially released GB/GBC ROM I have to figure out
