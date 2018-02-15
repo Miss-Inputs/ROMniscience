@@ -53,7 +53,7 @@ namespace ROMniscience.Handlers {
             string shortTitle = productCode.Substring(1, 2);
             info.addInfo("Short title", shortTitle);
             char region = productCode[3];
-            info.addInfo("Region", region, NintendoCommon.GAME_REGIONS);
+            info.addInfo("Region", region, NintendoCommon.REGIONS);
             int version = s.read();
             info.addInfo("Version", version);
         }

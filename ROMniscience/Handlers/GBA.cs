@@ -141,7 +141,7 @@ namespace ROMniscience.Handlers {
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
 			char region = gameCode[3];
-			info.addInfo("Region", region, NintendoCommon.GAME_REGIONS);
+			info.addInfo("Region", region, NintendoCommon.REGIONS);
 
 			string makerCode = f.read(2, Encoding.ASCII);
 			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);

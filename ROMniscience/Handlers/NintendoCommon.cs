@@ -31,17 +31,23 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers {
 	class NintendoCommon {
 
-        public static readonly IDictionary<char, string> GAME_REGIONS = new Dictionary<char, string> {
+        public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
             //Used by GBC and GBA, DS might have a few differences (still unsure about A)
             {'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
+            {'B', "Brazil"},
+            {'C', "China"},
 			{'D', "Germany"},
             {'E', "USA"},
             {'F', "France"},
+            {'H', "Holland"},
             {'I', "Italy"},
             {'J', "Japan"},
             {'K', "Korea"},
+            {'N', "Canada"},
             {'P', "Europe"},
             {'S', "Spain"},
+            {'U', "Australia"},
+            {'W', "Sweden/Scandinavia"},
             {'X', "Europe (X)"},
         };
 

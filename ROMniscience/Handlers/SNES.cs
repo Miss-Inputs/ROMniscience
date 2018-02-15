@@ -340,8 +340,7 @@ namespace ROMniscience.Handlers {
             info.addInfo("Save size", ramSize, ROM_RAM_SIZES, ROMInfo.FormatMode.SIZE);
 
             int countryCode = s.read();
-            info.addInfo("Region", countryCode, REGIONS);
-
+            
             int licenseeCode = s.read();
             bool usesExtendedHeader = false;
             if (licenseeCode == 0x33) {
@@ -370,10 +369,13 @@ namespace ROMniscience.Handlers {
 
                 string productCode = s.read(4, Encoding.ASCII);
                 info.addInfo("Product code", productCode);
+                info.addInfo("Region", productCode[3], NintendoCommon.REGIONS);
 
                 byte[] unknown = s.read(10);
                 //It seems to be 0 filled except in bootlegs
                 info.addExtraInfo("Unknown", unknown);
+            } else {
+                info.addInfo("Region", countryCode, REGIONS);
             }
         }
 
