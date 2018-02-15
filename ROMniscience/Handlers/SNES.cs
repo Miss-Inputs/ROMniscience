@@ -121,6 +121,20 @@ namespace ROMniscience.Handlers {
         }
         public static readonly IDictionary<int, long> ROM_RAM_SIZES = generateROMSizeDict();
 
+        static readonly IDictionary<int, int> SATELLAVIEW_BOOTS_LEFT = new Dictionary<int, int>() {
+            {0xfc, 5},
+            {0xbc, 4},
+            {0x9c, 3},
+            {0x8c, 2},
+            {0x84, 1},
+            {0x80, 0},
+        };
+
+        static readonly IDictionary<int, string> SATELLAVIEW_EXECUTION_AREAS = new Dictionary<int, string>() {
+            {0, "Flash"},
+            {1, "Copy to PSRAM"},
+        };
+
         int scoreHeader(InputStream s, long offset) {
             //Well, this is a fun one. It's adapted from MAME devices/bus/snes/snes_slot.cpp (snes_validate_infoblock(), to be precise), which doesn't have much license
             //information, except for this:
@@ -245,6 +259,59 @@ namespace ROMniscience.Handlers {
             }
         }
 
+        public static void parseBSHeader(InputStream s, ROMInfo info, long offset) {
+            s.Seek(offset, SeekOrigin.Begin);
+
+            string name = s.read(16, MainProgram.shiftJIS).TrimEnd('\0', ' ');
+            info.addInfo("Internal name", name);
+
+            byte[] blockAllocation = s.read(4);
+            info.addExtraInfo("Block allocation flags", blockAllocation); //TODO (at the moment this confuzzles me)
+
+            int limitedStarts = s.readIntLE();
+            if ((limitedStarts & 0x8000) > 0) {
+                info.addInfo("Boots left", "Unlimited");
+            } else {
+                info.addInfo("Boots left", limitedStarts, SATELLAVIEW_BOOTS_LEFT);
+            }
+
+            byte[] date = s.read(2);
+            int month = (date[0] & 0b11110000) >> 4;
+            int day = (date[1] & 0b11111000) >> 3;
+            info.addInfo("Month", (month != 0 && month < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month) : String.Format("Unknown ({0})", month));
+            info.addInfo("Day", day);
+
+            int romType = s.read();
+            info.addInfo("Mapper", romType, ROM_LAYOUTS);
+
+            int flags = s.read();
+            info.addInfo("SoundLink enabled", (flags & 16) == 0);
+            int executionArea = (flags & 96) >> 5;
+            info.addInfo("Execution area", executionArea);
+            info.addInfo("Skip intro", (flags & 128) > 0);
+
+            int fakeLicensee = s.read();
+            //Always 0x33
+
+            int version = s.read();
+            info.addInfo("Version", version);
+            //superfamicom.org says: Version Number is an extension. Actual format is 1 + ord(val($ffdb))/10. (what the heckie)
+
+            int checksum = s.readIntLE();
+            int inverseChecksum = s.readIntLE();
+            //TODO
+
+            byte[] unknown = s.read(4);
+            info.addExtraInfo("Unknown", unknown);
+
+            s.Seek(offset - 16, SeekOrigin.Begin);
+            string licensee = s.read(2, Encoding.ASCII);
+            info.addInfo("Manufacturer", licensee, NintendoCommon.LICENSEE_CODES);
+
+            //Is there a product code in here? Who knows
+            info.addExtraInfo("Unknown 2", s.read(8));
+        }
+
         public static void parseSNESHeader(InputStream s, ROMInfo info, long offset) {
             s.Seek(offset, SeekOrigin.Begin);
 
@@ -332,7 +399,7 @@ namespace ROMniscience.Handlers {
                     }
                     //Everything else should be in the _real_ ROM header anyway
                 } else {
-                    if (file.extension.Equals(".fig")) {
+                    if (file.extension.ToLower().Equals(".fig")) {
                         info.addInfo("Detected format", "Pro Fighter");
                         s.Seek(2, SeekOrigin.Begin);
                         bool isSplit = s.read() == 0x40;
@@ -368,7 +435,11 @@ namespace ROMniscience.Handlers {
                 offset = findHeaderOffset(s);
             }
 
-            parseSNESHeader(s, info, offset);
+            if (file.extension.ToLower().Equals(".bs")) {
+                parseBSHeader(s, info, offset);
+            } else {
+                parseSNESHeader(s, info, offset);
+            }
         }
     }
 }
