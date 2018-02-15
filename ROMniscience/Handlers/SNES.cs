@@ -371,10 +371,44 @@ namespace ROMniscience.Handlers {
             }
         }
 
+        public static void parseSufamiTurboHeader(ROMInfo info, InputStream s) {
+            //Well this is a lot more straightforward and relaxing
+            //Some Sufami Turbo games have an ordinary SNES header, but most of them don't
+
+            s.Position = 0;
+
+            string magic = s.read(14, Encoding.ASCII);
+            info.addExtraInfo("Magic", magic); //Should be "BANDAI SFC-ADX"
+
+            s.Seek(2, SeekOrigin.Current); //Skip zero-filled padding
+            string title = s.read(14, MainProgram.shiftJIS).TrimEnd(' ');
+            info.addInfo("Internal name", title);
+            s.Seek(2, SeekOrigin.Current);
+            byte[] entryPoint = s.read(4);
+            info.addExtraInfo("Entry point", entryPoint);
+            s.Position = 0x30; //Skip over all these vectors whatevs
+            byte[] gameID = s.read(3);
+            info.addInfo("Game ID", gameID);
+            int seriesIndex = s.read();
+            info.addInfo("Index within series", seriesIndex);
+            int romSpeed = s.read();
+            info.addInfo("ROM speed", romSpeed == 1 ? "Fast (3.58MHz)" : "Slow (2.68MHz)");
+            int features = s.read();
+            info.addInfo("Features", features);
+            int romSize = s.read() * 128 * 1024;
+            info.addInfo("ROM size", romSize, ROMInfo.FormatMode.SIZE);
+            int saveSize = s.read() * 2 * 1024;
+            info.addInfo("Save size", saveSize, ROMInfo.FormatMode.SIZE);
+        }
+
         public override void addROMInfo(ROMInfo info, ROMFile file) {
             info.addInfo("Platform", name);
 
             InputStream s = file.stream;
+            if (file.extension.ToLower().Equals(".st")) {
+                parseSufamiTurboHeader(info, s);
+                return;
+            }
 
             long offset = 0;
 
