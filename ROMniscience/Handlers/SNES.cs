@@ -382,12 +382,20 @@ namespace ROMniscience.Handlers {
                     info.addInfo("Short title", productCode.Substring(1, 2));
                     info.addInfo("Region", productCode[3], NintendoCommon.REGIONS);
                 } else {
+                    if(productCode[2] == ' ' && productCode[3] == ' ') {
+                        info.addInfo("Short title", productCode.TrimEnd(' '));
+                    }
                     info.addInfo("Region", countryCode, REGIONS);
                 }
 
-                byte[] unknown = s.read(10);
-                //It seems to be 0 filled except in bootlegs
-                info.addExtraInfo("Unknown", unknown);
+                byte[] reserved = s.read(6);
+                info.addExtraInfo("Reserved", reserved);
+                int expansionFlashSize = (1 << s.read()) * 1024; //Should this be left as 0 if the raw value is 0?
+                info.addInfo("Expansion Flash size", expansionFlashSize, ROMInfo.FormatMode.SIZE);
+                int expansionRAMSize = (1 << s.read()) * 1024;
+                info.addInfo("Expansion RAM size", expansionRAMSize, ROMInfo.FormatMode.SIZE);
+                int specialVersion = s.readShortLE();
+                info.addInfo("Special version", specialVersion);
             } else {
                 info.addInfo("Region", countryCode, REGIONS);
             }
@@ -414,6 +422,8 @@ namespace ROMniscience.Handlers {
                 //These indicate Nintendo Power or X-Band Modem BIOS respectively, and don't contain anything fun
                 return false;
             }
+
+            //TODO Return false if it's not alphanumeric
 
             if(code.TrimEnd(' ').Length != 4) {
                 return false;
