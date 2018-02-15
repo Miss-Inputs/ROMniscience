@@ -38,19 +38,6 @@ namespace ROMniscience.Handlers {
 			{'K', "Prototype"}, //There's a prototype that's been seen that includes a cart that hasn't been dumped, but it has MIN-KCFO-01 as the serial
 		};
 
-		public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
-			//I know J, P, and E are used, I just took the GBA region list because I'm pretty sure there are European language ROMs and whatnot
-			{'D', "Germany"},
-			{'E', "USA"},
-			{'F', "France"},
-			{'I', "Italy"},
-			{'J', "Japan"},
-			{'O', "International"},
-			{'P', "Europe"},
-			{'S', "Spain"},
-			{'X', "Europe (X)"},
-		};
-
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"min", "Pokémon Mini ROM"}
 		};
@@ -106,7 +93,7 @@ namespace ROMniscience.Handlers {
 			string shortTitle = productCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
 			char region = productCode[3];
-			info.addInfo("Region", region, REGIONS);
+			info.addInfo("Region", region, NintendoCommon.GAME_REGIONS);
 
 			//All the Japanese exclusive games use some kind of JIS (maybe the Japanese versions of worldwide games do too)
 			string title = s.read(12, MainProgram.shiftJIS).TrimEnd('\0', ' ');
