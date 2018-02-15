@@ -394,6 +394,8 @@ namespace ROMniscience.Handlers {
         }
 
         public static int calcChecksum(InputStream s) {
+            //Note that this probably requires a bit more nuance, especially for funny games with funny mappers (Star Ocean, etc)
+            //but also fails for some perfectly normal games like Earthbound and Home Improvement, unless that's just how they are
             long pos = s.Position;
             try {
                 s.Position = s.Length % 1024; //Avoid starting at weird places for copier headered ROMs
@@ -410,7 +412,7 @@ namespace ROMniscience.Handlers {
         public static bool isProductCodeValid(string code) {
             if(code.Equals("MENU") || code.Equals("XBND")) {
                 //These indicate Nintendo Power or X-Band Modem BIOS respectively, and don't contain anything fun
-                return true;
+                return false;
             }
 
             if(code.TrimEnd(' ').Length != 4) {
