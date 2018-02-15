@@ -27,13 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ROMniscience.Handlers.Stubs {
-	class BenesseePocketChallenge: StubHandler {
-		//So apparently this is compatible with WonderSwan and vice versa... probably same format then
+namespace ROMniscience.Handlers {
+	class BenesseePocketChallenge: Handler {
+		//Same format as WonderSwan, since BPC2 carts are compatible with the WonderSwan apparently
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"pc2", "Benessee Pocket Challenge V2 ROM"}
 		};
 
 		public override string name => "Benessee Pocket Challenge V2";
-	}
+
+        public override void addROMInfo(ROMInfo info, ROMFile file) {
+            info.addInfo("Platform", info);
+            Wonderswan.readWonderswanROM(info, file);
+        }
+    }
 }

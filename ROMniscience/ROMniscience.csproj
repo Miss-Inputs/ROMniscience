@@ -96,7 +96,7 @@
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
     <Compile Include="Handlers\Stubs\Atari2600.cs" />
     <Compile Include="Handlers\Stubs\Atari5200.cs" />
-    <Compile Include="Handlers\Stubs\BenesseePocketChallenge.cs" />
+    <Compile Include="Handlers\BenesseePocketChallenge.cs" />
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />

@@ -60,15 +60,16 @@ namespace ROMniscience.Handlers {
             {0x50, 1024},
         };
 
-        public override void addROMInfo(ROMInfo info, ROMFile file) {
-            info.addInfo("Platform", name);
+        public static void readWonderswanROM(ROMInfo info, ROMFile file) {
             InputStream s = file.stream;
             s.Seek(-10, System.IO.SeekOrigin.End);
 
             int devID = s.read();
             info.addInfo("Developer ID", devID);
-            bool isColor = s.read() == 1;
+            int deviceFlag = s.read();
+            bool isColor = deviceFlag == 1;
             info.addInfo("Is colour", isColor);
+            info.addExtraInfo("Device flag", deviceFlag); //This might have more to it, but probably not
             int cartID = s.read();
             info.addInfo("Cart ID", cartID);
             int unknown = s.read();
@@ -78,11 +79,18 @@ namespace ROMniscience.Handlers {
             int ramSize = s.read();
             info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
             info.addInfo("Save type", ramSize >= 10 ? "EEPROM" : ramSize == 0 ? "None" : "SRAM");
-            bool isRotated = (s.read() & 1) == 1;
+            int flags = s.read();
+            info.addExtraInfo("Flags", flags); //Unknown what everything other than the last bit (screen orientation) does
+            bool isRotated = (flags & 1) == 1;
             info.addInfo("Rotated screen?", isRotated);
             bool hasRTC = s.read() == 1;
             info.addInfo("Has RTC", hasRTC);
             //TODO checksum
+        }
+
+        public override void addROMInfo(ROMInfo info, ROMFile file) {
+            info.addInfo("Platform", name);
+            readWonderswanROM(info, file);
         }
     }
 }
