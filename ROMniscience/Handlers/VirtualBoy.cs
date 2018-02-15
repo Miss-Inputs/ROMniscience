@@ -37,6 +37,7 @@ namespace ROMniscience.Handlers {
         public override string name => "Virtual Boy";
 
         public override void addROMInfo(ROMInfo info, ROMFile file) {
+            info.addInfo("Platform", name);
             InputStream s = file.stream;
             s.Seek(-544, System.IO.SeekOrigin.End); //Yeah, this one's a bit weird
 
