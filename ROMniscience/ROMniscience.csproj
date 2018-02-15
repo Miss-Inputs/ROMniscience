@@ -134,7 +134,7 @@
     <Compile Include="Handlers\VirtualBoy.cs" />
     <Compile Include="Handlers\Stubs\VSmile.cs" />
     <Compile Include="Handlers\Stubs\WiiWare.cs" />
-    <Compile Include="Handlers\Stubs\Wonderswan.cs" />
+    <Compile Include="Handlers\Wonderswan.cs" />
     <Compile Include="IO\ArchiveHelpers.cs" />
     <Compile Include="IO\ByteSwappedInputStream.cs" />
     <Compile Include="IO\FileInputStream.cs" />
