@@ -48,6 +48,7 @@ namespace ROMniscience.Handlers {
         //https://web.archive.org/web/20150519154456/http://romhack.wikia.com/wiki/SMC_header
         //https://en.wikibooks.org/wiki/Super_NES_Programming/SNES_memory_map
         //http://patpend.net/technical/snes/sneskart.html
+        //http://problemkaputt.de/fullsnes.htm#snescartridgeromheader
 
         public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
             {"sfc", "Super Nintendo Entertainment System ROM"},
@@ -73,20 +74,22 @@ namespace ROMniscience.Handlers {
         public static readonly IDictionary<int, string> ROM_TYPES = new Dictionary<int, string>() {
             {0x00, "ROM only"},
             {0x01, "ROM + RAM"},
-            {0x02, "ROM + Save RAM"},
+            {0x02, "ROM + RAM + Battery"},
             {0x03, "DSP-1"},
-            {0x04, "DSP-1 + RAM"},
-            {0x05, "DSP-1 + Save RAM"}, //Also used for SD Gundam GX, which actually uses the DSP-3, and Dungeon Master which uses DSP-2. Maybe it has nothing to do with save RAM at all and it indicates DSP version, or maybe it's not DSP-1 specifically and it's any DSP version...
-			{0x12, "ROM + Save RAM"},
+            {0x04, "DSP-1 + RAM"}, //Apparently never existed
+            {0x05, "DSP-1 + RAM + Battery"}, //Also used for SD Gundam GX, which actually uses the DSP-3, and Dungeon Master which uses DSP-2. Maybe it has nothing to do with save RAM at all and it indicates DSP version, or maybe it's not DSP-1 specifically and it's any DSP version...
+			{0x12, "ROM + Battery (0x12)"}, //Is this ever used?
             {0x13, "SuperFX"},
             {0x14, "SuperFX (0x14)"}, //Used by Doom... could be GSU-2 maybe? I'd need Yoshi's Island or Winter Gold to know
-			{0x15, "SuperFX + Save RAM"},
-            {0x1a, "SuperFX + Save RAM (0x1A)"},
+			{0x15, "SuperFX + Battery"},
+            {0x1a, "SuperFX + Battery (0x1A)"},
             {0x25, "OBC-1"},
+            {0x32, "SA-1 + Battery (0x32)"},
             {0x34, "SA-1"},
-            {0x35, "SA-1 (0x35)"}, //Kirby Super Star, Kirby's Dream Land 3, and Super Mario RPG all use this... only this homebrew zoomer thing and DBZ: Hyper Dimension fan translation use 0x34
-            {0x45, "S-DD1"},
-            {0x55, "ROM + RTC"}, //S-RTC used in Daikaijuu Monogatari II
+            {0x35, "SA-1 + Battery"},
+            {0x43, "S-DD1"},
+            {0x45, "S-DD1 + RAM + Battery"},
+            {0x55, "ROM + RTC + RAM + Battery"}, //S-RTC used in Daikaijuu Monogatari II
 			{0xe3, "ROM + RAM + Gameboy hardware"},
             {0xe5, "Satellaview BS-X BIOS"},
             {0xf3, "CX4"},
