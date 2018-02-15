@@ -121,7 +121,6 @@ namespace ROMniscience.Handlers {
                     checksum = (checksum + s.read()) & 0xffff;
                 }
                 return checksum;
-                //return checksum & 0xffff;
             } finally {
                 s.Seek(pos, System.IO.SeekOrigin.Begin);
             }
@@ -161,7 +160,7 @@ namespace ROMniscience.Handlers {
             bool hasRTC = s.read() == 1;
             info.addInfo("Has RTC", hasRTC);
 
-            ushort checksum = (ushort)s.readIntLE();
+            ushort checksum = (ushort)s.readShortLE();
             info.addExtraInfo("Checksum", checksum);
             info.addInfo("Checksum valid?", checksum == calcChecksum(s));
         }
