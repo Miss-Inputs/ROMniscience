@@ -131,7 +131,7 @@
     <Compile Include="Handlers\Stubs\SuperCasetteVision.cs" />
     <Compile Include="Handlers\Stubs\Supervision.cs" />
     <Compile Include="Handlers\Vectrex.cs" />
-    <Compile Include="Handlers\Stubs\VirtualBoy.cs" />
+    <Compile Include="Handlers\VirtualBoy.cs" />
     <Compile Include="Handlers\Stubs\VSmile.cs" />
     <Compile Include="Handlers\Stubs\WiiWare.cs" />
     <Compile Include="Handlers\Stubs\Wonderswan.cs" />
