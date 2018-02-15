@@ -102,7 +102,7 @@ namespace ROMniscience.Handlers {
             {0, "Japan"},
             {1, "USA"},
             {2, "Europe + Oceania + Asia"},
-            {3, "Sweden"},
+            {3, "Sweden + Scandinavia"},
             {4, "Finland"},
             {5, "Denmark"},
             {6, "France"},
@@ -113,6 +113,9 @@ namespace ROMniscience.Handlers {
             {11, "Hong Kong + China"},
             {12, "Indonesia"},
             {13, "South Korea"},
+            {15, "Canada"},
+            {16, "Brazil"},
+            {17, "Australia"},
         };
 
         private static IDictionary<int, long> generateROMSizeDict() {
