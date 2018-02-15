@@ -98,6 +98,12 @@ namespace ROMniscience.Handlers {
             {0xf9, "SPC7110"},
         };
 
+        public static readonly IDictionary<char, string> GAME_TYPES = new Dictionary<char, string> {
+            {'A', "Normal game (A)"},
+            {'B', "Normal game (B)"},
+			{'Z', "Expansion cart"},
+		};
+
         public static readonly IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
             {0, "Japan"},
             {1, "USA"},
@@ -331,7 +337,7 @@ namespace ROMniscience.Handlers {
             info.addInfo("Mapper", layout, ROM_LAYOUTS);
 
             int type = s.read();
-            info.addInfo("Type", type, ROM_TYPES);
+            info.addInfo("ROM type", type, ROM_TYPES);
 
             int romSize = s.read();
             info.addInfo("ROM size", romSize, ROM_RAM_SIZES, ROMInfo.FormatMode.SIZE);
@@ -369,7 +375,14 @@ namespace ROMniscience.Handlers {
 
                 string productCode = s.read(4, Encoding.ASCII);
                 info.addInfo("Product code", productCode);
-                info.addInfo("Region", productCode[3], NintendoCommon.REGIONS);
+
+                if (isProductCodeValid(productCode)) {
+                    info.addInfo("Type", productCode[0], GAME_TYPES);
+                    info.addInfo("Short title", productCode.Substring(1, 2));
+                    info.addInfo("Region", productCode[3], NintendoCommon.REGIONS);
+                } else {
+                    info.addInfo("Region", countryCode, REGIONS);
+                }
 
                 byte[] unknown = s.read(10);
                 //It seems to be 0 filled except in bootlegs
@@ -377,6 +390,19 @@ namespace ROMniscience.Handlers {
             } else {
                 info.addInfo("Region", countryCode, REGIONS);
             }
+        }
+
+        public static bool isProductCodeValid(string code) {
+            if(code.Equals("MENU") || code.Equals("XBND")) {
+                //These indicate Nintendo Power or X-Band Modem BIOS respectively, and don't contain anything fun
+                return true;
+            }
+
+            if(code.TrimEnd(' ').Length != 4) {
+                return false;
+            }
+
+            return true;
         }
 
         public static void parseSufamiTurboHeader(ROMInfo info, InputStream s) {
