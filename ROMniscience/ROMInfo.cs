@@ -121,6 +121,7 @@ namespace ROMniscience {
         private readonly IDictionary<string, InfoItem> _extraInfo = new Dictionary<string, InfoItem>();
         public IDictionary<string, InfoItem> info => _info;
         public IDictionary<string, InfoItem> extraInfo => _extraInfo;
+        public IEnumerable<KeyValuePair<string, InfoItem>> combinedInfo => info.Concat(extraInfo);
 
 
         //TODO Refactor to avoid duplication between addInfo overloads and addExtraInfo overloads

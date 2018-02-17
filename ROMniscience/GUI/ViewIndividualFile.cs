@@ -159,23 +159,12 @@ namespace ROMniscience {
 			}
 
 			ROMInfo info = ROMInfo.getROMInfo(handler, rom, datfiles);
-			IDictionary<string, ROMInfo.InfoItem> combinedInfo = new Dictionary<string, ROMInfo.InfoItem>();
-			foreach(var thing in info.info) {
-				combinedInfo.Add(thing);
-			}
-			foreach(var thing in info.extraInfo) {
-				if(combinedInfo.ContainsKey(thing.Key)) {
-					//Shouldn't, but you never know
-					combinedInfo[thing.Key] = thing.Value;
-				}
-				combinedInfo.Add(thing);
-			}
 
 			ViewIndividualFile me = new ViewIndividualFile {
 				Text = String.Format("ROMniscience: {0} ({1})", rom.path, handler.name)
 			};
 
-			foreach(var thing in combinedInfo) {
+			foreach(var thing in info.combinedInfo) {
 				object value = thing.Value.value;
 				if(value is Image) {
 					me.images.Add(thing.Key, (Image)value);
