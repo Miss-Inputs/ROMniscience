@@ -33,7 +33,6 @@ using ROMniscience.IO;
 
 namespace ROMniscience.Datfiles {
 	class DatfileCollection: IEnumerable<XMLDatfile> {
-		//TODO Support those text datfiles (tbh low priority because No-Intro and Redump both use XML)
 
 		private IList<XMLDatfile> datfiles {
 			get;

@@ -34,7 +34,6 @@ using ROMniscience.Handlers;
 using SharpCompress.Archives;
 
 namespace ROMniscience {
-	//TODO Have a way to get to here from the main form (view details of selected row)
 	class ViewIndividualFile: Form {
 		private Panel fuckinPanelIGuess;
 		private TextBox notALabel;
@@ -143,7 +142,6 @@ namespace ROMniscience {
 
 			Handler handler = null;
 			if(handlers.Count == 0) {
-				//TODO Let user force a given handler to deal with it
 				MessageBox.Show("I don't know how to deal with this file");
 				return;
 			} else {
@@ -235,10 +233,13 @@ namespace ROMniscience {
 			}
 		}
 
-		//I give up I surrender I'm just using the GUI builder fuck it
-		//Call me a coward if you will but I am not staying up until 7am again
-		private void InitializeComponent() {
-			this.okButton = new System.Windows.Forms.Button();
+
+        //I give up I surrender I'm just using the GUI builder fuck it
+        //Call me a coward if you will but I am not staying up until 7am again
+#pragma warning disable IDE1006 // Naming Styles
+        private void InitializeComponent() {
+#pragma warning restore IDE1006 // Naming Styles
+            this.okButton = new System.Windows.Forms.Button();
 			this.fuckinPanelIGuess = new System.Windows.Forms.Panel();
 			this.notALabel = new System.Windows.Forms.TextBox();
 			this.showImagesButton = new System.Windows.Forms.Button();

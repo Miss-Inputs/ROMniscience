@@ -112,8 +112,6 @@ namespace ROMniscience.Handlers {
 				parseiNES(info, s);
 			} else if(headerMagic[0] == 0x46 && headerMagic[1] == 0x44 && headerMagic[2] == 0x53 && headerMagic[3] == 0x1A) {
 				//TODO I'm too lazy at the moment to add the number of sides of disks, which I might as well do at some point
-				//TODO Wait hang on there's actually an internal header http://wiki.nesdev.com/w/index.php/Family_Computer_Disk_System#.FDS_format
-				//So once I can be bothered, read that even if it's a FDS image without this fwNES header... damn that looks juicy
 				info.addInfo("Detected format", "fwNES");
 			} else {
 				info.addInfo("Detected format", "Unknown");
