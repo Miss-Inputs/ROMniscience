@@ -37,6 +37,7 @@ namespace ROMniscience {
 	class SettingsDialog: Form {
 		private IList<FolderEditor> editors = new List<FolderEditor>();
 		TextBox datFolderBox;
+        CheckBox showExtra;
 
 		public SettingsDialog() {
 			Text = "ROMniscience settings";
@@ -71,11 +72,22 @@ namespace ROMniscience {
 				browseForFolder(datFolderBox);
 			};
 
+            showExtra = new CheckBox() {
+                Text = "Show extra information in table view",
+                Top = 40,
+                Left = 10,
+                Size = new System.Drawing.Size(ClientSize.Width - 20, 30),
+            };
+            if(bool.TryParse(SettingsManager.readSetting("show_extra"), out bool result)) {
+                showExtra.Checked = result;
+            }
+            Controls.Add(showExtra);
+
 
 			GroupBox editorHolderHolder = new GroupBox() {
 				Left = 10,
-				Top = 40,
-				Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 90),
+				Top = 70,
+				Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 120),
 				Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left,
 				Text = "Folder Locations"
 			};
@@ -204,6 +216,7 @@ namespace ROMniscience {
 				saveSetting(settings, f.Name, f.texty.Text);
 			}
 			saveSetting(settings, "datfiles", datFolderBox.Text);
+            saveSetting(settings, "show_extra", showExtra.Checked.ToString());
 			SettingsManager.writeSettings(settings);
 		}
 
