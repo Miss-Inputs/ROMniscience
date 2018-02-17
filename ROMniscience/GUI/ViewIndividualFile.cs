@@ -159,7 +159,7 @@ namespace ROMniscience {
 			}
 
 			ROMInfo info = ROMInfo.getROMInfo(handler, rom, datfiles);
-			IDictionary<string, Tuple<object, ROMInfo.FormatMode>> combinedInfo = new Dictionary<string, Tuple<object, ROMInfo.FormatMode>>();
+			IDictionary<string, ROMInfo.InfoItem> combinedInfo = new Dictionary<string, ROMInfo.InfoItem>();
 			foreach(var thing in info.info) {
 				combinedInfo.Add(thing);
 			}
@@ -176,13 +176,13 @@ namespace ROMniscience {
 			};
 
 			foreach(var thing in combinedInfo) {
-				object value = thing.Value.Item1;
+				object value = thing.Value.value;
 				if(value is Image) {
 					me.images.Add(thing.Key, (Image)value);
 					me.showImagesButton.Enabled = true;
 					continue;
 				}
-				if(thing.Value.Item2 == ROMInfo.FormatMode.SIZE) {
+				if(thing.Value.formatMode == ROMInfo.FormatMode.SIZE) {
 					try {
 						value = ROMInfo.formatByteSize(Convert.ToInt64(value));
 					} catch(InvalidCastException) {
@@ -190,7 +190,7 @@ namespace ROMniscience {
 						value = String.Format("{0} cannot be casted to long, it is {1}", value, value?.GetType());
 					}
 				}
-				if(thing.Value.Item2 == ROMInfo.FormatMode.PERCENT) {
+				if(thing.Value.formatMode == ROMInfo.FormatMode.PERCENT) {
 					value = String.Format("{0:P2}", value);
 				}
 				if(value is byte[] bytes) {

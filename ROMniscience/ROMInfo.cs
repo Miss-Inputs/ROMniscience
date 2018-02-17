@@ -59,9 +59,7 @@ namespace ROMniscience {
 			return String.Format("{0:0.##} {1}{2}", bytes / Math.Pow(baseUnit, exp), suffix, unit);
 		}
 
-		private readonly IDictionary<string, Tuple<object, FormatMode>> _info = new Dictionary<string, Tuple<object, FormatMode>>();
-		private readonly IDictionary<string, Tuple<object, FormatMode>> _extraInfo = new Dictionary<string, Tuple<object, FormatMode>>();
-
+		
 		public static ROMInfo getROMInfo(Handler handler, ROMFile rom) {
 			return getROMInfo(handler, rom, null);
 		}
@@ -104,13 +102,30 @@ namespace ROMniscience {
 			return info;
 		}
 
-		public IDictionary<string, Tuple<object, FormatMode>> info => _info;
-		public IDictionary<string, Tuple<object, FormatMode>> extraInfo => _extraInfo;
+        public struct InfoItem {
+            public object value;
+            public FormatMode formatMode;
 
-		//TODO Refactor to avoid duplication between addInfo overloads and addExtraInfo overloads
+            public InfoItem(object value) {
+                this.value = value;
+                this.formatMode = FormatMode.NONE;
+            }
 
-		public void addInfo(string key, object value) {
-			//info.Add(key, new Tuple<object, FormatMode>(value, FormatMode.NONE));
+            public InfoItem(object value, FormatMode formatMode) {
+                this.value = value;
+                this.formatMode = formatMode;
+            }
+        }
+
+        private readonly IDictionary<string, InfoItem> _info = new Dictionary<string, InfoItem>();
+        private readonly IDictionary<string, InfoItem> _extraInfo = new Dictionary<string, InfoItem>();
+        public IDictionary<string, InfoItem> info => _info;
+        public IDictionary<string, InfoItem> extraInfo => _extraInfo;
+
+
+        //TODO Refactor to avoid duplication between addInfo overloads and addExtraInfo overloads
+
+        public void addInfo(string key, object value) {
 			addInfo(key, value, FormatMode.NONE);
 		}
 
@@ -140,7 +155,7 @@ namespace ROMniscience {
 		}
 
 		public void addInfo(string key, object value, FormatMode format) {
-			info.Add(key, new Tuple<object, FormatMode>(value, format));
+            info.Add(key, new InfoItem(value, format));
 		}
 
 		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {
@@ -152,7 +167,7 @@ namespace ROMniscience {
 		}
 
 		public void addExtraInfo(string key, object value) {
-			extraInfo.Add(key, new Tuple<object, FormatMode>(value, FormatMode.NONE));
+			extraInfo.Add(key, new InfoItem(value));
 		}
 
 		public void addExtraInfo<K, V>(string key, K value, IDictionary<K, V> dict) {
@@ -181,7 +196,7 @@ namespace ROMniscience {
 		}
 
 		public void addExtraInfo(string key, object value, FormatMode format) {
-			extraInfo.Add(key, new Tuple<object, FormatMode>(value, format));
+			extraInfo.Add(key, new InfoItem(value, format));
 		}
 
 		public void addExtraInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {

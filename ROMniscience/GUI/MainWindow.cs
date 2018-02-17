@@ -272,7 +272,7 @@ namespace ROMniscience {
             var info = args.info.info; //Sorry for this line
 			foreach(var kv in info) {
 
-				object value = kv.Value.Item1;
+				object value = kv.Value.value;
 
 				if(!table.Columns.Contains(kv.Key)) {
 					int index = table.Columns.Add(kv.Key, kv.Key);
@@ -290,7 +290,7 @@ namespace ROMniscience {
 					try {
 						DataGridViewCell cell = table[kv.Key, newRow];
 						cell.Value = value;
-						cell.Style.Tag = kv.Value.Item2;
+						cell.Style.Tag = kv.Value.formatMode;
 						if(value is string str && str.Contains(Environment.NewLine)) {
 							cell.Style.WrapMode = DataGridViewTriState.True;
 						}
