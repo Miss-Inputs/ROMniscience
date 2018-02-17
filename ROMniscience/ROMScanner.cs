@@ -47,9 +47,39 @@ namespace ROMniscience {
             runningWorkersUpdated?.Invoke(this, args);
         }
 
+        private void processFile(FileInfo f, Handler handler, DatfileCollection datfiles) {
+            if (IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
+                try {
+                    using (IArchive archive = ArchiveFactory.Open(f)) {
+                        foreach (IArchiveEntry entry in archive.Entries) {
+                            if (handler.handlesExtension(Path.GetExtension(entry.Key))) {
+                                ROMInfo info;
+                                using (ROMFile file = new ROMFile(entry, f)) {
+                                    info = ROMInfo.getROMInfo(handler, file, datfiles);
+                                }
+
+                                onHaveRow(info);
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    //HECK
+                    //TODO Add event for this happening (so MainWindow can add the archive and exception as a row)
+                    Console.WriteLine(ex);
+                }
+            }
+
+            if (handler.handlesExtension(f.Extension)) {
+                ROMInfo info;
+                using (ROMFile file = new ROMFile(f)) {
+                    info = ROMInfo.getROMInfo(handler, file, datfiles);
+                }
+
+                onHaveRow(info);
+            }
+        }
+
         public void startScan() {
-
-
             onDatfilesLoadStart();
             DatfileCollection datfiles = null;
             string datFolder = SettingsManager.readSetting("datfiles");
@@ -69,36 +99,8 @@ namespace ROMniscience {
                             System.Diagnostics.Trace.TraceWarning("{0} has folder {1} but that doesn't exist", handler.name, handler.folder);
                             return;
                         }
-                        foreach (FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
-                            if (IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
-                                try {
-                                    using (IArchive archive = ArchiveFactory.Open(f)) {
-                                        foreach (IArchiveEntry entry in archive.Entries) {
-                                            if (handler.handlesExtension(Path.GetExtension(entry.Key))) {
-                                                ROMInfo info;
-                                                using (ROMFile file = new ROMFile(entry, f)) {
-                                                    info = ROMInfo.getROMInfo(handler, file, datfiles);
-                                                }
-
-                                                onHaveRow(info);
-                                            }
-                                        }
-                                    }
-                                } catch (Exception ex) {
-                                    //HECK
-                                    //TODO Add event for this happening (so MainWindow can add the archive and exception as a row)
-                                    Console.WriteLine(ex);
-                                }
-                            }
-
-                            if (handler.handlesExtension(f.Extension)) {
-                                ROMInfo info;
-                                using (ROMFile file = new ROMFile(f)) {
-                                    info = ROMInfo.getROMInfo(handler, file, datfiles);
-                                }
-
-                                onHaveRow(info);
-                            }
+                        foreach (FileInfo f in handler.folder.EnumerateFiles("*", SearchOption.AllDirectories)) {
+                            processFile(f, handler, datfiles);
                         }
                     };
 
