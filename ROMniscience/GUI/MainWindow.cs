@@ -223,98 +223,54 @@ namespace ROMniscience {
 
 		private void startScan() {
 			table.Rows.Clear();
-			//TODO Separate this logic from the GUI, and notify when all workers are finished
 
-			statusText.Text = "Loading datfiles";
-			statusBar.Refresh();
-			DatfileCollection datfiles = null;
-			string datFolder = SettingsManager.readSetting("datfiles");
-			if(datFolder != null) {
-				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
-			}
-			statusText.Text = "Datfiles loaded";
-			statusBar.Refresh();
+            ROMScanner scanner = new ROMScanner();
+            scanner.datfilesLoadStart += delegate {
+                statusText.Text = "Loading datfiles";
+                statusBar.Refresh();
+            };
 
-			ConcurrentDictionary<string, bool> runningWorkers = new ConcurrentDictionary<string, bool>();
+            scanner.datfilesLoadEnd += delegate {
+                statusText.Text = "Datfiles loaded";
+                statusBar.Refresh();
+            };
 
-			foreach(Handler handler in Handler.allHandlers) {
-				if(handler.configured) {
-					BackgroundWorker bw = new BackgroundWorker();
-					bw.DoWork += delegate {
-						if(!handler.folder.Exists) {
-							System.Diagnostics.Trace.TraceWarning("{0} has folder {1} but that doesn't exist", handler.name, handler.folder);
-							return;
-						}
-						foreach(FileInfo f in handler.folder.EnumerateFiles("*", System.IO.SearchOption.AllDirectories)) {
-							if(IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
-								try {
-									using(IArchive archive = ArchiveFactory.Open(f)) {
-										foreach(IArchiveEntry entry in archive.Entries) {
-											if(handler.handlesExtension(Path.GetExtension(entry.Key))) {
-												ROMInfo info;
-												using(ROMFile file = new ROMFile(entry, f)) {
-													info = ROMInfo.getROMInfo(handler, file, datfiles);
-												}
+            scanner.haveRow += addRow;
 
-												table.Invoke(new addRowDelegate(addRow), info.info);
-											}
-										}
-									}
-								} catch (Exception ex) {
-									//HECK
-									//TODO Add the archive and this exception as a row
-									Console.WriteLine(ex);
-								}
-							}
+            scanner.runningWorkersUpdated += runningWorkersUpdated;
 
-							if(handler.handlesExtension(f.Extension)) {
-								ROMInfo info;
-								using(ROMFile file = new ROMFile(f)) {
-									info = ROMInfo.getROMInfo(handler, file, datfiles);
-								}
+            scanner.startScan();
+        }
 
-								table.Invoke(new addRowDelegate(addRow), info.info);
-							}
-						}
-					};
-
-
-					bw.RunWorkerCompleted += delegate {
-						runningWorkers[handler.name] = false;
-						//Console.WriteLine("Currently running: {0}", String.Join(", ", runningWorkers.Where(kv => kv.Value).Select(kv => kv.Key)));
-						statusBar.Invoke(new setStatusDelegate(setStatus), runningWorkers);
-					};
-					runningWorkers.TryAdd(handler.name, true);
-					setStatus(runningWorkers);
-
-
-					bw.RunWorkerAsync();
-				}
-			}
-		}
-
-		private delegate void setStatusDelegate(ConcurrentDictionary<string, bool> runningWorkers);
-
-		private void setStatus(ConcurrentDictionary<string, bool> runningWorkers) {
-			var currentlyRunning = runningWorkers.Where(kv => kv.Value);
+        private void runningWorkersUpdated(object sender, ROMScanner.RunningWorkersUpdatedEventArgs args) {
+			var currentlyRunning = args.runningWorkers.Where(kv => kv.Value);
 			if(currentlyRunning.Count() == 0) {
 				setStatus("Done!");
 			} else {
 				setStatus(String.Format("Currently running: {0}", String.Join(", ", currentlyRunning.Select(kv => kv.Key))));
 			}
-			statusBar.Refresh();
 		}
 
 		private void setStatus(string text) {
+            if (statusBar.InvokeRequired) {
+                statusBar.Invoke(new Action<string>(setStatus), text);
+                return;
+            }
+
 			statusText.Text = text;
 			statusBar.Refresh();
 		}
 
-		private delegate void addRowDelegate(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data);
+		
+		private void addRow(object sender, ROMScanner.HaveRowEventArgs args) {
+            if (table.InvokeRequired) {
+                table.Invoke(new Action<object, ROMScanner.HaveRowEventArgs>(addRow), sender, args);
+                return;
+            }
 
-		private void addRow(IDictionary<string, Tuple<object, ROMInfo.FormatMode>> data) {
 			int newRow = table.Rows.Add();
-			foreach(var kv in data) {
+            var info = args.info.info; //Sorry for this line
+			foreach(var kv in info) {
 
 				object value = kv.Value.Item1;
 
@@ -331,11 +287,9 @@ namespace ROMniscience {
 					cell.Value = image;
 				} else {
 					//This reminds me too much of programming in Excel/VBA and I'm slightly uncomfortable
-					//DataGridViewCell cell = table[columnIndex, newRow];
 					try {
 						DataGridViewCell cell = table[kv.Key, newRow];
 						cell.Value = value;
-						//cell.Value = String.Format("{0} (R{1}C{2}) => {3}", kv.Key, cell.RowIndex, cell.ColumnIndex, kv.Value.Item1);
 						cell.Style.Tag = kv.Value.Item2;
 						if(value is string str && str.Contains(Environment.NewLine)) {
 							cell.Style.WrapMode = DataGridViewTriState.True;
