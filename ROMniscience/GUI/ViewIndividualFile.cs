@@ -164,7 +164,7 @@ namespace ROMniscience {
 				Text = String.Format("ROMniscience: {0} ({1})", rom.path, handler.name)
 			};
 
-			foreach(var thing in info.combinedInfo) {
+			foreach(var thing in info.info) {
 				object value = thing.Value.value;
 				if(value is Image) {
 					me.images.Add(thing.Key, (Image)value);

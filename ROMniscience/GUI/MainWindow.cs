@@ -271,6 +271,9 @@ namespace ROMniscience {
 			int newRow = table.Rows.Add();
             var info = args.info.info; //Sorry for this line
 			foreach(var kv in info) {
+                if (kv.Value.extra) {
+                    continue;
+                }
 
 				object value = kv.Value.value;
 
