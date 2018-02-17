@@ -162,7 +162,9 @@ namespace ROMniscience.Handlers {
 
             ushort checksum = (ushort)s.readShortLE();
             info.addInfo("Checksum", checksum, true);
-            info.addInfo("Checksum valid?", checksum == calcChecksum(s));
+            int calculatedChecksum = calcChecksum(s);
+            info.addInfo("Calculated checksum", calculatedChecksum, true);
+            info.addInfo("Checksum valid?", checksum == calculatedChecksum);
         }
 
         public override void addROMInfo(ROMInfo info, ROMFile file) {

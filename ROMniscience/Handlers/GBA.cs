@@ -164,7 +164,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 			int checksum = f.read();
 			info.addInfo("Checksum", checksum, true);
-			info.addInfo("Checksum valid?", checksum == calculateChecksum(f));
+            int calculatedChecksum = calculateChecksum(f);
+            info.addInfo("Calculated checksum", calculatedChecksum, true);
+            info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 			byte[] reserved2 = f.read(2);
 			info.addInfo("Reserved 2", reserved2, true);
 			byte[] multibootEntryPoint = f.read(4);

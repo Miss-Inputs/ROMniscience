@@ -213,7 +213,9 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Version", version);
 				int checksum = f.read();
 				info.addInfo("Checksum", checksum, true);
-				info.addInfo("Checksum valid?", checksum == calcChecksum(f));
+                int calculatedChecksum = calcChecksum(f);
+                info.addInfo("Calculated checksum", calculatedChecksum, true);
+                info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 			} finally {
 				f.Seek(originalPos, SeekOrigin.Begin);
 			}

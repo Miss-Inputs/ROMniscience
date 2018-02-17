@@ -365,7 +365,9 @@ namespace ROMniscience.Handlers {
             ushort checksum = (ushort)s.readShortLE();
             info.addInfo("Checksum", checksum, true);
             info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);
-            info.addInfo("Checksum valid?", checksum == calcChecksum(s));
+            int calculatedChecksum = calcChecksum(s);
+            info.addInfo("Calculated checksum", calculatedChecksum, true);
+            info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
             if (usesExtendedHeader) {
                 //Heck you
