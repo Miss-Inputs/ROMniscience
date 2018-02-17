@@ -240,16 +240,16 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Unit code", unitCode, UNIT_CODES);
 				info.addInfo("Platform", unitCode == 3 ? "DSi" : "DS");
 				int encryption_seed = s.read(); //From 0 to 7, usually 0
-				info.addExtraInfo("Encryption seed", encryption_seed);
+				info.addInfo("Encryption seed", encryption_seed, true);
 				long romSize = (128 * 1024) << s.read();
 				info.addInfo("ROM size", romSize, ROMInfo.FormatMode.SIZE);
 
 				//Should be 0 filled (Pokemon Black 2 doesn't 0 fill it, so maybe it doesn't have to be)
 				byte[] reserved = s.read(7);
-				info.addExtraInfo("Reserved", reserved);
+				info.addInfo("Reserved", reserved, true);
 				//Should be 0 normally, but used somehow on DSi
 				int reserved2 = s.read();
-				info.addExtraInfo("Reserved 2", reserved2);
+				info.addInfo("Reserved 2", reserved2, true);
 
 				int regionCode = s.read();
 				info.addInfo("Region code", regionCode, REGION_CODES);
@@ -259,61 +259,61 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Autostart param", autostart);
 
 				int arm9Offset = s.readIntLE();
-				info.addExtraInfo("ARM9 offset", arm9Offset);
+				info.addInfo("ARM9 offset", arm9Offset, true);
 				int arm9Entry = s.readIntLE();
-				info.addExtraInfo("ARM9 entry point", arm9Entry);
+				info.addInfo("ARM9 entry point", arm9Entry, true);
 				int arm9RAMAddress = s.readIntLE();
-				info.addExtraInfo("ARM9 RAM address", arm9RAMAddress);
+				info.addInfo("ARM9 RAM address", arm9RAMAddress, true);
 				int arm9Size = s.readIntLE();
-				info.addExtraInfo("ARM9 size", arm9Size, ROMInfo.FormatMode.SIZE);
+				info.addInfo("ARM9 size", arm9Size, ROMInfo.FormatMode.SIZE, true);
 
 				int arm7Offset = s.readIntLE();
-				info.addExtraInfo("ARM7 offset", arm7Offset);
+				info.addInfo("ARM7 offset", arm7Offset, true);
 				int arm7Entry = s.readIntLE();
-				info.addExtraInfo("ARM7 entry point", arm7Entry);
+				info.addInfo("ARM7 entry point", arm7Entry, true);
 				int arm7RAMAddress = s.readIntLE();
-				info.addExtraInfo("ARM7 RAM address", arm7RAMAddress);
+				info.addInfo("ARM7 RAM address", arm7RAMAddress, true);
 				int arm7Size = s.readIntLE();
-				info.addExtraInfo("ARM7 size", arm7Size, ROMInfo.FormatMode.SIZE);
+				info.addInfo("ARM7 size", arm7Size, ROMInfo.FormatMode.SIZE, true);
 
 				int filenameTableOffset = s.readIntLE();
-				info.addExtraInfo("Filename table offset", filenameTableOffset);
+				info.addInfo("Filename table offset", filenameTableOffset, true);
 				int filenameTableSize = s.readIntLE();
-				info.addExtraInfo("Filename table size", filenameTableSize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("Filename table size", filenameTableSize, ROMInfo.FormatMode.SIZE, true);
 				int fatOffset = s.readIntLE();
-				info.addExtraInfo("File allocation table offset", fatOffset);
+				info.addInfo("File allocation table offset", fatOffset, true);
 				int fatSize = s.readIntLE();
-				info.addExtraInfo("File allocation table size", fatSize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("File allocation table size", fatSize, ROMInfo.FormatMode.SIZE, true);
 				int fileARM9OverlayOffset = s.readIntLE();
-				info.addExtraInfo("File ARM9 overlay offset", fileARM9OverlayOffset);
+				info.addInfo("File ARM9 overlay offset", fileARM9OverlayOffset, true);
 				int fileARM9OverlaySize = s.readIntLE();
-				info.addExtraInfo("File ARM9 overlay size", fileARM9OverlaySize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("File ARM9 overlay size", fileARM9OverlaySize, ROMInfo.FormatMode.SIZE, true);
 				int fileARM7OverlayOffset = s.readIntLE();
-				info.addExtraInfo("File ARM7 overlay offset", fileARM7OverlayOffset);
+				info.addInfo("File ARM7 overlay offset", fileARM7OverlayOffset, true);
 				int fileARM7OverlaySize = s.readIntLE();
-				info.addExtraInfo("File ARM7 overlay size", fileARM7OverlaySize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("File ARM7 overlay size", fileARM7OverlaySize, ROMInfo.FormatMode.SIZE, true);
 
 				byte[] normalCommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x00586000
-				info.addExtraInfo("Normal command setting", normalCommandSetting);
+				info.addInfo("Normal command setting", normalCommandSetting, true);
 				byte[] key1CommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x001808f8
-				info.addExtraInfo("KEY1 command cetting", key1CommandSetting);
+				info.addInfo("KEY1 command cetting", key1CommandSetting, true);
 
 				int bannerOffset = s.readIntLE();
-				info.addExtraInfo("Banner offset", bannerOffset);
+				info.addInfo("Banner offset", bannerOffset, true);
 
 				byte[] secureAreaChecksum = s.read(2);
-				info.addExtraInfo("Secure area checksum", secureAreaChecksum);
+				info.addInfo("Secure area checksum", secureAreaChecksum, true);
 				//TODO Calculate (CRC16 of 0x20 to 0x7fff)
 				int secureAreaDelay = s.readShortLE(); //131kHz units, 0x051e = 10ms, 0x0d7e = 26ms
-				info.addExtraInfo("Secure area delay (ms)", secureAreaDelay / 131);
+				info.addInfo("Secure area delay (ms)", secureAreaDelay / 131, true);
 
 				int arm9AutoLoadRAMAddress = s.readIntLE();
-				info.addExtraInfo("ARM9 auto load RAM address", arm9AutoLoadRAMAddress);
+				info.addInfo("ARM9 auto load RAM address", arm9AutoLoadRAMAddress, true);
 				int arm7AutoLoadRAMAddress = s.readIntLE();
-				info.addExtraInfo("ARM7 auto load RAM address", arm7AutoLoadRAMAddress);
+				info.addInfo("ARM7 auto load RAM address", arm7AutoLoadRAMAddress, true);
 
 				byte[] secureAreaDisable = s.read(8); //Usually 0 filled
-				info.addExtraInfo("Secure area disable", secureAreaDisable);
+				info.addInfo("Secure area disable", secureAreaDisable, true);
 
 				int usedROMSize = s.readIntLE(); //Excludes DSi area
 				info.addInfo("Used ROM size", usedROMSize, ROMInfo.FormatMode.SIZE);
@@ -321,58 +321,58 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Header size", romHeaderSize, ROMInfo.FormatMode.SIZE);
 
 				byte[] reserved3 = s.read(0x38); //0 filled except on DSi which uses first 12 bytes for some purpose
-				info.addExtraInfo("Reserved 3", reserved3);
+				info.addInfo("Reserved 3", reserved3, true);
 				byte[] nintendoLogo = s.read(0x9c); //Same as on GBA
-				info.addExtraInfo("Nintendo logo", nintendoLogo);
+				info.addInfo("Nintendo logo", nintendoLogo, true);
 				byte[] nintendoLogoChecksum = s.read(2); //CRC16 of nintendoLogo, should be 0xcf56? TODO calculate
-				info.addExtraInfo("Nintendo logo checksum", nintendoLogoChecksum);
+				info.addInfo("Nintendo logo checksum", nintendoLogoChecksum, true);
 				byte[] headerChecksum = s.read(2); //CRC16 of header up until here (first 0x15d bytes) TODO calc
-				info.addExtraInfo("Header checksum", headerChecksum);
+				info.addInfo("Header checksum", headerChecksum, true);
 
 				int debugROMOffset = s.readIntLE();
-				info.addExtraInfo("Debug ROM offset", debugROMOffset);
+				info.addInfo("Debug ROM offset", debugROMOffset, true);
 				int debugSize = s.readIntLE();
-				info.addExtraInfo("Debug ROM size", debugSize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("Debug ROM size", debugSize, ROMInfo.FormatMode.SIZE, true);
 				int debugRAMAddress = s.readIntLE();
-				info.addExtraInfo("Debug RAM address", debugRAMAddress);
+				info.addInfo("Debug RAM address", debugRAMAddress, true);
 
 				//Both zero filled, who cares
 				byte[] reserved4 = s.read(4);
-				info.addExtraInfo("Reserved 4", reserved4);
+				info.addInfo("Reserved 4", reserved4, true);
 				byte[] reserved5 = s.read(0x90);
-				info.addExtraInfo("Reserved 5", reserved5);
+				info.addInfo("Reserved 5", reserved5, true);
 
 				if(unitCode >= 2) {
 					s.Seek(0x210, System.IO.SeekOrigin.Begin);
 					usedROMSize = s.readIntLE();
 					info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
 
-					info.addExtraInfo("DSi reserved", s.read(4));
-					info.addExtraInfo("DSi reserved 2", s.read(4));
-					info.addExtraInfo("DSi reserved 3", s.read(4));
+					info.addInfo("DSi reserved", s.read(4), true);
+					info.addInfo("DSi reserved 2", s.read(4), true);
+					info.addInfo("DSi reserved 3", s.read(4), true);
 
 					int modcryptOffset = s.readIntLE();
-					info.addExtraInfo("Modcrypt area 1 offset", modcryptOffset);
+					info.addInfo("Modcrypt area 1 offset", modcryptOffset, true);
 					int modcryptSize = s.readIntLE();
-					info.addExtraInfo("Modcrypt area 1 size", modcryptSize, ROMInfo.FormatMode.SIZE);
+					info.addInfo("Modcrypt area 1 size", modcryptSize, ROMInfo.FormatMode.SIZE, true);
 					int modcryptOffset2 = s.readIntLE();
-					info.addExtraInfo("Modcrypt area 2 offset", modcryptOffset2);
+					info.addInfo("Modcrypt area 2 offset", modcryptOffset2, true);
 					int modcryptSize2 = s.readIntLE();
-					info.addExtraInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE);
+					info.addInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE, true);
 
 					string emagCode = s.read(4, Encoding.ASCII);
-					info.addExtraInfo("Game code backwards", emagCode);
+					info.addInfo("Game code backwards", emagCode, true);
 					int dsiType = s.read();
-					info.addInfo("Filetype", dsiType);
+					info.addInfo("Filetype", dsiType, true);
 					byte[] titleIDReserved = s.read(3);
-					info.addExtraInfo("DSi title ID reserved", titleIDReserved);
+					info.addInfo("DSi title ID reserved", titleIDReserved, true);
 
 					int publicSaveSize = s.readIntLE();
 					info.addInfo("DSiWare public.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
 					int privateSaveSize = s.readIntLE();
 					info.addInfo("DSiWare private.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
 
-					info.addExtraInfo("DSi reserved 4", s.read(176));
+					info.addInfo("DSi reserved 4", s.read(176), true);
 
 					int ceroByte = s.read();
 					if((ceroByte & 128) > 0) {
@@ -446,15 +446,15 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
 				if(BANNER_VERSIONS.ContainsKey(bannerVersion)) {
 					byte[] bannerChecksum = s.read(2); //CRC16 of 0x20 to 0x83
-					info.addExtraInfo("Banner checksum", bannerChecksum);
+					info.addInfo("Banner checksum", bannerChecksum, true);
 					byte[] bannerChecksum2 = s.read(2); //CRC16 of 0x20 to 0x93
-					info.addExtraInfo("Banner checksum 2", bannerChecksum2);
+					info.addInfo("Banner checksum 2", bannerChecksum2, true);
 					byte[] bannerChecksum3 = s.read(2); //CRC16 of 0x20 to 0xa3
-					info.addExtraInfo("Banner checksum 3", bannerChecksum3);
+					info.addInfo("Banner checksum 3", bannerChecksum3, true);
 					byte[] bannerChecksum4 = s.read(2); //CRC16 of 0x1240 to 0x23bf
-					info.addExtraInfo("Banner checksum 4", bannerChecksum4);
+					info.addInfo("Banner checksum 4", bannerChecksum4, true);
 					byte[] bannerReserved = s.read(0x16); //Should be zero filled
-					info.addExtraInfo("Banner reserved", bannerReserved);
+					info.addInfo("Banner reserved", bannerReserved, true);
 
 					byte[] iconBitmap = s.read(0x200);
 					byte[] iconPalette = s.read(0x20);

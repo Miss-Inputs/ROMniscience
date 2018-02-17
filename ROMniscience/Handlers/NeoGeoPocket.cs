@@ -44,18 +44,18 @@ namespace ROMniscience.Handlers {
 			InputStream s = file.stream;
 
 			string copyrightInfo = s.read(28, Encoding.ASCII);
-			info.addExtraInfo("Copyright string", copyrightInfo);
+			info.addInfo("Copyright string", copyrightInfo, true);
 			//For first party games this should say that, and for third party games it should say " LICENSED BY SNK CORPORATION"
 			info.addInfo("First party", "COPYRIGHT BY SNK CORPORATION".Equals(copyrightInfo));
 
 			byte[] entryPoint = s.read(4);
-			info.addExtraInfo("Entry point", entryPoint);
+			info.addInfo("Entry point", entryPoint, true);
 
 			int gameNumber = s.readShortLE();
 			info.addInfo("Product code", gameNumber.ToString("X2"));
 
 			int version = s.read();
-			info.addExtraInfo("Version", version);
+			info.addInfo("Version", version);
 
 			bool isColor = s.read() == 0x10;
 			info.addInfo("Is colour", isColor);

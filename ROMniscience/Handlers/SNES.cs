@@ -278,7 +278,7 @@ namespace ROMniscience.Handlers {
             info.addInfo("Internal name", name);
 
             byte[] blockAllocation = s.read(4);
-            info.addExtraInfo("Block allocation flags", blockAllocation); //TODO (at the moment this confuzzles me)
+            info.addInfo("Block allocation flags", blockAllocation, true); //TODO (at the moment this confuzzles me)
 
             int limitedStarts = s.readIntLE();
             if ((limitedStarts & 0x8000) > 0) {
@@ -314,14 +314,14 @@ namespace ROMniscience.Handlers {
             //TODO
 
             byte[] unknown = s.read(4);
-            info.addExtraInfo("Unknown", unknown);
+            info.addInfo("Unknown", unknown, true);
 
             s.Seek(offset - 16, SeekOrigin.Begin);
             string licensee = s.read(2, Encoding.ASCII);
             info.addInfo("Manufacturer", licensee, NintendoCommon.LICENSEE_CODES);
 
             //Is there a product code in here? Who knows
-            info.addExtraInfo("Unknown 2", s.read(8));
+            info.addInfo("Unknown 2", s.read(8), true);
         }
 
         public static void parseSNESHeader(InputStream s, ROMInfo info, long offset) {
@@ -361,9 +361,9 @@ namespace ROMniscience.Handlers {
             info.addInfo("Version", version);
 
             ushort inverseChecksum = (ushort)s.readShortLE();
-            info.addExtraInfo("Inverse checksum", inverseChecksum);
+            info.addInfo("Inverse checksum", inverseChecksum, true);
             ushort checksum = (ushort)s.readShortLE();
-            info.addExtraInfo("Checksum", checksum);
+            info.addInfo("Checksum", checksum, true);
             info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);
             info.addInfo("Checksum valid?", checksum == calcChecksum(s));
 
@@ -389,7 +389,7 @@ namespace ROMniscience.Handlers {
                 }
 
                 byte[] reserved = s.read(6);
-                info.addExtraInfo("Reserved", reserved);
+                info.addInfo("Reserved", reserved, true);
                 int expansionFlashSize = (1 << s.read()) * 1024; //Should this be left as 0 if the raw value is 0?
                 info.addInfo("Expansion Flash size", expansionFlashSize, ROMInfo.FormatMode.SIZE);
                 int expansionRAMSize = (1 << s.read()) * 1024;
@@ -439,14 +439,14 @@ namespace ROMniscience.Handlers {
             s.Position = 0;
 
             string magic = s.read(14, Encoding.ASCII);
-            info.addExtraInfo("Magic", magic); //Should be "BANDAI SFC-ADX"
+            info.addInfo("Magic", magic, true); //Should be "BANDAI SFC-ADX"
 
             s.Seek(2, SeekOrigin.Current); //Skip zero-filled padding
             string title = s.read(14, MainProgram.shiftJIS).TrimEnd(' ');
             info.addInfo("Internal name", title);
             s.Seek(2, SeekOrigin.Current);
             byte[] entryPoint = s.read(4);
-            info.addExtraInfo("Entry point", entryPoint);
+            info.addInfo("Entry point", entryPoint, true);
             s.Position = 0x30; //Skip over all these vectors whatevs
             byte[] gameID = s.read(3);
             info.addInfo("Game ID", gameID);

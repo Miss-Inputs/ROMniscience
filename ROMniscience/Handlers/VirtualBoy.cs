@@ -44,12 +44,13 @@ namespace ROMniscience.Handlers {
             string title = s.read(20, MainProgram.shiftJIS).TrimEnd(' ');
             info.addInfo("Internal name", title);
             byte[] reserved = s.read(5);
-            info.addExtraInfo("Reserved", reserved);
+            info.addInfo("Reserved", reserved, true);
             string makerCode = s.read(2, Encoding.ASCII);
             info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
             string productCode = s.read(4, Encoding.ASCII);
             info.addInfo("Product code", productCode);
             //I don't know what to do about the game type, since it's all V so far
+            info.addInfo("Game type", productCode[0], true);
             string shortTitle = productCode.Substring(1, 2);
             info.addInfo("Short title", shortTitle);
             char region = productCode[3];

@@ -124,9 +124,9 @@ namespace ROMniscience.Handlers {
 			InputStream f = file.stream;
 
 			byte[] entryPoint = f.read(4);
-			info.addExtraInfo("Entry point", entryPoint);
+			info.addInfo("Entry point", entryPoint, true);
 			byte[] nintendoLogo = f.read(156);
-			info.addExtraInfo("Nintendo logo", nintendoLogo);
+			info.addInfo("Nintendo logo", nintendoLogo, true);
             info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
 			//TODO: Bits 2 and 7 of nintendoLogo[0x99] enable debugging functions when set (undefined instruction exceptions are sent
 			//to a user handler identified using the device type)
@@ -146,7 +146,7 @@ namespace ROMniscience.Handlers {
 			string makerCode = f.read(2, Encoding.ASCII);
 			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
 			int fixedValue = f.read();
-			info.addExtraInfo("Fixed value", fixedValue);
+			info.addInfo("Fixed value", fixedValue, true);
 			info.addInfo("Fixed value valid?", fixedValue == 0x96);
 
 			//This indicates the required hardware, should be 0 but it's possible that
@@ -159,16 +159,16 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Device type", deviceType);
 
 			byte[] reserved = f.read(7); //Should be all 0
-			info.addExtraInfo("Reserved", reserved);
+			info.addInfo("Reserved", reserved, true);
 			int version = f.read();
 			info.addInfo("Version", version);
 			int checksum = f.read();
-			info.addExtraInfo("Checksum", checksum);
+			info.addInfo("Checksum", checksum, true);
 			info.addInfo("Checksum valid?", checksum == calculateChecksum(f));
 			byte[] reserved2 = f.read(2);
-			info.addExtraInfo("Reserved 2", reserved2);
+			info.addInfo("Reserved 2", reserved2, true);
 			byte[] multibootEntryPoint = f.read(4);
-			info.addExtraInfo("Multiboot entry point", multibootEntryPoint);
+			info.addInfo("Multiboot entry point", multibootEntryPoint, true);
 			int multibootMode = f.read();
 			info.addInfo("Multiboot mode", multibootMode, GBA_MULTIBOOT_MODES);
 			int multibootSlaveID = f.read();

@@ -51,39 +51,39 @@ namespace ROMniscience.Handlers {
 			s.Seek(0x2100, SeekOrigin.Begin);
 
 			string marker = s.read(2, Encoding.ASCII);
-			info.addExtraInfo("Marker", marker);
+			info.addInfo("Marker", marker, true);
 
-			info.addExtraInfo("Entry point", s.read(6));
+			info.addInfo("Entry point", s.read(6), true);
 			//What the heck is all this
-			info.addExtraInfo("PRC frame copy IRQ", s.read(6));
-			info.addExtraInfo("PRC render IRQ", s.read(6));
-			info.addExtraInfo("Timer 2 underflow upper IRQ", s.read(6));
-			info.addExtraInfo("Timer 2 underflow lower IRQ", s.read(6));
-			info.addExtraInfo("Timer 1 underflow upper IRQ", s.read(6));
-			info.addExtraInfo("Timer 1 underflow lower IRQ", s.read(6));
-			info.addExtraInfo("Timer 3 underflow upper IRQ", s.read(6));
-			info.addExtraInfo("Timer 3 comparator IRQ", s.read(6));
-			info.addExtraInfo("32Hz timer IRQ", s.read(6));
-			info.addExtraInfo("8Hz timer IRQ", s.read(6));
-			info.addExtraInfo("2Hz timer IRQ", s.read(6));
-			info.addExtraInfo("1Hz timer IRQ", s.read(6));
-			info.addExtraInfo("IR receiver IRQ", s.read(6));
-			info.addExtraInfo("Shake sensor IRQ", s.read(6));
-			info.addExtraInfo("Power key IRQ", s.read(6));
-			info.addExtraInfo("Right key IRQ", s.read(6));
-			info.addExtraInfo("Left key IRQ", s.read(6));
-			info.addExtraInfo("Down key IRQ", s.read(6));
-			info.addExtraInfo("Up key IRQ", s.read(6));
-			info.addExtraInfo("C key IRQ", s.read(6));
-			info.addExtraInfo("B key IRQ", s.read(6));
-			info.addExtraInfo("A key IRQ", s.read(6));
-			info.addExtraInfo("Unknown IRQ 1", s.read(6));
-			info.addExtraInfo("Unknown IRQ 2", s.read(6));
-			info.addExtraInfo("Unknown IRQ 3", s.read(6));
-			info.addExtraInfo("Cartridge IRQ", s.read(6));
+			info.addInfo("PRC frame copy IRQ", s.read(6), true);
+			info.addInfo("PRC render IRQ", s.read(6), true);
+			info.addInfo("Timer 2 underflow upper IRQ", s.read(6), true);
+			info.addInfo("Timer 2 underflow lower IRQ", s.read(6), true);
+			info.addInfo("Timer 1 underflow upper IRQ", s.read(6), true);
+			info.addInfo("Timer 1 underflow lower IRQ", s.read(6), true);
+			info.addInfo("Timer 3 underflow upper IRQ", s.read(6), true);
+			info.addInfo("Timer 3 comparator IRQ", s.read(6), true);
+			info.addInfo("32Hz timer IRQ", s.read(6), true);
+			info.addInfo("8Hz timer IRQ", s.read(6), true);
+			info.addInfo("2Hz timer IRQ", s.read(6), true);
+			info.addInfo("1Hz timer IRQ", s.read(6), true);
+			info.addInfo("IR receiver IRQ", s.read(6), true);
+			info.addInfo("Shake sensor IRQ", s.read(6), true);
+			info.addInfo("Power key IRQ", s.read(6), true);
+			info.addInfo("Right key IRQ", s.read(6), true);
+			info.addInfo("Left key IRQ", s.read(6), true);
+			info.addInfo("Down key IRQ", s.read(6), true);
+			info.addInfo("Up key IRQ", s.read(6), true);
+			info.addInfo("C key IRQ", s.read(6), true);
+			info.addInfo("B key IRQ", s.read(6), true);
+			info.addInfo("A key IRQ", s.read(6), true);
+			info.addInfo("Unknown IRQ 1", s.read(6), true);
+			info.addInfo("Unknown IRQ 2", s.read(6), true);
+			info.addInfo("Unknown IRQ 3", s.read(6), true);
+			info.addInfo("Cartridge IRQ", s.read(6), true);
 
 			string headerMagic = s.read("NINTENDO".Length, Encoding.ASCII);
-			info.addExtraInfo("Header magic", headerMagic); //Should be "NINTENDO"
+			info.addInfo("Header magic", headerMagic, true); //Should be "NINTENDO"
 
 			string productCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Product code", productCode);
@@ -100,10 +100,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", title);
 
 			string manufacturer = s.read(2, Encoding.ASCII);
+            //This will always be 2P (The Pokemon Company) but still
 			info.addInfo("Manufacturer", manufacturer, NintendoCommon.LICENSEE_CODES);
 
 			byte[] reserved = s.read(18);
-			info.addExtraInfo("Reserved", reserved); //Should be 0 filled
+			info.addInfo("Reserved", reserved, true); //Should be 0 filled
 		}
 	}
 }

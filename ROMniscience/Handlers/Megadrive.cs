@@ -581,27 +581,27 @@ namespace ROMniscience.Handlers {
 
 			int checksum = s.readShortBE();
 			//TODO calc checksum (add every byte in the ROM starting from 0x200 in 2-byte chunks (first byte multiplied by 256), use only first 16 bits of result)
-			info.addExtraInfo("Checksum", checksum);
+			info.addInfo("Checksum", checksum, true);
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
 
 			int romStart = s.readIntBE();
-			info.addExtraInfo("ROM start", romStart);
+			info.addInfo("ROM start", romStart, true);
 			int romEnd = s.readIntBE();
-			info.addExtraInfo("ROM end", romStart);
+			info.addInfo("ROM end", romStart, true);
 			info.addInfo("ROM size", romEnd - romStart, ROMInfo.FormatMode.SIZE);
 			int ramStart = s.readIntBE();
-			info.addExtraInfo("RAM start", ramStart);
+			info.addInfo("RAM start", ramStart, true);
 			int ramEnd = s.readIntBE();
-			info.addExtraInfo("RAM end", ramEnd);
+			info.addInfo("RAM end", ramEnd, true);
 			info.addInfo("RAM size", ramEnd - ramStart, ROMInfo.FormatMode.SIZE);
 			byte[] backupRamID = s.read(4);
 			info.addInfo("Backup RAM ID", backupRamID);
 			int backupRamStart = s.readIntBE();
-			info.addExtraInfo("Backup RAM start", backupRamStart);
+			info.addInfo("Backup RAM start", backupRamStart, true);
 			int backupRamEnd = s.readIntBE();
-			info.addExtraInfo("Backup RAM end", backupRamEnd);
+			info.addInfo("Backup RAM end", backupRamEnd, true);
 			info.addInfo("Save size", backupRamEnd - backupRamStart, ROMInfo.FormatMode.SIZE);
 
 			byte[] modemData = s.read(12);

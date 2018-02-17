@@ -86,13 +86,13 @@ namespace ROMniscience {
                     info.addInfo("Datfile", result?.datfile.name);
                     info.addInfo("Datfile game name", result?.game.name);
                     info.addInfo("Datfile game category", result?.game.category);
-                    info.addExtraInfo("Datfile game description", result?.game.description); //So far I haven't seen this not be the same as the name
+                    info.addInfo("Datfile game description", result?.game.description, true); //So far I haven't seen this not be the same as the name
                     info.addInfo("Datfile ROM name", result?.rom.name);
                     info.addInfo("Datfile ROM status", result?.rom.status);
                     if (result != null) {
                         //Lowkey hate that I can't just do result? here
                         //Anyway, if there's a match, then this should just be equal to the file size anyway
-                        info.addExtraInfo("Datfile ROM size", result.rom.size, ROMInfo.FormatMode.SIZE);
+                        info.addInfo("Datfile ROM size", result.rom.size, ROMInfo.FormatMode.SIZE, true);
                     }
                 }
 
@@ -171,52 +171,5 @@ namespace ROMniscience {
             info.Add(key, new InfoItem(value, format, extra));
         }
 
-        [Obsolete("Should use addInfo with extra parameter = true")]
-        public void addExtraInfo(string key, object value) {
-            //extraInfo.Add(key, new InfoItem(value));
-            addInfo(key, value, true);
-        }
-
-        [Obsolete("Should use addInfo with extra parameter = true")]
-        public void addExtraInfo<K, V>(string key, K value, IDictionary<K, V> dict) {
-            if (dict.TryGetValue(value, out V v)) {
-                addExtraInfo(key, v);
-            } else {
-                addExtraInfo(key, String.Format("Unknown ({0})", value));
-            }
-        }
-
-        [Obsolete("Should use addInfo with extra parameter = true")]
-        public void addExtraInfo<K>(string key, K[] value, IDictionary<K, string> dict) {
-            if (value.Length == 1) {
-                addExtraInfo(key, value[0], dict);
-                return;
-            }
-
-            string[] stuff = new string[value.Length];
-            for (var i = 0; i < value.Length; ++i) {
-                if (dict.TryGetValue(value[i], out string v)) {
-                    stuff[i] = v;
-                } else {
-                    stuff[i] = String.Format("Unknown ({0})", value[i]);
-                }
-            }
-            addExtraInfo(key, stuff);
-        }
-
-        [Obsolete("Should use addInfo with extra parameter = true")]
-        public void addExtraInfo(string key, object value, FormatMode format) {
-            //extraInfo.Add(key, new InfoItem(value, format));
-            addInfo(key, value, format, true);
-        }
-
-        [Obsolete("Should use addInfo with extra parameter = true")]
-        public void addExtraInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {
-            if (dict.TryGetValue(value, out V v)) {
-                addExtraInfo(key, v, format);
-            } else {
-                addExtraInfo(key, String.Format("Unknown ({0})", value));
-            }
-        }
     }
 }

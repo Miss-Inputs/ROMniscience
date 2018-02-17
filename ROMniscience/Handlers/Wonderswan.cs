@@ -136,7 +136,7 @@ namespace ROMniscience.Handlers {
             int deviceFlag = s.read();
             bool isColor = deviceFlag == 1;
             info.addInfo("Is colour", isColor);
-            info.addExtraInfo("Device flag", deviceFlag); //This might have more to it, but probably not
+            info.addInfo("Device flag", deviceFlag, true); //This might have more to it, but probably not
 
             int cartID = s.read(); //Last 2 digits of SKU
             info.addInfo("Product code", cartID);
@@ -152,7 +152,7 @@ namespace ROMniscience.Handlers {
             info.addInfo("Save type", ramSize >= 10 ? "EEPROM" : ramSize == 0 ? "None" : "SRAM");
 
             int flags = s.read();
-            info.addExtraInfo("Flags", flags); //Maybe there are more flags than these three, probably not
+            info.addInfo("Flags", flags, true); //Maybe there are more flags than these three, probably not
             info.addInfo("ROM speed", (flags & 4) > 0 ? "3 speed" : "1 speed");
             info.addInfo("Bus width (bits)", (flags & 2) > 0 ? 16 : 8);
             info.addInfo("Screen orientation", (flags & 1) == 1 ? "Vertical" : "Horizontal");
@@ -161,7 +161,7 @@ namespace ROMniscience.Handlers {
             info.addInfo("Has RTC", hasRTC);
 
             ushort checksum = (ushort)s.readShortLE();
-            info.addExtraInfo("Checksum", checksum);
+            info.addInfo("Checksum", checksum, true);
             info.addInfo("Checksum valid?", checksum == calcChecksum(s));
         }
 

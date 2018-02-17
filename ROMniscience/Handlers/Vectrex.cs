@@ -56,15 +56,15 @@ namespace ROMniscience.Handlers {
 			}
 
 			int unknown = s.read();
-			info.addExtraInfo("Unknown", unknown); //It seems to just be 0x80
+			info.addInfo("Unknown", unknown, true); //It seems to just be 0x80
 
 			//Are these big endian? Are these little endian? Are these not 16-bit addresses at all?
 			byte[] musicAddress = s.read(2);
-			info.addExtraInfo("Music address", musicAddress);
+			info.addInfo("Music address", musicAddress, true);
 			byte[] unknown2 = s.read(2);
-			info.addExtraInfo("Unknown 2", unknown2);
+			info.addInfo("Unknown 2", unknown2, true);
 			byte[] unknown3 = s.read(2);
-			info.addExtraInfo("Unknown 3", unknown3);
+			info.addInfo("Unknown 3", unknown3, true);
 
 			//Fuck me
 			//Well, I think it's safe to say that the title will never be over 255 characters, what with the 6809 being 8-bit

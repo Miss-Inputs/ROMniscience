@@ -73,7 +73,7 @@ namespace ROMniscience.Handlers {
                 return;
             }
             info.addInfo("Detected format", "Headered");
-            info.addExtraInfo("Header magic", atari7800Magic);
+            info.addInfo("Header magic", atari7800Magic, true);
             info.addInfo("Header version", headerVersion);
 
 
@@ -110,7 +110,7 @@ namespace ROMniscience.Handlers {
 			int saveType = s.read();
 			info.addInfo("Save type", saveType, SAVE_TYPES);
 			byte[] reserved = s.read(4);
-			info.addExtraInfo("Reserved", reserved);
+			info.addInfo("Reserved", reserved, true);
 			bool expansionModuleRequired = (s.read() & 1) > 0;
 			info.addInfo("Expansion module required?", expansionModuleRequired);
 

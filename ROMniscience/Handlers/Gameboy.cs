@@ -128,9 +128,9 @@ namespace ROMniscience.Handlers {
 
 				info.addInfo("Platform", name);
 				byte[] startVector = f.read(4);
-				info.addExtraInfo("Entry point", startVector);
+				info.addInfo("Entry point", startVector, true);
 				byte[] nintendoLogo = f.read(48);
-				info.addExtraInfo("Nintendo logo", nintendoLogo);
+				info.addInfo("Nintendo logo", nintendoLogo, true);
 				info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
 
 				//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
@@ -212,7 +212,7 @@ namespace ROMniscience.Handlers {
 				int version = f.read();
 				info.addInfo("Version", version);
 				int checksum = f.read();
-				info.addExtraInfo("Checksum", checksum);
+				info.addInfo("Checksum", checksum, true);
 				info.addInfo("Checksum valid?", checksum == calcChecksum(f));
 			} finally {
 				f.Seek(originalPos, SeekOrigin.Begin);

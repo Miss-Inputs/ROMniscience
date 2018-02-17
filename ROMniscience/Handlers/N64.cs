@@ -100,17 +100,17 @@ namespace ROMniscience.Handlers {
 
 		public static void parseN64ROM(InputStream s, ROMInfo info) {
 			int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
-			info.addExtraInfo("Clock rate", clockRate);
+			info.addInfo("Clock rate", clockRate, true);
 			int programCounter = s.readIntBE(); //This technically is the entry point but the CIC chip might alter that
-			info.addExtraInfo("Entry point", programCounter);
+			info.addInfo("Entry point", programCounter, true);
 			int release = s.readIntBE();
-			info.addExtraInfo("Release address", release); //What the fuck does that even mean
+			info.addInfo("Release address", release, true); //What the fuck does that even mean
 			int crc1 = s.readIntBE(); //TODO: Calculate the checksum, see http://n64dev.org/n64crc.html... this is gonna be hell
 			int crc2 = s.readIntBE();
-			info.addExtraInfo("CRC1", crc1);
-			info.addExtraInfo("CRC2", crc2);
+			info.addInfo("CRC1", crc1, true);
+			info.addInfo("CRC2", crc2, true);
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
-			info.addExtraInfo("Unknown", unknown);
+			info.addInfo("Unknown", unknown, true);
 
 			//The N64 does use Shift-JIS for its internal names, and if anyone says it is
 			//ASCII I will smack them on the head with a copy of Densha de Go 64
@@ -118,9 +118,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", name);
 
 			byte[] unknown2 = s.read(4);
-			info.addExtraInfo("Unknown 2", unknown2);
+			info.addInfo("Unknown 2", unknown2, true);
 			byte[] unknown3 = s.read(3);
-			info.addExtraInfo("Unknown 3", unknown3);
+			info.addInfo("Unknown 3", unknown3, true);
 
 			//A lot of N64 documentation seems to think the media type (or in the case of
 			//n64dev, the manufacturer which is not what these bytes are for) is 4 bytes, but it's
@@ -144,7 +144,7 @@ namespace ROMniscience.Handlers {
 				bootCode[i] = s.readIntBE();
 				bootCodeChecksum = (uint)(bootCodeChecksum + bootCode[i]) & 0xffffffff;
 			}
-			info.addExtraInfo("Boot code", bootCode);
+			info.addInfo("Boot code", bootCode, true);
 
 			switch(bootCodeChecksum) {
 				case 0x27fdf31:
