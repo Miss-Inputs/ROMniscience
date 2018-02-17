@@ -523,7 +523,11 @@ namespace ROMniscience.Handlers {
             } else {
                 info.addInfo("Detected format", "Plain");
             }
-            //TODO If file size < 0x7fc0 (there are a few 32KB homebrews), don't try and read a header that isn't even there
+            if(file.length < 0x7fc0) {
+                //There is no header, since the file is too small to have any of the known header offsets
+                //This only really happens for some homebrew stuff
+                return;
+            }
 
             if (offset == 0) {
                 //If we haven't detected it from a copier header
