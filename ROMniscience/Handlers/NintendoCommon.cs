@@ -79,6 +79,7 @@ namespace ROMniscience.Handlers {
 			{"32", "Bandai"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
 			{"33", "Ocean/Acclaim"}, //This is an important one, because if this is the old licensee code it means it uses
 			//the new licensee code instead (and the extended header in SNES), and also it needs to be 33 for Super Gameboy functions to work on GB
+            //Is this even valid anyway?
 			{"34", "Konami"},
 			{"35", "Hector"},
 			{"37", "Taito"},
@@ -228,9 +229,9 @@ namespace ROMniscience.Handlers {
 			{"8P", "Sega"},
 			{"5Q", "Lego"},
 			{"FR", "Digital Jesters"}, //Could also be Neko Entertainment, I'm just looking at Crazy Frog Racer
-			{"P8", "Pin Eight"},
+			{"P8", "Pin Eight"}, //Well... I guess it's not really a licensee code if it's homebrew and therefore by definition unlicensed...
 			{"6S", "TDK"},
-			{"AK", "Acekard"},
+			{"AK", "Acekard"}, //Yeah, also not really a licensee either I guess
 			{"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and published by Capcom
 			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
 			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
@@ -240,6 +241,10 @@ namespace ROMniscience.Handlers {
 			{"BL", "MTO"},
 			{"2P", "The Pokémon Company"},
             {"B4", "Enix"},
+            {"5T", "Cyro Interactive"},
+            {"9M", "Jaguar"}, //The sewing machine company
+            {"2N", "Smilesoft"},
+            {"4Y", "Rare"},
 
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
@@ -265,35 +270,38 @@ namespace ROMniscience.Handlers {
 			//Bitte 8 Bit (homebrew): \xfe\xaf
 			//mooneye-gb test ROMs: ZZ
 
-			//Official GB/GBA/DS roms, but I want to confirm by seeing if more titles use them:
-            //03: SD Ultra Battle: Seven Densetsu, SD Ultra Battle: Ultraman Densetsu (dev Tom Create, pub Bandai)
+			//Official games, but I want to confirm by seeing if more titles use them:
             //1P (Chee-Chai Alien): Creatures
-			//1Q: McDonalds Monogatari: Honobono Tenchou Ikusei Game (GBC) TDK Core (might be TDK in Japan?)
-            //2N (Keitai Denjuu Telefang) Accordingly, Pokemon Diamond and presumably Jade have this too (Smilesoft/Natsume?)
+			//1Q: McDonalds Monogatari: Honobono Tenchou Ikusei Game (GBC) TDK Core (might be TDK's Japanese branch?)
+            //2L: Barcode Taisen Bardigun (dev Graphic Research, pub Tamsoft)
 			//36 (Cannon Fodder) Could be Codemasters (developer) or Activision (publisher)
             //4S: SimCity 2000 (SNES) (dev Maxis pub THQ for Europe version that this is from)
+            //5H: Warriors of Might and Magic (3DO Company)
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
 			//5L (Hello Kitty's Cube Frenzy (Dev: Torus Games / Pub: Ubisoft), Dora the Explorer: The Search for the Pirate Pig's Treasure (Dev: Cinegroupe / Pub: NewKidsCo))
 			//5V (Cookie & Cream demo) FromSoftware I guess?
-            //5Z: Microsoft: The Best of Entertainment Pack (dev: Cryo Interactive & Sapphire, pub Microsoft Home), Microsoft: The 6 in 1 Puzzle Collection Entertainment Pack (dev Conspiracy Entertainment pub Swing Entertainment); anyway it's _probably_ Microsoft but maybe not? There's also ), The Flinstones: Burgertime in Bedrock (dev Conspiracy Entertainment pub Classified Games USA Swing Entertainment France)
+            //5Z: Microsoft: The Best of Entertainment Pack (dev: Cryo Interactive & Sapphire, pub Microsoft Home), Microsoft: The 6 in 1 Puzzle Collection Entertainment Pack (dev Conspiracy Entertainment pub Swing Entertainment); anyway it's _probably_ Microsoft but maybe not? There's also ), The Flinstones: Burgertime in Bedrock (dev Conspiracy Entertainment pub Classified Games USA Swing Entertainment France), Card Shark proto (Bonsai Entertainment, according to title screen, also someone called Bicycle was involved)
             //62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
 			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
             //6B: Super Solitaire (SNES European proto), dunno about USA version (dev: Beam Software / pub: Extreme Entertainment Group, only known for Riddick Bowe Boxing)
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
             //6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games)
+            //6V: The Nations: Land of Legends (dev: Neon / pub: JoWooD Entertainment)
+            //7L: Sabrina the Teenage Witch: Spooked (dev: WayForward / pub: uhh y'know those people who published the thing I'm tired)
 			//7G (Pocket Music GBC) Jester Interactive / Rage Software
             //82: Cosmo Gang the Video (SNES) (just Namco? wat)
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
 			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street), endrift also uses this for Scrum: A Game Very Vaguely About Programming
 			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)) could be just Nick Jr licensed games? But the other Dora games don't use this one
             //9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
-            //9M: Mario Family (GBC) Dev: Natsume Pub: Jaguar (not to be confused with the Atari Jaguar, this Jaguar makes sewing machines)
+            //9M: Mario Family (GBC) Dev: Natsume Pub: Jaguar (not to be confused with the Atari Jaguar, this Jaguar makes sewing machines), Sewing Machine Operation Software (for the Singer Izek)
             //A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet
             //AL: Wizardry 1/2/3 (SNES) (dev: Game Studio / pub: Media Factory)
             //BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
             //CL: Oekaki Logic (SNES) (Sekaibunka Publishing)
 			//DK (Initial D Gaiden) MTO / Kodansha?
             //F9 Spectre (SNES) (Mac dev: Peninsula Gameworks / pub: Velocity Development) (SNES dev: Synergistic Software / pub: US Cybersoft EU GameTek)
+            //FG Bomberman Selection (dev: Hudson Soft / pub: Jupiter or Hudson Soft themselves, depending on who you ask) This is tricky because Hudson Soft already has a licensee code of 0x18, and Jupiter never published anything else, maybe some kind of Korean branch of Hudson?
 			//FQ (WarioWare: Touched iQue version aka Momo Waliou Zhizao) Alpha-Unit (according to the banner)? Intelligent Systems? iQue itself or Wei Yen?
 			//G0 (Monster Finder (albeit a bad dump) aka Foto Showdown outside JP) Alpha Unit
 			//GT (Picture Perfect Hair Salon): 505 Games
