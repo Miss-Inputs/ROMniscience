@@ -245,6 +245,7 @@ namespace ROMniscience.Handlers {
             {"9M", "Jaguar"}, //The sewing machine company
             {"2N", "Smilesoft"},
             {"4Y", "Rare"},
+            {"6B", "Beam Software/Melbourne House"},
 
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
@@ -283,7 +284,6 @@ namespace ROMniscience.Handlers {
             //5Z: Microsoft: The Best of Entertainment Pack (dev: Cryo Interactive & Sapphire, pub Microsoft Home), Microsoft: The 6 in 1 Puzzle Collection Entertainment Pack (dev Conspiracy Entertainment pub Swing Entertainment); anyway it's _probably_ Microsoft but maybe not? There's also ), The Flinstones: Burgertime in Bedrock (dev Conspiracy Entertainment pub Classified Games USA Swing Entertainment France), Card Shark proto (Bonsai Entertainment, according to title screen, also someone called Bicycle was involved)
             //62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
 			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
-            //6B: Super Solitaire (SNES European proto), dunno about USA version (dev: Beam Software / pub: Extreme Entertainment Group, only known for Riddick Bowe Boxing)
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
             //6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games)
             //6V: The Nations: Land of Legends (dev: Neon / pub: JoWooD Entertainment)
