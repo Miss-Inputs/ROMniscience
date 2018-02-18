@@ -158,7 +158,7 @@ namespace ROMniscience.Handlers {
             info.addInfo("Screen orientation", (flags & 1) == 1 ? "Vertical" : "Horizontal");
 
             bool hasRTC = s.read() == 1;
-            info.addInfo("Has RTC", hasRTC);
+            info.addInfo("Uses RTC", hasRTC);
 
             ushort checksum = (ushort)s.readShortLE();
             info.addInfo("Checksum", checksum, true);
