@@ -136,7 +136,7 @@ namespace ROMniscience.Handlers {
             int deviceFlag = s.read();
             bool isColor = deviceFlag == 1;
             info.addInfo("Is colour", isColor);
-            info.addInfo("Device flag", deviceFlag, true); //This might have more to it, but probably not
+            info.addInfo("Device type", deviceFlag, true); //This might have more to it, but probably not
 
             int cartID = s.read(); //Last 2 digits of SKU
             info.addInfo("Product code", cartID);

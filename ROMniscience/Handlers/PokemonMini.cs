@@ -83,7 +83,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Cartridge IRQ", s.read(6), true);
 
 			string headerMagic = s.read("NINTENDO".Length, Encoding.ASCII);
-			info.addInfo("Header magic", headerMagic, true); //Should be "NINTENDO"
+			info.addInfo("Magic", headerMagic, true); //Should be "NINTENDO"
 
 			string productCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Product code", productCode);

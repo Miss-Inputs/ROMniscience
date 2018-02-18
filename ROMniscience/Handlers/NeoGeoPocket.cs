@@ -44,7 +44,7 @@ namespace ROMniscience.Handlers {
 			InputStream s = file.stream;
 
 			string copyrightInfo = s.read(28, Encoding.ASCII);
-			info.addInfo("Copyright string", copyrightInfo, true);
+			info.addInfo("Copyright", copyrightInfo, true);
 			//For first party games this should say that, and for third party games it should say " LICENSED BY SNK CORPORATION"
 			info.addInfo("First party", "COPYRIGHT BY SNK CORPORATION".Equals(copyrightInfo));
 

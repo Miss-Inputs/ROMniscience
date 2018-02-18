@@ -237,7 +237,7 @@ namespace ROMniscience.Handlers {
 				string makerCode = s.read(2, Encoding.ASCII);
 				info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
 				int unitCode = s.read();
-				info.addInfo("Unit code", unitCode, UNIT_CODES);
+				info.addInfo("Device type", unitCode, UNIT_CODES);
 				info.addInfo("Platform", unitCode == 3 ? "DSi" : "DS");
 				int encryption_seed = s.read(); //From 0 to 7, usually 0
 				info.addInfo("Encryption seed", encryption_seed, true);

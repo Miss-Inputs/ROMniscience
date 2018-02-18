@@ -73,7 +73,7 @@ namespace ROMniscience.Handlers {
                 return;
             }
             info.addInfo("Detected format", "Headered");
-            info.addInfo("Header magic", atari7800Magic, true);
+            info.addInfo("Magic", atari7800Magic, true);
             info.addInfo("Header version", headerVersion);
 
 

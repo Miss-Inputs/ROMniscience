@@ -50,7 +50,7 @@ namespace ROMniscience.Handlers {
             string productCode = s.read(4, Encoding.ASCII);
             info.addInfo("Product code", productCode);
             //I don't know what to do about the game type, since it's all V so far
-            info.addInfo("Game type", productCode[0], true);
+            info.addInfo("Type", productCode[0], true);
             string shortTitle = productCode.Substring(1, 2);
             info.addInfo("Short title", shortTitle);
             char region = productCode[3];
