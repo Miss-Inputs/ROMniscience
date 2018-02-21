@@ -27,12 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ROMniscience.Handlers.Stubs {
-	class MasterSystem: StubHandler {
+namespace ROMniscience.Handlers {
+	class GameGear: Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
-			{"sms", "Sega Master System ROM"}
+			{"gg", "Sega Game Gear ROM"}
 		};
 
-		public override string name => "Sega Master System";
-	}
+		public override string name => "Game Gear";
+
+        public override void addROMInfo(ROMInfo info, ROMFile file) {
+            info.addInfo("Platform", name);
+            MasterSystem.parseSMSROM(info, file);
+        }
+    }
 }

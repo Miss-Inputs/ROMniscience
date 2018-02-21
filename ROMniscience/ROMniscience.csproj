@@ -106,14 +106,14 @@
     <Compile Include="Handlers\Stubs\Cybiko.cs" />
     <Compile Include="Handlers\Stubs\CybikoExtreme.cs" />
     <Compile Include="Handlers\Stubs\EReader.cs" />
-    <Compile Include="Handlers\Stubs\GameGear.cs" />
+    <Compile Include="Handlers\GameGear.cs" />
     <Compile Include="Handlers\Stubs\GP32.cs" />
     <Compile Include="Handlers\Stubs\Intellivision.cs" />
     <Compile Include="Handlers\Stubs\Jaguar.cs" />
     <Compile Include="Handlers\Stubs\Leapster.cs" />
     <Compile Include="Handlers\Stubs\Loopy.cs" />
     <Compile Include="Handlers\Stubs\Lynx.cs" />
-    <Compile Include="Handlers\Stubs\MasterSystem.cs" />
+    <Compile Include="Handlers\MasterSystem.cs" />
     <Compile Include="Handlers\Stubs\MegaDuck.cs" />
     <Compile Include="Handlers\Stubs\MSX.cs" />
     <Compile Include="Handlers\Stubs\MSX2.cs" />
