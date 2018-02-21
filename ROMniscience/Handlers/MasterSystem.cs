@@ -29,6 +29,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers {
+    //http://www.smspower.org/Development/ROMHeader
+    //http://www.smspower.org/Development/SDSCHeader
     class MasterSystem : Handler {
         public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
             {"sms", "Sega Master System ROM"}
@@ -70,7 +72,7 @@ namespace ROMniscience.Handlers {
             return (((hi1 * 10) + lo1) * 100) + ((hi2 * 10) + lo2);
         }
 
-        public static void parseSegaHeader(ROMInfo info, InputStream s, long offset) {
+        public static void parseSegaHeader(ROMInfo info, InputStream s, long offset, bool isGameGear) {
             s.Position = offset;
 
             byte[] reserved = s.read(2);
@@ -86,6 +88,14 @@ namespace ROMniscience.Handlers {
 
             string productCode = String.Format("{0}{1:0000}", productCodeLo == 0 ? "" : productCodeLo.ToString(), decodeBCD(productCodeHi));
             info.addInfo("Product code", productCode);
+            if(isGameGear){
+                if (productCode.Length >= 5) {
+                    string makerCode = "T-" + productCode.Substring(0, productCode.Length - 3);
+                    info.addInfo("Manufacturer", makerCode, Megadrive.MANUFACTURERS);
+                } else {
+                    info.addInfo("Manufacturer", "Sega");
+                }
+            }
             info.addInfo("Version", version);
 
             int regionCodeAndROMSize = s.read();
@@ -94,6 +104,8 @@ namespace ROMniscience.Handlers {
 
             info.addInfo("Region", regionCode, REGIONS);
             info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
+
+            //TODO Calculate checksum http://www.smspower.org/Development/BIOSes
         }
 
         static String readNullTerminatedString(InputStream s) {
@@ -173,7 +185,8 @@ namespace ROMniscience.Handlers {
                 //and therefore Japanese Master System games aren't required to have it
                 info.addInfo("Header position", headerOffset, true);
                 info.addInfo("Has standard header", true);
-                parseSegaHeader(info, s, headerOffset);
+                bool isGameGear = file.extension.ToLower().EndsWith("gg");
+                parseSegaHeader(info, s, headerOffset, isGameGear);
             } else {
                 info.addInfo("Has standard header", false);
             }
