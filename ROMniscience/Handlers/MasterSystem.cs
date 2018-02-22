@@ -133,8 +133,8 @@ namespace ROMniscience.Handlers {
 
             int day = s.read();
             info.addInfo("Day", decodeBCD(day));
-            int month = s.read();
-            info.addInfo("Month", decodeBCD(month));
+            int month = decodeBCD(s.read());
+            info.addInfo("Month", (month != 0 && month < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month) : String.Format("Unknown ({0})", month));
             byte[] year = s.read(2);
             info.addInfo("Year", decodeBCD(year));
 
