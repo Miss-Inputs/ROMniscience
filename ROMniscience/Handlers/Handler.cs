@@ -83,5 +83,14 @@ namespace ROMniscience.Handlers {
 				return list;
 			}
 		}
+
+        public virtual bool shouldSkipHeader(ROMFile rom) {
+            return false;
+        }
+
+        public virtual int skipHeaderBytes() {
+            //Override this with the amount of bytes this should skip
+            return 0;
+        }
 	}
 }

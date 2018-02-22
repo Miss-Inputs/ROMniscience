@@ -67,12 +67,14 @@ namespace ROMniscience.Datfiles {
 			return null;
 		}
 
-		public XMLDatfile.IdentifyResult identify(InputStream s) {
+		public XMLDatfile.IdentifyResult identify(InputStream s, long offset) {
 			long originalPos = s.Position;
 			try {
 				MD5 md5 = MD5.Create();
 				SHA1 sha1 = SHA1.Create();
 				int crc32 = 0;
+
+                s.Position = offset;
 
 				byte[] buf;
 				while((buf = s.read(1024 * 1024)).Length > 0) {

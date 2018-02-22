@@ -41,7 +41,7 @@ namespace ROMniscience.Handlers {
 		public override string name => "Nintendo Entertainment System";
 
 		public static void parseiNES(ROMInfo info, InputStream s) {
-			//It is assumed that we've already just read the header magic, which we now don't need, and hence are at offset 4
+            s.Position = 4; //Don't need to read the header magic again
 
 			int prgSize = s.read();
 			int chrSize = s.read();
@@ -100,17 +100,44 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public override void addROMInfo(ROMInfo info, ROMFile file) {
+        byte[] getHeaderMagic (InputStream s) {
+            long pos = s.Position;
+            try {
+                s.Position = 0;
+                return s.read(4);
+            } finally {
+                s.Position = pos;
+            }
+        }
+
+        bool isINES(byte[] magic) {
+            //Could also be NES 2.0 which works the same way more or less
+            //Wii U VC apparently uses 00 as the fourth byte instead of 1A but we still know what you're up to Nintendo
+            return magic[0] == 0x4E && magic[1] == 0x45 && magic[2] == 0x53 && (magic[3] == 0x1A || magic[3] == 0x00);
+        }
+
+        bool isFwNES(byte[] magic) {
+            return magic[0] == 0x46 && magic[1] == 0x44 && magic[2] == 0x53 && magic[3] == 0x1A;
+        }
+
+        public override bool shouldSkipHeader(ROMFile rom) {
+            byte[] magic = getHeaderMagic(rom.stream);
+            return isINES(magic) || isFwNES(magic);
+        }
+
+        public override int skipHeaderBytes() {
+            return 16;
+        }
+
+        public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 
 			InputStream s = file.stream;
-			byte[] headerMagic = s.read(4);
+            byte[] headerMagic = getHeaderMagic(s);
 
-			if(headerMagic[0] == 0x4E && headerMagic[1] == 0x45 && headerMagic[2] == 0x53 && (headerMagic[3] == 0x1A || headerMagic[3] == 0x00)) {
-				//iNES but could also be NES 2.0
-				//Wii U VC apparently uses 00 as the fourth byte instead of 1A but we still know what you're up to Nintendo
+			if(isINES(headerMagic)) {
 				parseiNES(info, s);
-			} else if(headerMagic[0] == 0x46 && headerMagic[1] == 0x44 && headerMagic[2] == 0x53 && headerMagic[3] == 0x1A) {
+			} else if(isFwNES(headerMagic)) {
 				//TODO I'm too lazy at the moment to add the number of sides of disks, which I might as well do at some point
 				info.addInfo("Detected format", "fwNES");
 			} else {

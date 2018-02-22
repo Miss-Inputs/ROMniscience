@@ -82,7 +82,7 @@ namespace ROMniscience {
                 info.addInfo("File type", fileType ?? "Unknown");
 
                 if (datfiles != null) {
-                    XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream);
+                    XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
                     info.addInfo("Datfile", result?.datfile.name);
                     info.addInfo("Datfile game name", result?.game.name);
                     info.addInfo("Datfile game category", result?.game.category);
