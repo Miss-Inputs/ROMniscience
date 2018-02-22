@@ -532,7 +532,21 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
+        public static int calcChecksum(InputStream s) {
+            long pos = s.Position;
+            try {
+                s.Position = 0x200;
+                int checksum = 0;
+                while (s.Position < s.Length) {
+                    checksum = (checksum + s.readShortBE()) & 0xffff;
+                }
+                return checksum;
+            } finally {
+                s.Position = pos;
+            }
+        }
+
+        private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
 			s.Seek(0x100, System.IO.SeekOrigin.Begin);
 
@@ -579,9 +593,12 @@ namespace ROMniscience.Handlers {
 			string version = s.read(2, Encoding.ASCII);
 			info.addInfo("Version", version);
 
-			int checksum = s.readShortBE();
+			ushort checksum = (ushort)s.readShortBE();
 			//TODO calc checksum (add every byte in the ROM starting from 0x200 in 2-byte chunks (first byte multiplied by 256), use only first 16 bits of result)
 			info.addInfo("Checksum", checksum, true);
+            int calculatedChecksum = calcChecksum(s);
+            info.addInfo("Calculated checksum", calculatedChecksum, true);
+            info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
