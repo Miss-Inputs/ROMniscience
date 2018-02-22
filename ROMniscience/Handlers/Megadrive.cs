@@ -546,7 +546,7 @@ namespace ROMniscience.Handlers {
             }
         }
 
-        private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4}\..{3})");
+        private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
 			s.Seek(0x100, System.IO.SeekOrigin.Begin);
 
@@ -572,11 +572,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Copyright", copyright);
 			var matches = copyrightRegex.Match(copyright);
 			if(matches.Success) {
-				//TODO Sometimes you have stuff like T-075 instead of T-75
+				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
-				if(DateTime.TryParseExact(matches.Groups[2].Value, "yyyy.MMM", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None, out DateTime date)) {
-					info.addInfo("Date", date);
-				}
+                info.addInfo("Year", matches.Groups[2].Value);
+                info.addInfo("Month", matches.Groups[3].Value);
+				//TODO Unabbreviate month
 			}
 
 			string domesticName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
