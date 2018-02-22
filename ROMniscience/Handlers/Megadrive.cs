@@ -43,7 +43,7 @@ namespace ROMniscience.Handlers {
 		public override string name => "Megadrive/Genesis";
 
 		public readonly static IDictionary<string, string> PRODUCT_TYPES = new Dictionary<string, string> {
-			{"AI", "Education"}, //Or is it Al? Need to find something that actually uses this
+			{"AI", "Education"},
 			{"BR", "Boot ROM"}, //Mega CD BIOS etc
 			{"GM", "Game"},
 			{"OS", "Operating system"}, //Genesis OS ROM uses this
@@ -486,7 +486,25 @@ namespace ROMniscience.Handlers {
 			{"T-479", "Triangle Service"},
 		};
 
-		public static InputStream decodeSMD(InputStream s) {
+        public readonly static IDictionary<string, int> MONTH_ABBREVIATIONS = new Dictionary<string, int> {
+            {"JAN", 1},
+			{"FEB", 2},
+			{"MAR", 3},
+            {"APR", 4},
+            {"APL", 4},
+            {"MAY", 5},
+            {"JUN", 6},
+            {"JUL", 7},
+            {"AUG", 8},
+            {"08", 8},
+            {"SEP", 9},
+            {"SEPT", 9},
+            {"OCT", 10},
+            {"NOV", 11},
+            {"DEC", 12},
+        };
+
+        public static InputStream decodeSMD(InputStream s) {
 			s.Seek(512, System.IO.SeekOrigin.Current);
 			//Should only need this much to read the header. If I was actually converting
 			//the ROM I'd need to use the SMD header to know how many blocks there are
@@ -575,11 +593,14 @@ namespace ROMniscience.Handlers {
 				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
                 info.addInfo("Year", matches.Groups[2].Value);
-                info.addInfo("Month", matches.Groups[3].Value);
-				//TODO Unabbreviate month
-			}
+                if(MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value, out int month)) {
+                    info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
+                } else {
+                    info.addInfo("Month", String.Format("Unknown ({0})", matches.Groups[3].Value));
+                }
+            }
 
-			string domesticName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
+            string domesticName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", domesticName);
 			string overseasName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Overseas name", overseasName);
@@ -594,7 +615,6 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 
 			ushort checksum = (ushort)s.readShortBE();
-			//TODO calc checksum (add every byte in the ROM starting from 0x200 in 2-byte chunks (first byte multiplied by 256), use only first 16 bits of result)
 			info.addInfo("Checksum", checksum, true);
             int calculatedChecksum = calcChecksum(s);
             info.addInfo("Calculated checksum", calculatedChecksum, true);
