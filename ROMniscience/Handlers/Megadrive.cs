@@ -606,7 +606,7 @@ namespace ROMniscience.Handlers {
 			int romStart = s.readIntBE();
 			info.addInfo("ROM start", romStart, true);
 			int romEnd = s.readIntBE();
-			info.addInfo("ROM end", romStart, true);
+			info.addInfo("ROM end", romEnd, true);
 			info.addInfo("ROM size", romEnd - romStart, ROMInfo.FormatMode.SIZE);
 			int ramStart = s.readIntBE();
 			info.addInfo("RAM start", ramStart, true);
