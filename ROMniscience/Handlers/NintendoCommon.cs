@@ -52,8 +52,8 @@ namespace ROMniscience.Handlers {
         };
 
         public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
-            //These look like they're used by Gamecube discs as well
-	        //Anyway they're definitely used by SNES, GB, GBA, and DS, and sort of Pokemon Mini
+            //These look like they're used by FDS, Gamecube, and Wii as well
+	        //Anyway, these are used by SNES, GB/GBC, GBA, DS, 64DD and Virtual Boy; seemingly Pokemon Mini
 
 			{"00", "Nobody"}, //Probably homebrew
 			{"01", "Nintendo"},
@@ -128,7 +128,7 @@ namespace ROMniscience.Handlers {
 			{"70", "Infogrames/Atari, SA"}, //The modern Atari these days _is_ Infogrames basically and it's all very confusing, but anyway yeah there's DS games like Point Blank DS which use this and they're published under the Atari name, and then there's stuff like Legacy of Goku which is published under Infogrames but they're basically just the same company, and don't ask me about the original Atari because I'll die of confusion
 			{"71", "Interplay"},
 			{"72", "Broderbund"}, //Might be wrong, as I've only seen it in Dungeon Master, which is published by JVC and not Broderbund
-			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
+			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
 			{"75", "sci/The Sales Curve"},
 			{"78", "THQ"},
 			{"79", "Accolade"},
@@ -231,7 +231,7 @@ namespace ROMniscience.Handlers {
 			{"FR", "Digital Jesters"}, //Could also be Neko Entertainment, I'm just looking at Crazy Frog Racer
 			{"P8", "Pin Eight"}, //Well... I guess it's not really a licensee code if it's homebrew and therefore by definition unlicensed...
 			{"6S", "TDK"},
-			{"AK", "Acekard"}, //Yeah, also not really a licensee either I guess
+			{"AK", "Acekard"}, //Yeah, also not really a licensee either I guess; anyway we'll see if anything which isn't the Acecard firmware has this
 			{"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and published by Capcom
 			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
 			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
@@ -246,6 +246,7 @@ namespace ROMniscience.Handlers {
             {"2N", "Smilesoft"},
             {"4Y", "Rare"},
             {"6B", "Beam Software/Melbourne House"},
+            {"AL", "Media Factory"},
 
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
@@ -296,10 +297,10 @@ namespace ROMniscience.Handlers {
             //9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
             //9M: Mario Family (GBC) Dev: Natsume Pub: Jaguar (not to be confused with the Atari Jaguar, this Jaguar makes sewing machines), Sewing Machine Operation Software (for the Singer Izek)
             //A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet
-            //AL: Wizardry 1/2/3 (SNES) (dev: Game Studio / pub: Media Factory)
             //BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
             //CL: Oekaki Logic (SNES) (Sekaibunka Publishing)
 			//DK (Initial D Gaiden) MTO / Kodansha?
+            //DM: Doshin the Giant 64DD games, but also the Randnet Disk, and not sure what's in common there (Randnet themselves? Alps? Did they have any involvement with Doshin the Giant though?)
             //F9 Spectre (SNES) (Mac dev: Peninsula Gameworks / pub: Velocity Development) (SNES dev: Synergistic Software / pub: US Cybersoft EU GameTek)
             //FG Bomberman Selection (dev: Hudson Soft / pub: Jupiter or Hudson Soft themselves, depending on who you ask) This is tricky because Hudson Soft already has a licensee code of 0x18, and Jupiter never published anything else, maybe some kind of Korean branch of Hudson?
 			//FQ (WarioWare: Touched iQue version aka Momo Waliou Zhizao) Alpha-Unit (according to the banner)? Intelligent Systems? iQue itself or Wei Yen?
