@@ -29,49 +29,51 @@ using System.Threading.Tasks;
 using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
-	//Info mostly from http://en64.shoutwiki.com/wiki/ROM, but also a whole bunch of various forum posts around
-	//the internet which all disagree with each other. I ended up doing a lot of original research by actually
-	//reading the ROM headers myself to see what works out
-	class N64: Handler {
-		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
-			{"z64", "Nintendo 64 ROM"},
-			{"v64", "Nintendo 64 Doctor 64 ROM"}, //Byteswapped
+    //Info mostly from http://en64.shoutwiki.com/wiki/ROM, but also a whole bunch of various forum posts around
+    //the internet which all disagree with each other. I ended up doing a lot of original research by actually
+    //reading the ROM headers myself to see what works out
+    //But also https://github.com/LuigiBlood/64dd/wiki/System-Area
+    class N64 : Handler {
+        public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
+            {"z64", "Nintendo 64 ROM"},
+            {"v64", "Nintendo 64 Doctor 64 ROM"}, //Byteswapped
 			{"n64", "Nintendo 64 word swapped ROM"},
-			//TODO 64DD (.ndd) once I have that figured out
-			};
-		public override string name => "Nintendo 64";
+            {"ndd", "64DD retail disk"},
+            {"ddd", "64DD development disk"},
+        };
+        public override string name => "Nintendo 64";
 
-		readonly static IDictionary<char, string> N64_REGIONS = new Dictionary<char, string> {
-			{'\0', "Homebrew"},
-			{'A', "Asia"},
-			{'B', "Brazil"},
-			{'C', "China"},
-			{'D', "Germany"},
-			{'E', "USA"},
-			{'F', "France"},
-			{'G', "Gateway 64 NTSC"},
-			{'H', "Netherlands"},
-			{'I', "Italy"},
-			{'J', "Japan"},
-			{'K', "Korea"},
-			{'L', "Gateway 64 PAL"},
-			{'N', "Canada"},
-			{'P', "Europe"}, //P for PAL I guess
+        readonly static IDictionary<char, string> N64_REGIONS = new Dictionary<char, string> {
+            {'\0', "Homebrew"},
+            {'A', "Asia"},
+            {'B', "Brazil"},
+            {'C', "China"},
+            {'D', "Germany"},
+            {'E', "USA"},
+            {'F', "France"},
+            {'G', "Gateway 64 NTSC"},
+            {'H', "Netherlands"},
+            {'I', "Italy"},
+            {'J', "Japan"},
+            {'K', "Korea"},
+            {'L', "Gateway 64 PAL"},
+            {'N', "Canada"},
+            {'P', "Europe"}, //P for PAL I guess
 			{'S', "Spain"},
-			{'U', "Australia"},
-			{'W', "Scandanavia"},
-			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"},
-		};
+            {'U', "Australia"},
+            {'W', "Scandanavia"},
+            {'X', "Europe (X)"},
+            {'Y', "Europe (Y)"},
+        };
 
-		readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {
-			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but Pocket Monsters 
+        readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {
+            {'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but Pocket Monsters 
 			//Stadium and Ocarina of Time use this as well (since they were going to have expansions which more or less ended up being Pokemon Stadium (international) and Majora's Mask)
 			{'D', "64DD disk"}, //64DD disk dumps use a different format entirely, but there's a hack of SimCity 64 to make it function as a normal cart/ROM file which uses this
 			{'E', "64DD expansion for cartridge"},
-			{'H', "Homebrew"},
-			{'N', "Cartridge"},
-			{'Z', "Seta Aleck64 arcade board"}, //While these would usually be MAME romsets, it's possible to extract the file representing the game and it's just a byteswapped N64 rom
+            {'H', "Homebrew"},
+            {'N', "Cartridge"},
+            {'Z', "Seta Aleck64 arcade board"}, //While these would usually be MAME romsets, it's possible to extract the file representing the game and it's just a byteswapped N64 rom
 			{'\0', "Homebrew"},
 			//Some other ones that might not be valid (since product codes only make sense for officially released products):
 			//M: Dragon Sword prototype (not the Aug 25 1999 one, but the one in No-Intro)
@@ -83,117 +85,176 @@ namespace ROMniscience.Handlers {
 
 		};
 
-		enum N64ROMFormat {
-			Z64, N64, V64, UNKNOWN
-		}
+        enum N64ROMFormat {
+            Z64, N64, V64, UNKNOWN, JAPAN_NDD, USA_NDD
+        }
 
-		static N64ROMFormat detectFormat(byte[] header) {
-			if(header[0] == 0x80 && header[1] == 0x37 && header[2] == 0x12 && header[3] == 0x40) {
-				return N64ROMFormat.Z64;
-			} else if(header[0] == 0x37 && header[1] == 0x80 && header[2] == 0x40 && header[3] == 0x12) {
-				return N64ROMFormat.V64;
-			} else if(header[0] == 0x40 && header[1] == 0x12 && header[2] == 0x37 && header[3] == 0x80) {
-				return N64ROMFormat.N64;
-			}
-			return N64ROMFormat.UNKNOWN;
-		}
+        static N64ROMFormat detectFormat(byte[] header) {
+            if (header[0] == 0x80 && header[1] == 0x37 && header[2] == 0x12 && header[3] == 0x40) {
+                return N64ROMFormat.Z64;
+            } else if (header[0] == 0x37 && header[1] == 0x80 && header[2] == 0x40 && header[3] == 0x12) {
+                return N64ROMFormat.V64;
+            } else if (header[0] == 0x40 && header[1] == 0x12 && header[2] == 0x37 && header[3] == 0x80) {
+                return N64ROMFormat.N64;
+            } else if (header[0] == 0xe8 && header[1] == 0x48 && header[2] == 0xd3 && header[3] == 0x16) {
+                return N64ROMFormat.JAPAN_NDD;
+            } else if (header[0] == 0x22 && header[1] == 0x63 && header[2] == 0xee && header[3] == 0x56) {
+                //What retail USA disks are out there, though? Even the translations use the Japanese header
+                return N64ROMFormat.USA_NDD;
+            }
+            return N64ROMFormat.UNKNOWN;
+        }
 
-		public static void parseN64ROM(InputStream s, ROMInfo info) {
-			int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
-			info.addInfo("Clock rate", clockRate, true);
-			int programCounter = s.readIntBE(); //This technically is the entry point but the CIC chip might alter that
-			info.addInfo("Entry point", programCounter, true);
-			int release = s.readIntBE();
-			info.addInfo("Release address", release, true); //What the fuck does that even mean
-			int crc1 = s.readIntBE(); //TODO: Calculate the checksum, see http://n64dev.org/n64crc.html... this is gonna be hell
-			int crc2 = s.readIntBE();
-			info.addInfo("CRC1", crc1, true);
-			info.addInfo("CRC2", crc2, true);
-			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
-			info.addInfo("Unknown", unknown, true);
+        public static void parseN64ROM(InputStream s, ROMInfo info) {
+            int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
+            info.addInfo("Clock rate", clockRate, true);
+            int programCounter = s.readIntBE(); //This technically is the entry point but the CIC chip might alter that
+            info.addInfo("Entry point", programCounter, true);
+            int release = s.readIntBE();
+            info.addInfo("Release address", release, true); //What the fuck does that even mean
+            int crc1 = s.readIntBE(); //TODO: Calculate the checksum, see http://n64dev.org/n64crc.html... this is gonna be hell
+            int crc2 = s.readIntBE();
+            info.addInfo("CRC1", crc1, true);
+            info.addInfo("CRC2", crc2, true);
+            byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
+            info.addInfo("Unknown", unknown, true);
 
-			//The N64 does use Shift-JIS for its internal names, and if anyone says it is
-			//ASCII I will smack them on the head with a copy of Densha de Go 64
-			string name = s.read(20, MainProgram.shiftJIS).TrimEnd('\0');
-			info.addInfo("Internal name", name);
+            //The N64 does use Shift-JIS for its internal names, and if anyone says it is
+            //ASCII I will smack them on the head with a copy of Densha de Go 64
+            string name = s.read(20, MainProgram.shiftJIS).TrimEnd('\0');
+            info.addInfo("Internal name", name);
 
-			byte[] unknown2 = s.read(4);
-			info.addInfo("Unknown 2", unknown2, true);
-			byte[] unknown3 = s.read(3);
-			info.addInfo("Unknown 3", unknown3, true);
+            byte[] unknown2 = s.read(4);
+            info.addInfo("Unknown 2", unknown2, true);
+            byte[] unknown3 = s.read(3);
+            info.addInfo("Unknown 3", unknown3, true);
 
-			//A lot of N64 documentation seems to think the media type (or in the case of
-			//n64dev, the manufacturer which is not what these bytes are for) is 4 bytes, but it's
-			//just one byte, these are just there, all I know is that Custom Robo's fan
-			//translation patch changes this and messes up parsing the header if I think that
-			//the media type is 4 bytes
-			string gameCode = s.read(4, Encoding.ASCII); //Just alphanumeric but ASCII will do
-			info.addInfo("Product code", gameCode);
-			char mediaType = gameCode[0];
-			info.addInfo("Type", mediaType, N64_MEDIA_TYPES);
-			string shortTitle = gameCode.Substring(1, 2);
-			info.addInfo("Short title", shortTitle);
-			char region = gameCode[3];
-			info.addInfo("Region", region, N64_REGIONS);
-			int version = s.read();
-			info.addInfo("Version", version);
+            //A lot of N64 documentation seems to think the media type (or in the case of
+            //n64dev, the manufacturer which is not what these bytes are for) is 4 bytes, but it's
+            //just one byte, these are just there, all I know is that Custom Robo's fan
+            //translation patch changes this and messes up parsing the header if I think that
+            //the media type is 4 bytes
+            string gameCode = s.read(4, Encoding.ASCII); //Just alphanumeric but ASCII will do
+            info.addInfo("Product code", gameCode);
+            char mediaType = gameCode[0];
+            info.addInfo("Type", mediaType, N64_MEDIA_TYPES);
+            string shortTitle = gameCode.Substring(1, 2);
+            info.addInfo("Short title", shortTitle);
+            char region = gameCode[3];
+            info.addInfo("Region", region, N64_REGIONS);
+            int version = s.read();
+            info.addInfo("Version", version);
 
-			int[] bootCode = new int[1008];
-			uint bootCodeChecksum = 0;
-			for(var i = 0; i < 1008; ++i) {
-				bootCode[i] = s.readIntBE();
-				bootCodeChecksum = (uint)(bootCodeChecksum + bootCode[i]) & 0xffffffff;
-			}
-			info.addInfo("Boot code", bootCode, true);
+            int[] bootCode = new int[1008];
+            uint bootCodeChecksum = 0;
+            for (var i = 0; i < 1008; ++i) {
+                bootCode[i] = s.readIntBE();
+                bootCodeChecksum = (uint)(bootCodeChecksum + bootCode[i]) & 0xffffffff;
+            }
+            info.addInfo("Boot code", bootCode, true);
 
-			switch(bootCodeChecksum) {
-				case 0x27fdf31:
-					info.addInfo("CIC chip", "6101/7102 (Star Fox 64)");
-					break;
-				case 0x57c85244:
-					info.addInfo("CIC chip", "6102/7101 (standard, Super Mario 64 etc)");
-					break;
-				case 0x497e414b:
-					info.addInfo("CIC chip", "6103/7103 (Banjo-Kazooie, Paper Mario etc)");
-					break;
-				case 0x49f60e96:
-					info.addInfo("CIC chip", "6105/7105 (Ocarina of Time etc)");
-					break;
-				case 0xd5be5580:
-					info.addInfo("CIC chip", "6106/7106 (F-Zero X, Yoshi's Story etc)");
-					break;
-				default:
-					info.addInfo("CIC chip", String.Format("Unknown {0:X}", bootCodeChecksum));
-					break;
+            switch (bootCodeChecksum) {
+                case 0x27fdf31:
+                    info.addInfo("CIC chip", "6101/7102 (Star Fox 64)");
+                    break;
+                case 0x57c85244:
+                    info.addInfo("CIC chip", "6102/7101 (standard, Super Mario 64 etc)");
+                    break;
+                case 0x497e414b:
+                    info.addInfo("CIC chip", "6103/7103 (Banjo-Kazooie, Paper Mario etc)");
+                    break;
+                case 0x49f60e96:
+                    info.addInfo("CIC chip", "6105/7105 (Ocarina of Time etc)");
+                    break;
+                case 0xd5be5580:
+                    info.addInfo("CIC chip", "6106/7106 (F-Zero X, Yoshi's Story etc)");
+                    break;
+                default:
+                    info.addInfo("CIC chip", String.Format("Unknown {0:X}", bootCodeChecksum));
+                    break;
 
-					//Others:
-					//64DD modem: D1055850 (IIRC, this doesn't actually have a CIC chip at all)
-					//2C21F6CA in most Aleck64 games hacked to run on retail N64 carts via Everdrive, although Tower & Shaft uses 1950CEA5 and Star Soldier Vanishing Earth Arcade uses AC11F6CA
-					//Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
-					//SimCity 64DD cart hack: 3BC19870
-			}
+                    //Others:
+                    //64DD modem: D1055850 (IIRC, this doesn't actually have a CIC chip at all)
+                    //2C21F6CA in most Aleck64 games hacked to run on retail N64 carts via Everdrive, although Tower & Shaft uses 1950CEA5 and Star Soldier Vanishing Earth Arcade uses AC11F6CA
+                    //Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
+                    //SimCity 64DD cart hack: 3BC19870
+            }
 
-			//Might be a way to detect save type, also number of players and rumble (Project64 shows me
-			//the latter two for some ROMs it explicitly says it doesn't have in its database so it knows something
-			//I don't know)
-		}
+            //Might be a way to detect save type
+        }
 
-		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			info.addInfo("Platform", "Nintendo 64");
+        public static void parse64DDDiskInfo(ROMInfo info, InputStream s) {
+            //The naming of this function is a solid argument for snake_case everywhere
+            s.Position = 0x43670; //I don't know why here, but it is
 
-			InputStream s = file.stream;
-			byte[] header = s.read(4);
-			N64ROMFormat format = detectFormat(header);
-			info.addInfo("Detected format", detectFormat(header));
+            string gameCode = s.read(4, Encoding.ASCII);
+            info.addInfo("Product code", gameCode);
+            char mediaType = gameCode[0];
+            info.addInfo("Type", mediaType, N64_MEDIA_TYPES);
+            string shortTitle = gameCode.Substring(1, 2);
+            info.addInfo("Short title", shortTitle);
+            char region = gameCode[3];
+            info.addInfo("Region", region, N64_REGIONS);
 
-			if(format == N64ROMFormat.V64) {
-				ByteSwappedInputStream swappedInputStream = new ByteSwappedInputStream(s);
-				parseN64ROM(swappedInputStream, info);
-			} else {
-				parseN64ROM(s, info);
-			}
-			//Haha I'm sure word swapping will be a lot of fun
-		}
+            int version = s.read();
+            info.addInfo("Version", version);
 
-	}
+            int diskNumber = s.read();
+            info.addInfo("Disk number", diskNumber);
+
+            int usesMFS = s.read();
+            info.addInfo("Uses MFS", usesMFS != 0);
+
+            int diskUse = s.read();
+            info.addInfo("Disk use", diskUse);
+
+            byte[] factoryLineNumber = s.read(8);
+            //In BCD apparently
+            info.addInfo("Factory line number", factoryLineNumber);
+
+            byte[] productionTime = s.read(8);
+            //BCD, but what format is it in even then? Is it a big ol' 64 bit timestamp?
+            info.addInfo("Production time", productionTime);
+
+            string companyCode = s.read(2, Encoding.ASCII);
+            info.addInfo("Manufacturer", companyCode, NintendoCommon.LICENSEE_CODES);
+
+            string freeArea = s.read(6, MainProgram.shiftJIS);
+            info.addInfo("Memo", freeArea);
+        }
+
+        static bool isDiskFormat(N64ROMFormat format) {
+            return format == N64ROMFormat.JAPAN_NDD || format == N64ROMFormat.USA_NDD;
+        }
+
+        static bool isDiskExtension(string ext) {
+            if (ext == null) {
+                return false;
+            }
+            return ext.ToLower().Equals(".ndd") || ext.ToLower().Equals(".ddd");
+        }
+
+        public override void addROMInfo(ROMInfo info, ROMFile file) {
+            info.addInfo("Platform", "Nintendo 64");
+
+            InputStream s = file.stream;
+            byte[] header = s.read(4);
+            N64ROMFormat format = detectFormat(header);
+            info.addInfo("Detected format", detectFormat(header));
+
+            if (!isDiskFormat(format) && isDiskExtension(file.extension)) {
+                //Some kind of 64DD disk with an unknown format (might be a dev disk or something, or a bad dump with no system area)
+                return;
+            } else if (isDiskFormat(format)) {
+                parse64DDDiskInfo(info, s);
+            } else if (format == N64ROMFormat.V64) {
+                ByteSwappedInputStream swappedInputStream = new ByteSwappedInputStream(s);
+                parseN64ROM(swappedInputStream, info);
+            } else {
+                parseN64ROM(s, info);
+            }
+            //Haha I'm sure word swapping will be a lot of fun
+        }
+
+    }
 }
