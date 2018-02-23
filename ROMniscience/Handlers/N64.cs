@@ -154,7 +154,8 @@ namespace ROMniscience.Handlers {
             info.addInfo("Boot code", bootCode, true);
 
             switch (bootCodeChecksum) {
-                case 0x27fdf31:
+                case 0x27fdf31: //Lylat Wars
+                case 0xfb631223: //Star Fox 64 (USA), or at least rev A
                     info.addInfo("CIC chip", "6101/7102 (Star Fox 64)");
                     break;
                 case 0x57c85244:
@@ -169,6 +170,9 @@ namespace ROMniscience.Handlers {
                 case 0xd5be5580:
                     info.addInfo("CIC chip", "6106/7106 (F-Zero X, Yoshi's Story etc)");
                     break;
+                case 0x3bc19870:
+                    info.addInfo("CIC chip", "5137 (64DD cartridge conversion)");
+                    break;
                 default:
                     info.addInfo("CIC chip", String.Format("Unknown {0:X}", bootCodeChecksum));
                     break;
@@ -177,7 +181,6 @@ namespace ROMniscience.Handlers {
                     //64DD modem: D1055850 (IIRC, this doesn't actually have a CIC chip at all)
                     //2C21F6CA in most Aleck64 games hacked to run on retail N64 carts via Everdrive, although Tower & Shaft uses 1950CEA5 and Star Soldier Vanishing Earth Arcade uses AC11F6CA
                     //Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
-                    //SimCity 64DD cart hack: 3BC19870
             }
 
             //Might be a way to detect save type
