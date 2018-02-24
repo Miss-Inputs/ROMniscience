@@ -71,7 +71,7 @@ namespace ROMniscience.Handlers {
 			try {
 				int x = 0;
 				f.Seek(0xa0, SeekOrigin.Begin);
-				while(f.Position < 0xbc) {
+				while(f.Position <= 0xbc) {
 					x = (x - f.read()) & 0xff;
 				}
 				return (x - 0x19) & 0xff;
