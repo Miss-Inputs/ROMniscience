@@ -164,18 +164,18 @@ namespace ROMniscience.Handlers {
 
             int score = 0;
 
-            s.Seek(offset + 0x3c, SeekOrigin.Begin);
+            s.Position = offset + 0x3c;
             int resetVector = s.readShortLE();
 
-            s.Seek(offset + 0x1c, SeekOrigin.Begin);
+            s.Position = offset + 0x1c;
             int inverseChecksum = s.readShortLE();
             int checksum = s.readShortLE();
 
             long resetOpcodeOffset = ((uint)(offset & -0x7fff)) | (ushort)(resetVector & 0x7ffff);
-            s.Seek(resetOpcodeOffset, SeekOrigin.Begin);
+            s.Position = resetOpcodeOffset;
             int resetOpcode = s.read();
 
-            s.Seek(offset + 0x15, SeekOrigin.Begin);
+            s.Position = offset + 0x15;
             int mapper = s.read() & ~0x10;
 
             if (resetVector < 0x8000) {
@@ -215,7 +215,7 @@ namespace ROMniscience.Handlers {
                 score += 2;
             }
 
-            s.Seek(offset + 0x16, SeekOrigin.Begin);
+            s.Position = offset + 0x16;
             if (s.read() < 8) {
                 //Check if ROM type is a normal value
                 score++;
@@ -272,7 +272,7 @@ namespace ROMniscience.Handlers {
         }
 
         public static void parseBSHeader(InputStream s, ROMInfo info, long offset) {
-            s.Seek(offset, SeekOrigin.Begin);
+            s.Position = offset;
 
             string name = s.read(16, MainProgram.shiftJIS).TrimEnd('\0', ' ');
             info.addInfo("Internal name", name);
@@ -316,7 +316,7 @@ namespace ROMniscience.Handlers {
             byte[] unknown = s.read(4);
             info.addInfo("Unknown", unknown, true);
 
-            s.Seek(offset - 16, SeekOrigin.Begin);
+            s.Position = offset - 16;
             string licensee = s.read(2, Encoding.ASCII);
             info.addInfo("Manufacturer", licensee, NintendoCommon.LICENSEE_CODES);
 
@@ -325,7 +325,7 @@ namespace ROMniscience.Handlers {
         }
 
         public static void parseSNESHeader(InputStream s, ROMInfo info, long offset) {
-            s.Seek(offset, SeekOrigin.Begin);
+            s.Position = offset;
 
             //Finally now I can get on with the fun stuff
 
@@ -371,7 +371,7 @@ namespace ROMniscience.Handlers {
 
             if (usesExtendedHeader) {
                 //Heck you
-                s.Seek(offset - 0x10, SeekOrigin.Begin);
+                s.Position = offset - 0x10;
 
                 string makerCode = s.read(2, Encoding.ASCII);
                 info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
@@ -478,13 +478,13 @@ namespace ROMniscience.Handlers {
             if (file.length % 1024 == 512) {
                 //We have a frickin' copier header
 
-                s.Seek(8, SeekOrigin.Begin);
+                s.Position = 8;
                 int magic1 = s.read();
                 int magic2 = s.read();
                 int magic3 = s.read();
                 if (magic1 == 0xaa && magic2 == 0xbb && magic3 == 4) {
                     info.addInfo("Detected format", "Super Wild Card");
-                    s.Seek(2, SeekOrigin.Begin);
+                    s.Position = 2;
 
                     int swcFlags = s.read();
                     info.addInfo("Jump to 0x8000", (swcFlags & 0x80) == 0x80);
@@ -498,7 +498,7 @@ namespace ROMniscience.Handlers {
                 } else {
                     if (file.extension.ToLower().Equals(".fig")) {
                         info.addInfo("Detected format", "Pro Fighter");
-                        s.Seek(2, SeekOrigin.Begin);
+                        s.Position = 2;
                         bool isSplit = s.read() == 0x40;
                         bool isHiROM = s.read() == 0x80;
                         byte[] dspSettings = s.read(2);
@@ -513,7 +513,7 @@ namespace ROMniscience.Handlers {
                     } else {
                         //I'll just assume it's SMC until I see anyone use any copier header that isn't SMC, SWC, or FIG
                         info.addInfo("Detected format", "Super Magicom");
-                        s.Seek(2, SeekOrigin.Begin);
+                        s.Position = 2;
                         int flags = s.read();
                         if ((flags & 0x30) == 0x30) {
                             offset = 0x101c0;

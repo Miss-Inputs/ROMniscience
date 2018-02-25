@@ -48,7 +48,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Platform", "Pokemon Mini");
 
 			InputStream s = file.stream;
-			s.Seek(0x2100, SeekOrigin.Begin);
+			s.Position = 0x2100;
 
 			string marker = s.read(2, Encoding.ASCII);
 			info.addInfo("Marker", marker, true);

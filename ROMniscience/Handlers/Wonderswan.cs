@@ -115,14 +115,14 @@ namespace ROMniscience.Handlers {
         public static int calcChecksum(InputStream s) {
             long pos = s.Position;
             try {
-                s.Seek(0, System.IO.SeekOrigin.Begin);
+                s.Position = 0;
                 int checksum = 0;
                 while (s.Position < s.Length - 2) {
                     checksum = (checksum + s.read()) & 0xffff;
                 }
                 return checksum;
             } finally {
-                s.Seek(pos, System.IO.SeekOrigin.Begin);
+                s.Position = pos;
             }
         }
 

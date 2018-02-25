@@ -87,7 +87,7 @@ namespace ROMniscience.Datfiles {
 
 				return identify(crc32, md5.Hash, sha1.Hash);
 			} finally {
-				s.Seek(originalPos, SeekOrigin.Begin);
+                s.Position = originalPos;
 			}
 		}
 

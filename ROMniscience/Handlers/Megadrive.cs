@@ -537,16 +537,16 @@ namespace ROMniscience.Handlers {
 		public static bool isSMD(InputStream s) {
 			long origPos = s.Position;
 			try {
-				s.Seek(8, System.IO.SeekOrigin.Begin);
+				s.Position = 8;
 				int b8 = s.read();
 				int b9 = s.read();
 
-				s.Seek(0x280, System.IO.SeekOrigin.Begin);
+				s.Position = 0x280;
 				string str = s.read(4, Encoding.ASCII);
 
 				return b8 == 0xaa && b9 == 0xbb && (String.Equals(str, "EAMG") || String.Equals(str, "EAGN"));
 			} finally {
-				s.Seek(origPos, System.IO.SeekOrigin.Begin);
+				s.Position = origPos;
 			}
 		}
 
@@ -566,7 +566,7 @@ namespace ROMniscience.Handlers {
 
         private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
-			s.Seek(0x100, System.IO.SeekOrigin.Begin);
+			s.Position = 0x100;
 
 			string consoleName = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Console name", consoleName);

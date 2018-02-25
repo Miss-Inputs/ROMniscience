@@ -343,7 +343,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Reserved 5", reserved5, true);
 
 				if(unitCode >= 2) {
-					s.Seek(0x210, System.IO.SeekOrigin.Begin);
+					s.Position = 0x210;
 					usedROMSize = s.readIntLE();
 					info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
 
@@ -441,7 +441,7 @@ namespace ROMniscience.Handlers {
 				//TODO Secure area at 0x400
 				//TODO Read FNT/FAT maybe?
 
-				s.Seek(bannerOffset, System.IO.SeekOrigin.Begin);
+				s.Position = bannerOffset;
 				int bannerVersion = s.readShortLE();
 				info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
 				if(BANNER_VERSIONS.ContainsKey(bannerVersion)) {
@@ -498,7 +498,7 @@ namespace ROMniscience.Handlers {
 					}
 				}
 			} finally {
-				s.Seek(origPos, System.IO.SeekOrigin.Begin);
+				s.Position = origPos;
 			}
 		}
 	}

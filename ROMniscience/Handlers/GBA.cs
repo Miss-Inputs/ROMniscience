@@ -70,13 +70,13 @@ namespace ROMniscience.Handlers {
 			long origPos = f.Position;
 			try {
 				int x = 0;
-				f.Seek(0xa0, SeekOrigin.Begin);
+				f.Position = 0xa0;
 				while(f.Position <= 0xbc) {
 					x = (x - f.read()) & 0xff;
 				}
 				return (x - 0x19) & 0xff;
 			} finally {
-				f.Seek(origPos, SeekOrigin.Begin);
+				f.Position = origPos;
 			}
 		}
 

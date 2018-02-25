@@ -124,7 +124,7 @@ namespace ROMniscience.Handlers {
 			InputStream f = file.stream;
 			long originalPos = f.Position;
 			try {
-				f.Seek(0x100, SeekOrigin.Begin);
+				f.Position = 0x100;
 
 				info.addInfo("Platform", name);
 				byte[] startVector = f.read(4);
@@ -217,7 +217,7 @@ namespace ROMniscience.Handlers {
                 info.addInfo("Calculated checksum", calculatedChecksum, true);
                 info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 			} finally {
-				f.Seek(originalPos, SeekOrigin.Begin);
+				f.Position = originalPos;
 			}
 		}
 
@@ -225,12 +225,12 @@ namespace ROMniscience.Handlers {
 			int x = 0;
 			long originalPos = f.Position;
 			try {
-				f.Seek(0x134, SeekOrigin.Begin);
+				f.Position = 0x134;
 				while(f.Position <= 0x14c) {
 					x = (((x - f.read()) & 0xff) - 1) & 0xff; //TODO Shouldn't this just work with unsigned bytes
 				}
 			} finally {
-				f.Seek(originalPos, SeekOrigin.Begin);
+				f.Position = originalPos;
 			}
 			return x;
 		}
