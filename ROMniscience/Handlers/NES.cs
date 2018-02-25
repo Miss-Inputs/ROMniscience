@@ -40,7 +40,13 @@ namespace ROMniscience.Handlers {
 		};
 		public override string name => "Nintendo Entertainment System";
 
-		public static void parseiNES(ROMInfo info, InputStream s) {
+        public static readonly IDictionary<char, string> FDS_TYPES = new Dictionary<char, string> {
+            {' ', "Normal"},
+            {'E', "Event"},
+            {'R', "Reduced price"},
+		};
+
+        public static void parseiNES(ROMInfo info, InputStream s) {
             s.Position = 4; //Don't need to read the header magic again
 
 			int prgSize = s.read();
@@ -100,12 +106,132 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
+        static int decodeBCD(int i) {
+            int hi = (i & 0xf0) >> 4;
+            int lo = i & 0x0f;
+            return ((hi * 10) + lo);
+        }
+
+        public static void parseFDS(ROMInfo info, InputStream s) {
+            int blockCode = s.read(); //Always 1
+            info.addInfo("Block code", blockCode, true);
+
+            string magic = s.read(14, Encoding.ASCII);
+            info.addInfo("Magic", magic, true);
+
+            int manufacturer = s.read();
+            info.addInfo("Manufacturer", manufacturer.ToString("X2"), NintendoCommon.LICENSEE_CODES);
+
+            string productCode = s.read(3, Encoding.ASCII); //I bet you $5 this is Shift-JIS
+            info.addInfo("Product code", productCode);
+
+            char type = s.read(1, Encoding.ASCII)[0];
+            info.addInfo("Type", type, FDS_TYPES);
+
+            int version = s.read();
+            info.addInfo("Version", version);
+
+            int sideNumber = s.read();
+            info.addInfo("Side number", sideNumber + 1);
+
+            int diskNumber = s.read();
+            info.addInfo("Disk number", diskNumber + 1);
+
+            int diskType = s.read();
+            info.addInfo("Disk type", diskType); //Allegedly 0 = FMC, 1 = FSC (has shutter)
+
+            int unknown = s.read();
+            info.addInfo("Unknown", unknown, true); //Could be the colour of disk
+
+            int startupFileNumber = s.read();
+            info.addInfo("Startup file", startupFileNumber);
+
+            byte[] unknown2 = s.read(5); //Seemingly always 0xff filled except where everything is 0 filled
+            info.addInfo("Unknown 2", unknown2, true);
+
+            byte[] date = s.read(3);
+            int year = 1925 + decodeBCD(date[0]); //Because Showa
+            int month = decodeBCD(date[1]);
+            int day = decodeBCD(date[2]);
+
+            info.addInfo("Year", year); //FDS Zelda has 2011 here, so that's weird; it has 0x86 as the raw byte and maybe it means 1986 there and not Showa 86
+            info.addInfo("Month", (month != 0 && month < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month) : String.Format("Unknown ({0})", month));
+            info.addInfo("Day", day);
+
+            int countryCode = s.read();
+            info.addInfo("Country code", countryCode, true); //Supposedly; it's always 0x49
+
+            int unknown3 = s.read();
+            info.addInfo("Unknown 3", unknown3, true); //Speculated to be a region code
+
+            int unknown4 = s.read();
+            info.addInfo("Unknown 4", unknown4, true); //Seemingly always 0
+
+            byte[] unknown5 = s.read(2); //Seemingly always 00 02
+            info.addInfo("Unknown 5", unknown5, true); 
+
+            byte[] unknown6 = s.read(5);
+            info.addInfo("Unknown 6", unknown6, true);
+
+            byte[] rewrittenDiskDate = s.read(3); //For non-rewritten disks, this is just equal to the other date
+            int rewrittenYear = 1925 + decodeBCD(rewrittenDiskDate[0]);
+            int rewrittenMonth = decodeBCD(rewrittenDiskDate[1]);
+            int rewrittenDay = decodeBCD(rewrittenDiskDate[2]);
+
+            info.addInfo("Rewritten disk year", rewrittenYear);
+            info.addInfo("Rewritten disk month", (rewrittenMonth != 0 && rewrittenMonth < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(rewrittenMonth) : String.Format("Unknown ({0})", rewrittenMonth));
+            info.addInfo("Rewritten disk day", rewrittenDay);
+
+            int unknown7 = s.read();
+            info.addInfo("Unknown 7", unknown7, true);
+
+            int unknown8 = s.read();
+            info.addInfo("Unknown 8", unknown8, true); //Seemingly always 0x80
+
+            byte[] diskWriterSerial = s.read(2);
+            info.addInfo("Disk Writer serial number", diskWriterSerial);
+
+            int unknown9 = s.read(); //Seemingly always 7
+            info.addInfo("Unknown 9", unknown9, true);
+
+            int diskRewriteCount = s.read();
+            info.addInfo("Disk rewrite count", diskRewriteCount);
+
+            int actualDiskSide = s.read(); //wut
+            info.addInfo("Actual disk side", actualDiskSide);
+
+            int unknown10 = s.read();
+            info.addInfo("Unknown 10", unknown10, true);
+
+            int rawPrice = s.read();
+            if(diskRewriteCount > 0) {
+                //I don't really even know what's going on here at this point
+                info.addInfo("Price", String.Format("{0}円", 500 + (100 * rawPrice)));
+            } else {
+                info.addInfo("Price", "3400円");
+                info.addInfo("Includes peripherals", rawPrice == 3);
+            }
+
+            //There is a CRC here as well but .fds files don't include it
+        }
+
         byte[] getHeaderMagic (InputStream s) {
             long pos = s.Position;
             try {
                 s.Position = 0;
                 return s.read(4);
             } finally {
+                s.Position = pos;
+            }
+        }
+
+        bool isRawFDS(InputStream s) {
+            long pos = s.Position;
+            try {
+                s.Position = 1;
+                return "*NINTENDO-HVC*".Equals(s.read(14, Encoding.ASCII));
+            }
+            finally {
                 s.Position = pos;
             }
         }
@@ -135,12 +261,22 @@ namespace ROMniscience.Handlers {
 			InputStream s = file.stream;
             byte[] headerMagic = getHeaderMagic(s);
 
-			if(isINES(headerMagic)) {
-				parseiNES(info, s);
-			} else if(isFwNES(headerMagic)) {
-				//TODO I'm too lazy at the moment to add the number of sides of disks, which I might as well do at some point
-				info.addInfo("Detected format", "fwNES");
-			} else {
+            if (isINES(headerMagic)) {
+                parseiNES(info, s);
+            } else if (isFwNES(headerMagic)) {
+                info.addInfo("Detected format", "fwNES");
+
+                s.Position = 4;
+                info.addInfo("Number of sides", s.read());
+
+                s.Position = 0x10;
+                parseFDS(info, s);
+            } else if (isRawFDS(s)) {
+                info.addInfo("Detected format", "Raw FDS");
+
+                s.Position = 0;
+                parseFDS(info, s);
+            } else {
 				info.addInfo("Detected format", "Unknown");
 			}
 		}

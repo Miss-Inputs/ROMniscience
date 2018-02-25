@@ -22,7 +22,7 @@ For a list of ROM formats it'll read, look inside the ROMniscience.Handlers name
   - Game Boy Advance  
   - Game Boy/Game Boy Color  
   - Neo Geo Pocket/Neo Geo Pocket Color  
-  - NES (not FDS for now)  
+  - NES, FDS  
   - Nintendo 64, 64DD  
   - Nintendo DS  
   - Pokemon Mini  
