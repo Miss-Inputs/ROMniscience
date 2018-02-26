@@ -68,12 +68,15 @@ namespace ROMniscience.Handlers {
 			{"1A", "Yanoman"},
 			{"1D", "Clary"},
 			{"1F", "Virgin"},
+            {"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
 			{"22", "pow"},
 			{"24", "PCM Complete"},
 			{"25", "san-x"},
 			{"28", "Kemco Japan/Kotobuki Systems"},
 			{"29", "Seta"},
-			{"30", "Viacom/Infogrames"},
+            {"2N", "Smilesoft"},
+            {"2P", "The Pokémon Company"},
+            {"30", "Viacom/Infogrames"},
 			{"31", "Nintendo"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
             //Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
 			{"32", "Bandai"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
@@ -96,6 +99,9 @@ namespace ROMniscience.Handlers {
 			{"4A", "Virgin"},
 			{"4D", "Malibu"},
 			{"4F", "Eidos"}, //The other documentation on the internets seems to think this is U.S. Gold, which I don't think is correct from ROMs I've seen use the code; the other thing is that this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
+            {"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
+            {"4Y", "Rare"},
+            {"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and published by Capcom
 			{"50", "Absolute"},
 			{"51", "Acclaim"},
 			{"52", "Activision"},
@@ -118,14 +124,19 @@ namespace ROMniscience.Handlers {
 			{"5B", "Romstar"},
 			{"5C", "Naxat Soft"},
 			{"5D", "Midway/Tradewest/Williams"}, //They're all the same thing really, everyone's buying out everyone
-			{"60", "Titus"},
+            {"5G", "Majesco"},
+            {"5Q", "Lego"},
+            {"5T", "Cyro Interactive"},
+            {"60", "Titus"},
 			{"61", "Virgin"},
 			{"64", "LucasArts"},
 			{"67", "Ocean"},
 			{"69", "Electronic Arts"}, //nice
-			{"6E", "Elite Systems"},
+            {"6B", "Beam Software/Melbourne House"},
+            {"6E", "Elite Systems"},
 			{"6F", "Electro Brain"},
-			{"70", "Infogrames/Atari, SA"}, //The modern Atari these days _is_ Infogrames basically and it's all very confusing, but anyway yeah there's DS games like Point Blank DS which use this and they're published under the Atari name, and then there's stuff like Legacy of Goku which is published under Infogrames but they're basically just the same company, and don't ask me about the original Atari because I'll die of confusion
+            {"6S", "TDK"},
+            {"70", "Infogrames/Atari, SA"}, //The modern Atari these days _is_ Infogrames basically and it's all very confusing, but anyway yeah there's DS games like Point Blank DS which use this and they're published under the Atari name, and then there's stuff like Legacy of Goku which is published under Infogrames but they're basically just the same company, and don't ask me about the original Atari because I'll die of confusion
 			{"71", "Interplay"},
 			{"72", "Broderbund"}, //Might be wrong, as I've only seen it in Dungeon Master, which is published by JVC and not Broderbund
 			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
@@ -134,7 +145,8 @@ namespace ROMniscience.Handlers {
 			{"79", "Accolade"},
 			{"7A", "Triffix Entertainment"},
 			{"7C", "Microprose"},
-			{"7F", "Kemco"},
+            {"7D", "Vivendi"},
+            {"7F", "Kemco"},
 			{"80", "Misawa Entertainment"},
 			{"83", "LOZC"},
 			{"86", "Tokuma Shoten"},
@@ -142,8 +154,9 @@ namespace ROMniscience.Handlers {
 			{"8B", "Bullet-Proof Software"},
 			{"8C", "Vic Tokai"},
 			{"8E", "Ape"}, //Might be actually Character Soft
-			{"8F", "i'max"},
-			{"91", "Chunsoft"},
+            {"8F", "i'max"},
+            {"8P", "Sega"},
+            {"91", "Chunsoft"},
 			{"92", "Video System"},
 			{"93", "Ocean/Acclaim/Tsuburava"},
 			{"95", "Varie"},
@@ -155,44 +168,51 @@ namespace ROMniscience.Handlers {
 			{"9C", "Imagineer"},
 			{"9D", "Banpresto"},
 			{"9F", "Nova"},
+            {"9M", "Jaguar"}, //The sewing machine company
 			{"A1", "Hori Electric"},
 			{"A2", "Bandai"},
 			{"A4", "Konami"},
 			{"A6", "Kawada"},
-			{"A7", "Takara"}, //I've only seen this used in Vast Fame's GBC bootlegs... odd
+			{"A7", "Takara"}, //Vast Fame also uses this for most of their GBC bootlegs, interestingly
+            {"A8", "Royal Industries"}, //More damn sewing machine companies!
 			{"A9", "Technos Japan"},
 			{"AA", "Broderbund"},
-			{"AC", "Toei Animation"}, //Only used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused
+			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; there's an FDS game I already forgot the name of that's actually published by Toei though
 			{"AD", "Toho"},
 			{"AF", "[Bandai] Namco"}, //Namco games have always used this, but when they merged with Bandai, they kept this code (so newer games like that Code Geass DS one use this code as well), which is interesting because Square Enix doesn't reuse Squaresoft or Enix's licensee codes and gets a new one
-			{"B0", "Acclaim"},
+            {"AL", "Media Factory"},
+            {"B0", "Acclaim"},
 			{"B1", "ASCII/Nexoft"},
 			{"B2", "Bandai"},
-			{"B3", "Enix"},
-			{"B6", "HAL"},
+			{"B3", "Enix (B3)"}, //Where is this used and the other Enix not used? I've only seen B4
+            {"B4", "Enix"}, //wut
+            {"B6", "HAL"},
 			{"B7", "SNK"},
 			{"B9", "Pony Canyon"},
 			{"BA", "Culture Brain"},
 			{"BB", "Sunsoft"},
 			{"BD", "Sony Imagesoft"},
 			{"BF", "Sammy"},
-			{"C0", "Taito"},
-			{"C2", "Kemco"},
+            {"BJ", "Compile"},
+            {"BL", "MTO"},
+            {"C0", "Taito"},
+            {"C1", "Sunsoft (Chinou Game Series)"}, //I guess it's an educational branch of Sunsoft? Or it might all be published by Ask Odansha
+            {"C2", "Kemco"},
 			{"C3", "Squaresoft"},
 			{"C4", "Tokuma Shoten Intermedia"},
 			{"C5", "Data East"},
-			{"C6", "Tonkin House"},
+			{"C6", "Tonkin House / Tokyo Shoseki"},
 			{"C8", "Koei"},
 			{"C9", "UFL"},
-			{"CA", "Ultra"},
+			{"CA", "Konami (Ultra Games)"},
 			{"CB", "Vap"},
 			{"CC", "Use"},
 			{"CD", "Meldac"},
-			{"CE", "Pony Canyon"}, //Might actually be Fujisankei Communications International, I've only seen it in SimEarth (SNES) which was published by them, but then again FCI was a part of Fujisankei Communications Group which also owns Pony Canyon
+			{"CE", "Pony Canyon"}, //Might also be Fujisankei Communications International (which is owned by Fujisankei Communications Group which also owns Pony Canyon) as seen in SimEarth (SNES)
 			{"CF", "Angel"},
 			{"D0", "Taito"},
 			{"D1", "SOFEL"},
-			{"D2", "Quest"},
+			{"D2", "Bothtec / Quest"},
 			{"D3", "Sigma Enterprises"},
 			{"D4", "Ask Kodansha"},
 			{"D6", "Naxat Soft"},
@@ -217,44 +237,27 @@ namespace ROMniscience.Handlers {
 			{"EE", "Information Global Services"},
 			{"F0", "A Wave"},
 			{"F3", "Extreme Entertainment"},
-			{"FF", "LJN"}, //There is a good chance that this one is just completely invalid: Any time it shows up it's because it's some
+			{"GD", "Square Enix"},
+
+
+            //Hmm...
+            {"FF", "LJN (maybe junk)"}, //There is a good chance that this one is just completely invalid: Any time it shows up it's because it's some
                            //unlicensed software that doesn't care to fill in the headers correctly (looking at you Pro Action Replay), or it's something like a
                            //SNES game where I'm not detecting the header location correctly and so I'm reading the wrong data; LJN's infamous NES games
                            //were on a system with no manufacturer code in the header, and by the time they got to the SNES and GB they were bought out by
                            //Acclaim in 1990, and games like Spiderman and X-Men in Arcade's Revenge use Acclaim as the manufacturer 
                            //code anyway; and there is also an 0x56 up there for LJN
-
-			//Found these myself and I'm confident enough they're correct
-			{"5G", "Majesco"},
-			{"8P", "Sega"},
-			{"5Q", "Lego"},
-			{"FR", "Digital Jesters"}, //Could also be Neko Entertainment, I'm just looking at Crazy Frog Racer
+            {"FR", "Digital Jesters"}, //Could also be Neko Entertainment, I'm just looking at Crazy Frog Racer
 			{"P8", "Pin Eight"}, //Well... I guess it's not really a licensee code if it's homebrew and therefore by definition unlicensed...
-			{"6S", "TDK"},
 			{"AK", "Acekard"}, //Yeah, also not really a licensee either I guess; anyway we'll see if anything which isn't the Acecard firmware has this
-			{"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and published by Capcom
-			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
-			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
-			{"7D", "Vivendi"},
-			{"BJ", "Compile"},
-			{"GD", "Square Enix"},
-			{"BL", "MTO"},
-			{"2P", "The Pokémon Company"},
-            {"B4", "Enix"},
-            {"5T", "Cyro Interactive"},
-            {"9M", "Jaguar"}, //The sewing machine company
-            {"2N", "Smilesoft"},
-            {"4Y", "Rare"},
-            {"6B", "Beam Software/Melbourne House"},
-            {"AL", "Media Factory"},
-
+			
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
 			//Banjo-Pilot's beta version that has XXXX as the game code
 
 			//Rambling and large amounts of comments and speculation on more maker codes below!
 
-			//Some I found in non-commercially released GB roms:
+			//Some I found in non-commercially released roms:
 			//GB Basic (homebrew): 7E (game code says JEFF)
 			//Bleep (homebrew): OK
 			//Harry Potter II (bootleg by Vast Fame): @7, probably corrupted
@@ -271,6 +274,7 @@ namespace ROMniscience.Handlers {
 			//2048 (homebrew): XX (it uses XXXX for the manufacturer code as well)
 			//Bitte 8 Bit (homebrew): \xfe\xaf
 			//mooneye-gb test ROMs: ZZ
+            //Jingorou (FDS bootleg): 4B
 
 			//Official games, but I want to confirm by seeing if more titles use them:
             //1P (Chee-Chai Alien): Creatures
@@ -297,7 +301,9 @@ namespace ROMniscience.Handlers {
             //9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
             //9M: Mario Family (GBC) Dev: Natsume Pub: Jaguar (not to be confused with the Atari Jaguar, this Jaguar makes sewing machines), Sewing Machine Operation Software (for the Singer Izek)
             //A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet
+            //BC: Pachicom (FDS) Dev: Bear's / Shouei System Pub: Toshiba EMI
             //BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
+            //C7: Reflect World (FDS) (East Cube)
             //CL: Oekaki Logic (SNES) (Sekaibunka Publishing)
 			//DK (Initial D Gaiden) MTO / Kodansha?
             //DM: Doshin the Giant 64DD games, but also the Randnet Disk, and not sure what's in common there (Randnet themselves? Alps? Did they have any involvement with Doshin the Giant though?)
