@@ -123,7 +123,7 @@
     <Compile Include="Handlers\Stubs\PCEngine.cs" />
     <Compile Include="Handlers\PokemonMini.cs" />
     <Compile Include="Handlers\Stubs\PV1000.cs" />
-    <Compile Include="Handlers\Stubs\RCAStudio2.cs" />
+    <Compile Include="Handlers\RCAStudio2.cs" />
     <Compile Include="Handlers\Stubs\SG1000.cs" />
     <Compile Include="Handlers\SNES.cs" />
     <Compile Include="Handlers\Stubs\StubHandler.cs" />

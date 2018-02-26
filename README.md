@@ -26,6 +26,7 @@ For a list of ROM formats it'll read, look inside the ROMniscience.Handlers name
   - Nintendo 64, 64DD  
   - Nintendo DS  
   - Pokemon Mini  
+  - RCA Studio II
   - Sega Master System/Game Gear  
   - Sega Megadrive/Genesis, and by extension 32X and Sega Pico since they're the same format  
   - SNES  
