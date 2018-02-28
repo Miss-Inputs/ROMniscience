@@ -102,9 +102,9 @@ namespace ROMniscience {
 
 			int last = scrollArea.ClientRectangle.Top + scrollArea.Padding.Vertical;
 			foreach(Handler h in Handler.allHandlers.OrderBy((Handler h) => h.name)) {
-				FolderEditor fe = new FolderEditor(last, h.name);
-
-				fe.Width = scrollArea.Width;
+				FolderEditor fe = new FolderEditor(last, h.name) {
+					Width = scrollArea.Width,
+				};
 				last = fe.Bottom;
 				scrollArea.Controls.Add(fe);
 				editors.Add(fe);
