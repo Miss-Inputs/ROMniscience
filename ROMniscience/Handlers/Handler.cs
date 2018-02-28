@@ -37,7 +37,10 @@ namespace ROMniscience.Handlers {
 				return "Unknown";
 			}
 			if(extension?[0] == '.') {
-				return filetypeMap[extension.Substring(1).ToLowerInvariant()];
+				return getFiletypeName(extension.Substring(1));
+			}
+			if (!filetypeMap.ContainsKey(extension.ToLowerInvariant())) {
+				return null;
 			}
 			return filetypeMap[extension.ToLowerInvariant()];
 		}
