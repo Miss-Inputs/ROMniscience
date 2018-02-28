@@ -223,12 +223,12 @@ namespace ROMniscience {
 		}
 
 
-        //I give up I surrender I'm just using the GUI builder fuck it
-        //Call me a coward if you will but I am not staying up until 7am again
+		//I give up I surrender I'm just using the GUI builder fuck it
+		//Call me a coward if you will but I am not staying up until 7am again
 #pragma warning disable IDE1006 // Naming Styles
-        private void InitializeComponent() {
+		private void InitializeComponent() {
 #pragma warning restore IDE1006 // Naming Styles
-            this.okButton = new System.Windows.Forms.Button();
+			this.okButton = new System.Windows.Forms.Button();
 			this.fuckinPanelIGuess = new System.Windows.Forms.Panel();
 			this.notALabel = new System.Windows.Forms.TextBox();
 			this.showImagesButton = new System.Windows.Forms.Button();

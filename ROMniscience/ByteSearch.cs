@@ -28,75 +28,75 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience {
-    static class ByteSearch {
-        public static bool contains(byte[] searchWithin, byte[] searchFor) {
-            return indexOf(searchWithin, searchFor) > -1;
-        }
+	static class ByteSearch {
+		public static bool contains(byte[] searchWithin, byte[] searchFor) {
+			return indexOf(searchWithin, searchFor) > -1;
+		}
 
-        public static int indexOf(byte[] searchWithin, byte[] searchFor) {
-            int[] charTable = makeCharTable(searchFor);
-            int[] offsetTable = makeOffsetTable(searchFor);
+		public static int indexOf(byte[] searchWithin, byte[] searchFor) {
+			int[] charTable = makeCharTable(searchFor);
+			int[] offsetTable = makeOffsetTable(searchFor);
 
-            for (int i = searchFor.Length - 1; i < searchWithin.Length;) {
-                int j;
-                for (j = searchFor.Length - 1; searchFor[j] == searchWithin[i]; --i, --j) {
-                    if (j == 0) {
-                        return i;
-                    }
-                }
-                i += Math.Max(offsetTable[searchFor.Length - 1 - j], charTable[searchWithin[i]]);
-            }
-            return -1;
+			for (int i = searchFor.Length - 1; i < searchWithin.Length;) {
+				int j;
+				for (j = searchFor.Length - 1; searchFor[j] == searchWithin[i]; --i, --j) {
+					if (j == 0) {
+						return i;
+					}
+				}
+				i += Math.Max(offsetTable[searchFor.Length - 1 - j], charTable[searchWithin[i]]);
+			}
+			return -1;
 
-        }
+		}
 
-        private static int[] makeCharTable(byte[] bytes) {
-            int[] table = new int[256];
+		private static int[] makeCharTable(byte[] bytes) {
+			int[] table = new int[256];
 
-            for (int i = 0; i < 256; ++i) {
-                table[i] = bytes.Length;
-            }
-            for (int i = 0; i < bytes.Length - 1; ++i) {
-                table[bytes[i]] = bytes.Length - 1 - i;
-            }
+			for (int i = 0; i < 256; ++i) {
+				table[i] = bytes.Length;
+			}
+			for (int i = 0; i < bytes.Length - 1; ++i) {
+				table[bytes[i]] = bytes.Length - 1 - i;
+			}
 
-            return table;
-        }
+			return table;
+		}
 
-        private static int[] makeOffsetTable(byte[] bytes) {
-            int[] table = new int[bytes.Length];
-            int lastPrefixPosition = bytes.Length;
+		private static int[] makeOffsetTable(byte[] bytes) {
+			int[] table = new int[bytes.Length];
+			int lastPrefixPosition = bytes.Length;
 
-            for (int i = bytes.Length; i > 0; --i) {
-                if (isPrefix(bytes, i)) {
-                    lastPrefixPosition = i;
-                }
-                table[bytes.Length - i] = lastPrefixPosition - i + bytes.Length;
-            }
+			for (int i = bytes.Length; i > 0; --i) {
+				if (isPrefix(bytes, i)) {
+					lastPrefixPosition = i;
+				}
+				table[bytes.Length - i] = lastPrefixPosition - i + bytes.Length;
+			}
 
-            for (int i = 0; i < bytes.Length - 1; ++i) {
-                int suffix = suffixLength(bytes, i);
-                table[suffix] = bytes.Length - 1 - i + suffix;
-            }
+			for (int i = 0; i < bytes.Length - 1; ++i) {
+				int suffix = suffixLength(bytes, i);
+				table[suffix] = bytes.Length - 1 - i + suffix;
+			}
 
-            return table;
-        }
+			return table;
+		}
 
-        private static bool isPrefix(byte[] bytes, int offset) {
-            for (int i = offset, j = 0; i < bytes.Length; ++i, ++j) {
-                if (bytes[i] != bytes[j]) {
-                    return false;
-                }
-            }
-            return true;
-        }
+		private static bool isPrefix(byte[] bytes, int offset) {
+			for (int i = offset, j = 0; i < bytes.Length; ++i, ++j) {
+				if (bytes[i] != bytes[j]) {
+					return false;
+				}
+			}
+			return true;
+		}
 
-        private static int suffixLength(byte[] bytes, int offset) {
-            int length = 0;
-            for (int i = offset, j = bytes.Length - 1; i >= 0 && bytes[i] == bytes[j]; --i, --j) {
-                length++;
-            }
-            return length;
-        }
-    }
+		private static int suffixLength(byte[] bytes, int offset) {
+			int length = 0;
+			for (int i = offset, j = bytes.Length - 1; i >= 0 && bytes[i] == bytes[j]; --i, --j) {
+				length++;
+			}
+			return length;
+		}
+	}
 }

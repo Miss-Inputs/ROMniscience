@@ -96,13 +96,13 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-        public virtual bool shouldSkipHeader(ROMFile rom) {
-            return false;
-        }
+		public virtual bool shouldSkipHeader(ROMFile rom) {
+			return false;
+		}
 
-        public virtual int skipHeaderBytes() {
-            //Override this with the amount of bytes this should skip
-            return 0;
-        }
+		public virtual int skipHeaderBytes() {
+			//Override this with the amount of bytes this should skip
+			return 0;
+		}
 	}
 }

@@ -29,34 +29,34 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers {
-    class VirtualBoy : Handler {
-        public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
-            {"vb", "Virtual Boy ROM"}
-        };
+	class VirtualBoy : Handler {
+		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
+			{"vb", "Virtual Boy ROM"}
+		};
 
-        public override string name => "Virtual Boy";
+		public override string name => "Virtual Boy";
 
-        public override void addROMInfo(ROMInfo info, ROMFile file) {
-            info.addInfo("Platform", name);
-            InputStream s = file.stream;
-            s.Seek(-544, System.IO.SeekOrigin.End); //Yeah, this one's a bit weird
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+			InputStream s = file.stream;
+			s.Seek(-544, System.IO.SeekOrigin.End); //Yeah, this one's a bit weird
 
-            string title = s.read(20, MainProgram.shiftJIS).TrimEnd(' ');
-            info.addInfo("Internal name", title);
-            byte[] reserved = s.read(5);
-            info.addInfo("Reserved", reserved, true);
-            string makerCode = s.read(2, Encoding.ASCII);
-            info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
-            string productCode = s.read(4, Encoding.ASCII);
-            info.addInfo("Product code", productCode);
-            //I don't know what to do about the game type, since it's all V so far
-            info.addInfo("Type", productCode[0], true);
-            string shortTitle = productCode.Substring(1, 2);
-            info.addInfo("Short title", shortTitle);
-            char region = productCode[3];
-            info.addInfo("Region", region, NintendoCommon.REGIONS);
-            int version = s.read();
-            info.addInfo("Version", version);
-        }
-    }
+			string title = s.read(20, MainProgram.shiftJIS).TrimEnd(' ');
+			info.addInfo("Internal name", title);
+			byte[] reserved = s.read(5);
+			info.addInfo("Reserved", reserved, true);
+			string makerCode = s.read(2, Encoding.ASCII);
+			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
+			string productCode = s.read(4, Encoding.ASCII);
+			info.addInfo("Product code", productCode);
+			//I don't know what to do about the game type, since it's all V so far
+			info.addInfo("Type", productCode[0], true);
+			string shortTitle = productCode.Substring(1, 2);
+			info.addInfo("Short title", shortTitle);
+			char region = productCode[3];
+			info.addInfo("Region", region, NintendoCommon.REGIONS);
+			int version = s.read();
+			info.addInfo("Version", version);
+		}
+	}
 }

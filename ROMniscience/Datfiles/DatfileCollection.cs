@@ -74,7 +74,7 @@ namespace ROMniscience.Datfiles {
 				SHA1 sha1 = SHA1.Create();
 				int crc32 = 0;
 
-                s.Position = offset;
+				s.Position = offset;
 
 				byte[] buf;
 				while((buf = s.read(1024 * 1024)).Length > 0) {
@@ -87,7 +87,7 @@ namespace ROMniscience.Datfiles {
 
 				return identify(crc32, md5.Hash, sha1.Hash);
 			} finally {
-                s.Position = originalPos;
+				s.Position = originalPos;
 			}
 		}
 

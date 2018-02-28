@@ -36,9 +36,9 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Benessee Pocket Challenge V2";
 
-        public override void addROMInfo(ROMInfo info, ROMFile file) {
-            info.addInfo("Platform", name);
-            Wonderswan.readWonderswanROM(info, file);
-        }
-    }
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+			Wonderswan.readWonderswanROM(info, file);
+		}
+	}
 }

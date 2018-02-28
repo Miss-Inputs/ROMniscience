@@ -86,40 +86,40 @@ namespace ROMniscience.Handlers {
 			0xC9, 0x18, 0x89, 0x00, 0x89, 0x18, 0x0A, 0x68,
 			0x01, 0x68, 0x10, 0x1C, 0x00, 0xF0};
 
-        const int GBA_LOGO_CRC32 = -0x2F414AA2;
+		const int GBA_LOGO_CRC32 = -0x2F414AA2;
 
-        static bool isNintendoLogoEqual(byte[] nintendoLogo) {
-            return Datfiles.CRC32.crc32(nintendoLogo) == GBA_LOGO_CRC32;
-        }
+		static bool isNintendoLogoEqual(byte[] nintendoLogo) {
+			return Datfiles.CRC32.crc32(nintendoLogo) == GBA_LOGO_CRC32;
+		}
 
-        //There's no official way to detect the save type, but Nintendo's SDK ends up
-        //putting these strings in the ROM according to what it uses, apparently
-        readonly static byte[] EEPROM = Encoding.ASCII.GetBytes("EEPROM_V");
-        readonly static byte[] SRAM = Encoding.ASCII.GetBytes("SRAM_V");
-        readonly static byte[] SRAM_F = Encoding.ASCII.GetBytes("SRAM_F_V");
-        readonly static byte[] FLASH = Encoding.ASCII.GetBytes("FLASH_V");
-        readonly static byte[] FLASH_512 = Encoding.ASCII.GetBytes("FLASH512_V");
-        readonly static byte[] FLASH_1024 = Encoding.ASCII.GetBytes("FLASH1M_V");
-        //It also puts this in for games that use the real time clock
-        readonly static byte[] RTC = Encoding.ASCII.GetBytes("SIIRTC_V");
+		//There's no official way to detect the save type, but Nintendo's SDK ends up
+		//putting these strings in the ROM according to what it uses, apparently
+		readonly static byte[] EEPROM = Encoding.ASCII.GetBytes("EEPROM_V");
+		readonly static byte[] SRAM = Encoding.ASCII.GetBytes("SRAM_V");
+		readonly static byte[] SRAM_F = Encoding.ASCII.GetBytes("SRAM_F_V");
+		readonly static byte[] FLASH = Encoding.ASCII.GetBytes("FLASH_V");
+		readonly static byte[] FLASH_512 = Encoding.ASCII.GetBytes("FLASH512_V");
+		readonly static byte[] FLASH_1024 = Encoding.ASCII.GetBytes("FLASH1M_V");
+		//It also puts this in for games that use the real time clock
+		readonly static byte[] RTC = Encoding.ASCII.GetBytes("SIIRTC_V");
 
-        static void detectSaveType(ROMInfo info, byte[] bytes) { 
-            if(ByteSearch.contains(bytes, EEPROM)) {
-                info.addInfo("Save type", "EEPROM");
-                //Can't tell the save size from this, it's either 512 or 8192 though
-            } else if(ByteSearch.contains(bytes, SRAM) || ByteSearch.contains(bytes, SRAM_F)) {
-                info.addInfo("Save type", "SRAM");
-                info.addInfo("Save size", 32 * 1024, ROMInfo.FormatMode.SIZE);
-            } else if(ByteSearch.contains(bytes, FLASH) || ByteSearch.contains(bytes, FLASH_512)) {
-                info.addInfo("Save type", "Flash");
-                info.addInfo("Save size", 64 * 1024, ROMInfo.FormatMode.SIZE);
-            } else if(ByteSearch.contains(bytes, FLASH_1024)) {
-                info.addInfo("Save type", "Flash");
-                info.addInfo("Save size", 128 * 1024, ROMInfo.FormatMode.SIZE);
-            }
-        }
+		static void detectSaveType(ROMInfo info, byte[] bytes) { 
+			if(ByteSearch.contains(bytes, EEPROM)) {
+				info.addInfo("Save type", "EEPROM");
+				//Can't tell the save size from this, it's either 512 or 8192 though
+			} else if(ByteSearch.contains(bytes, SRAM) || ByteSearch.contains(bytes, SRAM_F)) {
+				info.addInfo("Save type", "SRAM");
+				info.addInfo("Save size", 32 * 1024, ROMInfo.FormatMode.SIZE);
+			} else if(ByteSearch.contains(bytes, FLASH) || ByteSearch.contains(bytes, FLASH_512)) {
+				info.addInfo("Save type", "Flash");
+				info.addInfo("Save size", 64 * 1024, ROMInfo.FormatMode.SIZE);
+			} else if(ByteSearch.contains(bytes, FLASH_1024)) {
+				info.addInfo("Save type", "Flash");
+				info.addInfo("Save size", 128 * 1024, ROMInfo.FormatMode.SIZE);
+			}
+		}
 
-        public override void addROMInfo(ROMInfo info, ROMFile file) {
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 			InputStream f = file.stream;
 
@@ -127,7 +127,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Entry point", entryPoint, true);
 			byte[] nintendoLogo = f.read(156);
 			info.addInfo("Nintendo logo", nintendoLogo, true);
-            info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
+			info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
 			//TODO: Bits 2 and 7 of nintendoLogo[0x99] enable debugging functions when set (undefined instruction exceptions are sent
 			//to a user handler identified using the device type)
 			//0x9b bits 0 and 1 also have some crap in them but I don't even know
@@ -164,9 +164,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 			int checksum = f.read();
 			info.addInfo("Checksum", checksum, true);
-            int calculatedChecksum = calculateChecksum(f);
-            info.addInfo("Calculated checksum", calculatedChecksum, true);
-            info.addInfo("Checksum valid?", checksum == calculatedChecksum);
+			int calculatedChecksum = calculateChecksum(f);
+			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 			byte[] reserved2 = f.read(2);
 			info.addInfo("Reserved 2", reserved2, true);
 			byte[] multibootEntryPoint = f.read(4);
@@ -175,12 +175,12 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Multiboot mode", multibootMode, GBA_MULTIBOOT_MODES);
 			int multibootSlaveID = f.read();
 			info.addInfo("Multiboot slave ID", multibootSlaveID);
-            //0xe0 contains a joybus entry point if joybus stuff is set, meh
+			//0xe0 contains a joybus entry point if joybus stuff is set, meh
 
-            byte[] restOfCart = f.read((int)f.Length);
-            detectSaveType(info, restOfCart);
-            info.addInfo("Uses RTC", ByteSearch.contains(restOfCart, RTC));
-            info.addInfo("Sound driver", ByteSearch.contains(restOfCart, SAPPY_SELECTSONG) ? "Sappy" : "Unknown");
+			byte[] restOfCart = f.read((int)f.Length);
+			detectSaveType(info, restOfCart);
+			info.addInfo("Uses RTC", ByteSearch.contains(restOfCart, RTC));
+			info.addInfo("Sound driver", ByteSearch.contains(restOfCart, SAPPY_SELECTSONG) ? "Sappy" : "Unknown");
 			//TODO Krawall is open source, see if we can detect that
 		}
 	}

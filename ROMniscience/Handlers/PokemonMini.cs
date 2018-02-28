@@ -100,7 +100,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", title);
 
 			string manufacturer = s.read(2, Encoding.ASCII);
-            //This will always be 2P (The Pokemon Company) but still
+			//This will always be 2P (The Pokemon Company) but still
 			info.addInfo("Manufacturer", manufacturer, NintendoCommon.LICENSEE_CODES);
 
 			byte[] reserved = s.read(18);

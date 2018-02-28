@@ -486,25 +486,25 @@ namespace ROMniscience.Handlers {
 			{"T-479", "Triangle Service"},
 		};
 
-        public readonly static IDictionary<string, int> MONTH_ABBREVIATIONS = new Dictionary<string, int> {
-            {"JAN", 1},
+		public readonly static IDictionary<string, int> MONTH_ABBREVIATIONS = new Dictionary<string, int> {
+			{"JAN", 1},
 			{"FEB", 2},
 			{"MAR", 3},
-            {"APR", 4},
-            {"APL", 4},
-            {"MAY", 5},
-            {"JUN", 6},
-            {"JUL", 7},
-            {"AUG", 8},
-            {"08", 8},
-            {"SEP", 9},
-            {"SEPT", 9},
-            {"OCT", 10},
-            {"NOV", 11},
-            {"DEC", 12},
-        };
+			{"APR", 4},
+			{"APL", 4},
+			{"MAY", 5},
+			{"JUN", 6},
+			{"JUL", 7},
+			{"AUG", 8},
+			{"08", 8},
+			{"SEP", 9},
+			{"SEPT", 9},
+			{"OCT", 10},
+			{"NOV", 11},
+			{"DEC", 12},
+		};
 
-        public static InputStream decodeSMD(InputStream s) {
+		public static InputStream decodeSMD(InputStream s) {
 			s.Seek(512, System.IO.SeekOrigin.Current);
 			//Should only need this much to read the header. If I was actually converting
 			//the ROM I'd need to use the SMD header to know how many blocks there are
@@ -550,21 +550,21 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-        public static int calcChecksum(InputStream s) {
-            long pos = s.Position;
-            try {
-                s.Position = 0x200;
-                int checksum = 0;
-                while (s.Position < s.Length) {
-                    checksum = (checksum + s.readShortBE()) & 0xffff;
-                }
-                return checksum;
-            } finally {
-                s.Position = pos;
-            }
-        }
+		public static int calcChecksum(InputStream s) {
+			long pos = s.Position;
+			try {
+				s.Position = 0x200;
+				int checksum = 0;
+				while (s.Position < s.Length) {
+					checksum = (checksum + s.readShortBE()) & 0xffff;
+				}
+				return checksum;
+			} finally {
+				s.Position = pos;
+			}
+		}
 
-        private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
+		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
 		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
 			s.Position = 0x100;
 
@@ -592,15 +592,15 @@ namespace ROMniscience.Handlers {
 			if(matches.Success) {
 				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
-                info.addInfo("Year", matches.Groups[2].Value);
-                if(MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value, out int month)) {
-                    info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
-                } else {
-                    info.addInfo("Month", String.Format("Unknown ({0})", matches.Groups[3].Value));
-                }
-            }
+				info.addInfo("Year", matches.Groups[2].Value);
+				if(MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value, out int month)) {
+					info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
+				} else {
+					info.addInfo("Month", String.Format("Unknown ({0})", matches.Groups[3].Value));
+				}
+			}
 
-            string domesticName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
+			string domesticName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Internal name", domesticName);
 			string overseasName = s.read(48, MainProgram.shiftJIS).TrimEnd('\0', ' ');
 			info.addInfo("Overseas name", overseasName);
@@ -616,9 +616,9 @@ namespace ROMniscience.Handlers {
 
 			ushort checksum = (ushort)s.readShortBE();
 			info.addInfo("Checksum", checksum, true);
-            int calculatedChecksum = calcChecksum(s);
-            info.addInfo("Calculated checksum", calculatedChecksum, true);
-            info.addInfo("Checksum valid?", checksum == calculatedChecksum);
+			int calculatedChecksum = calcChecksum(s);
+			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("IO support", ioSupportList, IO_SUPPORT);

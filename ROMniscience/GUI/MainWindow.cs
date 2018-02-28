@@ -224,25 +224,25 @@ namespace ROMniscience {
 		private void startScan() {
 			table.Rows.Clear();
 
-            ROMScanner scanner = new ROMScanner();
-            scanner.datfilesLoadStart += delegate {
-                statusText.Text = "Loading datfiles";
-                statusBar.Refresh();
-            };
+			ROMScanner scanner = new ROMScanner();
+			scanner.datfilesLoadStart += delegate {
+				statusText.Text = "Loading datfiles";
+				statusBar.Refresh();
+			};
 
-            scanner.datfilesLoadEnd += delegate {
-                statusText.Text = "Datfiles loaded";
-                statusBar.Refresh();
-            };
+			scanner.datfilesLoadEnd += delegate {
+				statusText.Text = "Datfiles loaded";
+				statusBar.Refresh();
+			};
 
-            scanner.haveRow += addRow;
+			scanner.haveRow += addRow;
 
-            scanner.runningWorkersUpdated += runningWorkersUpdated;
+			scanner.runningWorkersUpdated += runningWorkersUpdated;
 
-            scanner.startScan();
-        }
+			scanner.startScan();
+		}
 
-        private void runningWorkersUpdated(object sender, ROMScanner.RunningWorkersUpdatedEventArgs args) {
+		private void runningWorkersUpdated(object sender, ROMScanner.RunningWorkersUpdatedEventArgs args) {
 			var currentlyRunning = args.runningWorkers.Where(kv => kv.Value);
 			if(currentlyRunning.Count() == 0) {
 				setStatus("Done!");
@@ -252,10 +252,10 @@ namespace ROMniscience {
 		}
 
 		private void setStatus(string text) {
-            if (statusBar.InvokeRequired) {
-                statusBar.Invoke(new Action<string>(setStatus), text);
-                return;
-            }
+			if (statusBar.InvokeRequired) {
+				statusBar.Invoke(new Action<string>(setStatus), text);
+				return;
+			}
 
 			statusText.Text = text;
 			statusBar.Refresh();
@@ -263,21 +263,21 @@ namespace ROMniscience {
 
 		
 		private void addRow(object sender, ROMScanner.HaveRowEventArgs args) {
-            if (table.InvokeRequired) {
-                table.Invoke(new Action<object, ROMScanner.HaveRowEventArgs>(addRow), sender, args);
-                return;
-            }
+			if (table.InvokeRequired) {
+				table.Invoke(new Action<object, ROMScanner.HaveRowEventArgs>(addRow), sender, args);
+				return;
+			}
 
 			int newRow = table.Rows.Add();
-            var info = args.info.info; //Sorry for this line
+			var info = args.info.info; //Sorry for this line
 			foreach(var kv in info) {
-                if (bool.TryParse(SettingsManager.readSetting("show_extra"), out bool result)) {
-                    if (kv.Value.extra && !result) {
-                        continue;
-                    }
-                } else {
-                    continue;
-                }
+				if (bool.TryParse(SettingsManager.readSetting("show_extra"), out bool result)) {
+					if (kv.Value.extra && !result) {
+						continue;
+					}
+				} else {
+					continue;
+				}
 
 
 				object value = kv.Value.value;

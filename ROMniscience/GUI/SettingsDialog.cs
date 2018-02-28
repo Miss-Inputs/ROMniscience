@@ -37,7 +37,7 @@ namespace ROMniscience {
 	class SettingsDialog: Form {
 		private IList<FolderEditor> editors = new List<FolderEditor>();
 		TextBox datFolderBox;
-        CheckBox showExtra;
+		CheckBox showExtra;
 
 		public SettingsDialog() {
 			Text = "ROMniscience settings";
@@ -61,51 +61,51 @@ namespace ROMniscience {
 			};
 
 			Controls.Add(datFolderBox);
-            Button datFolderButt = new Button() {
-                Text = "Browse...",
-                Top = 10,
-                Left = datFolderBox.Left + datFolderBox.Width + 10,
-                Size = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + datFolderBox.Width + 30), 30),
-                Anchor = AnchorStyles.Top | AnchorStyles.Right,
+			Button datFolderButt = new Button() {
+				Text = "Browse...",
+				Top = 10,
+				Left = datFolderBox.Left + datFolderBox.Width + 10,
+				Size = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + datFolderBox.Width + 30), 30),
+				Anchor = AnchorStyles.Top | AnchorStyles.Right,
 			};
 			Controls.Add(datFolderButt);
 			datFolderButt.Click += delegate {
 				browseForFolder(datFolderBox);
 			};
 
-            showExtra = new CheckBox() {
-                Text = "Show extra information in table view",
-                Top = 40,
-                Left = 10,
-                Size = new System.Drawing.Size(ClientSize.Width - 20, 30),
-            };
-            if(bool.TryParse(SettingsManager.readSetting("show_extra"), out bool result)) {
-                showExtra.Checked = result;
-            }
-            Controls.Add(showExtra);
-
-
-            GroupBox editorHolder = new GroupBox() {
-                Left = 10,
-                Top = 70,
-                Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 120),
-                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left,
-                Text = "Folder Locations", //FIXME Why the fuck is this covered up by some shit and isn't visible... You know what I don't even care anymore
+			showExtra = new CheckBox() {
+				Text = "Show extra information in table view",
+				Top = 40,
+				Left = 10,
+				Size = new System.Drawing.Size(ClientSize.Width - 20, 30),
 			};
-            ScrollableControl scrollArea = new ScrollableControl() {
-                Dock = DockStyle.Fill,
-                AutoScroll = true,
-                Text = String.Empty,
-            };
-            editorHolder.Controls.Add(scrollArea);
+			if(bool.TryParse(SettingsManager.readSetting("show_extra"), out bool result)) {
+				showExtra.Checked = result;
+			}
+			Controls.Add(showExtra);
+
+
+			GroupBox editorHolder = new GroupBox() {
+				Left = 10,
+				Top = 70,
+				Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 120),
+				Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left,
+				Text = "Folder Locations", //FIXME Why the fuck is this covered up by some shit and isn't visible... You know what I don't even care anymore
+			};
+			ScrollableControl scrollArea = new ScrollableControl() {
+				Dock = DockStyle.Fill,
+				AutoScroll = true,
+				Text = String.Empty,
+			};
+			editorHolder.Controls.Add(scrollArea);
 			Controls.Add(editorHolder);
 
-            int last = scrollArea.ClientRectangle.Top + scrollArea.Padding.Vertical;
+			int last = scrollArea.ClientRectangle.Top + scrollArea.Padding.Vertical;
 			foreach(Handler h in Handler.allHandlers.OrderBy((Handler h) => h.name)) {
 				FolderEditor fe = new FolderEditor(last, h.name);
 
-                fe.Width = scrollArea.Width;
-                last = fe.Bottom;
+				fe.Width = scrollArea.Width;
+				last = fe.Bottom;
 				scrollArea.Controls.Add(fe);
 				editors.Add(fe);
 			}
@@ -144,9 +144,9 @@ namespace ROMniscience {
 			};
 			AcceptButton = okButton;
 			buttonHolder.Controls.Add(okButton);
-        }
+		}
 
-        class FolderEditor: Panel {
+		class FolderEditor: Panel {
 			public Label label {
 				get;
 			}
@@ -156,20 +156,20 @@ namespace ROMniscience {
 			public Button browseButton {
 				get;
 			}
-            public CheckBox enabledChecky {
-                get;
-            }
-            public IDictionary<string, string> settingsToSave {
-                get {
-                    return new Dictionary<string, string>(){
-                        {Name, texty.Text},
-                        {(string)enabledChecky.Tag, enabledChecky.Checked.ToString()}
-                    };
-                }
-            }
-            Label divider {
-                get;
-            }
+			public CheckBox enabledChecky {
+				get;
+			}
+			public IDictionary<string, string> settingsToSave {
+				get {
+					return new Dictionary<string, string>(){
+						{Name, texty.Text},
+						{(string)enabledChecky.Tag, enabledChecky.Checked.ToString()}
+					};
+				}
+			}
+			Label divider {
+				get;
+			}
 
 			public FolderEditor(int top, String name) {
 				//WELCOME TO FUCKING HELL I AM YOUR HOST WINFORMS AND I WILL TAKE A SHIT RIGHT UP YOUR BUTTHOLE
@@ -180,14 +180,14 @@ namespace ROMniscience {
 				//that I just go fuck it, fuck WinForms, fuck everything it'll just have to be shit
 				//I want to actually program fun shit and not fuck around with fucking shitty GUI libraries
 				//I didn't even think it was possible for something to be worse than Swing but hey you did it Microsoft
-                //Update: Yeah I made it look nicer but I still hate it
+				//Update: Yeah I made it look nicer but I still hate it
 				Name = name;
-                Top = top;
+				Top = top;
 				Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-                label = new Label() {
-                    Text = name,
-                    Top = 0,
+				label = new Label() {
+					Text = name,
+					Top = 0,
 				};
 				label.AutoSize = true;
 				Controls.Add(label);
@@ -196,7 +196,7 @@ namespace ROMniscience {
 					Text = "Enabled",
 					Top = label.Bottom + label.Margin.Vertical,
 					Tag = name + "_enabled",
-                };
+				};
 				Controls.Add(enabledChecky);
 				if (SettingsManager.doesKeyExist((string)enabledChecky.Tag)) {
 					if (bool.TryParse(SettingsManager.readSetting((string)enabledChecky.Tag), out bool result)) {
@@ -209,10 +209,10 @@ namespace ROMniscience {
 				texty = new TextBox() {
 					Top = enabledChecky.Bottom + enabledChecky.Margin.Vertical,
 				};
-                if (SettingsManager.doesKeyExist(name)) {
-                    texty.Text = SettingsManager.readSetting(name);
-                }
-                Controls.Add(texty);
+				if (SettingsManager.doesKeyExist(name)) {
+					texty.Text = SettingsManager.readSetting(name);
+				}
+				Controls.Add(texty);
 
 				Button butt = new Button() {
 					Text = "Browse...",
@@ -221,22 +221,22 @@ namespace ROMniscience {
 				butt.Click += delegate {
 					browseForFolder(texty);
 				};
-                texty.Size = new System.Drawing.Size(Width - texty.Left - (butt.Width + butt.Margin.Left), texty.Height);
-                butt.Left = texty.Left + texty.Width + butt.Margin.Left;
-                texty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-                butt.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+				texty.Size = new System.Drawing.Size(Width - texty.Left - (butt.Width + butt.Margin.Left), texty.Height);
+				butt.Left = texty.Left + texty.Width + butt.Margin.Left;
+				texty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+				butt.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 				Controls.Add(butt);
 
-                divider = new Label() {
-                    Text = String.Empty,
-                    BorderStyle = BorderStyle.Fixed3D,
-                    AutoSize = false,
-                    Size = new System.Drawing.Size(Width - Padding.Horizontal, 2),
-                    Top = butt.Bottom + butt.Margin.Vertical, //Haha butt
-                    Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-                };
-                Controls.Add(divider);
-                Height = divider.Bottom;
+				divider = new Label() {
+					Text = String.Empty,
+					BorderStyle = BorderStyle.Fixed3D,
+					AutoSize = false,
+					Size = new System.Drawing.Size(Width - Padding.Horizontal, 2),
+					Top = butt.Bottom + butt.Margin.Vertical, //Haha butt
+					Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+				};
+				Controls.Add(divider);
+				Height = divider.Bottom;
 			}
 		}
 
@@ -254,12 +254,12 @@ namespace ROMniscience {
 		private void saveSettings() {
 			IDictionary<string, string> settings = new Dictionary<string, string>();
 			foreach(FolderEditor f in editors) {
-                foreach(var setting in f.settingsToSave) {
-                    saveSetting(settings, setting.Key, setting.Value);
-                }
+				foreach(var setting in f.settingsToSave) {
+					saveSetting(settings, setting.Key, setting.Value);
+				}
 			}
 			saveSetting(settings, "datfiles", datFolderBox.Text);
-            saveSetting(settings, "show_extra", showExtra.Checked.ToString());
+			saveSetting(settings, "show_extra", showExtra.Checked.ToString());
 			SettingsManager.writeSettings(settings);
 		}
 

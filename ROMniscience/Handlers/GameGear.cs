@@ -35,9 +35,9 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Game Gear";
 
-        public override void addROMInfo(ROMInfo info, ROMFile file) {
-            info.addInfo("Platform", name);
-            MasterSystem.parseSMSROM(info, file);
-        }
-    }
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+			MasterSystem.parseSMSROM(info, file);
+		}
+	}
 }
