@@ -230,6 +230,8 @@ namespace ROMniscience.Handlers {
 			return b[0] == 0xc8 && b[1] == 0x60 && b[2] == 0x4f && b[3] == 0xe2 && b[4] == 0x01 && b[5] == 0x70 && b[6] == 0x8f && b[7] == 0xe2;
 		}
 
+		readonly static byte[] WIFI_CONFIG_NAME = Encoding.ASCII.GetBytes("utility.bin");
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream s = file.stream;
 
@@ -461,6 +463,10 @@ namespace ROMniscience.Handlers {
 			//TODO Secure area at 0x400
 			//TODO Read FNT/FAT maybe?
 
+			s.Position = filenameTableOffset;
+			byte[] filenameTable = s.read(filenameTableSize);
+			//This is the roughest and dirtiest way possible of doing this, but it'll do
+			info.addInfo("Contains WFC setup", ByteSearch.contains(filenameTable, WIFI_CONFIG_NAME));
 
 			s.Position = bannerOffset;
 			int bannerVersion = s.readShortLE();
