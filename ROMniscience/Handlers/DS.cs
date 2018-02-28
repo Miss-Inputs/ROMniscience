@@ -219,15 +219,11 @@ namespace ROMniscience.Handlers {
 		//TODO DSi animated icon (just need to know how to store animated icons)
 
 		bool isPassMeEntryPoint(byte[] b) {
-			//C8
-			//60
-			//4F
-			//E2
-			//01
-			//70
-			//8F
-			//E2
 			return b[0] == 0xc8 && b[1] == 0x60 && b[2] == 0x4f && b[3] == 0xe2 && b[4] == 0x01 && b[5] == 0x70 && b[6] == 0x8f && b[7] == 0xe2;
+		}
+
+		bool isDecryptedSecureAreaID(byte[] b) {
+			return b[0] == 0xff && b[1] == 0xde && b[2] == 0xff && b[3] == 0xe7 && b[4] == 0xff && b[5] == 0xde && b[6] == 0xff && b[7] == 0xe7;
 		}
 
 		readonly static byte[] WIFI_CONFIG_NAME = Encoding.ASCII.GetBytes("utility.bin");
@@ -460,7 +456,24 @@ namespace ROMniscience.Handlers {
 				//something involving DEJUS (Brazil), GSRMR (Taiwan) and
 				//PEGI (Finland) in there*
 			}
-			//TODO Secure area at 0x400
+
+			info.addInfo("Homebrew?", arm9Offset < 0x4000);
+			if (arm9Offset >= 0x4000 && arm9Offset < 0x8000) {
+				info.addInfo("Contains secure area", true);
+				s.Position = 0x4000;
+				//Secure area, please leave all your electronic devices at the front counter before entering
+				byte[] secureAreaID = s.read(8);
+				info.addInfo("Multiboot", secureAreaID.All(x => x == 0));
+				info.addInfo("Decrypted", isDecryptedSecureAreaID(secureAreaID));
+				
+			} else {
+				info.addInfo("Contains secure area", false);
+			}
+			s.Position = 0x1000;
+			//See also: https://twitter.com/Myriachan/status/964580936561000448
+			//This should be true, but it's often false, especially for No-Intro verified dumps
+			info.addInfo("Contains Blowfish encryption tables", s.read(8).Any(x => x != 0));
+
 			//TODO Read FNT/FAT maybe?
 
 			s.Position = filenameTableOffset;
