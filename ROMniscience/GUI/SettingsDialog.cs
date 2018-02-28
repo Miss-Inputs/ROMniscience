@@ -102,19 +102,13 @@ namespace ROMniscience {
 
             int last = scrollArea.ClientRectangle.Top + scrollArea.Padding.Vertical;
 			foreach(Handler h in Handler.allHandlers.OrderBy((Handler h) => h.name)) {
-				string existingValue = null;
-				if(h.configured) {
-					existingValue = h.folder.FullName;
-				}
+				FolderEditor fe = new FolderEditor(last, h.name);
 
-				FolderEditor fe = new FolderEditor(last, h.name, existingValue);
                 fe.Width = scrollArea.Width;
                 last = fe.Bottom;
 				scrollArea.Controls.Add(fe);
 				editors.Add(fe);
 			}
-			//Need to add an empty label to the end or else the last FolderEditor will act weird and I don't fuckin know
-			editorHolder.Controls.Add(new Label());
 
 			Panel buttonHolder = new Panel() {
 				Top = editorHolder.Top + editorHolder.Height,
@@ -162,12 +156,22 @@ namespace ROMniscience {
 			public Button browseButton {
 				get;
 			}
-
+            public CheckBox enabledChecky {
+                get;
+            }
+            public IDictionary<string, string> settingsToSave {
+                get {
+                    return new Dictionary<string, string>(){
+                        {Name, texty.Text},
+                        {(string)enabledChecky.Tag, enabledChecky.Checked.ToString()}
+                    };
+                }
+            }
             Label divider {
                 get;
             }
 
-			public FolderEditor(int top, String name, String existingValue) {
+			public FolderEditor(int top, String name) {
 				//WELCOME TO FUCKING HELL I AM YOUR HOST WINFORMS AND I WILL TAKE A SHIT RIGHT UP YOUR BUTTHOLE
 				//Don't even fucking try to have the button or text box aligned on the right or there will be
 				//no end to your torment
@@ -188,11 +192,27 @@ namespace ROMniscience {
 				label.AutoSize = true;
 				Controls.Add(label);
 
-				texty = new TextBox() {
-					Text = existingValue,
+				enabledChecky = new CheckBox() {
+					Text = "Enabled",
 					Top = label.Bottom + label.Margin.Vertical,
+					Tag = name + "_enabled",
+                };
+				Controls.Add(enabledChecky);
+				if (SettingsManager.doesKeyExist((string)enabledChecky.Tag)) {
+					if (bool.TryParse(SettingsManager.readSetting((string)enabledChecky.Tag), out bool result)) {
+						enabledChecky.Checked = result;
+					}
+				} else {
+					enabledChecky.Checked = true;
+				}
+
+				texty = new TextBox() {
+					Top = enabledChecky.Bottom + enabledChecky.Margin.Vertical,
 				};
-				Controls.Add(texty);
+                if (SettingsManager.doesKeyExist(name)) {
+                    texty.Text = SettingsManager.readSetting(name);
+                }
+                Controls.Add(texty);
 
 				Button butt = new Button() {
 					Text = "Browse...",
@@ -234,7 +254,9 @@ namespace ROMniscience {
 		private void saveSettings() {
 			IDictionary<string, string> settings = new Dictionary<string, string>();
 			foreach(FolderEditor f in editors) {
-				saveSetting(settings, f.Name, f.texty.Text);
+                foreach(var setting in f.settingsToSave) {
+                    saveSetting(settings, setting.Key, setting.Value);
+                }
 			}
 			saveSetting(settings, "datfiles", datFolderBox.Text);
             saveSetting(settings, "show_extra", showExtra.Checked.ToString());

@@ -116,7 +116,7 @@ namespace ROMniscience {
             ConcurrentDictionary<string, bool> runningWorkers = new ConcurrentDictionary<string, bool>();
 
             foreach (Handler handler in Handler.allHandlers) {
-                if (handler.configured) {
+                if (handler.configured && handler.enabled) {
                     BackgroundWorker bw = new BackgroundWorker();
                     bw.DoWork += delegate {
                         if (!handler.folder.Exists) {
