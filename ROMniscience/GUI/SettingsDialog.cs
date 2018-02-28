@@ -56,16 +56,17 @@ namespace ROMniscience {
 				Left = datFolderLabel.Left + datFolderLabel.Width,
 				Top = 10,
 				Size = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + 20 + 80), 30),
-				Anchor = AnchorStyles.Top | AnchorStyles.Left,
+				Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
 				Text = SettingsManager.readSetting("datfiles"),
 			};
 
 			Controls.Add(datFolderBox);
-			Button datFolderButt = new Button() {
-				Text = "Browse...",
-				Top = 10,
-				Left = datFolderBox.Left + datFolderBox.Width + 10,
-				MaximumSize = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + datFolderBox.Width + 30), 30),
+            Button datFolderButt = new Button() {
+                Text = "Browse...",
+                Top = 10,
+                Left = datFolderBox.Left + datFolderBox.Width + 10,
+                Size = new System.Drawing.Size(ClientSize.Width - (datFolderLabel.Width + datFolderBox.Width + 30), 30),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right,
 			};
 			Controls.Add(datFolderButt);
 			datFolderButt.Click += delegate {
@@ -84,36 +85,39 @@ namespace ROMniscience {
             Controls.Add(showExtra);
 
 
-			GroupBox editorHolderHolder = new GroupBox() {
-				Left = 10,
-				Top = 70,
-				Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 120),
-				Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left,
-				Text = "Folder Locations"
+            GroupBox editorHolder = new GroupBox() {
+                Left = 10,
+                Top = 70,
+                Size = new System.Drawing.Size(ClientSize.Width - 20, ClientSize.Height - 120),
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Left,
+                Text = "Folder Locations", //FIXME Why the fuck is this covered up by some shit and isn't visible... You know what I don't even care anymore
 			};
-			TableLayoutPanel editorHolder = new TableLayoutPanel() {
-				Dock = DockStyle.Fill,
-				AutoScroll = true,
-				ColumnCount = 1,
-				GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-			};
-			editorHolderHolder.Controls.Add(editorHolder);
-			Controls.Add(editorHolderHolder);
+            ScrollableControl scrollArea = new ScrollableControl() {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                Text = String.Empty,
+            };
+            editorHolder.Controls.Add(scrollArea);
+			Controls.Add(editorHolder);
+
+            int last = scrollArea.ClientRectangle.Top + scrollArea.Padding.Vertical;
 			foreach(Handler h in Handler.allHandlers.OrderBy((Handler h) => h.name)) {
 				string existingValue = null;
 				if(h.configured) {
 					existingValue = h.folder.FullName;
 				}
 
-				FolderEditor fe = new FolderEditor(h.name, existingValue);
-				editorHolder.Controls.Add(fe);
+				FolderEditor fe = new FolderEditor(last, h.name, existingValue);
+                fe.Width = scrollArea.Width;
+                last = fe.Bottom;
+				scrollArea.Controls.Add(fe);
 				editors.Add(fe);
 			}
 			//Need to add an empty label to the end or else the last FolderEditor will act weird and I don't fuckin know
 			editorHolder.Controls.Add(new Label());
 
 			Panel buttonHolder = new Panel() {
-				Top = editorHolderHolder.Top + editorHolderHolder.Height,
+				Top = editorHolder.Top + editorHolder.Height,
 				Left = 10,
 				Size = new System.Drawing.Size(ClientSize.Width - 20, 50),
 				Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
@@ -146,9 +150,9 @@ namespace ROMniscience {
 			};
 			AcceptButton = okButton;
 			buttonHolder.Controls.Add(okButton);
-		}
+        }
 
-		class FolderEditor: Panel {
+        class FolderEditor: Panel {
 			public Label label {
 				get;
 			}
@@ -159,7 +163,11 @@ namespace ROMniscience {
 				get;
 			}
 
-			public FolderEditor(String name, String existingValue) {
+            Label divider {
+                get;
+            }
+
+			public FolderEditor(int top, String name, String existingValue) {
 				//WELCOME TO FUCKING HELL I AM YOUR HOST WINFORMS AND I WILL TAKE A SHIT RIGHT UP YOUR BUTTHOLE
 				//Don't even fucking try to have the button or text box aligned on the right or there will be
 				//no end to your torment
@@ -168,34 +176,47 @@ namespace ROMniscience {
 				//that I just go fuck it, fuck WinForms, fuck everything it'll just have to be shit
 				//I want to actually program fun shit and not fuck around with fucking shitty GUI libraries
 				//I didn't even think it was possible for something to be worse than Swing but hey you did it Microsoft
+                //Update: Yeah I made it look nicer but I still hate it
 				Name = name;
-				Anchor = AnchorStyles.Left;
-				AutoSize = true;
-				label = new Label() {
-					Text = name,
+                Top = top;
+				Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+                label = new Label() {
+                    Text = name,
+                    Top = 0,
 				};
-				label.MinimumSize = label.Size;
 				label.AutoSize = true;
 				Controls.Add(label);
 
 				texty = new TextBox() {
 					Text = existingValue,
-					Top = label.Top,
-					Left = label.Right + label.Margin.Right
+					Top = label.Bottom + label.Margin.Vertical,
 				};
-				texty.Width *= 2; //fuckin I dunno
 				Controls.Add(texty);
 
 				Button butt = new Button() {
 					Text = "Browse...",
-					Top = label.Top,
-					Left = texty.Right + texty.Margin.Right,
+					Top = texty.Top,
 				};
 				butt.Click += delegate {
 					browseForFolder(texty);
 				};
+                texty.Size = new System.Drawing.Size(Width - texty.Left - (butt.Width + butt.Margin.Left), texty.Height);
+                butt.Left = texty.Left + texty.Width + butt.Margin.Left;
+                texty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                butt.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 				Controls.Add(butt);
-				Height = (new int[] { label.Height, texty.Height, butt.Height }).Max();
+
+                divider = new Label() {
+                    Text = String.Empty,
+                    BorderStyle = BorderStyle.Fixed3D,
+                    AutoSize = false,
+                    Size = new System.Drawing.Size(Width - Padding.Horizontal, 2),
+                    Top = butt.Bottom + butt.Margin.Vertical, //Haha butt
+                    Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+                };
+                Controls.Add(divider);
+                Height = divider.Bottom;
 			}
 		}
 
