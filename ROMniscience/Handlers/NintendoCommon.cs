@@ -117,8 +117,10 @@ namespace ROMniscience.Handlers {
 			{"5B", "Romstar"},
 			{"5D", "Midway/Tradewest/Williams"}, //They're all the same thing really, everyone's buying out everyone
 			{"5G", "Majesco"},
+			{"5L", "NewKidsCo"},
 			{"5Q", "Lego"},
 			{"5T", "Cyro Interactive"},
+			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well
 			{"60", "Titus"},
 			{"61", "Virgin"},
 			{"64", "LucasArts"},
@@ -276,7 +278,6 @@ namespace ROMniscience.Handlers {
 
 			//Rambling and large amounts of comments and speculation on more maker codes below!
 
-
 			//Official games, but I want to confirm by seeing if more titles use them:
 			//1P (Chee-Chai Alien): Creatures
 			//1Q: McDonalds Monogatari: Honobono Tenchou Ikusei Game (GBC) TDK Core (might be TDK's Japanese branch?)
@@ -285,22 +286,19 @@ namespace ROMniscience.Handlers {
 			//4S: SimCity 2000 (SNES) (dev Maxis pub THQ for Europe version that this is from)
 			//5H: Warriors of Might and Magic (3DO Company)
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
-			//5L (Hello Kitty's Cube Frenzy (Dev: Torus Games / Pub: Ubisoft), Dora the Explorer: The Search for the Pirate Pig's Treasure (Dev: Cinegroupe / Pub: NewKidsCo))
 			//5V (Cookie & Cream demo) FromSoftware I guess?
-			//5Z: Microsoft: The Best of Entertainment Pack (dev: Cryo Interactive & Sapphire, pub Microsoft Home), Microsoft: The 6 in 1 Puzzle Collection Entertainment Pack (dev Conspiracy Entertainment pub Swing Entertainment); anyway it's _probably_ Microsoft but maybe not? There's also ), The Flinstones: Burgertime in Bedrock (dev Conspiracy Entertainment pub Classified Games USA Swing Entertainment France), Card Shark proto (Bonsai Entertainment, according to title screen, also someone called Bicycle was involved)
 			//62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
 			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
-			//6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games)
+			//6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games) but Classified Games are already 5Z? Ehhhh??
 			//6V: The Nations: Land of Legends (dev: Neon / pub: JoWooD Entertainment)
 			//7L: Sabrina the Teenage Witch: Spooked (dev: WayForward / pub: Simon & Schuster)
 			//7G (Pocket Music GBC) Jester Interactive / Rage Software
-			//82: Cosmo Gang the Video (SNES) (just Namco? wat)
+			//82: Cosmo Gang the Video (SNES) (just Namco? wat although title screen says Namcot, which I guess is a brand of Namco for some reason)
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
 			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street), endrift also uses this for Scrum: A Game Very Vaguely About Programming
 			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)) could be just Nick Jr licensed games? But the other Dora games don't use this one
 			//9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
-			//9M: Mario Family (GBC) Dev: Natsume Pub: Jaguar (not to be confused with the Atari Jaguar, this Jaguar makes sewing machines), Sewing Machine Operation Software (for the Singer Izek)
 			//A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet
 			//BC: Pachicom (FDS) Dev: Bear's / Shouei System Pub: Toshiba EMI
 			//BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
