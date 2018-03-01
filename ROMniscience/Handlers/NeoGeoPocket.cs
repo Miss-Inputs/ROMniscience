@@ -41,6 +41,8 @@ namespace ROMniscience.Handlers {
 		public override string name => "Neo Geo Pocket";
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+
 			InputStream s = file.stream;
 
 			string copyrightInfo = s.read(28, Encoding.ASCII);
