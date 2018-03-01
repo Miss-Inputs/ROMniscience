@@ -138,7 +138,6 @@ namespace ROMniscience.Handlers {
 
 		IList<FSTEntry> parseFST(byte[] fst) {
 			int numEntries = (fst[8] << 24) | (fst[9] << 16) | (fst[10] << 8) | fst[11];
-			Console.WriteLine(numEntries);
 
 			byte[] filenameTable = new byte[fst.Length - (numEntries * 12)];
 			Array.Copy(fst, numEntries * 12, filenameTable, 0, filenameTable.Length);
