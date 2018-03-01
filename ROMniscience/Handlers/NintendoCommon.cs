@@ -32,23 +32,46 @@ namespace ROMniscience.Handlers {
 	class NintendoCommon {
 
 		public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
-			//Used by GBC and GBA, DS might have a few differences (still unsure about A)
+			//Used by GBC, GBA, and GameCube; DS might have a few differences (still unsure about A)
 			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
 			{'B', "Brazil"},
 			{'C', "China"},
 			{'D', "Germany"},
 			{'E', "USA"},
 			{'F', "France"},
-			{'H', "Holland"},
+			{'H', "Netherlands"},
 			{'I', "Italy"},
 			{'J', "Japan"},
 			{'K', "Korea"},
 			{'N', "Canada"},
 			{'P', "Europe"},
+			{'R', "Russia"},
 			{'S', "Spain"},
+			{'T', "Taiwan"},
 			{'U', "Australia"},
 			{'W', "Sweden/Scandinavia"},
 			{'X', "Europe (X)"},
+		};
+
+		public static IDictionary<char, string> DISC_TYPES => new Dictionary<char, string> {
+			//https://wiki.dolphin-emu.org/index.php?title=GameIDs
+			{'G', "GameCube game"},
+			{'C', "Commodore 64 Virtual Console"},
+			{'D', "GameCube demo disc"}, //Also OoT: Master Quest
+			{'E', "Arcade/Neo Geo Virtual Console"},
+			{'F', "NES Virtual Console"},
+			{'H', "Wii channel"},
+			{'J', "SNES Virtual Console"},
+			{'L', "Sega Master System Virtual Console"},
+			{'M', "Megadrive Virtual Console"},
+			{'N', "N64 Virtual Console"},
+			{'P', "GameCube promo or PC Engine Virtual Console"},
+			{'Q', "TurboGrafx-CD Virtual Console"},
+			{'R', "Wii game"},
+			{'S', "Wii game (newer)"},
+			{'U', "GameCube utility"}, //Used for GBA Player startup disc
+			{'W', "WiiWare game"},
+			{'X', "WiiWare demo or MSX Virtual Console"},
 		};
 
 		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {

@@ -82,6 +82,7 @@
     <Compile Include="Handlers\32X.cs" />
     <Compile Include="Handlers\Atari7800.cs" />
     <Compile Include="Handlers\DS.cs" />
+    <Compile Include="Handlers\Gamecube.cs" />
     <Compile Include="Handlers\GBA.cs" />
     <Compile Include="Handlers\Gameboy.cs" />
     <Compile Include="Handlers\Handler.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Handlers\VirtualBoy.cs" />
     <Compile Include="Handlers\Stubs\VSmile.cs" />
     <Compile Include="Handlers\Stubs\WiiWare.cs" />
+    <Compile Include="Handlers\Wii.cs" />
     <Compile Include="Handlers\Wonderswan.cs" />
     <Compile Include="IO\ArchiveHelpers.cs" />
     <Compile Include="IO\ByteSwappedInputStream.cs" />
