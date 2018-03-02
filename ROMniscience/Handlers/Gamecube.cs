@@ -233,7 +233,7 @@ namespace ROMniscience.Handlers {
 					info.addInfo("Japanese title line", title3 + Environment.NewLine + title4);
 
 					string title5 = MainProgram.shiftJIS.GetString(banner, 0x18e0, 128);
-					info.addInfo("Japanese description", title5);
+					info.addInfo("Japanese description", title5.Replace("\n", Environment.NewLine));
 				} else {
 					string title = windows1252.GetString(banner, 0x1820, 32);
 					string title2 = windows1252.GetString(banner, 0x1840, 32);
@@ -244,7 +244,7 @@ namespace ROMniscience.Handlers {
 					info.addInfo("English title", title3 + Environment.NewLine + title4);
 
 					string title5 = windows1252.GetString(banner, 0x18e0, 128);
-					info.addInfo("English description", title5);
+					info.addInfo("English description", title5.Replace("\n", Environment.NewLine));
 				}
 			} else if ("BNR2".Equals(bannerMagic)) {
 				int baseOffset = 0x1820;
@@ -259,7 +259,7 @@ namespace ROMniscience.Handlers {
 					info.addInfo(languageNames[i] + " title", title3 + Environment.NewLine + title4);
 
 					string title5 = windows1252.GetString(banner, baseOffset + (i * 320) + 192, 128);
-					info.addInfo(languageNames[i] + " description", title5);
+					info.addInfo(languageNames[i] + " description", title5.Replace("\n", Environment.NewLine));
 				}
 			}
 		}
