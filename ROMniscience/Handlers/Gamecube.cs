@@ -306,7 +306,7 @@ namespace ROMniscience.Handlers {
 			}
 
 			s.Position = 0x2440;
-			string apploaderDate = s.read(9, Encoding.ASCII);
+			string apploaderDate = s.read(16, Encoding.ASCII).Trim('\0');
 			info.addInfo("Apploader date", apploaderDate);
 
 			if (fstOffset > 0 && fstSize > 12 && fstSize < (128 * 1024 * 1024)) {
