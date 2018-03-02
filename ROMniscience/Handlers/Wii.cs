@@ -36,6 +36,57 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Wii";
 
+		//Japan, USA, Reservedland, Germany, Europe, Finland, Portgual, UK, Australia, and South Korea respectively (although Finland uses normal European PEGI now as I understand it)
+		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
+			new Tuple<string, IDictionary<int, string>>("CERO", DS.CERO_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("ERSB", DS.ESRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
+			new Tuple<string, IDictionary<int, string>>("USK", DS.USK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI (Europe)", DS.PEGI_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("FBFC", null),
+			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", DS.PEGI_PORTUGAL_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI", DS.PEGI_UK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("AGCB", DS.AGCB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("GRB", DS.GRB_RATINGS),
+		};
+		public static void parseRatings(ROMInfo info, byte[] ratings) {
+			//Seems to be kinda different than DSi ratings
+			//There seems to be something more to this; for example the USA version of
+			//Super Smash Bros. Brawl contains 45 for the ESRB rating instead of
+			//13 (it's rated Teen in the USA), which indicates that bit 5 is set to 1 and
+			//therefore does something and I don't know what; as does Bomberman Blast
+			//but therefore we'll only use bits 0-4 for now
+			//(Possibly bit 5 indicates online interactivity?)
+
+			for (int i = 0; i < 16; ++i) {
+				int rating = ratings[i];
+				string ratingName;
+				if (i >= RATING_NAMES.Length) {
+					ratingName = "Unknown rating " + (i - RATING_NAMES.Length);
+				} else {
+					ratingName = RATING_NAMES[i].Item1 + " rating";
+				}
+
+				if ((rating & 0x40) > 0) {
+					info.addInfo(ratingName + " bit 6", rating & 0x40, true);
+				}
+				if ((rating & 0x20) > 0) {
+					info.addInfo(ratingName + " bit 5", rating & 0x20, true);
+				}
+
+				if (rating != 0x80) {
+					int ratingValue = rating & 0x1f;
+					if (i < RATING_NAMES.Length && RATING_NAMES[i].Item2 != null) {
+						info.addInfo(ratingName, ratingValue, RATING_NAMES[i].Item2);
+					} else {
+						info.addInfo(ratingName, ratingValue);
+					}
+
+				}
+			}
+
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream s = file.stream;
 			Gamecube.parseGamecubeHeader(info, s);
@@ -73,6 +124,7 @@ namespace ROMniscience.Handlers {
 							type = Encoding.ASCII.GetString(partitionType);
 						}
 						info.addInfo(String.Format("Partition {0} type", partitionIndex), type, true);
+						//TODO: Read TMD from partition
 					} finally {
 						s.Position = pos;
 					}
@@ -89,67 +141,8 @@ namespace ROMniscience.Handlers {
 			byte[] unused = s.read(12);
 			info.addInfo("Unused region data", unused);
 
-			//There seems to be something more to this; for example the USA version of
-			//Super Smash Bros. Brawl contains 45 for the ESRB rating instead of
-			//13 (it's rated Teen in the USA), which indicates that bit 6 is set to 1 and
-			//therefore does something and I don't know what; no other game seems to do that
-			//but therefore we'll only use the last 5 bits for now
-			//(Possibly bit 6 indicates online interactivity?)
-
-			int cero = s.read();
-			if (cero != 0x80) {
-				info.addInfo("CERO rating", cero & 0x1f, DS.CERO_RATINGS);
-			}
-
-			int esrb = s.read();
-			if (esrb != 0x80) {
-				info.addInfo("ESRB rating", esrb & 0x1f, DS.ESRB_RATINGS);
-			}
-
-			int reservedRating = s.read();
-			if (reservedRating != 0x80) {
-				info.addInfo("<reserved> rating", reservedRating);
-			}
-
-			int usk = s.read();
-			if (usk != 0x80) {
-				info.addInfo("USK rating", usk & 0x1f, DS.USK_RATINGS);
-			}
-
-			int pegi = s.read();
-			if (pegi != 0x80) {
-				info.addInfo("PEGI (Europe) rating", pegi & 0x1f, DS.PEGI_RATINGS);
-			}
-
-
-			int finland = s.read();
-			if (finland != 0x80) {
-				info.addInfo("Finland rating", finland & 0x1f);
-			}
-
-			int pegiPortugal = s.read();
-			if (pegiPortugal != 0x80) {
-				info.addInfo("PEGI (Portugal) rating", pegiPortugal & 0x1f, DS.PEGI_PORTUGAL_RATINGS);
-			}
-
-			int pegiUK = s.read();
-			if (pegiUK != 0x80) {
-				info.addInfo("PEGI rating", pegiUK & 0x1f, DS.PEGI_UK_RATINGS);
-			}
-
-			int agcb = s.read();
-			if (agcb != 0x80) {
-				info.addInfo("AGCB rating", agcb & 0x1f, DS.AGCB_RATINGS);
-			}
-
-			int grb = s.read();
-			if (grb != 0x80) {
-				info.addInfo("GRB rating", grb & 0x1f, DS.GRB_RATINGS);
-			}
-
-			//Filled with 0x80, maybe these are other countries with rating systems that no game anyone knows of has a rating for?
-			byte[] unused2 = s.read(6);
-			info.addInfo("Unused region data 2", unused2, true);
+			byte[] ratings = s.read(16);
+			parseRatings(info, ratings);
 		}
 	}
 }

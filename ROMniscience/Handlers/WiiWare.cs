@@ -81,8 +81,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Region code", regionCode, NintendoCommon.DISC_REGIONS);
 
 			byte[] ratings = s.read(16);
-			//TODO Parse these... probably same as Wii
-			info.addInfo("Ratings", ratings);
+			Wii.parseRatings(info, ratings);
 
 			byte[] reserved = s.read(12);
 			info.addInfo("TMD reserved", reserved, true);
