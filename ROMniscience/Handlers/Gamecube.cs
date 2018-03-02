@@ -95,7 +95,7 @@ namespace ROMniscience.Handlers {
 
 			info.addInfo("Platform", isGamecubeMagic(magic) ? "GameCube" : isWiiMagic(wiiMagic) ? "Wii" : "Unknown");
 
-			string gameName = s.read(0x3e0, Encoding.ASCII).TrimEnd('\0'); //Okay, there's no way that can be right
+			string gameName = s.read(0x60, Encoding.ASCII).TrimEnd('\0');
 			info.addInfo("Internal name", gameName);
 
 		}
