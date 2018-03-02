@@ -74,6 +74,14 @@ namespace ROMniscience.Handlers {
 			{'X', "WiiWare demo or MSX Virtual Console"},
 		};
 
+		public static readonly IDictionary<int, string> DISC_REGIONS = new Dictionary<int, string>() {
+			{0, "NTSC-J"},
+			{1, "NTSC"},
+			{2, "PAL"},
+			{3, "Region free"}, //maybe?
+			{4, "NTSC-K"},
+		};
+
 		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
 			//These look like they're used by Gamecube, and Wii as well
 			//Anyway, these are used by FDS, SNES, GB/GBC, GBA, DS, 64DD and Virtual Boy; seemingly Pokemon Mini

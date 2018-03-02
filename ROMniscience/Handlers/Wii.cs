@@ -84,11 +84,7 @@ namespace ROMniscience.Handlers {
 
 			s.Position = 0x4e000;
 			int region = s.readIntBE();
-			try {
-				info.addInfo("Region code", Enum.GetName(typeof(Gamecube.DiscRegions), region));
-			} catch (InvalidCastException) {
-				info.addInfo("Region code", String.Format("Unknown {0}", region));
-			}
+			info.addInfo("Region code", region, NintendoCommon.DISC_REGIONS);
 
 			byte[] unused = s.read(12);
 			info.addInfo("Unused region data", unused);

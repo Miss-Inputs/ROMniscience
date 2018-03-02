@@ -52,13 +52,6 @@ namespace ROMniscience.Handlers {
 			return b[0] == 0x5d && b[1] == 0x1c && b[2] == 0x9e && b[3] == 0xa3;
 		}
 
-		public enum DiscRegions : int {
-			NTSC_J = 0,
-			NTSC_U = 1,
-			PAL = 2,
-			NTSC_K = 4, //Wii only
-		}
-
 		public static void parseGamecubeHeader(ROMInfo info, InputStream s) {
 			string productCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Product code", productCode);
@@ -223,7 +216,7 @@ namespace ROMniscience.Handlers {
 
 			if ("BNR1".Equals(bannerMagic)) {
 				//TODO These variable names fuckin suck and this whole thing needs refactoring
-				if (region == (int)DiscRegions.NTSC_J) {
+				if (region == 0) { //NTSC-J
 					string title = MainProgram.shiftJIS.GetString(banner, 0x1820, 32);
 					string title2 = MainProgram.shiftJIS.GetString(banner, 0x1840, 32);
 					info.addInfo("Japanese short title", title + Environment.NewLine + title2);
@@ -299,11 +292,7 @@ namespace ROMniscience.Handlers {
 
 			s.Position = 0x458;
 			int region = s.readIntBE();
-			try {
-				info.addInfo("Region code", Enum.GetName(typeof(DiscRegions), region));
-			} catch (InvalidCastException) {
-				info.addInfo("Region code", String.Format("Unknown {0}", region));
-			}
+			info.addInfo("Region code", region, NintendoCommon.DISC_REGIONS);
 
 			s.Position = 0x2440;
 			string apploaderDate = s.read(16, Encoding.ASCII).Trim('\0');
