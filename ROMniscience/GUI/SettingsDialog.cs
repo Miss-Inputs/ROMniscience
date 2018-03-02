@@ -162,6 +162,9 @@ namespace ROMniscience {
 			public CheckBox hashEnabledChecky {
 				get;
 			}
+			public Button butt {
+				get;
+			}
 			public IDictionary<string, string> settingsToSave {
 				get {
 					return new Dictionary<string, string>(){
@@ -203,13 +206,6 @@ namespace ROMniscience {
 					Tag = name + "_enabled",
 				};
 				Controls.Add(enabledChecky);
-				if (SettingsManager.doesKeyExist((string)enabledChecky.Tag)) {
-					if (bool.TryParse(SettingsManager.readSetting((string)enabledChecky.Tag), out bool result)) {
-						enabledChecky.Checked = result;
-					}
-				} else {
-					enabledChecky.Checked = true;
-				}
 
 				hashEnabledChecky = new CheckBox() {
 					Text = "Calculate hashes",
@@ -218,23 +214,14 @@ namespace ROMniscience {
 					Tag = name + "_hash",
 				};
 				Controls.Add(hashEnabledChecky);
-				if (SettingsManager.doesKeyExist((string)hashEnabledChecky.Tag)) {
-					if (bool.TryParse(SettingsManager.readSetting((string)hashEnabledChecky.Tag), out bool result)) {
-						hashEnabledChecky.Checked = result;
-					}
-				} else {
-					hashEnabledChecky.Checked = true;
-				}
 
 				texty = new TextBox() {
 					Top = hashEnabledChecky.Bottom + hashEnabledChecky.Margin.Vertical,
 				};
-				if (SettingsManager.doesKeyExist(name)) {
-					texty.Text = SettingsManager.readSetting(name);
-				}
+
 				Controls.Add(texty);
 
-				Button butt = new Button() {
+				butt = new Button() {
 					Text = "Browse...",
 					Top = texty.Top,
 				};
@@ -257,6 +244,35 @@ namespace ROMniscience {
 				};
 				Controls.Add(divider);
 				Height = divider.Bottom;
+
+				enabledChecky.CheckedChanged += delegate {
+					toggleEnabled();
+				};
+				if (SettingsManager.doesKeyExist((string)enabledChecky.Tag)) {
+					if (bool.TryParse(SettingsManager.readSetting((string)enabledChecky.Tag), out bool result)) {
+						enabledChecky.Checked = result;
+					}
+				} else {
+					enabledChecky.Checked = true;
+				}
+				toggleEnabled();
+				if (SettingsManager.doesKeyExist((string)hashEnabledChecky.Tag)) {
+					if (bool.TryParse(SettingsManager.readSetting((string)hashEnabledChecky.Tag), out bool result)) {
+						hashEnabledChecky.Checked = result;
+					}
+				} else {
+					hashEnabledChecky.Checked = true;
+				}
+				if (SettingsManager.doesKeyExist(name)) {
+					texty.Text = SettingsManager.readSetting(name);
+				}
+				//TODO I think those if blocks can be refactored somehow
+			}
+
+			void toggleEnabled() {
+				hashEnabledChecky.Enabled = enabledChecky.Checked;
+				texty.Enabled = enabledChecky.Checked;
+				butt.Enabled = enabledChecky.Checked;
 			}
 		}
 
