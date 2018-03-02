@@ -81,7 +81,7 @@ namespace ROMniscience {
 				string fileType = handler.getFiletypeName(extension);
 				info.addInfo("File type", fileType ?? "Unknown");
 
-				if (datfiles != null) {
+				if (datfiles != null && handler.shouldCalculateHash) {
 					XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
 					info.addInfo("Datfile", result?.datfile.name);
 					info.addInfo("Datfile game name", result?.game.name);

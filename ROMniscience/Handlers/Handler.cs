@@ -84,6 +84,18 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
+		public bool shouldCalculateHash {
+			get {
+				string enabledKey = name + "_hash";
+				if (SettingsManager.doesKeyExist(enabledKey)) {
+					if (bool.TryParse(SettingsManager.readSetting(enabledKey), out bool result)) {
+						return result;
+					}
+				}
+				return true;
+			}
+		}
+
 		public abstract void addROMInfo(ROMInfo info, ROMFile file);
 
 		public static ICollection<Handler> allHandlers {

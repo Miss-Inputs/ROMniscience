@@ -159,11 +159,15 @@ namespace ROMniscience {
 			public CheckBox enabledChecky {
 				get;
 			}
+			public CheckBox hashEnabledChecky {
+				get;
+			}
 			public IDictionary<string, string> settingsToSave {
 				get {
 					return new Dictionary<string, string>(){
 						{Name, texty.Text},
-						{(string)enabledChecky.Tag, enabledChecky.Checked.ToString()}
+						{(string)enabledChecky.Tag, enabledChecky.Checked.ToString()},
+						{(string)hashEnabledChecky.Tag, hashEnabledChecky.Checked.ToString()},
 					};
 				}
 			}
@@ -194,6 +198,7 @@ namespace ROMniscience {
 
 				enabledChecky = new CheckBox() {
 					Text = "Enabled",
+					AutoSize = true,
 					Top = label.Bottom + label.Margin.Vertical,
 					Tag = name + "_enabled",
 				};
@@ -206,8 +211,23 @@ namespace ROMniscience {
 					enabledChecky.Checked = true;
 				}
 
-				texty = new TextBox() {
+				hashEnabledChecky = new CheckBox() {
+					Text = "Calculate hashes",
+					AutoSize = true,
 					Top = enabledChecky.Bottom + enabledChecky.Margin.Vertical,
+					Tag = name + "_hash",
+				};
+				Controls.Add(hashEnabledChecky);
+				if (SettingsManager.doesKeyExist((string)hashEnabledChecky.Tag)) {
+					if (bool.TryParse(SettingsManager.readSetting((string)hashEnabledChecky.Tag), out bool result)) {
+						hashEnabledChecky.Checked = result;
+					}
+				} else {
+					hashEnabledChecky.Checked = true;
+				}
+
+				texty = new TextBox() {
+					Top = hashEnabledChecky.Bottom + hashEnabledChecky.Margin.Vertical,
 				};
 				if (SettingsManager.doesKeyExist(name)) {
 					texty.Text = SettingsManager.readSetting(name);

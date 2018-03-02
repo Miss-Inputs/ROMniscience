@@ -153,7 +153,7 @@ namespace ROMniscience {
 
 			string datFolder = SettingsManager.readSetting("datfiles");
 			DatfileCollection datfiles = null;
-			if(datFolder != null) {
+			if(datFolder != null && handler.shouldCalculateHash) {
 				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
 			}
 
