@@ -69,7 +69,7 @@ namespace ROMniscience.Handlers {
 
 			int titleFlags = s.readIntBE();
 			info.addInfo("Title flags", titleFlags, true);
-			info.addInfo("Is official", titleFlags & 1); //Hmmmmmm
+			info.addInfo("Is official", (titleFlags & 1) == 1); //Hmmmmmm
 
 			string maker = s.read(2, Encoding.ASCII); //Documentation calls this "Group ID" for some reason
 			info.addInfo("Manufacturer", maker, NintendoCommon.LICENSEE_CODES);
