@@ -57,6 +57,8 @@ namespace ROMniscience.Handlers {
 			//therefore does something and I don't know what; as does Bomberman Blast
 			//but therefore we'll only use bits 0-4 for now
 			//(Possibly bit 5 indicates online interactivity?)
+			//Bit 6 is set for USK in Madworld (PAL), so it possibly indicates something
+			//like "banned in this country" or "refused classification"
 
 			for (int i = 0; i < 16; ++i) {
 				int rating = ratings[i];

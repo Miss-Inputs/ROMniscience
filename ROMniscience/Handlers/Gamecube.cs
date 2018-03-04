@@ -211,7 +211,7 @@ namespace ROMniscience.Handlers {
 		static void parseBanner(ROMInfo info, byte[] banner, int region) {
 			string bannerMagic = Encoding.ASCII.GetString(banner, 0, 4);
 			info.addInfo("Banner magic", bannerMagic, true);
-
+			
 			info.addInfo("Icon", convertBannerIcon(banner));
 
 			if ("BNR1".Equals(bannerMagic)) {

@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 
 namespace ROMniscience.IO {
 	class WrappedInputStream: InputStream, IDisposable {
-		private Stream innerStream;
+		protected Stream innerStream;
 
 		public WrappedInputStream(Stream s) {
 			if(!s.CanSeek) {
@@ -42,7 +42,6 @@ namespace ROMniscience.IO {
 			} else {
 				innerStream = s;
 			}
-			
 		}
 
 		public override long Length => innerStream.Length;

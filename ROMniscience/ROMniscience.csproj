@@ -79,6 +79,7 @@
     <Compile Include="Datfiles\CRC32.cs" />
     <Compile Include="Datfiles\ROM.cs" />
     <Compile Include="Datfiles\XMLDatfile.cs" />
+    <Compile Include="GCZROMFile.cs" />
     <Compile Include="Handlers\32X.cs" />
     <Compile Include="Handlers\Atari7800.cs" />
     <Compile Include="Handlers\DS.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="IO\ArchiveHelpers.cs" />
     <Compile Include="IO\ByteSwappedInputStream.cs" />
     <Compile Include="IO\FileInputStream.cs" />
+    <Compile Include="IO\GCZInputStream.cs" />
     <Compile Include="IO\InputStream.cs" />
     <Compile Include="IO\MemoryInputStream.cs" />
     <Compile Include="GUI\MainWindow.cs">

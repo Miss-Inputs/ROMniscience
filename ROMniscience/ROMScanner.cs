@@ -93,6 +93,15 @@ namespace ROMniscience {
 				}
 			}
 
+			if (IO.ArchiveHelpers.isGCZ(f.Extension)){
+				//Refactor this later if I ever support any other kind of "custom" compressed formats like this
+				ROMInfo info;
+				using(GCZROMFile gcz = new GCZROMFile(f)) {
+					info = ROMInfo.getROMInfo(handler, gcz);
+				}
+				onHaveRow(info);
+			}
+
 			if (handler.handlesExtension(f.Extension)) {
 				ROMInfo info;
 				using (ROMFile file = new ROMFile(f)) {

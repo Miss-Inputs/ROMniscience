@@ -33,7 +33,12 @@ using SharpCompress.Archives;
 
 namespace ROMniscience {
 	class ROMFile: IDisposable {
+		//TODO Should probably refactor this into BaseROMFile/ROMFile/CompressedROMFile classes I guess
 		private IArchiveEntry entry;
+
+		protected ROMFile() {
+
+		}
 
 		public ROMFile(FileInfo f) {
 			path = f;
@@ -46,11 +51,12 @@ namespace ROMniscience {
 			stream = new WrappedInputStream(entry.OpenEntryStream());
 		}
 
-		public FileInfo path {
+
+		public virtual FileInfo path {
 			get;
 		}
 
-		public string name {
+		public virtual string name {
 			get {
 				if(compressed) {
 					return entry.Key;
@@ -60,13 +66,13 @@ namespace ROMniscience {
 			}
 		}
 
-		public InputStream stream {
+		public virtual InputStream stream {
 			get;
 		}
 
-		public bool compressed => entry != null;
+		public virtual bool compressed => entry != null;
 
-		public long length {
+		public virtual long length {
 			get {
 				if(compressed) {
 					return entry.Size;
@@ -76,7 +82,7 @@ namespace ROMniscience {
 			}
 		}
 
-		public long compressedLength {
+		public virtual long compressedLength {
 			get {
 				if(compressed) {
 					return entry.CompressedSize;
@@ -86,7 +92,7 @@ namespace ROMniscience {
 			}
 		}
 
-		public string extension => Path.GetExtension(name);
+		public virtual string extension => Path.GetExtension(name);
 		
 		//ACKSHUALLY it is being disposed, but because it's an auto property, it complains about the backing store being not disposed directly because bug
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed")]

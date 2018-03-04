@@ -55,6 +55,18 @@ namespace ROMniscience.IO {
 			return ARCHIVE_EXTENSIONS.Contains(extension.ToLowerInvariant());
 		}
 
+		public static bool isGCZ(String extension) {
+			//If I ever support more "custom" compressed formats, this will be refactored to include all of those, but until then it'll just look out of place whoops
+			if (String.IsNullOrEmpty(extension)) {
+				return false;
+			}
+
+			if (extension[0] == '.') {
+				return "gcz".Equals(extension.Substring(1).ToLowerInvariant());
+			}
+			return "gcz".Equals(extension.ToLowerInvariant());
+		}
+
 		public static bool isArchive(FileInfo file) {
 			//FIXME This is broken and detects .gba ROMs as stuff
 			return GZipArchive.IsGZipFile(file) || RarArchive.IsRarFile(file) || SevenZipArchive.IsSevenZipFile(file) ||
