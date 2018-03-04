@@ -67,7 +67,7 @@ namespace ROMniscience.Datfiles {
 			return null;
 		}
 
-		public XMLDatfile.IdentifyResult identify(InputStream s, long offset) {
+		public static Tuple<int, byte[], byte[]> hash(InputStream s, long offset) {
 			long originalPos = s.Position;
 			try {
 				MD5 md5 = MD5.Create();
@@ -77,7 +77,7 @@ namespace ROMniscience.Datfiles {
 				s.Position = offset;
 
 				byte[] buf;
-				while((buf = s.read(1024 * 1024)).Length > 0) {
+				while ((buf = s.read(1024 * 1024)).Length > 0) {
 					md5.TransformBlock(buf, 0, buf.Length, buf, 0);
 					sha1.TransformBlock(buf, 0, buf.Length, buf, 0);
 					crc32 = CRC32.crc32(buf, crc32);
@@ -85,10 +85,15 @@ namespace ROMniscience.Datfiles {
 				md5.TransformFinalBlock(new byte[0], 0, 0);
 				sha1.TransformFinalBlock(new byte[0], 0, 0);
 
-				return identify(crc32, md5.Hash, sha1.Hash);
+				return new Tuple<int, byte[], byte[]>(crc32, md5.Hash, sha1.Hash);
 			} finally {
 				s.Position = originalPos;
 			}
+		}
+
+		public XMLDatfile.IdentifyResult identify(InputStream s, long offset) {
+			var hashes = hash(s, offset);
+			return identify(hashes.Item1, hashes.Item2, hashes.Item3);
 		}
 
 		public IEnumerator<XMLDatfile> GetEnumerator() {

@@ -81,18 +81,26 @@ namespace ROMniscience {
 				string fileType = handler.getFiletypeName(extension);
 				info.addInfo("File type", fileType ?? "Unknown");
 
-				if (datfiles != null && handler.shouldCalculateHash) {
-					XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
-					info.addInfo("Datfile", result?.datfile.name);
-					info.addInfo("Datfile game name", result?.game.name);
-					info.addInfo("Datfile game category", result?.game.category);
-					info.addInfo("Datfile game description", result?.game.description, true); //So far I haven't seen this not be the same as the name
-					info.addInfo("Datfile ROM name", result?.rom.name);
-					info.addInfo("Datfile ROM status", result?.rom.status);
-					if (result != null) {
-						//Lowkey hate that I can't just do result? here
-						//Anyway, if there's a match, then this should just be equal to the file size anyway
-						info.addInfo("Datfile ROM size", result.rom.size, ROMInfo.FormatMode.SIZE, true);
+				if (handler.shouldCalculateHash) {
+					var hashes = DatfileCollection.hash(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
+					info.addInfo("CRC32", hashes.Item1);
+					info.addInfo("MD5", hashes.Item2);
+					info.addInfo("SHA-1", hashes.Item3);
+
+					if (datfiles != null) {
+						//XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
+						var result = datfiles.identify(hashes.Item1, hashes.Item2, hashes.Item3);
+						info.addInfo("Datfile", result?.datfile.name);
+						info.addInfo("Datfile game name", result?.game.name);
+						info.addInfo("Datfile game category", result?.game.category);
+						info.addInfo("Datfile game description", result?.game.description, true); //So far I haven't seen this not be the same as the name
+						info.addInfo("Datfile ROM name", result?.rom.name);
+						info.addInfo("Datfile ROM status", result?.rom.status);
+						if (result != null) {
+							//Lowkey hate that I can't just do result? here
+							//Anyway, if there's a match, then this should just be equal to the file size anyway
+							info.addInfo("Datfile ROM size", result.rom.size, ROMInfo.FormatMode.SIZE, true);
+						}
 					}
 				}
 
