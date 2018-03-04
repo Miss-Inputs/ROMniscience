@@ -116,19 +116,23 @@ namespace ROMniscience {
 		}
 
 		public static void viewFile(FileInfo path) {
-			if(IO.ArchiveHelpers.isArchiveExtension(path.Extension)) {
+			if (IO.ArchiveHelpers.isArchiveExtension(path.Extension)) {
 				try {
-					using(IArchive archive = ArchiveFactory.Open(path)) {
+					using (IArchive archive = ArchiveFactory.Open(path)) {
 						string helpString = "This is an archive and there's multiple files in it. Please choose which one you want to view the info for.";
 						IArchiveEntry choice = chooseChoices(archive.Entries, "Key", helpString, "Choose File in Archive");
-						if(choice != null) {
-							using(ROMFile f = new ROMFile(choice, path)) {
+						if (choice != null) {
+							using (ROMFile f = new ROMFile(choice, path)) {
 								viewFile(f);
 							}
 						}
 					}
-				} catch(Exception ex) {
+				} catch (Exception ex) {
 					MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o");
+				}
+			} else if (IO.ArchiveHelpers.isGCZ(path.Extension)) {
+				using(GCZROMFile gcz = new GCZROMFile(path)) {
+					viewFile(gcz);
 				}
 			} else {
 				using(ROMFile f = new ROMFile(path)) {
