@@ -47,9 +47,9 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void parseTMD(ROMInfo info, byte[] tmd) {
-			InputStream s = new WrappedInputStream(new System.IO.MemoryStream(tmd));
-
-			s.Position = 0x184;
+			InputStream s = new WrappedInputStream(new System.IO.MemoryStream(tmd)) {
+				Position = 0x184
+			};
 			byte[] iosVersion = s.read(8);
 			info.addInfo("IOS version", iosVersion, true);
 
