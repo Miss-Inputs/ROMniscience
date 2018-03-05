@@ -40,6 +40,12 @@ namespace ROMniscience {
 		public event EventHandler datfilesLoadEnd;
 		public event EventHandler<HaveRowEventArgs> haveRow;
 		public event EventHandler<RunningWorkersUpdatedEventArgs> runningWorkersUpdated;
+		public event EventHandler<ArchiveExceptionEventArgs> archiveExceptionHappened;
+
+		public class ArchiveExceptionEventArgs : EventArgs {
+			public Exception ex { get; set; }
+			public FileInfo path { get; set; }
+		}
 
 		public class RunningWorkersUpdatedEventArgs : EventArgs {
 			public ConcurrentDictionary<string, bool> runningWorkers { get; set; }
@@ -55,6 +61,14 @@ namespace ROMniscience {
 
 		protected virtual void onDatfilesLoadEnd() {
 			datfilesLoadEnd?.Invoke(this, EventArgs.Empty);
+		}
+
+		protected virtual void onArchiveException(Exception exception, FileInfo fi) {
+			var args = new ArchiveExceptionEventArgs {
+				ex = exception,
+				path = fi,
+			};
+			archiveExceptionHappened?.Invoke(this, args);
 		}
 
 		protected virtual void onHaveRow(ROMInfo info) {
@@ -88,21 +102,16 @@ namespace ROMniscience {
 					}
 				} catch (Exception ex) {
 					//HECK
-					//TODO Add event for this happening (so MainWindow can add the archive and exception as a row)
-					Console.WriteLine(ex);
+					onArchiveException(ex, f);
 				}
-			}
-
-			if (IO.ArchiveHelpers.isGCZ(f.Extension)){
+			} else if (IO.ArchiveHelpers.isGCZ(f.Extension)){
 				//Refactor this later if I ever support any other kind of "custom" compressed formats like this
 				ROMInfo info;
 				using(GCZROMFile gcz = new GCZROMFile(f)) {
 					info = ROMInfo.getROMInfo(handler, gcz);
 				}
 				onHaveRow(info);
-			}
-
-			if (handler.handlesExtension(f.Extension)) {
+			} else if (handler.handlesExtension(f.Extension)) {
 				ROMInfo info;
 				using (ROMFile file = new ROMFile(f)) {
 					info = ROMInfo.getROMInfo(handler, file, datfiles);

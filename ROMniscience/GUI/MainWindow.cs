@@ -235,11 +235,25 @@ namespace ROMniscience {
 				statusBar.Refresh();
 			};
 
+			scanner.archiveExceptionHappened += addArchiveException;
+
 			scanner.haveRow += addRow;
 
 			scanner.runningWorkersUpdated += runningWorkersUpdated;
 
 			scanner.startScan();
+		}
+
+		private void addArchiveException(object sender, ROMScanner.ArchiveExceptionEventArgs args) {
+			var row = new ROMScanner.HaveRowEventArgs();
+			ROMInfo info = new ROMInfo();
+			row.info = info;
+
+			info.addInfo("Filename", args.path.Name);
+			info.addInfo("Folder", args.path.DirectoryName);
+			info.addInfo("Exception", args.ex);
+
+			addRow(this, row);
 		}
 
 		private void runningWorkersUpdated(object sender, ROMScanner.RunningWorkersUpdatedEventArgs args) {
