@@ -114,10 +114,11 @@ namespace ROMniscience.Handlers {
 
 		public static int calcChecksum(InputStream s) {
 			long pos = s.Position;
+			long len = s.Length - 2;
 			try {
 				s.Position = 0;
 				int checksum = 0;
-				while (s.Position < s.Length - 2) {
+				while (s.Position < len) {
 					checksum = (checksum + s.read()) & 0xffff;
 				}
 				return checksum;

@@ -247,13 +247,14 @@ namespace ROMniscience.Handlers {
 
 			int offset1Score = 0, offset2Score = 0, offset3Score = 0;
 
-			if (s.Length > offset1) {
+			long length = s.Length;
+			if (length > offset1) {
 				offset1Score = scoreHeader(s, offset1);
 			}
-			if (s.Length > offset2) {
+			if (length > offset2) {
 				offset2Score = scoreHeader(s, offset2);
 			}
-			if (s.Length > offset3) {
+			if (length > offset3) {
 				offset3Score = scoreHeader(s, offset3);
 			}
 
@@ -407,10 +408,11 @@ namespace ROMniscience.Handlers {
 			//Note that this probably requires a bit more nuance, especially for funny games with funny mappers (Star Ocean, etc)
 			//but also fails for some perfectly normal games like Earthbound and Home Improvement, unless that's just how they are
 			long pos = s.Position;
+			long len = s.Length;
 			try {
-				s.Position = s.Length % 1024; //Avoid starting at weird places for copier headered ROMs
+				s.Position = len % 1024; //Avoid starting at weird places for copier headered ROMs
 				int checksum = 0;
-				while (s.Position < s.Length) {
+				while (s.Position < len) {
 					checksum = (checksum + s.read()) & 0xffff;
 				}
 				return checksum;
@@ -474,8 +476,9 @@ namespace ROMniscience.Handlers {
 			}
 
 			long offset = 0;
+			long length = file.length;
 
-			if (file.length % 1024 == 512) {
+			if (length % 1024 == 512) {
 				//We have a frickin' copier header
 
 				s.Position = 8;
@@ -525,7 +528,7 @@ namespace ROMniscience.Handlers {
 			} else {
 				info.addInfo("Detected format", "Plain");
 			}
-			if(file.length < 0x7fc0) {
+			if(length < 0x7fc0) {
 				//There is no header, since the file is too small to have any of the known header offsets
 				//This only really happens for some homebrew stuff
 				return;
