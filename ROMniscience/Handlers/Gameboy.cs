@@ -163,7 +163,7 @@ namespace ROMniscience.Handlers {
 					//it's the manufacturer code (which is always in the same place)
 					//So if the null character appears inside the 11 bytes, then it definitely ends the string, and then we can
 					//just check to see if there's a manufacturer code afterwards
-					int lastNullCharIndex = title.ToList().IndexOf(0);
+					int lastNullCharIndex = Array.IndexOf(title, 0);
 					if(title[15] == 0xc0 || ((lastNullCharIndex != -1 && lastNullCharIndex <= 11) && title[14] != 0)) {
 						titleLength = 11;
 						string productCode = Encoding.ASCII.GetString(title, 11, 4);
