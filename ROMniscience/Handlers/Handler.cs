@@ -72,28 +72,37 @@ namespace ROMniscience.Handlers {
 
 		public bool configured => SettingsManager.doesKeyExist(name);
 
-		public bool enabled {
-			get {
-				string enabledKey = name + "_enabled";
-				if (SettingsManager.doesKeyExist(enabledKey)) {
-					if(bool.TryParse(SettingsManager.readSetting(enabledKey), out bool result)) {
-						return result;
-					}
+		bool getEnabled() {
+			string enabledKey = name + "_enabled";
+			if (SettingsManager.doesKeyExist(enabledKey)) {
+				if (bool.TryParse(SettingsManager.readSetting(enabledKey), out bool result)) {
+					return result;
 				}
-				return true;
 			}
+			return true;
+		}
+
+		public bool enabled {
+			get;
+		}
+
+		bool getShouldCalcHash() {
+			string enabledKey = name + "_hash";
+			if (SettingsManager.doesKeyExist(enabledKey)) {
+				if (bool.TryParse(SettingsManager.readSetting(enabledKey), out bool result)) {
+					return result;
+				}
+			}
+			return true;
 		}
 
 		public bool shouldCalculateHash {
-			get {
-				string enabledKey = name + "_hash";
-				if (SettingsManager.doesKeyExist(enabledKey)) {
-					if (bool.TryParse(SettingsManager.readSetting(enabledKey), out bool result)) {
-						return result;
-					}
-				}
-				return true;
-			}
+			get;
+		}
+
+		public Handler() {
+			enabled = getEnabled();
+			shouldCalculateHash = getShouldCalcHash();
 		}
 
 		public abstract void addROMInfo(ROMInfo info, ROMFile file);
