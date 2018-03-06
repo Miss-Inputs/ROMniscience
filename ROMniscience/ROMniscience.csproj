@@ -147,6 +147,7 @@
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="IO\StreamExtensions.cs" />
     <Compile Include="IO\WrappedInputStream.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
