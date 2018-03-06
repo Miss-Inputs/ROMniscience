@@ -76,6 +76,9 @@ namespace ROMniscience.IO {
 		public GCZInputStream(Stream s) : base(s) {
 			blockSize = getBlockSize();
 			numBlocks = getNumberOfBlocks();
+
+			compressedSize = getCompressedSize();
+			uncompressedSize = getUncompressedSize();
 		
 			blockPointers = new ulong[numBlocks];
 			hashes = new uint[numBlocks];
@@ -173,28 +176,32 @@ namespace ROMniscience.IO {
 			return BitConverter.ToUInt64(b, 0);
 		}
 
-		public ulong compressedSize {
-			get {
-				long pos = innerStream.Position;
-				try {
-					innerStream.Position = 8;
-					return readInnerULongLE();
-				} finally {
-					innerStream.Position = pos;
-				}
+		ulong getCompressedSize() {
+			long pos = innerStream.Position;
+			try {
+				innerStream.Position = 8;
+				return readInnerULongLE();
+			} finally {
+				innerStream.Position = pos;
 			}
 		}
 
-		public ulong uncompressedSize {
-			get {
-				long pos = innerStream.Position;
-				try {
-					innerStream.Position = 16;
-					return readInnerULongLE();
-				} finally {
-					innerStream.Position = pos;
-				}
+		ulong getUncompressedSize() {
+			long pos = innerStream.Position;
+			try {
+				innerStream.Position = 16;
+				return readInnerULongLE();
+			} finally {
+				innerStream.Position = pos;
 			}
+		}
+
+		public ulong compressedSize {
+			get;
+		}
+
+		public ulong uncompressedSize {
+			get;
 		}
 
 	}
