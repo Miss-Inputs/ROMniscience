@@ -223,7 +223,7 @@ namespace ROMniscience.Handlers {
 
 					string title3 = MainProgram.shiftJIS.GetString(banner, 0x1860, 64);
 					string title4 = MainProgram.shiftJIS.GetString(banner, 0x18a0, 64);
-					info.addInfo("Japanese title line", title3 + Environment.NewLine + title4);
+					info.addInfo("Japanese title", title3 + Environment.NewLine + title4);
 
 					string title5 = MainProgram.shiftJIS.GetString(banner, 0x18e0, 128);
 					info.addInfo("Japanese description", title5.Replace("\n", Environment.NewLine));
