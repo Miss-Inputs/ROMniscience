@@ -115,7 +115,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Certificate chain size", certChainSize, true);
 
 			byte[] reserved = s.read(4);
-			info.addInfo("Reserved", reserved);
+			info.addInfo("Reserved", reserved, true);
 
 			int ticketSize = s.readIntBE();
 			info.addInfo("Ticket size", ticketSize, ROMInfo.FormatMode.SIZE, true);
