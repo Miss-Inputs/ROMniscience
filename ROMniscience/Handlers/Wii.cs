@@ -39,7 +39,7 @@ namespace ROMniscience.Handlers {
 		//Japan, USA, Reservedland, Germany, Europe, Finland, Portgual, UK, Australia, and South Korea respectively (although Finland uses normal European PEGI now as I understand it)
 		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
 			new Tuple<string, IDictionary<int, string>>("CERO", DS.CERO_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("ERSB", DS.ESRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("ESRB", DS.ESRB_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
 			new Tuple<string, IDictionary<int, string>>("USK", DS.USK_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("PEGI (Europe)", DS.PEGI_RATINGS),
