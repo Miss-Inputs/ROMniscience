@@ -281,7 +281,7 @@ namespace ROMniscience.Handlers {
 			byte[] blockAllocation = s.read(4);
 			info.addInfo("Block allocation flags", blockAllocation, true); //TODO (at the moment this confuzzles me)
 
-			int limitedStarts = s.readIntLE();
+			int limitedStarts = s.readShortLE();
 			if ((limitedStarts & 0x8000) > 0) {
 				info.addInfo("Boots left", "Unlimited");
 			} else {
@@ -310,9 +310,12 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 			//superfamicom.org says: Version Number is an extension. Actual format is 1 + ord(val($ffdb))/10. (what the heckie)
 
-			int checksum = s.readIntLE();
-			int inverseChecksum = s.readIntLE();
-			//TODO
+			int checksum = s.readShortLE();
+			int inverseChecksum = s.readShortLE();
+			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Inverse checksum", inverseChecksum, true);
+			info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);
+			//TODO calculate checksum
 
 			byte[] unknown = s.read(4);
 			info.addInfo("Unknown", unknown, true);
