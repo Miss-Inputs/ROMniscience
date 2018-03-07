@@ -141,7 +141,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Region code", region, NintendoCommon.DISC_REGIONS);
 
 			byte[] unused = s.read(12);
-			info.addInfo("Unused region data", unused);
+			info.addInfo("Unused region data", unused, true);
 
 			byte[] ratings = s.read(16);
 			parseRatings(info, ratings);
