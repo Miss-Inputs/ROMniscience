@@ -29,12 +29,13 @@ namespace ROMniscience.IO {
 				return 0;
 			}
 
-			int blocksToRead = (int)(((count - 1) / blockSize) + 1);
 			int firstBlock = (int)(position / blockSize);
+			long end = position + count;
+			int blocksToRead = (int)(((end - 1) / blockSize) + 1) - firstBlock;
 			int bytesRead = 0;
 			int remaining = count;
 
-			for(int i = firstBlock; i < firstBlock + blocksToRead; ++i) {
+			for (int i = firstBlock; i < firstBlock + blocksToRead; ++i) {
 				int positionInBlock = (int)(position - (i * blockSize));
 				int bytesToRead = (int)(blockSize - positionInBlock);
 				if (bytesToRead > remaining) {
