@@ -73,7 +73,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string>() {
-			//Not the same as REGION_CODES, go figure
+			//Not the same as REGION_CODES, that's involved in region locking stuff but this is just informational really
 			{'A', "Asia"},
 			{'B', "N/A"}, //Not so sure about this one
 			{'C', "China"},
@@ -88,7 +88,7 @@ namespace ROMniscience.Handlers {
 			{'L', "USA (L)"},
 			{'M', "Sweden"},
 			{'N', "Norway"},
-			{'O', "International"},
+			{'O', "International"}, //Apparently not China?
 			{'P', "Europe"},
 			{'Q', "Denmark"},
 			{'R', "Russia"},
@@ -157,6 +157,162 @@ namespace ROMniscience.Handlers {
 		}
 
 		readonly static byte[] WIFI_CONFIG_NAME = Encoding.ASCII.GetBytes("utility.bin");
+
+		public static void parseBanner(ROMInfo info, InputStream s, long bannerOffset) {
+			s.Position = bannerOffset;
+			int bannerVersion = s.readShortLE();
+			info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
+			if (BANNER_VERSIONS.ContainsKey(bannerVersion)) {
+				byte[] bannerChecksum = s.read(2); //CRC16 of 0x20 to 0x83
+				info.addInfo("Banner checksum", bannerChecksum, true);
+				byte[] bannerChecksum2 = s.read(2); //CRC16 of 0x20 to 0x93
+				info.addInfo("Banner checksum 2", bannerChecksum2, true);
+				byte[] bannerChecksum3 = s.read(2); //CRC16 of 0x20 to 0xa3
+				info.addInfo("Banner checksum 3", bannerChecksum3, true);
+				byte[] bannerChecksum4 = s.read(2); //CRC16 of 0x1240 to 0x23bf
+				info.addInfo("Banner checksum 4", bannerChecksum4, true);
+				byte[] bannerReserved = s.read(0x16); //Should be zero filled
+				info.addInfo("Banner reserved", bannerReserved, true);
+
+				byte[] iconBitmap = s.read(0x200);
+				byte[] iconPalette = s.read(0x20);
+				info.addInfo("Icon", decodeDSIcon(iconBitmap, iconPalette));
+
+				string japaneseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+				info.addInfo("Japanese title", japaneseTitle);
+				string englishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+				info.addInfo("English title", englishTitle);
+				string frenchTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+				info.addInfo("French title", frenchTitle);
+				string germanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+				info.addInfo("German title", germanTitle);
+				string italianTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+				info.addInfo("Italian title", italianTitle);
+				string spanishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+				info.addInfo("Spanish title", spanishTitle);
+				if (bannerVersion >= 2) {
+					string chineseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+					info.addInfo("Chinese title", chineseTitle);
+				}
+				if (bannerVersion >= 3) {
+					string koreanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
+					info.addInfo("Korean title", koreanTitle);
+				}
+
+				//Should be zero filled, but it's not
+				byte[] titleReserved = s.read(0x800);
+
+				if (bannerVersion >= 0x103) {
+					//Same format as DS icon, but animated
+					IList<byte[]> dsiIconBitmaps = new List<byte[]>();
+					for (int i = 0; i < 8; ++i) {
+						dsiIconBitmaps.Add(s.read(0x200));
+					}
+					IList<byte[]> dsiIconPalettes = new List<byte[]>();
+					for (int i = 0; i < 8; ++i) {
+						dsiIconPalettes.Add(s.read(0x20));
+					}
+					byte[] dsiIconSequence = s.read(0x80);
+				}
+			}
+		}
+
+		public static void parseDSiHeader(ROMInfo info, InputStream s) {
+			s.Position = 0x210;
+			int usedROMSize = s.readIntLE();
+			info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
+
+			info.addInfo("DSi reserved", s.read(4), true);
+			info.addInfo("DSi reserved 2", s.read(4), true);
+			info.addInfo("DSi reserved 3", s.read(4), true);
+
+			int modcryptOffset = s.readIntLE();
+			info.addInfo("Modcrypt area 1 offset", modcryptOffset, true);
+			int modcryptSize = s.readIntLE();
+			info.addInfo("Modcrypt area 1 size", modcryptSize, ROMInfo.FormatMode.SIZE, true);
+			int modcryptOffset2 = s.readIntLE();
+			info.addInfo("Modcrypt area 2 offset", modcryptOffset2, true);
+			int modcryptSize2 = s.readIntLE();
+			info.addInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE, true);
+
+			string emagCode = s.read(4, Encoding.ASCII);
+			info.addInfo("Game code backwards", emagCode, true);
+			int dsiType = s.read();
+			info.addInfo("Filetype", dsiType, true);
+			byte[] titleIDReserved = s.read(3);
+			info.addInfo("DSi title ID reserved", titleIDReserved, true);
+
+			int publicSaveSize = s.readIntLE();
+			info.addInfo("DSiWare public.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
+			int privateSaveSize = s.readIntLE();
+			info.addInfo("DSiWare private.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
+
+			info.addInfo("DSi reserved 4", s.read(176), true);
+
+			int ceroByte = s.read();
+			if ((ceroByte & 128) > 0) {
+				info.addInfo("Banned in Japan", (ceroByte & 64) > 0);
+				info.addInfo("CERO rating", ceroByte & 0x1f, NintendoCommon.CERO_RATINGS);
+			}
+
+			int esrbByte = s.read();
+			if ((esrbByte & 128) > 0) {
+				info.addInfo("Banned in USA", (esrbByte & 64) > 0);
+				info.addInfo("ESRB rating", esrbByte & 0x1f, NintendoCommon.ESRB_RATINGS);
+			}
+
+			int reservedRatingByte = s.read();
+			if ((reservedRatingByte & 128) > 0) {
+				//Who knows maybe it's not so reserved after all, it does seem out of place in the middle here
+				info.addInfo("Banned in <reserved>", (reservedRatingByte & 64) > 0);
+				info.addInfo("<reserved> rating", reservedRatingByte & 0x1f);
+			}
+
+			int uskByte = s.read();
+			if ((uskByte & 128) > 0) {
+				info.addInfo("Banned in Germany", (uskByte & 64) > 0);
+				info.addInfo("USK rating", uskByte & 0x1f, NintendoCommon.USK_RATINGS);
+			}
+
+			int pegiByte = s.read();
+			if ((pegiByte & 128) > 0) {
+				info.addInfo("Banned in Europe", (pegiByte & 64) > 0);
+				info.addInfo("PEGI (Europe) rating", pegiByte & 0x1f, NintendoCommon.PEGI_RATINGS);
+			}
+
+			int reservedRating2Byte = s.read();
+			if ((reservedRating2Byte & 128) > 0) {
+				info.addInfo("Banned in <reserved 2>", (reservedRating2Byte & 64) > 0);
+				info.addInfo("<reserved 2> rating", reservedRating2Byte & 0x1f);
+			}
+
+			int pegiPortugalByte = s.read();
+			if ((pegiPortugalByte & 128) > 0) {
+				info.addInfo("Banned in Portgual", (pegiPortugalByte & 64) > 0);
+				info.addInfo("PEGI (Portgual) rating", pegiPortugalByte & 0x1f, NintendoCommon.PEGI_PORTUGAL_RATINGS);
+			}
+
+			int pegiUKByte = s.read();
+			if ((pegiUKByte & 128) > 0) {
+				info.addInfo("Banned in the UK", (pegiUKByte & 64) > 0);
+				info.addInfo("PEGI rating", pegiUKByte & 0x1f, NintendoCommon.PEGI_UK_RATINGS);
+			}
+
+			int agcbByte = s.read();
+			if ((agcbByte & 128) > 0) {
+				info.addInfo("Banned in Australia", (agcbByte & 64) > 0);
+				info.addInfo("AGCB rating", agcbByte & 0x1f, NintendoCommon.AGCB_RATINGS);
+			}
+
+			int grbByte = s.read();
+			if ((grbByte & 128) > 0) {
+				info.addInfo("Banned in South Korea", (grbByte & 64) > 0);
+				info.addInfo("GRB rating", grbByte & 0x1f, NintendoCommon.GRB_RATINGS);
+			}
+			//The next 6 bytes are reserved, and then there's apparently
+			//something involving DEJUS (Brazil), GSRMR (Taiwan) and
+			//PEGI (Finland) in there*
+		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream s = file.stream;
@@ -291,100 +447,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Reserved 5", reserved5, true);
 
 			if (unitCode >= 2) {
-				s.Position = 0x210;
-				usedROMSize = s.readIntLE();
-				info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
-
-				info.addInfo("DSi reserved", s.read(4), true);
-				info.addInfo("DSi reserved 2", s.read(4), true);
-				info.addInfo("DSi reserved 3", s.read(4), true);
-
-				int modcryptOffset = s.readIntLE();
-				info.addInfo("Modcrypt area 1 offset", modcryptOffset, true);
-				int modcryptSize = s.readIntLE();
-				info.addInfo("Modcrypt area 1 size", modcryptSize, ROMInfo.FormatMode.SIZE, true);
-				int modcryptOffset2 = s.readIntLE();
-				info.addInfo("Modcrypt area 2 offset", modcryptOffset2, true);
-				int modcryptSize2 = s.readIntLE();
-				info.addInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE, true);
-
-				string emagCode = s.read(4, Encoding.ASCII);
-				info.addInfo("Game code backwards", emagCode, true);
-				int dsiType = s.read();
-				info.addInfo("Filetype", dsiType, true);
-				byte[] titleIDReserved = s.read(3);
-				info.addInfo("DSi title ID reserved", titleIDReserved, true);
-
-				int publicSaveSize = s.readIntLE();
-				info.addInfo("DSiWare public.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
-				int privateSaveSize = s.readIntLE();
-				info.addInfo("DSiWare private.sav filesize", publicSaveSize, ROMInfo.FormatMode.SIZE);
-
-				info.addInfo("DSi reserved 4", s.read(176), true);
-
-				int ceroByte = s.read();
-				if ((ceroByte & 128) > 0) {
-					info.addInfo("Banned in Japan", (ceroByte & 64) > 0);
-					info.addInfo("CERO rating", ceroByte & 0x1f, NintendoCommon.CERO_RATINGS);
-				}
-
-				int esrbByte = s.read();
-				if ((esrbByte & 128) > 0) {
-					info.addInfo("Banned in USA", (esrbByte & 64) > 0);
-					info.addInfo("ESRB rating", esrbByte & 0x1f, NintendoCommon.ESRB_RATINGS);
-				}
-
-				int reservedRatingByte = s.read();
-				if ((reservedRatingByte & 128) > 0) {
-					//Who knows maybe it's not so reserved after all, it does seem out of place in the middle here
-					info.addInfo("Banned in <reserved>", (reservedRatingByte & 64) > 0);
-					info.addInfo("<reserved> rating", reservedRatingByte & 0x1f);
-				}
-
-				int uskByte = s.read();
-				if ((uskByte & 128) > 0) {
-					info.addInfo("Banned in Germany", (uskByte & 64) > 0);
-					info.addInfo("USK rating", uskByte & 0x1f, NintendoCommon.USK_RATINGS);
-				}
-
-				int pegiByte = s.read();
-				if ((pegiByte & 128) > 0) {
-					info.addInfo("Banned in Europe", (pegiByte & 64) > 0);
-					info.addInfo("PEGI (Europe) rating", pegiByte & 0x1f, NintendoCommon.PEGI_RATINGS);
-				}
-
-				int reservedRating2Byte = s.read();
-				if ((reservedRating2Byte & 128) > 0) {
-					info.addInfo("Banned in <reserved 2>", (reservedRating2Byte & 64) > 0);
-					info.addInfo("<reserved 2> rating", reservedRating2Byte & 0x1f);
-				}
-
-				int pegiPortugalByte = s.read();
-				if ((pegiPortugalByte & 128) > 0) {
-					info.addInfo("Banned in Portgual", (pegiPortugalByte & 64) > 0);
-					info.addInfo("PEGI (Portgual) rating", pegiPortugalByte & 0x1f, NintendoCommon.PEGI_PORTUGAL_RATINGS);
-				}
-
-				int pegiUKByte = s.read();
-				if ((pegiUKByte & 128) > 0) {
-					info.addInfo("Banned in the UK", (pegiUKByte & 64) > 0);
-					info.addInfo("PEGI rating", pegiUKByte & 0x1f, NintendoCommon.PEGI_UK_RATINGS);
-				}
-
-				int agcbByte = s.read();
-				if ((agcbByte & 128) > 0) {
-					info.addInfo("Banned in Australia", (agcbByte & 64) > 0);
-					info.addInfo("AGCB rating", agcbByte & 0x1f, NintendoCommon.AGCB_RATINGS);
-				}
-
-				int grbByte = s.read();
-				if ((grbByte & 128) > 0) {
-					info.addInfo("Banned in South Korea", (grbByte & 64) > 0);
-					info.addInfo("GRB rating", grbByte & 0x1f, NintendoCommon.GRB_RATINGS);
-				}
-				//The next 6 bytes are reserved, and then there's apparently
-				//something involving DEJUS (Brazil), GSRMR (Taiwan) and
-				//PEGI (Finland) in there*
+				parseDSiHeader(info, s);
 			}
 
 			info.addInfo("Homebrew?", arm9Offset < 0x4000);
@@ -403,70 +466,13 @@ namespace ROMniscience.Handlers {
 			//See also: https://twitter.com/Myriachan/status/964580936561000448
 			//This should be true, but it's often false, especially for No-Intro verified dumps
 			info.addInfo("Contains Blowfish encryption tables", s.read(8).Any(x => x != 0));
-
-			//TODO Read FNT/FAT maybe?
-
+			
 			s.Position = filenameTableOffset;
 			byte[] filenameTable = s.read(filenameTableSize);
 			//This is the roughest and dirtiest way possible of doing this, but it'll do
 			info.addInfo("Contains WFC setup", ByteSearch.contains(filenameTable, WIFI_CONFIG_NAME));
 
-			s.Position = bannerOffset;
-			int bannerVersion = s.readShortLE();
-			info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
-			if (BANNER_VERSIONS.ContainsKey(bannerVersion)) {
-				byte[] bannerChecksum = s.read(2); //CRC16 of 0x20 to 0x83
-				info.addInfo("Banner checksum", bannerChecksum, true);
-				byte[] bannerChecksum2 = s.read(2); //CRC16 of 0x20 to 0x93
-				info.addInfo("Banner checksum 2", bannerChecksum2, true);
-				byte[] bannerChecksum3 = s.read(2); //CRC16 of 0x20 to 0xa3
-				info.addInfo("Banner checksum 3", bannerChecksum3, true);
-				byte[] bannerChecksum4 = s.read(2); //CRC16 of 0x1240 to 0x23bf
-				info.addInfo("Banner checksum 4", bannerChecksum4, true);
-				byte[] bannerReserved = s.read(0x16); //Should be zero filled
-				info.addInfo("Banner reserved", bannerReserved, true);
-
-				byte[] iconBitmap = s.read(0x200);
-				byte[] iconPalette = s.read(0x20);
-				info.addInfo("Icon", decodeDSIcon(iconBitmap, iconPalette));
-
-				string japaneseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-				info.addInfo("Japanese title", japaneseTitle);
-				string englishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-				info.addInfo("English title", englishTitle);
-				string frenchTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-				info.addInfo("French title", frenchTitle);
-				string germanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-				info.addInfo("German title", germanTitle);
-				string italianTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-				info.addInfo("Italian title", italianTitle);
-				string spanishTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-				info.addInfo("Spanish title", spanishTitle);
-				if (bannerVersion >= 2) {
-					string chineseTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-					info.addInfo("Chinese title", chineseTitle);
-				}
-				if (bannerVersion >= 3) {
-					string koreanTitle = s.read(256, Encoding.Unicode).TrimEnd('\0').Replace("\n", Environment.NewLine);
-					info.addInfo("Korean title", koreanTitle);
-				}
-
-				//Should be zero filled, but it's not
-				byte[] titleReserved = s.read(0x800);
-
-				if (bannerVersion >= 0x103) {
-					//Same format as DS icon, but animated
-					IList<byte[]> dsiIconBitmaps = new List<byte[]>();
-					for (int i = 0; i < 8; ++i) {
-						dsiIconBitmaps.Add(s.read(0x200));
-					}
-					IList<byte[]> dsiIconPalettes = new List<byte[]>();
-					for (int i = 0; i < 8; ++i) {
-						dsiIconPalettes.Add(s.read(0x20));
-					}
-					byte[] dsiIconSequence = s.read(0x80);
-				}
-			}
+			parseBanner(info, s, bannerOffset);
 		}
 	}
 }
