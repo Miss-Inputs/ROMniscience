@@ -425,5 +425,76 @@ namespace ROMniscience.Handlers {
 			//ZZ: mooneye-gb test ROMs
 
 		};
+
+
+		public readonly static IDictionary<int, string> CERO_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{12, "B (12)"},
+			{15, "C (15)"},
+			{17, "D (17)"},
+			{18, "Z (17)"},
+		};
+
+		public readonly static IDictionary<int, string> ESRB_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{3, "EC"}, //The fuck is that?
+			{6, "Everyone"},
+			{10, "E10+"},
+			{13, "Teen"},
+			{17, "Mature"},
+		};
+
+		public readonly static IDictionary<int, string> USK_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{6, "6+"},
+			{12, "12+"},
+			{16, "16+"},
+			{18, "18+"},
+		};
+
+		public readonly static IDictionary<int, string> PEGI_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{3, "3+"},
+			{7, "7+"},
+			{12, "12+"},
+			{16, "16+"},
+			{18, "18+"},
+		};
+
+		public readonly static IDictionary<int, string> PEGI_PORTUGAL_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{4, "4+"},
+			{6, "6+"},
+			{12, "12+"},
+			{16, "16+"},
+			{18, "18+"},
+		};
+
+		public readonly static IDictionary<int, string> PEGI_UK_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{3, "3+"},
+			{4, "4+/U"},
+			{7, "7+"},
+			{8, "8+/PG"},
+			{12, "12+"},
+			{15, "15+"},
+			{16, "16+"},
+			{18, "18+"},
+		};
+
+		public readonly static IDictionary<int, string> AGCB_RATINGS = new Dictionary<int, string>() {
+			{0, "G"},
+			{7, "PG"},
+			{14, "M"},
+			{15, "MA"},
+			{18, "R"},
+		};
+
+		public readonly static IDictionary<int, string> GRB_RATINGS = new Dictionary<int, string>() {
+			{0, "No rating"},
+			{12, "12+"},
+			{15, "15+"},
+			{18, "18+"},
+		};
 	}
 }

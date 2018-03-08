@@ -38,16 +38,16 @@ namespace ROMniscience.Handlers {
 
 		//Japan, USA, Reservedland, Germany, Europe, Finland, Portgual, UK, Australia, and South Korea respectively (although Finland uses normal European PEGI now as I understand it)
 		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
-			new Tuple<string, IDictionary<int, string>>("CERO", DS.CERO_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("ESRB", DS.ESRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("CERO", NintendoCommon.CERO_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("ESRB", NintendoCommon.ESRB_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
-			new Tuple<string, IDictionary<int, string>>("USK", DS.USK_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("PEGI (Europe)", DS.PEGI_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("USK", NintendoCommon.USK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI (Europe)", NintendoCommon.PEGI_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("FBFC", null),
-			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", DS.PEGI_PORTUGAL_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("PEGI", DS.PEGI_UK_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("AGCB", DS.AGCB_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("GRB", DS.GRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", NintendoCommon.PEGI_PORTUGAL_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI", NintendoCommon.PEGI_UK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("AGCB", NintendoCommon.AGCB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("GRB", NintendoCommon.GRB_RATINGS),
 		};
 		public static void parseRatings(ROMInfo info, byte[] ratings) {
 			//Seems to be kinda different than DSi ratings

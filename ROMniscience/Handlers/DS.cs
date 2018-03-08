@@ -109,76 +109,6 @@ namespace ROMniscience.Handlers {
 			{0x103, "With Chinese and Korean titles and DSi animated icon"},
 		};
 
-		public readonly static IDictionary<int, string> CERO_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{12, "B (12)"},
-			{15, "C (15)"},
-			{17, "D (17)"},
-			{18, "Z (17)"},
-		};
-
-		public readonly static IDictionary<int, string> ESRB_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{3, "EC"}, //The fuck is that?
-			{6, "Everyone"},
-			{10, "E10+"},
-			{13, "Teen"},
-			{17, "Mature"},
-		};
-
-		public readonly static IDictionary<int, string> USK_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{6, "6+"},
-			{12, "12+"},
-			{16, "16+"},
-			{18, "18+"},
-		};
-
-		public readonly static IDictionary<int, string> PEGI_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{3, "3+"},
-			{7, "7+"},
-			{12, "12+"},
-			{16, "16+"},
-			{18, "18+"},
-		};
-
-		public readonly static IDictionary<int, string> PEGI_PORTUGAL_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{4, "4+"},
-			{6, "6+"},
-			{12, "12+"},
-			{16, "16+"},
-			{18, "18+"},
-		};
-
-		public readonly static IDictionary<int, string> PEGI_UK_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{3, "3+"},
-			{4, "4+/U"},
-			{7, "7+"},
-			{8, "8+/PG"},
-			{12, "12+"},
-			{15, "15+"},
-			{16, "16+"},
-			{18, "18+"},
-		};
-
-		public readonly static IDictionary<int, string> AGCB_RATINGS = new Dictionary<int, string>() {
-			{0, "G"},
-			{7, "PG"},
-			{14, "M"},
-			{15, "MA"},
-			{18, "R"},
-		};
-
-		public readonly static IDictionary<int, string> GRB_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{12, "12+"},
-			{15, "15+"},
-			{18, "18+"},
-		};
-
 		public static Bitmap decodeDSIcon(byte[] bitmap, byte[] palette) {
 			//Convert the palette data into 16-bit ints, because I forgot to
 			//parse it like that when I read it, and maybe I should do that
@@ -395,13 +325,13 @@ namespace ROMniscience.Handlers {
 				int ceroByte = s.read();
 				if ((ceroByte & 128) > 0) {
 					info.addInfo("Banned in Japan", (ceroByte & 64) > 0);
-					info.addInfo("CERO rating", ceroByte & 0x1f, CERO_RATINGS);
+					info.addInfo("CERO rating", ceroByte & 0x1f, NintendoCommon.CERO_RATINGS);
 				}
 
 				int esrbByte = s.read();
 				if ((esrbByte & 128) > 0) {
 					info.addInfo("Banned in USA", (esrbByte & 64) > 0);
-					info.addInfo("ESRB rating", esrbByte & 0x1f, ESRB_RATINGS);
+					info.addInfo("ESRB rating", esrbByte & 0x1f, NintendoCommon.ESRB_RATINGS);
 				}
 
 				int reservedRatingByte = s.read();
@@ -414,13 +344,13 @@ namespace ROMniscience.Handlers {
 				int uskByte = s.read();
 				if ((uskByte & 128) > 0) {
 					info.addInfo("Banned in Germany", (uskByte & 64) > 0);
-					info.addInfo("USK rating", uskByte & 0x1f, USK_RATINGS);
+					info.addInfo("USK rating", uskByte & 0x1f, NintendoCommon.USK_RATINGS);
 				}
 
 				int pegiByte = s.read();
 				if ((pegiByte & 128) > 0) {
 					info.addInfo("Banned in Europe", (pegiByte & 64) > 0);
-					info.addInfo("PEGI (Europe) rating", pegiByte & 0x1f, PEGI_RATINGS);
+					info.addInfo("PEGI (Europe) rating", pegiByte & 0x1f, NintendoCommon.PEGI_RATINGS);
 				}
 
 				int reservedRating2Byte = s.read();
@@ -432,25 +362,25 @@ namespace ROMniscience.Handlers {
 				int pegiPortugalByte = s.read();
 				if ((pegiPortugalByte & 128) > 0) {
 					info.addInfo("Banned in Portgual", (pegiPortugalByte & 64) > 0);
-					info.addInfo("PEGI (Portgual) rating", pegiPortugalByte & 0x1f, PEGI_PORTUGAL_RATINGS);
+					info.addInfo("PEGI (Portgual) rating", pegiPortugalByte & 0x1f, NintendoCommon.PEGI_PORTUGAL_RATINGS);
 				}
 
 				int pegiUKByte = s.read();
 				if ((pegiUKByte & 128) > 0) {
 					info.addInfo("Banned in the UK", (pegiUKByte & 64) > 0);
-					info.addInfo("PEGI rating", pegiUKByte & 0x1f, PEGI_UK_RATINGS);
+					info.addInfo("PEGI rating", pegiUKByte & 0x1f, NintendoCommon.PEGI_UK_RATINGS);
 				}
 
 				int agcbByte = s.read();
 				if ((agcbByte & 128) > 0) {
 					info.addInfo("Banned in Australia", (agcbByte & 64) > 0);
-					info.addInfo("AGCB rating", agcbByte & 0x1f, AGCB_RATINGS);
+					info.addInfo("AGCB rating", agcbByte & 0x1f, NintendoCommon.AGCB_RATINGS);
 				}
 
 				int grbByte = s.read();
 				if ((grbByte & 128) > 0) {
 					info.addInfo("Banned in South Korea", (grbByte & 64) > 0);
-					info.addInfo("GRB rating", grbByte & 0x1f, GRB_RATINGS);
+					info.addInfo("GRB rating", grbByte & 0x1f, NintendoCommon.GRB_RATINGS);
 				}
 				//The next 6 bytes are reserved, and then there's apparently
 				//something involving DEJUS (Brazil), GSRMR (Taiwan) and
