@@ -212,7 +212,30 @@ namespace ROMniscience.Handlers {
 					for (int i = 0; i < 8; ++i) {
 						dsiIconPalettes.Add(s.read(0x20));
 					}
-					byte[] dsiIconSequence = s.read(0x80);
+
+					for (int i = 0; i < 64; ++i) {
+						int sequence = s.readShortLE();
+						if (sequence == 0) {
+							break;
+						}
+
+						bool flipVertically = (sequence & 0x8000) > 0;
+						bool flipHorizontally = (sequence & 0x4000) > 0;
+
+						int paletteIndex = (sequence & 0x3800) >> 11;
+						int bitmapIndex = (sequence & 0x700) >> 8;
+
+						Bitmap frame = decodeDSIcon(dsiIconBitmaps[bitmapIndex], dsiIconPalettes[paletteIndex]);
+						if (flipHorizontally) {
+							frame.RotateFlip(RotateFlipType.RotateNoneFlipX);
+						}
+						if (flipVertically) {
+							frame.RotateFlip(RotateFlipType.RotateNoneFlipY);
+						}
+						info.addInfo("DSi icon frame " + (i + 1), frame, true);
+
+						//Duration: sequence & 0xff but we have no method of storing that at the moment
+					}
 				}
 			}
 		}
@@ -458,7 +481,7 @@ namespace ROMniscience.Handlers {
 				byte[] secureAreaID = s.read(8);
 				info.addInfo("Multiboot", secureAreaID.All(x => x == 0));
 				info.addInfo("Decrypted", isDecryptedSecureAreaID(secureAreaID));
-				
+
 			} else {
 				info.addInfo("Contains secure area", false);
 			}
@@ -466,7 +489,7 @@ namespace ROMniscience.Handlers {
 			//See also: https://twitter.com/Myriachan/status/964580936561000448
 			//This should be true, but it's often false, especially for No-Intro verified dumps
 			info.addInfo("Contains Blowfish encryption tables", s.read(8).Any(x => x != 0));
-			
+
 			s.Position = filenameTableOffset;
 			byte[] filenameTable = s.read(filenameTableSize);
 			//This is the roughest and dirtiest way possible of doing this, but it'll do
