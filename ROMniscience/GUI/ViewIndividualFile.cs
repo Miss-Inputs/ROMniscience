@@ -305,7 +305,8 @@ namespace ROMniscience {
 			Form f = new Form();
 			FlowLayoutPanel flop = new FlowLayoutPanel() {
 				FlowDirection = FlowDirection.LeftToRight,
-				Dock = DockStyle.Fill
+				Dock = DockStyle.Fill,
+				AutoScroll = true,
 			};
 			f.Controls.Add(flop);
 			foreach(var image in images) {
