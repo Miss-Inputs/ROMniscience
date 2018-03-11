@@ -83,8 +83,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
-			//These look like they're used by Gamecube, and Wii as well
-			//Anyway, these are used by FDS, SNES, GB/GBC, GBA, DS, 64DD and Virtual Boy; seemingly Pokemon Mini
+			//These are used by FDS, SNES, GB/GBC, GBA, Gamecube, Wii, DS, 64DD and Virtual Boy; seemingly Pokemon Mini
 			//Preferred format that I probably don't always use consistently:
 			//Company without Co, Inc, Ltd, etc
 			//Company (Brand name used by company)
@@ -249,7 +248,7 @@ namespace ROMniscience.Handlers {
 			{"F0", "A Wave"},
 			{"F3", "Extreme Entertainment"},
 			{"FJ", "Virtual Toys"},
-			{"FR", "Independent Arts"},
+			{"FR", "Digital Tainment Pool"},
 			{"GD", "Square Enix"},
 			{"GL", "Gameloft"},
 			{"HF", "Level5"},
