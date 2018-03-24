@@ -179,7 +179,7 @@ namespace ROMniscience.Handlers {
 
 			byte[] restOfCart = f.read((int)f.Length);
 			detectSaveType(info, restOfCart);
-			info.addInfo("Uses RTC", ByteSearch.contains(restOfCart, RTC));
+			info.addInfo("Has RTC", ByteSearch.contains(restOfCart, RTC));
 			info.addInfo("Sound driver", ByteSearch.contains(restOfCart, SAPPY_SELECTSONG) ? "Sappy" : "Unknown");
 			//TODO Krawall is open source, see if we can detect that
 		}
