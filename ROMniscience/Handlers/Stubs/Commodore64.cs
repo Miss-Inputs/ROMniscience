@@ -33,6 +33,7 @@ namespace ROMniscience.Handlers.Stubs {
 
 			{"tap", "Commodore 64 raw tape image"}, //https://ist.uwaterloo.ca/~schepers/formats/TAP.TXT
 
+			{"nib", "Commodore 64 NIBTOOLS disk image"} //Oof! There's one format which isn't documented, and it's used for No-Intro's Commodore - 64 (PP) datfile, whatever PP means. It's a low-level copy so that's cool I guess, but the only thing I can find about how to read it is this: https://github.com/markusC64/nibtools/tree/upstream which is luckily open source but doesn't specify a license and I'd rather not cause trouble if they'd rather I not use it or reverse engineer it
 		};
 
 		public override string name => "Commodore 64";
