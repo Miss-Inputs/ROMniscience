@@ -34,39 +34,67 @@ namespace ROMniscience.Handlers {
 	class Gameboy : Handler {
 		const int GB_NINTENDO_LOGO_CRC32 = 0x46195417;
 
+		[Flags]
+		public enum CartAdditionalHardware {
+			None = 0,
+			RAM = 1 << 0,
+			Battery = 1 << 1,
+			RTC = 1 << 2,
+			Rumble = 1 << 3,
+			Accelerometer = 1 << 4,
+		}
 
-		static readonly IDictionary<int, string> CART_TYPES = new Dictionary<int, string>() {
-			{0, "ROM only"},
-			{1, "MBC1"},
-			{2, "MBC1 + RAM"},
-			{3, "MBC1 + RAM + Battery"},
-			{5, "MBC2"},
-			{6, "MBC2 + Battery"},
-			{8, "ROM + RAM"},
-			{9, "ROM + RAM + Battery"},
-			{0xb, "MMM01"},
-			{0xc, "MMM01 + RAM"},
-			{0xd, "MMM01 + RAM + Battery"},
-			{0xf, "MBC3 + Timer + Battery"},
-			{0x10, "MBC3 + Timer + RAM + Battery"},
-			{0x11, "MBC3"},
-			{0x12, "MBC3 + RAM"},
-			{0x13, "MBC3 + RAM + Battery"},
-			{0x15, "MBC4" }, //Apparently this doesnt actually exist or something? GiiBiiAdvance and Mooneye authors claim that Pandocs is wrong
-			{0x16, "MBC4 + RAM"},
-			{0x17, "MBC4 + RAM + Battery"},
-			{0x19, "MBC5"},
-			{0x1a, "MBC5 + RAM"},
-			{0x1b, "MBC5 + RAM + Battery"},
-			{0x1c, "MBC5 + Rumble"},
-			{0x1d, "MBC5 + Rumble + RAM"},
-			{0x1e, "MBC5 + Rumble + RAM + Battery"},
-			{0x20, "MBC6"},
-			{0x22, "MBC7 + Accelerometer + Rumble + RAM + Battery"},
-			{0xfc, "Pocket Camera / Gameboy Camera"},
-			{0xfd, "Bandai TAMA5"},
-			{0xfe, "HuC3"},
-			{0xff, "HuC1 + RAM + Battery"}
+		public struct CartInfo {
+			public string mapper;
+			public CartAdditionalHardware flags;
+
+			public CartInfo(string mapper, CartAdditionalHardware flags = CartAdditionalHardware.None) {
+				this.mapper = mapper;
+				this.flags = flags;
+			}
+		}
+
+		static readonly IDictionary<int, CartInfo> CART_TYPES = new Dictionary<int, CartInfo>() {
+			{0, new CartInfo("ROM only")},
+			{8, new CartInfo("ROM only", CartAdditionalHardware.RAM)},
+			{9, new CartInfo("ROM only",CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+			//Not sure why these are out of order but I don't make the rules
+
+			{1, new CartInfo("MBC1")},
+			{2, new CartInfo("MBC1", CartAdditionalHardware.RAM)},
+			{3, new CartInfo("MBC1", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+
+			{5, new CartInfo("MBC2")},
+			{6, new CartInfo("MBC2", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+
+			{0x0b, new CartInfo("MMM01")},
+			{0x0c, new CartInfo("MMM01", CartAdditionalHardware.RAM)},
+			{0x0d, new CartInfo("MMM01", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+
+			{0x0f, new CartInfo("MBC3", CartAdditionalHardware.Battery | CartAdditionalHardware.RTC)},
+			{0x10, new CartInfo("MBC3", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery | CartAdditionalHardware.RTC)},
+			{0x11, new CartInfo("MBC3")},
+			{0x12, new CartInfo("MBC3", CartAdditionalHardware.RAM)},
+			{0x13, new CartInfo("MBC3", CartAdditionalHardware.Battery)},
+
+			//These three might not actually exist, according to GiiBiiAdvance docs
+			{0x15, new CartInfo("MBC4")},
+			{0x16, new CartInfo("MBC4", CartAdditionalHardware.RAM)},
+			{0x17, new CartInfo("MBC4", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+
+			{0x19, new CartInfo("MBC5")},
+			{0x1a, new CartInfo("MBC5", CartAdditionalHardware.RAM)},
+			{0x1b, new CartInfo("MBC5", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+			{0x1c, new CartInfo("MBC5", CartAdditionalHardware.Rumble)},
+			{0x1d, new CartInfo("MBC5", CartAdditionalHardware.Rumble | CartAdditionalHardware.RAM)},
+			{0x1e, new CartInfo("MBC5", CartAdditionalHardware.Rumble | CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+
+			{0x20, new CartInfo("MBC6", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+			{0x22, new CartInfo("MBC7", CartAdditionalHardware.Accelerometer | CartAdditionalHardware.Rumble | CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)}, //Actually, does this really have rumble? It's only used in Kirby's Tilt n Tumble, as far as I know, and I don't know if that rumbles or not
+			{0xfc, new CartInfo("Pocket Camera / Gameboy Camera", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)},
+			{0xfd, new CartInfo("Bandai TAMA5")}, //Used in Game de Hakken!! Tamagotchi Osucchi to Mesucchi only; from what I can see via pictures, it has some kind of battery, but it might not be the kind of battery that's being talked about in the othr mappers.. seems to have a little speaker?
+			{0xfe, new CartInfo("HuC3")},
+			{0xff, new CartInfo("HuC1", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)}
 		};
 
 		static readonly IDictionary<int, long> ROM_SIZES = new Dictionary<int, long>() {
@@ -120,6 +148,58 @@ namespace ROMniscience.Handlers {
 			return Datfiles.CRC32.crc32(nintendoLogo) == GB_NINTENDO_LOGO_CRC32;
 		}
 
+		static readonly IDictionary<string, string> GBX_MAPPERS = new Dictionary<string, string>() {
+			//See also http://hhug.me/gbx/mappers
+			{"ROM", "ROM only"},
+			{"MBC1", "MBC1"},
+			{"MBC2", "MBC2"},
+			{"MBC3", "MBC3"},
+			{"MBC5", "MBC5"},
+			{"MBC7", "MBC7"},
+			{"MB1M", "MBC1 multicart"},
+			{"MMM1", "MMM01"},
+			{"CAMR", "Pocket Camera / Gameboy Camera"},
+
+			{"HUC1", "Hudson HuC1"},
+			{"HUC3", "Hudson HuC1"},
+			{"TAM5", "Bandai TAMA5"},
+
+			{"BBD", "BBD"},
+			{"HITK", "Hitek"},
+			{"SNTX", "Sintax"},
+			{"NTO1", "NT (older, type 1)"},
+			{"NTO2", "NT (older, type 2)"},
+			{"NTN", "NT (newer)"},
+			{"LICH", "Li Cheng"},
+			{"LBMC", "Last Bible multicart"},
+			{"LIBA", "Liebao Technology"},
+		};
+
+		static void addCartHardwareInfo(ROMInfo info, CartAdditionalHardware hardware, bool isOriginalFromGBX) {
+			string prefix = isOriginalFromGBX ? "Original cart header claims to have " : "Has "; //I should word that better, but whatevs
+
+			info.addInfo(prefix + "RAM", hardware.HasFlag(CartAdditionalHardware.RAM), isOriginalFromGBX);
+			info.addInfo(prefix + "battery", hardware.HasFlag(CartAdditionalHardware.Battery), isOriginalFromGBX);
+			info.addInfo(prefix + "RTC", hardware.HasFlag(CartAdditionalHardware.RTC), isOriginalFromGBX);
+			info.addInfo(prefix + "rumble", hardware.HasFlag(CartAdditionalHardware.Rumble), isOriginalFromGBX);
+			info.addInfo(prefix + "accelerometer", hardware.HasFlag(CartAdditionalHardware.Accelerometer), isOriginalFromGBX);
+		}
+
+		static void addCartTypeInfo(ROMInfo info, int cartType, bool isOriginalFromGBX) {
+			//isOriginalFromGBX = is this info we're adding from the original header of a GBX dump, where it is likely inaccurate and
+			//the info in the GBX footer is what should actually be looked at, as such, we adjust the key we're adding
+			//Anyway, I suck at wording things, so I'm just gonna make this up as I go along
+			string mapperKey = isOriginalFromGBX ? "Original header mapper" : "Mapper";
+
+			if (CART_TYPES.ContainsKey(cartType)) {
+				CartInfo cart = CART_TYPES[cartType];
+				info.addInfo(mapperKey, cart.mapper, , isOriginalFromGBX);
+				addCartHardwareInfo(info, cart.flags, isOriginalFromGBX);
+			} else {
+				info.addInfo(mapperKey, String.Format("Unknown ({0:X2})", cartType, isOriginalFromGBX));
+			}
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream f = file.stream;
 
@@ -139,13 +219,18 @@ namespace ROMniscience.Handlers {
 				if (majorVersion == 1) {
 					f.Seek(-footerSize, SeekOrigin.End);
 					string mapperID = f.read(4, Encoding.ASCII).TrimEnd('\0');
-					bool hasBattery = f.read() == 1;
-					bool hasRumble = f.read() == 1;
-					bool hasTimer = f.read() == 1;
-					info.addInfo("Mapper", mapperID);
-					info.addInfo("Has battery", hasBattery);
-					info.addInfo("Has rumble", hasRumble);
-					info.addInfo("Has timer", hasTimer);
+					CartAdditionalHardware hardware = CartAdditionalHardware.None;
+					if (f.read() == 1) {
+						hardware |= CartAdditionalHardware.Battery;
+					}
+					if (f.read() == 1) {
+						hardware |= CartAdditionalHardware.Rumble;
+					}
+					if (f.read() == 1) {
+						hardware |= CartAdditionalHardware.RTC;
+					}
+					info.addInfo("Mapper", mapperID, GBX_MAPPERS);
+					addCartHardwareInfo(info, hardware, false);
 
 					int unused = f.read();
 					info.addInfo("GBX unused", unused, true);
@@ -229,12 +314,11 @@ namespace ROMniscience.Handlers {
 			int cartType = f.read();
 			int romSize = f.read();
 			int ramSize = f.read();
+			addCartTypeInfo(info, cartType, isGBX);
 			if (isGBX) {
-				info.addInfo("Original ROM type", cartType, CART_TYPES, true);
 				info.addInfo("Original ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE, true);
 				info.addInfo("Original save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE, true);
 			} else {
-				info.addInfo("ROM type", cartType, CART_TYPES);
 				info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
 				info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
 			}
