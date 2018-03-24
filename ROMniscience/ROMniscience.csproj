@@ -126,6 +126,7 @@
     <Compile Include="Handlers\Stubs\Odyssey2.cs" />
     <Compile Include="Handlers\Stubs\PCEngine.cs" />
     <Compile Include="Handlers\PokemonMini.cs" />
+    <Compile Include="Handlers\Stubs\PSP.cs" />
     <Compile Include="Handlers\Stubs\PV1000.cs" />
     <Compile Include="Handlers\RCAStudio2.cs" />
     <Compile Include="Handlers\Stubs\SG1000.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Handlers\Stubs\SuperAcan.cs" />
     <Compile Include="Handlers\Stubs\SuperCasetteVision.cs" />
     <Compile Include="Handlers\Stubs\Supervision.cs" />
+    <Compile Include="Handlers\Stubs\Vic20.cs" />
     <Compile Include="Handlers\Vectrex.cs" />
     <Compile Include="Handlers\VirtualBoy.cs" />
     <Compile Include="Handlers\Stubs\VSmile.cs" />
