@@ -31,8 +31,7 @@ using System.IO;
 using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
-	class Gameboy : Handler{
-		//static readonly byte[] GB_NINTENDO_LOGO_MD5 = {0x86, 0x61, 0xCE, 0x8A, 0x0E, 0xBE, 0xDE, 0x95, 0xE8, 0xA1, 31, 0xA0, 0xAA, 17, 17, 0xF6};
+	class Gameboy : Handler {
 		const int GB_NINTENDO_LOGO_CRC32 = 0x46195417;
 
 
@@ -112,6 +111,7 @@ namespace ROMniscience.Handlers {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"gb", "Nintendo Game Boy ROM"},
 			{"gbc", "Nintendo Game Boy Color ROM"},
+			{"gbx", "Game Boy GBX ROM"},
 		};
 
 		public override string name => "Game Boy";
@@ -122,111 +122,145 @@ namespace ROMniscience.Handlers {
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			InputStream f = file.stream;
-			long originalPos = f.Position;
-			try {
-				f.Position = 0x100;
 
-				info.addInfo("Platform", name);
-				byte[] startVector = f.read(4);
-				info.addInfo("Entry point", startVector, true);
-				byte[] nintendoLogo = f.read(48);
-				info.addInfo("Nintendo logo", nintendoLogo, true);
-				info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
+			f.Seek(-4, SeekOrigin.End);
+			string magic = f.read(4, Encoding.ASCII);
+			if ("GBX!".Equals(magic)) {
+				//See also: http://hhug.me/gbx/1.0
+				f.Seek(-16, SeekOrigin.End);
+				int footerSize = f.readIntBE();
+				int majorVersion = f.readIntBE();
+				int minorVersion = f.readIntBE();
+				info.addInfo("GBX footer size", footerSize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("GBX version", String.Format("{0}.{1}", majorVersion, minorVersion));
+				if (majorVersion == 1) {
+					f.Seek(-footerSize, SeekOrigin.End);
+					string mapperID = f.read(4, Encoding.ASCII).TrimEnd('\0');
+					bool hasBattery = f.read() == 1;
+					bool hasRumble = f.read() == 1;
+					bool hasTimer = f.read() == 1;
+					info.addInfo("GBX mapper", mapperID);
+					info.addInfo("GBX has battery", hasBattery);
+					info.addInfo("GBX has rumble", hasRumble);
+					info.addInfo("GBX has timer", hasTimer);
 
-				//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
-				byte[] title = f.read(16);
-				//This gets tricky because only early games use the full 16 characters and then
-				//at some point the last byte became the CGB flag, and then afterwards 4 characters
-				//became the product code leaving only 11 characters for the title and there's not
-				//really a 100% accurate heuristic to detect if the game uses 11 or 15 characters
-				//Most emulators and whatnot use 11 if the game uses a new licensee code and 15
-				//otherwise, but stuff like Pokemon Yellow and Gameboy Camera disprove that theory
-				int titleLength = 16;
-				//At least we can reliably detect if the game uses a CGB flag or not because the only
-				//two valid values aren't valid inside titles
-				if(CGB_FLAGS.ContainsKey(title[15])) {
-					titleLength = 15;
-					info.addInfo("Is colour", title[15], CGB_FLAGS);
-					//Here's the tricky part... well, we know that any game old enough to not
-					//have a CGB flag isn't going to have a product code either, because those are new
-					//and also I looked at every single commercially released GB/GBC ROM I have to figure out
-					//what works and what doesn't
-					//We also know that any game that uses the _old_ licensee code _isn't_ going to have a
-					//product code, but a game that uses the new licensee code might have a product code and
-					//also might not as previously mentioned
-					//We can also see that any game that is exclusive to the Game Boy Color will have a
-					//product code - but not necessarily a game that is merely GBC enhanced but GB compatible
-					//With that in mind... for now, I'll only use 11 characters + product code if I know for sure it has one
+					int unused = f.read();
+					info.addInfo("GBX unused", unused, true);
 
-					//The other way would be to check if there are extra characters beyond the first null character, because
-					//you're not allowed to have a null character in the middle of a title so if I see characters after that, then
-					//it's the manufacturer code (which is always in the same place)
-					//So if the null character appears inside the 11 bytes, then it definitely ends the string, and then we can
-					//just check to see if there's a manufacturer code afterwards
-					int lastNullCharIndex = Array.IndexOf(title, 0);
-					if(title[15] == 0xc0 || ((lastNullCharIndex != -1 && lastNullCharIndex <= 11) && title[14] != 0)) {
-						titleLength = 11;
-						string productCode = Encoding.ASCII.GetString(title, 11, 4);
-						info.addInfo("Product code", productCode);
-						//No documentation I've found at all knows what the product type means! It looks like it works the same way
-						//as GBA, right down to V being the product type for rumble-enabled games and Kirby's Tilt and Tumble
-						//using K. How about that?
-						//Anyway yeah it all works out except for homebrews that stuff up my heuristic and don't really have
-						//product codes, and Robopon games which have a H for game type? That probably means something involving their infrared stuff
-						char gameType = productCode[0];
-						info.addInfo("Type", gameType, GBA.GBA_GAME_TYPES);
-						string shortTitle = productCode.Substring(1, 2);
-						info.addInfo("Short title", shortTitle);
-						char region = productCode[3];
-						info.addInfo("Region", region, NintendoCommon.REGIONS);
-					}
+					int gbxRomSize = f.readIntBE();
+					int gbxRamSize = f.readIntBE();
+					info.addInfo("GBX ROM size", gbxRomSize, ROMInfo.FormatMode.SIZE);
+					info.addInfo("GBX save size", gbxRamSize, ROMInfo.FormatMode.SIZE);
+
+					byte[] gbxFlags = f.read(32);
+					info.addInfo("GBX flags", gbxFlags, true);
 				}
-
-				//Now we can add what's left of the title
-				info.addInfo("Internal name", Encoding.ASCII.GetString(title, 0, titleLength).TrimEnd('\0', ' '));
-			   
-
-				string licenseeCode = f.read(2, Encoding.ASCII);
-				bool isSGB = f.read() == 3;
-				info.addInfo("Super Game Boy Enhanced?", isSGB);
-				int cartType = f.read();
-				info.addInfo("ROM type", cartType, CART_TYPES);
-
-				int romSize = f.read();
-				info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
-
-				int ramSize = f.read();
-				info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
-
-				int destinationCode = f.read();
-				info.addInfo("Destination code", destinationCode); //Don't want to call this "Region", it's soorrrta what it is but only sorta. 0 is Japan and anything else is non-Japan basically
-
-				int oldLicensee = f.read();
-				if(oldLicensee == 0x33) {
-					info.addInfo("Manufacturer", licenseeCode, NintendoCommon.LICENSEE_CODES);
-					info.addInfo("Uses new licensee", true);
-				} else {
-					info.addInfo("Manufacturer", String.Format("{0:X2}", oldLicensee), NintendoCommon.LICENSEE_CODES);
-					info.addInfo("Uses new licensee", false);
-				}
-				int version = f.read();
-				info.addInfo("Version", version);
-				int checksum = f.read();
-				info.addInfo("Checksum", checksum, true);
-				int calculatedChecksum = calcChecksum(f);
-				info.addInfo("Calculated checksum", calculatedChecksum, true);
-				info.addInfo("Checksum valid?", checksum == calculatedChecksum);
-			} finally {
-				f.Position = originalPos;
 			}
+
+			f.Position = 0x100;
+
+			info.addInfo("Platform", name);
+			byte[] startVector = f.read(4);
+			info.addInfo("Entry point", startVector, true);
+			byte[] nintendoLogo = f.read(48);
+			info.addInfo("Nintendo logo", nintendoLogo, true);
+			info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
+
+			//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
+			byte[] title = f.read(16);
+			//This gets tricky because only early games use the full 16 characters and then
+			//at some point the last byte became the CGB flag, and then afterwards 4 characters
+			//became the product code leaving only 11 characters for the title and there's not
+			//really a 100% accurate heuristic to detect if the game uses 11 or 15 characters
+			//Most emulators and whatnot use 11 if the game uses a new licensee code and 15
+			//otherwise, but stuff like Pokemon Yellow and Gameboy Camera disprove that theory
+			int titleLength = 16;
+			//At least we can reliably detect if the game uses a CGB flag or not because the only
+			//two valid values aren't valid inside titles
+			if (CGB_FLAGS.ContainsKey(title[15])) {
+				titleLength = 15;
+				info.addInfo("Is colour", title[15], CGB_FLAGS);
+				//Here's the tricky part... well, we know that any game old enough to not
+				//have a CGB flag isn't going to have a product code either, because those are new
+				//and also I looked at every single commercially released GB/GBC ROM I have to figure out
+				//what works and what doesn't
+				//We also know that any game that uses the _old_ licensee code _isn't_ going to have a
+				//product code, but a game that uses the new licensee code might have a product code and
+				//also might not as previously mentioned
+				//We can also see that any game that is exclusive to the Game Boy Color will have a
+				//product code - but not necessarily a game that is merely GBC enhanced but GB compatible
+				//With that in mind... for now, I'll only use 11 characters + product code if I know for sure it has one
+
+				//The other way would be to check if there are extra characters beyond the first null character, because
+				//you're not allowed to have a null character in the middle of a title so if I see characters after that, then
+				//it's the manufacturer code (which is always in the same place)
+				//So if the null character appears inside the 11 bytes, then it definitely ends the string, and then we can
+				//just check to see if there's a manufacturer code afterwards
+				int lastNullCharIndex = Array.IndexOf(title, 0);
+				if (title[15] == 0xc0 || ((lastNullCharIndex != -1 && lastNullCharIndex <= 11) && title[14] != 0)) {
+					titleLength = 11;
+					string productCode = Encoding.ASCII.GetString(title, 11, 4);
+					info.addInfo("Product code", productCode);
+					//No documentation I've found at all knows what the product type means! It looks like it works the same way
+					//as GBA, right down to V being the product type for rumble-enabled games and Kirby's Tilt and Tumble
+					//using K. How about that?
+					//Anyway yeah it all works out except for homebrews that stuff up my heuristic and don't really have
+					//product codes, and Robopon games which have a H for game type? That probably means something involving their infrared stuff
+					char gameType = productCode[0];
+					info.addInfo("Type", gameType, GBA.GBA_GAME_TYPES);
+					string shortTitle = productCode.Substring(1, 2);
+					info.addInfo("Short title", shortTitle);
+					char region = productCode[3];
+					info.addInfo("Region", region, NintendoCommon.REGIONS);
+				}
+			}
+
+			//Now we can add what's left of the title
+			info.addInfo("Internal name", Encoding.ASCII.GetString(title, 0, titleLength).TrimEnd('\0', ' '));
+
+
+			string licenseeCode = f.read(2, Encoding.ASCII);
+			bool isSGB = f.read() == 3;
+			info.addInfo("Super Game Boy Enhanced?", isSGB);
+			int cartType = f.read();
+			info.addInfo("ROM type", cartType, CART_TYPES);
+
+			int romSize = f.read();
+			info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
+
+			int ramSize = f.read();
+			info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
+
+			int destinationCode = f.read();
+			info.addInfo("Destination code", destinationCode); //Don't want to call this "Region", it's soorrrta what it is but only sorta. 0 is Japan and anything else is non-Japan basically
+
+			int oldLicensee = f.read();
+			if (oldLicensee == 0x33) {
+				info.addInfo("Manufacturer", licenseeCode, NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Uses new licensee", true);
+			} else {
+				info.addInfo("Manufacturer", String.Format("{0:X2}", oldLicensee), NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Uses new licensee", false);
+			}
+			int version = f.read();
+			info.addInfo("Version", version);
+			int checksum = f.read();
+			info.addInfo("Checksum", checksum, true);
+			int calculatedChecksum = calcChecksum(f);
+			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
+
+
 		}
+
+		//public int 
 
 		public int calcChecksum(InputStream f) {
 			int x = 0;
 			long originalPos = f.Position;
 			try {
 				f.Position = 0x134;
-				while(f.Position <= 0x14c) {
+				while (f.Position <= 0x14c) {
 					x = (((x - f.read()) & 0xff) - 1) & 0xff; //TODO Shouldn't this just work with unsigned bytes
 				}
 			} finally {
