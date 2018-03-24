@@ -135,11 +135,11 @@ namespace ROMniscience {
 		}
 
 		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict) {
-			if (dict.TryGetValue(value, out V v)) {
-				addInfo(key, v);
-			} else {
-				addInfo(key, String.Format("Unknown ({0})", value));
-			}
+			addInfo(key, value, dict, false);
+		}
+
+		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict, bool extra) {
+			addInfo(key, value, dict, FormatMode.NONE, extra);
 		}
 
 		public void addInfo<K>(string key, K[] value, IDictionary<K, string> dict) {
@@ -159,12 +159,16 @@ namespace ROMniscience {
 			addInfo(key, stuff);
 		}
 
-		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {
+		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format, bool extra) {
 			if (dict.TryGetValue(value, out V v)) {
-				addInfo(key, v, format);
+				addInfo(key, v, format, extra);
 			} else {
-				addInfo(key, String.Format("Unknown ({0})", value));
+				addInfo(key, String.Format("Unknown ({0})", value), extra);
 			}
+		}
+
+		public void addInfo<K, V>(string key, K value, IDictionary<K, V> dict, FormatMode format) {
+			addInfo(key, value, dict, format, false);
 		}
 
 		public void addInfo(string key, object value, bool extra) {
