@@ -196,7 +196,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo(mapperKey, cart.mapper, isOriginalFromGBX);
 				addCartHardwareInfo(info, cart.flags, isOriginalFromGBX);
 			} else {
-				info.addInfo(mapperKey, String.Format("Unknown ({0:X2})", cartType, isOriginalFromGBX));
+				info.addInfo(mapperKey, String.Format("Unknown ({0:X2})", cartType), isOriginalFromGBX);
 			}
 		}
 
