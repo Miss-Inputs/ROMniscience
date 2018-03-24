@@ -193,7 +193,7 @@ namespace ROMniscience.Handlers {
 
 			if (CART_TYPES.ContainsKey(cartType)) {
 				CartInfo cart = CART_TYPES[cartType];
-				info.addInfo(mapperKey, cart.mapper, , isOriginalFromGBX);
+				info.addInfo(mapperKey, cart.mapper, isOriginalFromGBX);
 				addCartHardwareInfo(info, cart.flags, isOriginalFromGBX);
 			} else {
 				info.addInfo(mapperKey, String.Format("Unknown ({0:X2})", cartType, isOriginalFromGBX));
