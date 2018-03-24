@@ -111,7 +111,7 @@ namespace ROMniscience.Handlers {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"gb", "Nintendo Game Boy ROM"},
 			{"gbc", "Nintendo Game Boy Color ROM"},
-			{"gbx", "Game Boy GBX ROM"},
+			{"gbx", "Nintendo Game Boy ROM + GBX footer"},
 		};
 
 		public override string name => "Game Boy";
@@ -125,32 +125,35 @@ namespace ROMniscience.Handlers {
 
 			f.Seek(-4, SeekOrigin.End);
 			string magic = f.read(4, Encoding.ASCII);
+			bool isGBX = false;
 			if ("GBX!".Equals(magic)) {
 				//See also: http://hhug.me/gbx/1.0
+				isGBX = true;
 				f.Seek(-16, SeekOrigin.End);
 				int footerSize = f.readIntBE();
 				int majorVersion = f.readIntBE();
 				int minorVersion = f.readIntBE();
 				info.addInfo("GBX footer size", footerSize, ROMInfo.FormatMode.SIZE);
 				info.addInfo("GBX version", String.Format("{0}.{1}", majorVersion, minorVersion));
+
 				if (majorVersion == 1) {
 					f.Seek(-footerSize, SeekOrigin.End);
 					string mapperID = f.read(4, Encoding.ASCII).TrimEnd('\0');
 					bool hasBattery = f.read() == 1;
 					bool hasRumble = f.read() == 1;
 					bool hasTimer = f.read() == 1;
-					info.addInfo("GBX mapper", mapperID);
-					info.addInfo("GBX has battery", hasBattery);
-					info.addInfo("GBX has rumble", hasRumble);
-					info.addInfo("GBX has timer", hasTimer);
+					info.addInfo("Mapper", mapperID);
+					info.addInfo("Has battery", hasBattery);
+					info.addInfo("Has rumble", hasRumble);
+					info.addInfo("Has timer", hasTimer);
 
 					int unused = f.read();
 					info.addInfo("GBX unused", unused, true);
 
 					int gbxRomSize = f.readIntBE();
 					int gbxRamSize = f.readIntBE();
-					info.addInfo("GBX ROM size", gbxRomSize, ROMInfo.FormatMode.SIZE);
-					info.addInfo("GBX save size", gbxRamSize, ROMInfo.FormatMode.SIZE);
+					info.addInfo("ROM size", gbxRomSize, ROMInfo.FormatMode.SIZE);
+					info.addInfo("Save size", gbxRamSize, ROMInfo.FormatMode.SIZE);
 
 					byte[] gbxFlags = f.read(32);
 					info.addInfo("GBX flags", gbxFlags, true);
@@ -222,14 +225,19 @@ namespace ROMniscience.Handlers {
 			string licenseeCode = f.read(2, Encoding.ASCII);
 			bool isSGB = f.read() == 3;
 			info.addInfo("Super Game Boy Enhanced?", isSGB);
+
 			int cartType = f.read();
-			info.addInfo("ROM type", cartType, CART_TYPES);
-
 			int romSize = f.read();
-			info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
-
 			int ramSize = f.read();
-			info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
+			if (isGBX) {
+				info.addInfo("Original ROM type", cartType, CART_TYPES, true);
+				info.addInfo("Original ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE, true);
+				info.addInfo("Original save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE, true);
+			} else {
+				info.addInfo("ROM type", cartType, CART_TYPES);
+				info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
+				info.addInfo("Save size", ramSize, RAM_SIZES, ROMInfo.FormatMode.SIZE);
+			}
 
 			int destinationCode = f.read();
 			info.addInfo("Destination code", destinationCode); //Don't want to call this "Region", it's soorrrta what it is but only sorta. 0 is Japan and anything else is non-Japan basically
