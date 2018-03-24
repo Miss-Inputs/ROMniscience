@@ -101,6 +101,7 @@
     <Compile Include="Handlers\BenesseePocketChallenge.cs" />
     <Compile Include="Handlers\Stubs\AtariST.cs" />
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
+    <Compile Include="Handlers\Stubs\Commodore64.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />
     <Compile Include="Handlers\Stubs\GameCom.cs" />
