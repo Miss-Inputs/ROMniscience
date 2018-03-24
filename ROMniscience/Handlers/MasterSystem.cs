@@ -185,7 +185,7 @@ namespace ROMniscience.Handlers {
 				//and therefore Japanese Master System games aren't required to have it
 				info.addInfo("Header position", headerOffset, true);
 				info.addInfo("Has standard header", true);
-				bool isGameGear = file.extension.ToLower().EndsWith("gg");
+				bool isGameGear = "gg".Equals(file.extension);
 				parseSegaHeader(info, s, headerOffset, isGameGear);
 			} else {
 				info.addInfo("Has standard header", false);

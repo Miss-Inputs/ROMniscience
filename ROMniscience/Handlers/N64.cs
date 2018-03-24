@@ -234,7 +234,7 @@ namespace ROMniscience.Handlers {
 			if (ext == null) {
 				return false;
 			}
-			return ext.ToLower().Equals(".ndd") || ext.ToLower().Equals(".ddd");
+			return ext.Equals(".ndd") || ext.Equals(".ddd");
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {

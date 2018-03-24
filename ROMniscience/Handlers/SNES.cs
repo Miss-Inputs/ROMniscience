@@ -473,7 +473,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Platform", name);
 
 			InputStream s = file.stream;
-			if (file.extension.ToLower().Equals(".st")) {
+			if (".st".Equals(file.extension)) {
 				parseSufamiTurboHeader(info, s);
 				return;
 			}
@@ -502,7 +502,7 @@ namespace ROMniscience.Handlers {
 					}
 					//Everything else should be in the _real_ ROM header anyway
 				} else {
-					if (file.extension.ToLower().Equals(".fig")) {
+					if ("fig".Equals(file.extension)) {
 						info.addInfo("Detected format", "Pro Fighter");
 						s.Position = 2;
 						bool isSplit = s.read() == 0x40;
@@ -542,7 +542,7 @@ namespace ROMniscience.Handlers {
 				offset = findHeaderOffset(s);
 			}
 
-			if (file.extension.ToLower().Equals(".bs")) {
+			if ("bs".Equals(file.extension)) {
 				parseBSHeader(s, info, offset);
 			} else {
 				parseSNESHeader(s, info, offset);
