@@ -79,7 +79,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Reserved", reserved, true);
 
 			int checksum = s.readShortLE();
-			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 
 			byte[] productCodeHi = s.read(2);
 			int productCodeAndVersion = s.read();
@@ -141,9 +141,9 @@ namespace ROMniscience.Handlers {
 			int authorNameOffset = s.readShortLE();
 			int nameOffset = s.readShortLE();
 			int descriptionOffset = s.readShortLE();
-			info.addInfo("Author offset", authorNameOffset, true);
-			info.addInfo("Name offset", nameOffset, true);
-			info.addInfo("Description offset", descriptionOffset, true);
+			info.addInfo("Author offset", authorNameOffset, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Name offset", nameOffset, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Description offset", descriptionOffset, ROMInfo.FormatMode.HEX, true);
 
 			if(authorNameOffset != 0xfff && authorNameOffset != 0) {
 				s.Position = authorNameOffset;

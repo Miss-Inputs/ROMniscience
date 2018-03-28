@@ -219,6 +219,11 @@ namespace ROMniscience {
 				args.FormattingApplied = true;
 				return;
 			}
+			if (ROMInfo.FormatMode.HEX.Equals(args.CellStyle.Tag)) {
+				args.Value = String.Format("0x{0:X2}", args.Value);
+				args.FormattingApplied = true;
+				return;
+			}
 		}
 
 		private void startScan() {

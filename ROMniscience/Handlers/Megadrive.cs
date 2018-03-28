@@ -616,30 +616,30 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 
 			ushort checksum = (ushort)s.readShortBE();
-			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			int calculatedChecksum = calcChecksum(s);
-			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
 
 			int romStart = s.readIntBE();
-			info.addInfo("ROM start", romStart, true);
+			info.addInfo("ROM start", romStart, ROMInfo.FormatMode.HEX, true);
 			int romEnd = s.readIntBE();
-			info.addInfo("ROM end", romEnd, true);
+			info.addInfo("ROM end", romEnd, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("ROM size", romEnd - romStart, ROMInfo.FormatMode.SIZE);
 			int ramStart = s.readIntBE();
-			info.addInfo("RAM start", ramStart, true);
+			info.addInfo("RAM start", ramStart, ROMInfo.FormatMode.HEX, true);
 			int ramEnd = s.readIntBE();
-			info.addInfo("RAM end", ramEnd, true);
+			info.addInfo("RAM end", ramEnd, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("RAM size", ramEnd - ramStart, ROMInfo.FormatMode.SIZE);
 			byte[] backupRamID = s.read(4);
 			info.addInfo("Backup RAM ID", backupRamID);
 			int backupRamStart = s.readIntBE();
-			info.addInfo("Backup RAM start", backupRamStart, true);
+			info.addInfo("Backup RAM start", backupRamStart, ROMInfo.FormatMode.HEX, true);
 			int backupRamEnd = s.readIntBE();
-			info.addInfo("Backup RAM end", backupRamEnd, true);
+			info.addInfo("Backup RAM end", backupRamEnd, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Save size", backupRamEnd - backupRamStart, ROMInfo.FormatMode.SIZE);
 
 			byte[] modemData = s.read(12);

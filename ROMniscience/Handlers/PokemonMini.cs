@@ -53,7 +53,7 @@ namespace ROMniscience.Handlers {
 			string marker = s.read(2, Encoding.ASCII);
 			info.addInfo("Marker", marker, true);
 
-			info.addInfo("Entry point", s.read(6), true);
+			info.addInfo("Entry point", s.read(6), ROMInfo.FormatMode.HEX, true);
 			//What the heck is all this
 			info.addInfo("PRC frame copy IRQ", s.read(6), true);
 			info.addInfo("PRC render IRQ", s.read(6), true);

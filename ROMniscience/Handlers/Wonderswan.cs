@@ -162,9 +162,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Has RTC", hasRTC);
 
 			ushort checksum = (ushort)s.readShortLE();
-			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			int calculatedChecksum = calcChecksum(s);
-			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 		}
 

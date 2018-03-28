@@ -75,7 +75,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Audio streaming?", audioStreaming, true);
 
 			int streamBufferSize = s.read();
-			info.addInfo("Streaming buffer size", streamBufferSize, true);
+			info.addInfo("Streaming buffer size", streamBufferSize, ROMInfo.FormatMode.SIZE, true);
 
 			byte[] unused = s.read(14);
 			info.addInfo("Unused", unused, true);
@@ -264,19 +264,19 @@ namespace ROMniscience.Handlers {
 			s.Position = 0x400;
 
 			int debugMonitorOffset = s.readIntBE();
-			info.addInfo("Debug monitor offset", debugMonitorOffset, true);
+			info.addInfo("Debug monitor offset", debugMonitorOffset, ROMInfo.FormatMode.HEX, true);
 
 			int debugMonitorLoadAddress = s.readIntBE();
-			info.addInfo("Debug monitor load address", debugMonitorLoadAddress, true);
+			info.addInfo("Debug monitor load address", debugMonitorLoadAddress, ROMInfo.FormatMode.HEX, true);
 
 			byte[] unused2 = s.read(24);
 			info.addInfo("Unused 2", unused2, true);
 
 			int bootDOLOffset = s.readIntBE();
-			info.addInfo("Boot DOL offset", bootDOLOffset, true);
+			info.addInfo("Boot DOL offset", bootDOLOffset, ROMInfo.FormatMode.HEX, true);
 
 			int fstOffset = s.readIntBE();
-			info.addInfo("FST offset", fstOffset, true);
+			info.addInfo("FST offset", fstOffset, ROMInfo.FormatMode.HEX, true);
 
 			int fstSize = s.readIntBE();
 			info.addInfo("FST size", fstSize, ROMInfo.FormatMode.SIZE, true);
@@ -285,7 +285,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("FST maximum size", fstMaxSize, ROMInfo.FormatMode.SIZE, true);
 
 			int userPosition = s.readIntBE();
-			info.addInfo("User position", userPosition, true);
+			info.addInfo("User position", userPosition, ROMInfo.FormatMode.HEX, true);
 
 			int userSize = s.readIntBE();
 			info.addInfo("User size", userSize, ROMInfo.FormatMode.SIZE, true);

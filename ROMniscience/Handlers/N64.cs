@@ -107,15 +107,15 @@ namespace ROMniscience.Handlers {
 
 		public static void parseN64ROM(InputStream s, ROMInfo info) {
 			int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
-			info.addInfo("Clock rate", clockRate, true);
+			info.addInfo("Clock rate", clockRate, ROMInfo.FormatMode.HEX, true);
 			int programCounter = s.readIntBE(); //This technically is the entry point but the CIC chip might alter that
-			info.addInfo("Entry point", programCounter, true);
+			info.addInfo("Entry point", programCounter, ROMInfo.FormatMode.HEX, true);
 			int release = s.readIntBE();
-			info.addInfo("Release address", release, true); //What the fuck does that even mean
+			info.addInfo("Release address", release, ROMInfo.FormatMode.HEX, true); //What the fuck does that even mean
 			int crc1 = s.readIntBE(); //TODO: Calculate the checksum, see http://n64dev.org/n64crc.html... this is gonna be hell
 			int crc2 = s.readIntBE();
-			info.addInfo("CRC1", crc1, true);
-			info.addInfo("CRC2", crc2, true);
+			info.addInfo("CRC1", crc1, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("CRC2", crc2, ROMInfo.FormatMode.HEX, true);
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
 			info.addInfo("Unknown", unknown, true);
 
@@ -151,6 +151,7 @@ namespace ROMniscience.Handlers {
 				bootCode[i] = s.readIntBE();
 				bootCodeChecksum = (uint)(bootCodeChecksum + bootCode[i]) & 0xffffffff;
 			}
+			//Should I even add this? Ehhhh
 			info.addInfo("Boot code", bootCode, true);
 
 			switch (bootCodeChecksum) {

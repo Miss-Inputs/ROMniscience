@@ -248,11 +248,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("DSi reserved 3", s.read(4), true);
 
 			int modcryptOffset = s.readIntLE();
-			info.addInfo("Modcrypt area 1 offset", modcryptOffset, true);
+			info.addInfo("Modcrypt area 1 offset", modcryptOffset, ROMInfo.FormatMode.HEX, true);
 			int modcryptSize = s.readIntLE();
 			info.addInfo("Modcrypt area 1 size", modcryptSize, ROMInfo.FormatMode.SIZE, true);
 			int modcryptOffset2 = s.readIntLE();
-			info.addInfo("Modcrypt area 2 offset", modcryptOffset2, true);
+			info.addInfo("Modcrypt area 2 offset", modcryptOffset2, ROMInfo.FormatMode.HEX, true);
 			int modcryptSize2 = s.readIntLE();
 			info.addInfo("Modcrypt area 2 size", modcryptSize2, ROMInfo.FormatMode.SIZE, true);
 
@@ -381,50 +381,50 @@ namespace ROMniscience.Handlers {
 			int version = s.read();
 			info.addInfo("Version", version);
 			int autostart = s.read(); //Bit 2 skips health and safety screen when autostarting the game
-			info.addInfo("Autostart param", autostart);
+			info.addInfo("Autostart param", autostart, ROMInfo.FormatMode.HEX, true);
 
 			int arm9Offset = s.readIntLE();
-			info.addInfo("ARM9 offset", arm9Offset, true);
+			info.addInfo("ARM9 offset", arm9Offset, ROMInfo.FormatMode.HEX, true);
 			int arm9Entry = s.readIntLE();
-			info.addInfo("ARM9 entry point", arm9Entry, true);
+			info.addInfo("ARM9 entry point", arm9Entry, ROMInfo.FormatMode.HEX, true);
 			int arm9RAMAddress = s.readIntLE();
-			info.addInfo("ARM9 RAM address", arm9RAMAddress, true);
+			info.addInfo("ARM9 RAM address", arm9RAMAddress, ROMInfo.FormatMode.HEX, true);
 			int arm9Size = s.readIntLE();
 			info.addInfo("ARM9 size", arm9Size, ROMInfo.FormatMode.SIZE, true);
 
 			int arm7Offset = s.readIntLE();
-			info.addInfo("ARM7 offset", arm7Offset, true);
+			info.addInfo("ARM7 offset", arm7Offset, ROMInfo.FormatMode.HEX, true);
 			int arm7Entry = s.readIntLE();
-			info.addInfo("ARM7 entry point", arm7Entry, true);
+			info.addInfo("ARM7 entry point", arm7Entry, ROMInfo.FormatMode.HEX, true);
 			int arm7RAMAddress = s.readIntLE();
-			info.addInfo("ARM7 RAM address", arm7RAMAddress, true);
+			info.addInfo("ARM7 RAM address", arm7RAMAddress, ROMInfo.FormatMode.HEX, true);
 			int arm7Size = s.readIntLE();
 			info.addInfo("ARM7 size", arm7Size, ROMInfo.FormatMode.SIZE, true);
 
 			int filenameTableOffset = s.readIntLE();
-			info.addInfo("Filename table offset", filenameTableOffset, true);
+			info.addInfo("Filename table offset", filenameTableOffset, ROMInfo.FormatMode.HEX, true);
 			int filenameTableSize = s.readIntLE();
 			info.addInfo("Filename table size", filenameTableSize, ROMInfo.FormatMode.SIZE, true);
 			int fatOffset = s.readIntLE();
-			info.addInfo("File allocation table offset", fatOffset, true);
+			info.addInfo("File allocation table offset", fatOffset, ROMInfo.FormatMode.HEX, true);
 			int fatSize = s.readIntLE();
 			info.addInfo("File allocation table size", fatSize, ROMInfo.FormatMode.SIZE, true);
 			int fileARM9OverlayOffset = s.readIntLE();
-			info.addInfo("File ARM9 overlay offset", fileARM9OverlayOffset, true);
+			info.addInfo("File ARM9 overlay offset", fileARM9OverlayOffset, ROMInfo.FormatMode.HEX, true);
 			int fileARM9OverlaySize = s.readIntLE();
 			info.addInfo("File ARM9 overlay size", fileARM9OverlaySize, ROMInfo.FormatMode.SIZE, true);
 			int fileARM7OverlayOffset = s.readIntLE();
-			info.addInfo("File ARM7 overlay offset", fileARM7OverlayOffset, true);
+			info.addInfo("File ARM7 overlay offset", fileARM7OverlayOffset, ROMInfo.FormatMode.HEX, true);
 			int fileARM7OverlaySize = s.readIntLE();
 			info.addInfo("File ARM7 overlay size", fileARM7OverlaySize, ROMInfo.FormatMode.SIZE, true);
 
 			byte[] normalCommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x00586000
-			info.addInfo("Normal command setting", normalCommandSetting, true);
+			info.addInfo("Normal command setting", normalCommandSetting, ROMInfo.FormatMode.HEX, true);
 			byte[] key1CommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x001808f8
-			info.addInfo("KEY1 command cetting", key1CommandSetting, true);
+			info.addInfo("KEY1 command cetting", key1CommandSetting, ROMInfo.FormatMode.HEX, true);
 
 			int bannerOffset = s.readIntLE();
-			info.addInfo("Banner offset", bannerOffset, true);
+			info.addInfo("Banner offset", bannerOffset, ROMInfo.FormatMode.HEX, true);
 
 			byte[] secureAreaChecksum = s.read(2);
 			info.addInfo("Secure area checksum", secureAreaChecksum, true);
@@ -433,9 +433,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Secure area delay (ms)", secureAreaDelay / 131, true);
 
 			int arm9AutoLoadRAMAddress = s.readIntLE();
-			info.addInfo("ARM9 auto load RAM address", arm9AutoLoadRAMAddress, true);
+			info.addInfo("ARM9 auto load RAM address", arm9AutoLoadRAMAddress, ROMInfo.FormatMode.HEX, true);
 			int arm7AutoLoadRAMAddress = s.readIntLE();
-			info.addInfo("ARM7 auto load RAM address", arm7AutoLoadRAMAddress, true);
+			info.addInfo("ARM7 auto load RAM address", arm7AutoLoadRAMAddress, ROMInfo.FormatMode.HEX, true);
 
 			byte[] secureAreaDisable = s.read(8); //Usually 0 filled
 			info.addInfo("Secure area disable", secureAreaDisable, true);
@@ -455,11 +455,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Header checksum", headerChecksum, true);
 
 			int debugROMOffset = s.readIntLE();
-			info.addInfo("Debug ROM offset", debugROMOffset, true);
+			info.addInfo("Debug ROM offset", debugROMOffset, ROMInfo.FormatMode.HEX, true);
 			int debugSize = s.readIntLE();
 			info.addInfo("Debug ROM size", debugSize, ROMInfo.FormatMode.SIZE, true);
 			int debugRAMAddress = s.readIntLE();
-			info.addInfo("Debug RAM address", debugRAMAddress, true);
+			info.addInfo("Debug RAM address", debugRAMAddress, ROMInfo.FormatMode.HEX, true);
 
 			//Both zero filled, who cares
 			byte[] reserved4 = s.read(4);

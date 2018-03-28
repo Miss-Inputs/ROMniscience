@@ -196,7 +196,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo(mapperKey, cart.mapper, isOriginalFromGBX);
 				addCartHardwareInfo(info, cart.flags, isOriginalFromGBX);
 			} else {
-				info.addInfo(mapperKey, String.Format("Unknown ({0:X2})", cartType), isOriginalFromGBX);
+				info.addInfo(mapperKey, String.Format("Unknown (0x{0:X2})", cartType), isOriginalFromGBX);
 			}
 		}
 
@@ -249,7 +249,7 @@ namespace ROMniscience.Handlers {
 
 			info.addInfo("Platform", name);
 			byte[] startVector = f.read(4);
-			info.addInfo("Entry point", startVector, true);
+			info.addInfo("Entry point", startVector, ROMInfo.FormatMode.HEX, true);
 			byte[] nintendoLogo = f.read(48);
 			info.addInfo("Nintendo logo", nintendoLogo, true);
 			info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
@@ -337,9 +337,9 @@ namespace ROMniscience.Handlers {
 			int version = f.read();
 			info.addInfo("Version", version);
 			int checksum = f.read();
-			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			int calculatedChecksum = calcChecksum(f);
-			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
 

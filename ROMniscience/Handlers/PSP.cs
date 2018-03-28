@@ -258,28 +258,28 @@ namespace ROMniscience.Handlers {
 			//The files embedded here are supposedly always in this order, so you get the size by getting the difference between that file's offset and the next one (or the end of the file if it's the last one)
 
 			int paramOffset = s.readIntLE(); //Apparently should always be 0x28
-			info.addInfo("PARAM.SFO offset", paramOffset, true);
+			info.addInfo("PARAM.SFO offset", paramOffset, ROMInfo.FormatMode.HEX, true);
 
 			int icon0Offset = s.readIntLE();
-			info.addInfo("ICON0.PNG offset", icon0Offset, true);
+			info.addInfo("ICON0.PNG offset", icon0Offset, ROMInfo.FormatMode.HEX, true);
 
 			int icon1Offset = s.readIntLE();
-			info.addInfo("ICON1.PNG offset", icon1Offset, true);
+			info.addInfo("ICON1.PNG offset", icon1Offset, ROMInfo.FormatMode.HEX, true);
 
 			int pic0Offset = s.readIntLE();
-			info.addInfo("PIC0.PNG offset", pic0Offset, true);
+			info.addInfo("PIC0.PNG offset", pic0Offset, ROMInfo.FormatMode.HEX, true);
 
 			int pic1Offset = s.readIntLE();
-			info.addInfo("PIC1.PNG offset", pic1Offset, true);
+			info.addInfo("PIC1.PNG offset", pic1Offset, ROMInfo.FormatMode.HEX, true);
 
 			int sndOffset = s.readIntLE();
-			info.addInfo("SND0.AT3 offset", sndOffset, true);
+			info.addInfo("SND0.AT3 offset", sndOffset, ROMInfo.FormatMode.HEX, true);
 
 			int dataPSPOffset = s.readIntLE();
-			info.addInfo("DATA.PSP offset", dataPSPOffset, true);
+			info.addInfo("DATA.PSP offset", dataPSPOffset, ROMInfo.FormatMode.HEX, true);
 
 			int dataPSAROffset = s.readIntLE();
-			info.addInfo("DATA.PSAR offset", dataPSAROffset, true);
+			info.addInfo("DATA.PSAR offset", dataPSAROffset, ROMInfo.FormatMode.HEX, true);
 
 			if (paramOffset > 0x24) {
 				int paramSize = icon0Offset - paramOffset;

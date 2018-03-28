@@ -312,8 +312,8 @@ namespace ROMniscience.Handlers {
 
 			int checksum = s.readShortLE();
 			int inverseChecksum = s.readShortLE();
-			info.addInfo("Checksum", checksum, true);
-			info.addInfo("Inverse checksum", inverseChecksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Inverse checksum", inverseChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);
 			//TODO calculate checksum
 
@@ -365,12 +365,12 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 
 			ushort inverseChecksum = (ushort)s.readShortLE();
-			info.addInfo("Inverse checksum", inverseChecksum, true);
+			info.addInfo("Inverse checksum", inverseChecksum, ROMInfo.FormatMode.HEX, true);
 			ushort checksum = (ushort)s.readShortLE();
-			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);
 			int calculatedChecksum = calcChecksum(s);
-			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
 			if (usesExtendedHeader) {
@@ -453,7 +453,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", title);
 			s.Seek(2, SeekOrigin.Current);
 			byte[] entryPoint = s.read(4);
-			info.addInfo("Entry point", entryPoint, true);
+			info.addInfo("Entry point", entryPoint, ROMInfo.FormatMode.HEX, true);
 			s.Position = 0x30; //Skip over all these vectors whatevs
 			byte[] gameID = s.read(3);
 			info.addInfo("Game ID", gameID);

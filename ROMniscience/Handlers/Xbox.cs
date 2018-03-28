@@ -144,7 +144,7 @@ namespace ROMniscience.Handlers {
 
 			s.Position = 0x104;
 			int baseAddress = s.readIntLE();
-			info.addInfo("Base address", baseAddress, true);
+			info.addInfo("Base address", baseAddress, ROMInfo.FormatMode.HEX, true);
 
 			int headerSize = s.readIntLE();
 			int imageSize = s.readIntLE();
@@ -158,12 +158,12 @@ namespace ROMniscience.Handlers {
 			info.addInfo("XBE date", convertWindowsDate(datetime));
 
 			int certificateOffset = s.readIntLE() - baseAddress;
-			info.addInfo("Certificate offset", certificateOffset, true);
+			info.addInfo("Certificate offset", certificateOffset, ROMInfo.FormatMode.HEX, true);
 
 			int sectionCount = s.readIntLE();
 			int sectionsOffset = s.readIntLE() - baseAddress;
 			info.addInfo("Number of sections", sectionCount, true);
-			info.addInfo("Address of sections", sectionsOffset, true);
+			info.addInfo("Address of sections", sectionsOffset, ROMInfo.FormatMode.HEX, true);
 
 			int initFlags = s.readIntLE();
 			info.addInfo("Initialization flags", initFlags, true);
@@ -171,12 +171,12 @@ namespace ROMniscience.Handlers {
 			int entryPoint = s.readIntLE();
 			uint debugEntryPoint = (uint)(entryPoint ^ 0x94859d4b) - (uint)baseAddress;
 			if(debugEntryPoint <= s.Length) {
-				info.addInfo("Entry point", debugEntryPoint, true);
+				info.addInfo("Entry point", debugEntryPoint, ROMInfo.FormatMode.HEX, true);
 				info.addInfo("Is debug", true);
 			} else {
 				//I'm gonna be real, all I have on me is homebrew and prototypes, so this could be all completely wrong
 				uint retailEntryPoint = (uint)(entryPoint ^ 0xa8fc57ab) - (uint)baseAddress;
-				info.addInfo("Entry point", retailEntryPoint, true);
+				info.addInfo("Entry point", retailEntryPoint, ROMInfo.FormatMode.HEX, true);
 				info.addInfo("Is debug", false);
 			}
 

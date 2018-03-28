@@ -185,6 +185,9 @@ namespace ROMniscience {
 				if(thing.Value.formatMode == ROMInfo.FormatMode.PERCENT) {
 					value = String.Format("{0:P2}", value);
 				}
+				if(thing.Value.formatMode == ROMInfo.FormatMode.HEX) {
+					value = string.Format("0x{0:X2}", value);
+				}
 				if(value is byte[] bytes) {
 					value = BitConverter.ToString(bytes);
 				}

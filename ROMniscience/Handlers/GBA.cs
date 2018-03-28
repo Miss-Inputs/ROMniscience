@@ -146,26 +146,26 @@ namespace ROMniscience.Handlers {
 			string makerCode = f.read(2, Encoding.ASCII);
 			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
 			int fixedValue = f.read();
-			info.addInfo("Fixed value", fixedValue, true);
+			info.addInfo("Fixed value", fixedValue, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Fixed value valid?", fixedValue == 0x96);
 
 			//This indicates the required hardware, should be 0 but it's possible that
 			//some prototype/beta/multiboot/other weird ROMs have something else
 			int mainUnitCode = f.read();
-			info.addInfo("Main unit code", mainUnitCode);
+			info.addInfo("Main unit code", mainUnitCode, true);
 
 			//If bit 7 is set, the debugging handler entry point is at 0x9fe2000 and not 0x9ffc000, normally this will be 0
 			int deviceType = f.read();
-			info.addInfo("Device type", deviceType);
+			info.addInfo("Device type", deviceType, true);
 
 			byte[] reserved = f.read(7); //Should be all 0
 			info.addInfo("Reserved", reserved, true);
 			int version = f.read();
 			info.addInfo("Version", version);
 			int checksum = f.read();
-			info.addInfo("Checksum", checksum, true);
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			int calculatedChecksum = calculateChecksum(f);
-			info.addInfo("Calculated checksum", calculatedChecksum, true);
+			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 			byte[] reserved2 = f.read(2);
 			info.addInfo("Reserved 2", reserved2, true);

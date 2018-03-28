@@ -51,7 +51,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("First party", "COPYRIGHT BY SNK CORPORATION".Equals(copyrightInfo));
 
 			byte[] entryPoint = s.read(4);
-			info.addInfo("Entry point", entryPoint, true);
+			info.addInfo("Entry point", entryPoint, ROMInfo.FormatMode.HEX, true);
 
 			int gameNumber = s.readShortLE();
 			info.addInfo("Product code", gameNumber.ToString("X2"));
