@@ -51,10 +51,6 @@ namespace ROMniscience.Handlers {
 			{0, "None"},
 			{1, "High Score Cart"},
 			{2, "SaveKey / AtariVOX"},
-
-			//Have also found 255 inside "7800 Dev BIOS"
-			//Asteroids has 252 for this and controller 1 type, 3 for TV type, and that's allegedly a good dump
-			//Hmm... if I didn't know any better I'd say there's a different ROM format, maybe it's headerless
 		};
 
 		public readonly static IDictionary<int, string> TV_TYPES = new Dictionary<int, string>() {
@@ -100,11 +96,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("ROM size", romSize, ROMInfo.FormatMode.SIZE);
 
 			int specialCartType = s.read();
-			info.addInfo("Special cart type data", specialCartType);
+			info.addInfo("Special cart type data", specialCartType, true);
 
 			int cartType = s.read();
-			info.addInfo("Cart type data", cartType);
-			//TODO This seems like it would be better suited as a flags enum
+			info.addInfo("Cart type data", cartType, true);
+
 			bool pokey = (cartType & 1) > 0;
 			info.addInfo("Contains POKEY chip?", pokey);
 			bool supercartBankSwitched = (cartType & 2) > 0;
