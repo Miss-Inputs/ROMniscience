@@ -146,8 +146,6 @@ namespace ROMniscience.Handlers {
 			return icon;
 		}
 
-		//TODO DSi animated icon (just need to know how to store animated icons)
-
 		bool isPassMeEntryPoint(byte[] b) {
 			return b[0] == 0xc8 && b[1] == 0x60 && b[2] == 0x4f && b[3] == 0xe2 && b[4] == 0x01 && b[5] == 0x70 && b[6] == 0x8f && b[7] == 0xe2;
 		}
@@ -234,7 +232,7 @@ namespace ROMniscience.Handlers {
 						}
 						info.addInfo("DSi icon frame " + (i + 1), frame, true);
 
-						//Duration: sequence & 0xff but we have no method of storing that at the moment
+						//Duration: sequence & 0xff (in 60Hz units, so I guess how many frames this lasts at 60fps?) but we have no method of storing that at the moment
 					}
 				}
 			}
