@@ -10,20 +10,21 @@ using System.Threading.Tasks;
 namespace ROMniscience {
 	class CompressedROMFile : ROMFile {
 
-		private FileInfo archive;
+		private FileInfo archivePath;
 		private IArchiveEntry entry;
 		private WrappedInputStream archiveStream;
 
 		public CompressedROMFile(IArchiveEntry entry, FileInfo path) {
 			this.entry = entry;
-			archive = path;
+			archivePath = path;
 			archiveStream = new WrappedInputStream(entry.OpenEntryStream());
 		}
 
-		public override FileInfo path => archive;
+		public override FileInfo path => archivePath;
 		public override string name => entry.Key;
 		public override long length => entry.Size;
-		public override long compressedLength => entry.CompressedSize;
+		//This isn't entirely the right way to do it and when you have more than one file it'll have a negative compression ratio, but then what _is_ the right way to do it
+		public override long compressedLength => entry.Archive.Type == SharpCompress.Common.ArchiveType.SevenZip ? archivePath.Length : entry.CompressedSize;
 		public override bool compressed => true;
 
 		public override InputStream stream => archiveStream;
