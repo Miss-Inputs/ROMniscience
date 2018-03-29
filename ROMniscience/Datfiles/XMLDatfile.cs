@@ -193,8 +193,8 @@ namespace ROMniscience.Datfiles {
 			string file = args[1];
 
 			var datFiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
-			using(IO.FileInputStream f = new IO.FileInputStream(new FileInfo(file))) {
-				var result = datFiles.identify(f, 0);
+			using(IO.WrappedInputStream s = new IO.WrappedInputStream(new FileInfo(file).OpenRead())) {
+				var result = datFiles.identify(s, 0);
 				Console.WriteLine("Datfile: {0}", result.datfile.name);
 				Console.WriteLine("Game: {0}", result.game.name);
 				Console.WriteLine("ROM: {0}", result.rom.name);

@@ -146,7 +146,6 @@
     <Compile Include="Handlers\Xbox.cs" />
     <Compile Include="IO\ArchiveHelpers.cs" />
     <Compile Include="IO\ByteSwappedInputStream.cs" />
-    <Compile Include="IO\FileInputStream.cs" />
     <Compile Include="IO\GCZInputStream.cs" />
     <Compile Include="IO\InputStream.cs" />
     <Compile Include="GUI\MainWindow.cs">
