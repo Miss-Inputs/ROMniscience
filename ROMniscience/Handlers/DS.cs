@@ -419,9 +419,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo("File ARM7 overlay size", fileARM7OverlaySize, ROMInfo.FormatMode.SIZE, true);
 
 			byte[] normalCommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x00586000
-			info.addInfo("Normal command setting", normalCommandSetting, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Normal command setting", normalCommandSetting, true);
 			byte[] key1CommandSetting = s.read(4); //For port 0x40001A4 (ROMCTRL), usually 0x001808f8
-			info.addInfo("KEY1 command cetting", key1CommandSetting, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("KEY1 command cetting", key1CommandSetting, true);
 
 			int bannerOffset = s.readIntLE();
 			info.addInfo("Banner offset", bannerOffset, ROMInfo.FormatMode.HEX, true);
