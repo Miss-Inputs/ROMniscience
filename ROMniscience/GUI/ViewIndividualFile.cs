@@ -162,39 +162,43 @@ namespace ROMniscience {
 			}
 
 			ROMInfo info = ROMInfo.getROMInfo(handler, rom, datfiles);
+			viewFile(info, String.Format("ROMniscience: {0} ({1})", rom.path, handler.name));
+		}
+
+		public static void viewFile(ROMInfo info, string title) {
 
 			ViewIndividualFile me = new ViewIndividualFile {
-				Text = String.Format("ROMniscience: {0} ({1})", rom.path, handler.name)
+				Text = title
 			};
 
-			foreach(var thing in info.info) {
+			foreach (var thing in info.info) {
 				object value = thing.Value.value;
-				if(value is Image) {
+				if (value is Image) {
 					me.images.Add(thing.Key, (Image)value);
 					me.showImagesButton.Enabled = true;
 					continue;
 				}
-				if(thing.Value.formatMode == ROMInfo.FormatMode.SIZE) {
+				if (thing.Value.formatMode == ROMInfo.FormatMode.SIZE) {
 					try {
 						value = ROMInfo.formatByteSize(Convert.ToInt64(value));
-					} catch(InvalidCastException) {
+					} catch (InvalidCastException) {
 						//You goof
 						value = String.Format("{0} cannot be casted to long, it is {1}", value, value?.GetType());
 					}
 				}
-				if(thing.Value.formatMode == ROMInfo.FormatMode.PERCENT) {
+				if (thing.Value.formatMode == ROMInfo.FormatMode.PERCENT) {
 					value = String.Format("{0:P2}", value);
 				}
-				if(thing.Value.formatMode == ROMInfo.FormatMode.HEX) {
+				if (thing.Value.formatMode == ROMInfo.FormatMode.HEX) {
 					value = string.Format("0x{0:X2}", value);
 				}
-				if(value is byte[] bytes) {
+				if (value is byte[] bytes) {
 					value = BitConverter.ToString(bytes);
 				}
-				if(value is string[] strings) {
+				if (value is string[] strings) {
 					value = String.Join(", ", strings);
 				}
-				if(value is string str) {
+				if (value is string str) {
 					//TextBox doesn't like null chars. I dunno what the best thing to replace it with is, but that'll do
 					value = str.Replace('\0', ' ');
 				}
