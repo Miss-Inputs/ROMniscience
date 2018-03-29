@@ -90,9 +90,5 @@ namespace ROMniscience.IO {
 		public int readShortLE() {
 			return read() | (read() << 8);
 		}
-
-		public static InputStream cloneInputStream(InputStream s) {
-			return new MemoryInputStream(s.read((int)s.Length));
-		}
 	}
 }
