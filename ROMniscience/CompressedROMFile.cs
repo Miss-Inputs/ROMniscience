@@ -27,7 +27,7 @@ namespace ROMniscience {
 		public override long compressedLength => entry.Archive.Type == SharpCompress.Common.ArchiveType.SevenZip ? archivePath.Length : entry.CompressedSize;
 		public override bool compressed => true;
 
-		public override InputStream stream => archiveStream;
+		public override WrappedInputStream stream => archiveStream;
 		public override void Dispose() {
 			((IDisposable)archiveStream).Dispose();
 		}

@@ -43,7 +43,7 @@ namespace ROMniscience {
 			get;
 		}
 
-		public abstract InputStream stream {
+		public abstract WrappedInputStream stream {
 			get;
 		}
 

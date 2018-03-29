@@ -48,7 +48,7 @@ namespace ROMniscience {
 
 		public override long length => (long)gcz.uncompressedSize;
 
-		public override InputStream stream => gcz;
+		public override WrappedInputStream stream => gcz;
 
 		//This kinda sucks but it's better than pretending the uncompressed file is called .gcz
 		public override string name => fi.Name.Replace(".gcz", ".iso");

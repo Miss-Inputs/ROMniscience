@@ -25,7 +25,7 @@ namespace ROMniscience {
 		public override long compressedLength => length;
 		public override long length => stream.Length;
 
-		public override InputStream stream => fileStream;
+		public override WrappedInputStream stream => fileStream;
 
 		public override void Dispose() {
 			((IDisposable)fileStream).Dispose();
