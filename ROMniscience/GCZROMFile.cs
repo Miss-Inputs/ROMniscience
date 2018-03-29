@@ -52,5 +52,9 @@ namespace ROMniscience {
 
 		//This kinda sucks but it's better than pretending the uncompressed file is called .gcz
 		public override string name => fi.Name.Replace(".gcz", ".iso");
+
+		public override void Dispose() {
+			((IDisposable)gcz).Dispose();
+		}
 	}
 }

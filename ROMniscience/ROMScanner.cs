@@ -92,7 +92,7 @@ namespace ROMniscience {
 						foreach (IArchiveEntry entry in archive.Entries) {
 							if (handler.handlesExtension(Path.GetExtension(entry.Key))) {
 								ROMInfo info;
-								using (ROMFile file = new ROMFile(entry, f)) {
+								using (ROMFile file = new CompressedROMFile(entry, f)) {
 									info = ROMInfo.getROMInfo(handler, file, datfiles);
 								}
 
@@ -113,7 +113,7 @@ namespace ROMniscience {
 				onHaveRow(info);
 			} else if (handler.handlesExtension(f.Extension)) {
 				ROMInfo info;
-				using (ROMFile file = new ROMFile(f)) {
+				using (ROMFile file = new NormalROMFile(f)) {
 					info = ROMInfo.getROMInfo(handler, file, datfiles);
 				}
 

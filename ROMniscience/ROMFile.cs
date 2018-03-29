@@ -32,64 +32,32 @@ using ROMniscience.IO;
 using SharpCompress.Archives;
 
 namespace ROMniscience {
-	class ROMFile : IDisposable {
-		//TODO Should probably refactor this into BaseROMFile/ROMFile/CompressedROMFile classes I guess
-		private IArchiveEntry entry;
+	abstract class ROMFile : IDisposable {
 
-		protected ROMFile() {
-
-		}
-
-		public ROMFile(FileInfo f) {
-			path = f;
-			stream = new WrappedInputStream(File.OpenRead(f.FullName));
-		}
-
-		public ROMFile(IArchiveEntry entry, FileInfo path) {
-			this.entry = entry;
-			this.path = path;
-			stream = new WrappedInputStream(entry.OpenEntryStream());
-		}
-
-
-		public virtual FileInfo path {
+		public abstract FileInfo path {
 			get;
 		}
 
-		public virtual string name {
-			get {
-				if (compressed) {
-					return entry.Key;
-				} else {
-					return path.Name;
-				}
-			}
-		}
-
-		public virtual InputStream stream {
+		public abstract string name {
+			//If compressed = true, this should be the original uncompressed filename
 			get;
 		}
 
-		public virtual bool compressed => entry != null;
-
-		public virtual long length {
-			get {
-				if (compressed) {
-					return entry.Size;
-				} else {
-					return stream.Length;
-				}
-			}
+		public abstract InputStream stream {
+			get;
 		}
 
-		public virtual long compressedLength {
-			get {
-				if (compressed) {
-					return entry.CompressedSize;
-				} else {
-					throw new NotImplementedException();
-				}
-			}
+		public abstract bool compressed {
+			get;
+		}
+
+		public abstract long length {
+			get;
+		}
+
+		public abstract long compressedLength {
+			//If compressed = false, and someone calls this anyway without checking that first, this should probably just return length instead of throwing an exception or anything
+			get;
 		}
 
 		public virtual string extension {
@@ -106,11 +74,7 @@ namespace ROMniscience {
 				return path.ToLowerInvariant();
 			}
 		}
-		
-		//ACKSHUALLY it is being disposed, but because it's an auto property, it complains about the backing store being not disposed directly because bug
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed")]
-		public void Dispose() {
-			((IDisposable)stream).Dispose();
-		}
+
+		public abstract void Dispose();
 	}
 }

@@ -122,7 +122,7 @@ namespace ROMniscience {
 						string helpString = "This is an archive and there's multiple files in it. Please choose which one you want to view the info for.";
 						IArchiveEntry choice = chooseChoices(archive.Entries, "Key", helpString, "Choose File in Archive");
 						if (choice != null) {
-							using (ROMFile f = new ROMFile(choice, path)) {
+							using (ROMFile f = new CompressedROMFile(choice, path)) {
 								viewFile(f);
 							}
 						}
@@ -135,7 +135,7 @@ namespace ROMniscience {
 					viewFile(gcz);
 				}
 			} else {
-				using(ROMFile f = new ROMFile(path)) {
+				using(ROMFile f = new NormalROMFile(path)) {
 					viewFile(f);
 				}
 			}
