@@ -149,7 +149,6 @@
     <Compile Include="IO\FileInputStream.cs" />
     <Compile Include="IO\GCZInputStream.cs" />
     <Compile Include="IO\InputStream.cs" />
-    <Compile Include="IO\MemoryInputStream.cs" />
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

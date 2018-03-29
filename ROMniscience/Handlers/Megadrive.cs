@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using ROMniscience.IO;
+using System.IO;
 
 namespace ROMniscience.Handlers {
 	class Megadrive: Handler {
@@ -505,7 +506,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public static InputStream decodeSMD(InputStream s) {
-			s.Seek(512, System.IO.SeekOrigin.Current);
+			s.Seek(512, SeekOrigin.Current);
 			//Should only need this much to read the header. If I was actually converting
 			//the ROM I'd need to use the SMD header to know how many blocks there are
 			//and read multiple blocks and whatnot
@@ -531,7 +532,7 @@ namespace ROMniscience.Handlers {
 
 			byte[] buf2 = new byte[buf_odd];
 			Array.Copy(buf, buf2, buf_odd);
-			return new MemoryInputStream(buf2);
+			return new WrappedInputStream(new MemoryStream(buf2));
 		}
 
 		public static bool isSMD(InputStream s) {
