@@ -51,7 +51,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static string readNullTerminatedString(Stream s, Encoding encoding, int maxLength = -1) {
-			//TODO: Move this into StreamExtensions once I've finished refactoring all the IO stuff
+			//TODO: Move this into WrappedInputStream once I've finished refactoring all the IO stuff
 			List<Byte> buf = new List<byte>();
 
 			while (true) {
@@ -68,7 +68,7 @@ namespace ROMniscience.Handlers {
 			return encoding.GetString(buf.ToArray());
 		}
 
-		public static Dictionary<string, object> convertParamSFO(Stream s) {
+		public static Dictionary<string, object> convertParamSFO(InputStream s) {
 			var d = new Dictionary<string, object>();
 
 			s.Position = 0x08;
@@ -172,7 +172,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Move controller enabled", (flags & 1 << 23) > 0, true);
 		}
 
-		public static void parseParamSFO(ROMInfo info, Stream s) {
+		public static void parseParamSFO(ROMInfo info, InputStream s) {
 			byte[] magic = s.read(4);
 			if (!isSFOMagic(magic)) {
 				return;
@@ -287,7 +287,7 @@ namespace ROMniscience.Handlers {
 					s.Position = paramOffset;
 					byte[] param = s.read(paramSize);
 
-					using (MemoryStream mem = new MemoryStream(param)) {
+					using (WrappedInputStream mem = new WrappedInputStream(new MemoryStream(param))) {
 						parseParamSFO(info, mem);
 					}
 				}
