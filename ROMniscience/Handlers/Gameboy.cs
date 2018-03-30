@@ -95,6 +95,13 @@ namespace ROMniscience.Handlers {
 			{0xfd, new CartInfo("Bandai TAMA5")}, //Used in Game de Hakken!! Tamagotchi Osucchi to Mesucchi only; from what I can see via pictures, it has some kind of battery, but it might not be the kind of battery that's being talked about in the othr mappers.. seems to have a little speaker?
 			{0xfe, new CartInfo("HuC3")},
 			{0xff, new CartInfo("HuC1", CartAdditionalHardware.RAM | CartAdditionalHardware.Battery)}
+
+			//Others (unlicensed things of course), which may be valid or may well just be plain garbage and would require GBX to be of any use:
+			//0x31: Beast Fighter (1B-001, Sachen)
+			//0x97: ATV Racing, Painter, Pocket Smash Out, Space Invasion, Karate Joe, Hang Time Basketball (these are all by Datel I think?)
+			//0x99: Race Time, Pocket Smash Out & Race Time, ATV Racing & Karate Joe (both versions), Space Invasion & Painter, Space Invasion & Karate Joe)
+			//0xC2: Thunder Blast Man (1B-003, Sachen)
+			//0xEA: Sonic 3D Blast 5 (by Makon Soft), although Sonic Adventure 7 and Sonic Adventure 8 (which are hacks of this) use MBC1
 		};
 
 		static readonly IDictionary<int, long> ROM_SIZES = new Dictionary<int, long>() {
