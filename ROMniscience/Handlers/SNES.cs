@@ -99,7 +99,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public static readonly IDictionary<char, string> GAME_TYPES = new Dictionary<char, string> {
-			{'A', "Normal game"},
+			{'A', "Game"},
 			{'B', "Nintendo Power downloadable game"},
 			{'Z', "Game with expansion cart"},
 		};

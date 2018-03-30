@@ -58,18 +58,18 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> GAME_TYPES = new Dictionary<char, string>() {
-			{'A', "DS game"},
-			{'B', "DS game (B)"},
-			{'C', "DS game (C)"},
+			{'A', "Game"},
+			{'B', "Game (B)"},
+			{'C', "Game (C)"},
 			{'D', "DSi exclusive game"},
 			{'H', "DSiWare system utility"},
 			{'I', "DS game with infrared"}, //e.g Pokemon HeartGold/SoulSilver, Pokemon gen 5, I think Personal Trainer: Walking
 			{'K', "DSiWare game"},
-			{'N', "Nintendo Channel demo"},
-			{'T', "DS game (T)"},
+			{'N', "Downloadable demo"}, //Basically always seen with a product code of NTRJ
+			{'T', "Game (T)"}, //This is a bit weird, only seen in Pokemon Card Game Asobitai DS and Puyo Puyo 20th anniversary so far. What makes those games special? Who knows
 			{'U', "DS utility/educational game/uncommon hardware"}, //Learn With Pokemon: Typing Adventure uses this
 			{'V', "DSi enhanced DS game"}, //e.g. Assassin's Creed 2: Discovery, Pokemon Conquest
-			{'Y', "DS game (Y)"},
+			{'Y', "Game (Y)"},
 		};
 
 		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string>() {

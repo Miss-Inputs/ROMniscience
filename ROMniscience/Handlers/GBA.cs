@@ -42,17 +42,16 @@ namespace ROMniscience.Handlers {
 		public override string name => "Game Boy Advance";
 
 		public static readonly IDictionary<char, string> GBA_GAME_TYPES = new Dictionary<char, string> {
-			{'A', "Normal game (older)"},
-			{'B', "Normal game (newer)"},
-			{'C', "Normal game (unused)"}, //Why do I get the feeling it's not unused?
+			//Also used by GBC, seemingly
+			{'A', "Game"},
+			{'B', "Game (B)"}, //One day I wll find the rhyme or reason behind this, but newer games seem to use B
 			{'F', "Famicom/Classic NES series"},
 			{'K', "Acceleration sensor"}, //Yoshi's Universal Gravitation, Koro Koro Puzzle
 			{'P', "e-Reader"},
 			{'R', "Gyro sensor"}, //WarioWare: Twisted
 			{'U', "Solar sensor"}, //Boktai: The Sun is in Your Hands
-			{'V', "Rumble"}, //Drill Dozer
+			{'V', "Rumble Pak"}, //Drill Dozer, various GBC games like the ol' Perfect Dark
 			{'M', "GBA Video"}, //Also used by mb2gba and any multiboot roms converted by it
-			{'T', "Test cart"}, //AGS Aging Cartridge
 			{'Z', "DS expansion"}, //Daigassou! Band-Brothers - Request Selection (it's just a slot 2 device for a DS game, but it has a
 			//GBA ROM header surprisingly), also Nintendo MP3 Player which was marketed as being for the DS so maybe "DS expansion" isn't quite
 			//the right name but it'll have to do

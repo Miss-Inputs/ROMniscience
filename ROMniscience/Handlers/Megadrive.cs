@@ -44,20 +44,23 @@ namespace ROMniscience.Handlers {
 		public override string name => "Megadrive/Genesis";
 
 		public readonly static IDictionary<string, string> PRODUCT_TYPES = new Dictionary<string, string> {
-			{"AI", "Education"},
-			{"BR", "Boot ROM"}, //Mega CD BIOS etc
+			{"AI", "Education"}, //Wonder Library, Time Trax (although that's not educational), Miracle Piano Teaching System... maybe this is actually wrong, especially as no Pico games use it
+			{"BR", "Boot ROM"}, //Mega CD BIOS, LaserActive BIOS etc
 			{"GM", "Game"},
 			{"OS", "Operating system"}, //Genesis OS ROM uses this
 			{"PX", "Pictures"}, //Hentai Collection homebrew (lol) etc
 			{"SF", "Super Fighter Team game"}, //Beggar Price, Legend of Wukong, Star Odyssey, etc
-
+			{"83", "Samsung Pico"}, //Some Samsung Pico titles also use T-, but 83 is only used by Samsung Pico
+			{"MP", "Brazilian Pico game"},
+			
 			//Also seen:
-			//BL (32X Shymmer demo)
-			//RO (32X SDK builds, X-Men 32X prototype, also FIFA Soccer '96 32X for whatever reason. Maybe
-				//it means 32X SDK sample and the FIFA devs were lazy?)
-			//T- (Soulstar X 32X prototype, Adventures in Letterland with Jack & Jill, 
-				//some Samsung Pico games, B-Fighter Kabuto)
-			//G- (Mega Anser, I forgot what that does)
+			//G-: Mega Anser BIOS
+			//HP: Many Pico games
+			//MK: Many Pico games but also some Megadrive betas, for what it's worth (Dynamite Heddy, Virtua Fighter 2, etc)
+			//RO: The 32X SDK programs, but also FIFA Soccer 96 for 32X... did they leave some SDK stuff in there?
+			//T-: Many Pico games, but also some Megadrive/32X betas like Wacky Races and Soulstar X
+
+			//I have no idea what the zillions of different types for Pico games are all about, but maybe if I actually knew more about the Pico it would start making sense
 			//TE (Angry Birds demo hack)
 			//CE (Censor Movie Trailer Demo, probably just stands for "Censor")
 			//X- (Magical Christmas Greetings demo)

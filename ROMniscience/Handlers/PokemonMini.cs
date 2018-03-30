@@ -34,7 +34,7 @@ namespace ROMniscience.Handlers {
 		//Adapted mostly from http://www.pokemon-mini.net/documentation/cartridge/
 
 		public static readonly IDictionary<char, string> GAME_TYPES = new Dictionary<char, string> {
-			{'M', "Game cart"}, //That's all that's used for the few official games released
+			{'M', "Game"}, //That's all that's used for the few official games released
 			{'K', "Prototype"}, //There's a prototype that's been seen that includes a cart that hasn't been dumped, but it has MIN-KCFO-01 as the serial
 		};
 

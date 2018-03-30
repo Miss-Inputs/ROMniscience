@@ -41,8 +41,8 @@ namespace ROMniscience.Handlers {
 		public override string name => "Nintendo Entertainment System";
 
 		public static readonly IDictionary<char, string> FDS_TYPES = new Dictionary<char, string> {
-			{' ', "Normal"},
-			{'E', "Event"},
+			{' ', "Game"},
+			{'E', "Promotional game"},
 			{'R', "Reduced price"},
 		};
 
