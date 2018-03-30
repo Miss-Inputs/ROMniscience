@@ -105,7 +105,7 @@ namespace ROMniscience.Handlers {
 			return N64ROMFormat.UNKNOWN;
 		}
 
-		public static void parseN64ROM(InputStream s, ROMInfo info) {
+		public static void parseN64ROM(WrappedInputStream s, ROMInfo info) {
 			int clockRate = s.readIntBE(); //0 = default, apparently the low nibble isn't read
 			info.addInfo("Clock rate", clockRate, ROMInfo.FormatMode.HEX, true);
 			int programCounter = s.readIntBE(); //This technically is the entry point but the CIC chip might alter that
@@ -187,7 +187,7 @@ namespace ROMniscience.Handlers {
 			//Might be a way to detect save type
 		}
 
-		public static void parse64DDDiskInfo(ROMInfo info, InputStream s) {
+		public static void parse64DDDiskInfo(ROMInfo info, WrappedInputStream s) {
 			//The naming of this function is a solid argument for snake_case everywhere
 			s.Position = 0x43670; //I don't know why here, but it is
 
@@ -241,7 +241,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Nintendo 64");
 
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			byte[] header = s.read(4);
 			N64ROMFormat format = detectFormat(header);
 			info.addInfo("Detected format", detectFormat(header));

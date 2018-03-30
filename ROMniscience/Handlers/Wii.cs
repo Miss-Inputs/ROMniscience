@@ -90,7 +90,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			Gamecube.parseGamecubeHeader(info, s);
 
 			s.Position = 0x40000;

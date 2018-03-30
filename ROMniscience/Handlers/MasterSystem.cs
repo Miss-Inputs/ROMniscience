@@ -72,7 +72,7 @@ namespace ROMniscience.Handlers {
 			return (((hi1 * 10) + lo1) * 100) + ((hi2 * 10) + lo2);
 		}
 
-		public static void parseSegaHeader(ROMInfo info, InputStream s, long offset, bool isGameGear) {
+		public static void parseSegaHeader(ROMInfo info, WrappedInputStream s, long offset, bool isGameGear) {
 			s.Position = offset;
 
 			byte[] reserved = s.read(2);
@@ -108,7 +108,8 @@ namespace ROMniscience.Handlers {
 			//TODO Calculate checksum http://www.smspower.org/Development/BIOSes
 		}
 
-		static String readNullTerminatedString(InputStream s) {
+		static String readNullTerminatedString(WrappedInputStream s) {
+			//TODO Move this to WrappedInputStream
 			StringBuilder sb = new StringBuilder();
 			while (true) {
 				int b = s.read();
@@ -125,7 +126,7 @@ namespace ROMniscience.Handlers {
 			return sb.ToString();
 		}
 
-		public static void parseSDSCHeader(ROMInfo info, InputStream s) {
+		public static void parseSDSCHeader(ROMInfo info, WrappedInputStream s) {
 			int majorVersion = s.read();
 			info.addInfo("Major version", decodeBCD(majorVersion));
 			int minorVersion = s.read();
@@ -159,7 +160,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void parseSMSROM(ROMInfo info, ROMFile file) {
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 
 			long headerOffset = -1;
 			//Supposedly the header _could_ be at 0x1ff0 or 0x3ff0 but no known software does that. But let's check it anyway just for something to do

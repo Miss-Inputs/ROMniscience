@@ -47,7 +47,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void parseTMD(ROMInfo info, byte[] tmd) {
-			InputStream s = new WrappedInputStream(new System.IO.MemoryStream(tmd)) {
+			WrappedInputStream s = new WrappedInputStream(new System.IO.MemoryStream(tmd)) {
 				Position = 0x184
 			};
 			byte[] iosVersion = s.read(8);
@@ -102,7 +102,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 
 			int headerSize = s.readIntBE();
 			info.addInfo("Header size", headerSize, ROMInfo.FormatMode.SIZE, true);

@@ -68,7 +68,7 @@ namespace ROMniscience.Handlers {
 			return encoding.GetString(buf.ToArray());
 		}
 
-		public static Dictionary<string, object> convertParamSFO(InputStream s) {
+		public static Dictionary<string, object> convertParamSFO(WrappedInputStream s) {
 			var d = new Dictionary<string, object>();
 
 			s.Position = 0x08;
@@ -172,7 +172,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Move controller enabled", (flags & 1 << 23) > 0, true);
 		}
 
-		public static void parseParamSFO(ROMInfo info, InputStream s) {
+		public static void parseParamSFO(ROMInfo info, WrappedInputStream s) {
 			byte[] magic = s.read(4);
 			if (!isSFOMagic(magic)) {
 				return;
@@ -238,7 +238,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static void parsePBP(ROMInfo info, InputStream s) {
+		public static void parsePBP(ROMInfo info, WrappedInputStream s) {
 			byte[] magic = s.read(4);
 			info.addInfo("Magic", magic, true); //Should be "\0PBP", or maybe "PBP\0" because endians confuse me
 			if(isELFMagic(magic)) {

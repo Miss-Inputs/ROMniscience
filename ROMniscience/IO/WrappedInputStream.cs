@@ -1,7 +1,7 @@
 ﻿/*
  * The MIT License
  *
- * Copyright 2017 Megan Leet (Zowayix).
+ * Copyright 2018 Megan Leet (Zowayix).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience.IO {
-	class WrappedInputStream: InputStream, IDisposable {
+	//A convenience class to add some more methods to Stream to make it easier to work with, and ensure it's seekable (extension methods ended up not working out). You'll see it a lot
+	class WrappedInputStream: Stream, IDisposable {
+
+		public override bool CanRead => true;
+		public override bool CanSeek => true;
+		public override bool CanWrite => false;
+
 		protected Stream innerStream;
 
 		public WrappedInputStream(Stream s) {
@@ -64,6 +70,50 @@ namespace ROMniscience.IO {
 
 		protected override void Dispose(bool disposing) {
 			innerStream.Dispose();
+		}
+
+		public override void SetLength(long value) {
+			throw new NotImplementedException();
+		}
+
+		public override void Write(byte[] buffer, int offset, int count) {
+			throw new NotImplementedException();
+		}
+
+		public virtual int read() => ReadByte();
+
+		public virtual byte[] read(int bytes) {
+			byte[] buf = new byte[bytes];
+			int bytesRead = Read(buf, 0, bytes);
+			if (bytesRead == 0) {
+				return new byte[] { };
+			} else if (bytesRead == bytes) {
+				return buf;
+			} else {
+				byte[] buf2 = new byte[bytesRead];
+				Array.Copy(buf, buf2, bytesRead);
+				return buf2;
+			}
+		}
+
+		public String read(int length, Encoding encoding) {
+			return encoding.GetString(read(length));
+		}
+
+		public int readIntBE() {
+			return (read() << 24) | (read() << 16) | (read() << 8) | read();
+		}
+
+		public int readIntLE() {
+			return read() | (read() << 8) | (read() << 16) | (read() << 24);
+		}
+
+		public int readShortBE() {
+			return (read() << 8) | read();
+		}
+
+		public int readShortLE() {
+			return read() | (read() << 8);
 		}
 	}
 }

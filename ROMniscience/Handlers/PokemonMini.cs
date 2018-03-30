@@ -47,7 +47,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Pokemon Mini");
 
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			s.Position = 0x2100;
 
 			string marker = s.read(2, Encoding.ASCII);

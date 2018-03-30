@@ -147,7 +147,7 @@ namespace ROMniscience.Handlers {
 			{1, "Copy to PSRAM"},
 		};
 
-		int scoreHeader(InputStream s, long offset) {
+		int scoreHeader(WrappedInputStream s, long offset) {
 			//Well, this is a fun one. It's adapted from MAME devices/bus/snes/snes_slot.cpp (snes_validate_infoblock(), to be precise), which doesn't have much license
 			//information, except for this:
 			// license:BSD-3-Clause
@@ -240,7 +240,7 @@ namespace ROMniscience.Handlers {
 			return score < 0 ? 0 : score;
 		}
 
-		long findHeaderOffset(InputStream s) {
+		long findHeaderOffset(WrappedInputStream s) {
 			long offset1 = 0x7fc0;
 			long offset2 = 0xffc0;
 			long offset3 = 0x40ffc0;
@@ -272,7 +272,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static void parseBSHeader(InputStream s, ROMInfo info, long offset) {
+		public static void parseBSHeader(WrappedInputStream s, ROMInfo info, long offset) {
 			s.Position = offset;
 
 			string name = s.read(16, MainProgram.shiftJIS).TrimEnd('\0', ' ');
@@ -328,7 +328,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Unknown 2", s.read(8), true);
 		}
 
-		public static void parseSNESHeader(InputStream s, ROMInfo info, long offset) {
+		public static void parseSNESHeader(WrappedInputStream s, ROMInfo info, long offset) {
 			s.Position = offset;
 
 			//Finally now I can get on with the fun stuff
@@ -407,7 +407,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static int calcChecksum(InputStream s) {
+		public static int calcChecksum(WrappedInputStream s) {
 			//Note that this probably requires a bit more nuance, especially for funny games with funny mappers (Star Ocean, etc)
 			//but also fails for some perfectly normal games like Earthbound and Home Improvement, unless that's just how they are
 			long pos = s.Position;
@@ -439,7 +439,7 @@ namespace ROMniscience.Handlers {
 			return true;
 		}
 
-		public static void parseSufamiTurboHeader(ROMInfo info, InputStream s) {
+		public static void parseSufamiTurboHeader(ROMInfo info, WrappedInputStream s) {
 			//Well this is a lot more straightforward and relaxing
 			//Some Sufami Turbo games have an ordinary SNES header, but most of them don't
 
@@ -472,7 +472,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			if (".st".Equals(file.extension)) {
 				parseSufamiTurboHeader(info, s);
 				return;

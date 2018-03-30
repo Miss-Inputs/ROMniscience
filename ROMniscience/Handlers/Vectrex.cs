@@ -43,7 +43,7 @@ namespace ROMniscience.Handlers {
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 
 			string copyright = s.read(6, Encoding.ASCII);
 			info.addInfo("Copyright", copyright); //Seems to always just be "g GCE " and lowercase g is the copyright symbol on this thing so I'm told

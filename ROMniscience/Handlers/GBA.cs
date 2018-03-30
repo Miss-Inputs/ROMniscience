@@ -66,7 +66,7 @@ namespace ROMniscience.Handlers {
 			{3, "Multiplay"},
 		};
 
-		int calculateChecksum(InputStream f) {
+		int calculateChecksum(WrappedInputStream f) {
 			long origPos = f.Position;
 			try {
 				int x = 0;
@@ -121,7 +121,7 @@ namespace ROMniscience.Handlers {
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
-			InputStream f = file.stream;
+			WrappedInputStream f = file.stream;
 
 			byte[] entryPoint = f.read(4);
 			info.addInfo("Entry point", entryPoint, true);

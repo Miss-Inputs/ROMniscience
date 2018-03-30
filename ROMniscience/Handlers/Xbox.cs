@@ -130,7 +130,7 @@ namespace ROMniscience.Handlers {
 			return delta.AddSeconds(date);
 		}
 
-		public static void parseXBE(ROMInfo info, InputStream s) {
+		public static void parseXBE(ROMInfo info, WrappedInputStream s) {
 			string magic = s.read(4, Encoding.ASCII);
 			if (!"XBEH".Equals(magic)) {
 				info.addInfo("Detected format", "Unknown");

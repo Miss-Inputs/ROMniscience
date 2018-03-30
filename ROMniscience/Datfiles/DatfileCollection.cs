@@ -67,7 +67,7 @@ namespace ROMniscience.Datfiles {
 			return null;
 		}
 
-		public static Tuple<int, byte[], byte[]> hash(InputStream s, long offset) {
+		public static Tuple<int, byte[], byte[]> hash(WrappedInputStream s, long offset) {
 			long originalPos = s.Position;
 			try {
 				MD5 md5 = MD5.Create();
@@ -91,7 +91,7 @@ namespace ROMniscience.Datfiles {
 			}
 		}
 
-		public XMLDatfile.IdentifyResult identify(InputStream s, long offset) {
+		public XMLDatfile.IdentifyResult identify(WrappedInputStream s, long offset) {
 			var hashes = hash(s, offset);
 			return identify(hashes.Item1, hashes.Item2, hashes.Item3);
 		}

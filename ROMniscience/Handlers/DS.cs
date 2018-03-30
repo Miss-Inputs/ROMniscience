@@ -156,7 +156,7 @@ namespace ROMniscience.Handlers {
 
 		readonly static byte[] WIFI_CONFIG_NAME = Encoding.ASCII.GetBytes("utility.bin");
 
-		public static void parseBanner(ROMInfo info, InputStream s, long bannerOffset) {
+		public static void parseBanner(ROMInfo info, WrappedInputStream s, long bannerOffset) {
 			s.Position = bannerOffset;
 			int bannerVersion = s.readShortLE();
 			info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
@@ -238,7 +238,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static void parseDSiHeader(ROMInfo info, InputStream s) {
+		public static void parseDSiHeader(ROMInfo info, WrappedInputStream s) {
 			s.Position = 0x210;
 			int usedROMSize = s.readIntLE();
 			info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
@@ -336,7 +336,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 
 			s.Position = 0xc0;
 			bool passMe = isPassMeEntryPoint(s.read(8));

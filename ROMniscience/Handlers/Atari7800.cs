@@ -59,7 +59,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public override bool shouldSkipHeader(ROMFile rom) {
-			InputStream s = rom.stream;
+			WrappedInputStream s = rom.stream;
 			long pos = s.Position;
 			try {
 				s.Position = 1;
@@ -76,7 +76,7 @@ namespace ROMniscience.Handlers {
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 
 			int headerVersion = s.read();
 			string atari7800Magic = s.read(16, Encoding.ASCII); //Should be "ATARI7800" null padded

@@ -43,7 +43,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 
 			string copyrightInfo = s.read(28, Encoding.ASCII);
 			info.addInfo("Copyright", copyrightInfo, true);

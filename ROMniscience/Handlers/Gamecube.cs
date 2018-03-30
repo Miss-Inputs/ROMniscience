@@ -52,7 +52,7 @@ namespace ROMniscience.Handlers {
 			return b[0] == 0x5d && b[1] == 0x1c && b[2] == 0x9e && b[3] == 0xa3;
 		}
 
-		public static void parseGamecubeHeader(ROMInfo info, InputStream s) {
+		public static void parseGamecubeHeader(ROMInfo info, WrappedInputStream s) {
 			string productCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Product code", productCode);
 			char gameType = productCode[0];
@@ -144,7 +144,7 @@ namespace ROMniscience.Handlers {
 			return list;
 		}
 
-		byte[] getBanner(InputStream s, IList<FSTEntry> fst) {
+		byte[] getBanner(WrappedInputStream s, IList<FSTEntry> fst) {
 			foreach (var entry in fst) {
 				if ("opening.bnr".Equals(entry.name)) {
 					s.Position = entry.fileOffset;
@@ -258,7 +258,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			parseGamecubeHeader(info, s);
 
 			s.Position = 0x400;

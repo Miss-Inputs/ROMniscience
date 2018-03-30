@@ -201,7 +201,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			InputStream f = file.stream;
+			WrappedInputStream f = file.stream;
 
 			f.Seek(-4, SeekOrigin.End);
 			string magic = f.read(4, Encoding.ASCII);
@@ -347,7 +347,7 @@ namespace ROMniscience.Handlers {
 
 		//public int 
 
-		public int calcChecksum(InputStream f) {
+		public int calcChecksum(WrappedInputStream f) {
 			int x = 0;
 			long originalPos = f.Position;
 			try {

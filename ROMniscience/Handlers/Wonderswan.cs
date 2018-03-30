@@ -112,7 +112,7 @@ namespace ROMniscience.Handlers {
 			{0x36, "Capcom"},
 		};
 
-		public static int calcChecksum(InputStream s) {
+		public static int calcChecksum(WrappedInputStream s) {
 			long pos = s.Position;
 			long len = s.Length - 2;
 			try {
@@ -128,7 +128,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void readWonderswanROM(ROMInfo info, ROMFile file) {
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			s.Seek(-10, System.IO.SeekOrigin.End);
 
 			int publisher = s.read();

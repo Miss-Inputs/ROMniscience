@@ -46,7 +46,7 @@ namespace ROMniscience.Handlers {
 			{'R', "Reduced price"},
 		};
 
-		public static void parseiNES(ROMInfo info, InputStream s) {
+		public static void parseiNES(ROMInfo info, WrappedInputStream s) {
 			s.Position = 4; //Don't need to read the header magic again
 
 			int prgSize = s.read();
@@ -112,7 +112,7 @@ namespace ROMniscience.Handlers {
 			return ((hi * 10) + lo);
 		}
 
-		public static void parseFDS(ROMInfo info, InputStream s) {
+		public static void parseFDS(ROMInfo info, WrappedInputStream s) {
 			int blockCode = s.read(); //Always 1
 			info.addInfo("Block code", blockCode, true);
 
@@ -215,7 +215,7 @@ namespace ROMniscience.Handlers {
 			//There is a CRC here as well but .fds files don't include it
 		}
 
-		byte[] getHeaderMagic (InputStream s) {
+		byte[] getHeaderMagic (WrappedInputStream s) {
 			long pos = s.Position;
 			try {
 				s.Position = 0;
@@ -225,7 +225,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		bool isRawFDS(InputStream s) {
+		bool isRawFDS(WrappedInputStream s) {
 			long pos = s.Position;
 			try {
 				s.Position = 1;
@@ -258,7 +258,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 
-			InputStream s = file.stream;
+			WrappedInputStream s = file.stream;
 			byte[] headerMagic = getHeaderMagic(s);
 
 			if (isINES(headerMagic)) {

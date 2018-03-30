@@ -505,7 +505,7 @@ namespace ROMniscience.Handlers {
 			{"DEC", 12},
 		};
 
-		public static InputStream decodeSMD(InputStream s) {
+		public static WrappedInputStream decodeSMD(WrappedInputStream s) {
 			s.Seek(512, SeekOrigin.Current);
 			//Should only need this much to read the header. If I was actually converting
 			//the ROM I'd need to use the SMD header to know how many blocks there are
@@ -535,7 +535,7 @@ namespace ROMniscience.Handlers {
 			return new WrappedInputStream(new MemoryStream(buf2));
 		}
 
-		public static bool isSMD(InputStream s) {
+		public static bool isSMD(WrappedInputStream s) {
 			long origPos = s.Position;
 			try {
 				s.Position = 8;
@@ -551,7 +551,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static int calcChecksum(InputStream s) {
+		public static int calcChecksum(WrappedInputStream s) {
 			long pos = s.Position;
 			long len = s.Length;
 			try {
@@ -567,7 +567,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
-		public static void parseMegadriveROM(ROMInfo info, InputStream s) {
+		public static void parseMegadriveROM(ROMInfo info, WrappedInputStream s) {
 			s.Position = 0x100;
 
 			string consoleName = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
