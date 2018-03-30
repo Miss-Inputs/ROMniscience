@@ -100,7 +100,7 @@ namespace ROMniscience.Handlers {
 
 				int flags3 = s.read();
 				info.addInfo("TV type", (flags3 & 1) == 1 ? "PAL" : "NTSC");
-				info.addInfo("Byte 9 reserved", flags3 & 0xfe);
+				info.addInfo("Byte 9 reserved", flags3 & 0xfe, true);
 
 				//Byte 10 isn't actually part of the specification so screw it
 				info.addInfo("Reserved", s.read(6));
