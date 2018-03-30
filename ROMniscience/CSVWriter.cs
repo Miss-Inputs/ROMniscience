@@ -66,7 +66,7 @@ namespace ROMniscience {
 			}
 			writeValue(sw, headers.Last(), true);
 
-			for(int i = 0; i < data.GetLength(0) - 1; ++i) {
+			for(int i = 0; i < data.GetLength(0); ++i) {
 				for(int j = 0; j < data.GetLength(1) - 1; ++j) {
 					writeValue(sw, data[i, j], false);
 				}
