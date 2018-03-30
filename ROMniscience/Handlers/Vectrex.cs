@@ -91,6 +91,9 @@ namespace ROMniscience.Handlers {
 					temp.Add(titleBytes[i]);
 				}
 				i += 1;
+				if(i >= titleBytes.Length) {
+					break;
+				}
 			}
 			info.addInfo("Internal name", Encoding.ASCII.GetString(temp.ToArray()).Replace("\n", Environment.NewLine));
 		}
