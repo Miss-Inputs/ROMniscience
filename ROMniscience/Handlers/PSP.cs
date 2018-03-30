@@ -200,7 +200,7 @@ namespace ROMniscience.Handlers {
 						info.addInfo("Bootable", (int)kv.Value == 1);
 						break;
 					case "CATEGORY":
-						info.addInfo("Category", (string)kv.Value, PSP_GAME_CATEGORIES);
+						info.addInfo("Type", (string)kv.Value, PSP_GAME_CATEGORIES);
 						break;
 					case "DISC_ID":
 						info.addInfo("Product code", kv.Value);
