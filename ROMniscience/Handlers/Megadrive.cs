@@ -646,9 +646,15 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Backup RAM end", backupRamEnd, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Save size", backupRamEnd - backupRamStart, ROMInfo.FormatMode.SIZE);
 
-			byte[] modemData = s.read(12);
+			string modemData = s.read(12, Encoding.ASCII).TrimEnd(' ');
 			info.addInfo("Modem data", modemData);
-			//Technically this should be an ASCII string in the format MO<company><modem no#>.<version> or spaces if modem not supported but it isn't
+			//If entirely spaces, modem not supported
+			//Should be an ASCII string in the format MO<company><modem no#>.<version>, padding with spaces as needed
+			//Not really seen often, only seen so far in:
+			//Advanced Daisenryaku: Deutsch Dengeki Sakusen Mar 7 1991 prototype: "MOSEGA05,010"
+			//Sorcer Kingdom Nov 8 1991 prototype: "MO(C)T-25"
+			//Ma Jiang Qing Ren: Ji Ma Jiang Zhi (bootleg): Quite literally "MOxxxxyy.z"
+			//Game Toshokan, MegaMind: "MOSEGA03.000"
 
 			string memo = s.read(40, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Memo", memo);
