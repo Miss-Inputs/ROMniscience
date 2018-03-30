@@ -473,7 +473,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Platform", name);
 
 			WrappedInputStream s = file.stream;
-			if (".st".Equals(file.extension)) {
+			if ("st".Equals(file.extension)) {
 				parseSufamiTurboHeader(info, s);
 				return;
 			}
