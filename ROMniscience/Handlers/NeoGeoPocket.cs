@@ -66,7 +66,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Internal name", internalName);
 
 			byte[] reserved = s.read(16);
-			info.addInfo("Reserved", reserved); //Should be 0 filled
+			info.addInfo("Reserved", reserved, true); //Should be 0 filled
 		}
 	}
 }
