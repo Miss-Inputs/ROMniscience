@@ -125,7 +125,6 @@ namespace ROMniscience.Handlers {
 			{"29", "Seta"},
 			{"2N", "Smilesoft"},
 			{"2P", "The Pokémon Company"},
-			{"30", "Viacom/Infogrames"},
 			{"35", "Hector"},
 			{"3E", "Gremlin"},
 			{"41", "Ubisoft"},
@@ -135,13 +134,14 @@ namespace ROMniscience.Handlers {
 			{"4A", "Gakken"},
 			{"4F", "Eidos"}, //The other documentation on the internets seems to think this is U.S. Gold, which I don't think is correct from ROMs I've seen use the code; the other thing is that this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
 			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
+			{"4S", "Black Pearl Software"},
 			{"4Y", "Rare"},
-			{"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and published by Capcom
+			{"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and would have been published by Capcom
 			{"50", "Absolute"},
 			{"51", "Acclaim"},
 			{"52", "Activision"},
-			{"53", "American Sammy"},
-			{"54", "Take-Two Interactive (2K Games, GameTek, Rockstar, etc)"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage
+			{"53", "Sammy (America)"}, //Sammy's USA division, which may or may not be called American Sammy
+			{"54", "Take-Two Interactive/GameTek/Rockstar/etc)"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage
 																			   //because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune
 																			   //on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets
 																			   //fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this
@@ -188,6 +188,7 @@ namespace ROMniscience.Handlers {
 			{"87", "Tsukuda Ori"},
 			{"8B", "Bullet-Proof Software"},
 			{"8C", "Vic Tokai"},
+			{"8E", "Character Soft"},
 			{"8P", "Sega"},
 			{"91", "Chunsoft"},
 			{"92", "Video System"},
@@ -269,9 +270,9 @@ namespace ROMniscience.Handlers {
 			{"RW", "RealNetworks"},
 			{"TL", "Telltale"},
 
-			//Duplicates
+			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
 			{"B0", "Acclaim (B0)"}, //Already uses 51
-			{"46", "angel"}, //Already uses CF
+			{"46", "Angel (46)"}, //Already uses CF
 			{"39", "Banpresto (39)"}, //Already uses D9
 			{"9D", "Banpresto (9D)"}, 
 			{"6E", "Elite Systems (6E)"}, //Already uses 0C; this one is used in the Power Slide SNES prototype; this may have something to do with their in-house development studio MotiveTime
@@ -302,8 +303,8 @@ namespace ROMniscience.Handlers {
 						   //unlicensed software that doesn't care to fill in the headers correctly (looking at you Pro Action Replay), or it's something like a
 						   //SNES game where I'm not detecting the header location correctly and so I'm reading the wrong data; LJN's infamous NES games
 						   //were on a system with no manufacturer code in the header, and by the time they got to the SNES and GB they were bought out by
-						   //Acclaim in 1990, and games like Spiderman and X-Men in Arcade's Revenge use Acclaim as the manufacturer 
-						   //code anyway; and there is also an 0x56 up there for LJN
+						   //Acclaim in 1990, and games like Spiderman and X-Men in Arcade's Revenge generally used Acclaim as the manufacturer 
+						   //code anyway; and there is also an 0x56 up there for LJN for some SNES games that use it instead of Aclaim
 			{"42", "Atlus (42)"}, //Only seen in Project S-11 which is by Paragon 5/Sunsoft and not Atlus (also some cheeky bugger homebrew games that want to use 42), all Atlus games so far use EB
 			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
 			{"DB", "LJN (DB)"}, //Actually might not be LJN, it is seen in Ishidou for FDS which is by Hiro
@@ -314,8 +315,8 @@ namespace ROMniscience.Handlers {
 			//the new licensee code instead (and the extended header in SNES), and also it needs to be 33 for Super Gameboy functions to work on GB
 			//Is this even valid anyway? Ocean already has 67 and probably just uses Acclaim's licensee when it got purchased 
 			{"93", "Ocean/Acclaim/Tsuburava"},
-			{"8E", "Ape"}, //Might be actually Character Soft
 			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
+			{"30", "Viacom/Infogrames"}, //Only seen in a GBC bootleg called Thunder Blast Man by Sachen. Viacom and Infogrames aren't related
 
 
 
@@ -334,7 +335,8 @@ namespace ROMniscience.Handlers {
 			//1Q: McDonalds Monogatari: Honobono Tenchou Ikusei Game (GBC) TDK Core (might be TDK's Japanese branch?)
 			//2L: Barcode Taisen Bardigun (dev Graphic Research, pub Tamsoft)
 			//36 (Cannon Fodder) Could be Codemasters (developer) or Activision (publisher)
-			//4S: SimCity 2000 (SNES) (dev Maxis pub THQ for Europe version that this is from), Shaq Fu GBC (dev Unexpected Development, pub Black Pearl Sofware) albeit SimCity 2000 SNES was published by Black Pearl in USA
+			//3B: Nightmare Busters prototype (SNES)
+			//40: Super Turrican (SNES), 
 			//5H: Warriors of Might and Magic (3DO Company)
 			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
 			//5V (Cookie & Cream demo) FromSoftware I guess?
@@ -342,15 +344,18 @@ namespace ROMniscience.Handlers {
 			//62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
 			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
+			//6M: Gottlieb Pinball Classics (Wii) 
 			//6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games) but Classified Games are already 5Z? Ehhhh??
 			//6V: The Nations: Land of Legends (dev: Neon / pub: JoWooD Entertainment)
-			//7L: Sabrina the Teenage Witch: Spooked (dev: WayForward / pub: Simon & Schuster)
 			//7G (Pocket Music GBC) Jester Interactive / Rage Software
+			//7J: Who Wants to Be a Millionaire (GBA), or at least the Australian version
+			//7L: Sabrina the Teenage Witch: Spooked (dev: WayForward / pub: Simon & Schuster)
+			//7S: Max Payne (GBA)
 			//82: Cosmo Gang the Video (SNES) (just Namco? wat although title screen says Namcot, which I guess is a brand of Namco for some reason)
 			//85: Mr. Bloopy Saves the World (SNES) (dev: Compedia and Rare)
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
 			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street), endrift also uses this for Scrum: A Game Very Vaguely About Programming
-			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)) could be just Nick Jr licensed games? But the other Dora games don't use this one; also Spark World (SNES) published by Den'Z
+			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)); both publishers are owned by Take-Two Interactive; could be wrapped up as 2K Play, also Spark World (SNES) published by Den'Z which makes absolutely no goddamned sense but everything else in the header is valid
 			//9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
 			//9N: Dark Empire (GBA) was developed by Marvelous, never published
 			//A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet; also Ninjapass flashcards
@@ -368,6 +373,7 @@ namespace ROMniscience.Handlers {
 			//FG Bomberman Selection (dev: Hudson Soft / pub: Jupiter or Hudson Soft themselves, depending on who you ask) This is tricky because Hudson Soft already has a licensee code of 0x18, and Jupiter never published anything else, maybe some kind of Korean branch of Hudson?
 			//FQ (WarioWare: Touched iQue version aka Momo Waliou Zhizao) Alpha-Unit (according to the banner)? Intelligent Systems? iQue itself or Wei Yen? But Nintendogs iQue doesn't use this
 			//G0 (Monster Finder (albeit a bad dump) aka Foto Showdown outside JP) Alpha Unit
+			//GN: Cartoon Network Punch Time Explosion (Wii) except only the PAL version, the USA one has Crave Entertainment
 			//GT (Picture Perfect Hair Salon): 505 Games
 			//H4 (Doki Doki Majo Shinpan!): SNK?
 			//HC (Jam Sessions demo) Dev: Plato / Pub: Ubisoft
@@ -396,7 +402,10 @@ namespace ROMniscience.Handlers {
 			//Game Freak themselves, but it's interesting because every other Pokemon DS distro cart has Nintendo as the maker
 			//code, and those two in particular seem to be the odd ones out as No-Intro doesn't include them...
 			//And then also to be confusing, Puyo Nexus's translation of Puyo Puyo 7 uses KX as well, but the
-			//official Puyo Puyo 7 just uses 8P/Sega
+			//official Puyo Puyo 7 just uses 8P/Sega... is KX inserted by some kind of hacking/patching tool and those two
+			//distro carts are actually hacked and that's why they're not showing up in No-Intro?
+
+
 			//Kirby's Amazing Mirror prototype has MA as the maker, but it also has
 			//MAKO as the game code (and MAKOTOSAMPLE as the internal name)
 
