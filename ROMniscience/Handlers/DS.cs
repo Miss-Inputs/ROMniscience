@@ -50,9 +50,10 @@ namespace ROMniscience.Handlers {
 		public readonly static IDictionary<int, string> REGION_CODES = new Dictionary<int, string>() {
 			//This actually matters, because if it's set to China then the DS
 			//will display a glowing "ONLY FOR iQue DS" error message, and seemingly that's all that's stopping you playing it
-			//DSi and 3DS won't care
+			//DSi and 3DS won't care (the region locking on DSi stuff works differently)
 			//Korea doesn't seem to make a difference though, in fact Pokemon White 2 (USA) has it set to that for some reason
 			{0, "Normal"},
+			{1, "DSi app"},
 			{0x40, "Korea"},
 			{0x80, "China"},
 		};
@@ -109,6 +110,26 @@ namespace ROMniscience.Handlers {
 			{2, "With Chinese title"},
 			{3, "With Chinese and Korean titles"},
 			{0x103, "With Chinese and Korean titles and DSi animated icon"},
+		};
+
+		[Flags]
+		public enum DSiRegionFlags: uint {
+			//This stuff actually is checked and is how the region locking works
+			Japan = 1 << 0,
+			USA = 1 << 1,
+			Europe = 1 << 2, //NOT Australia! Most games in either Europe or Australia use both flags, except for the DSi browser
+			Australia = 1 << 3,
+			China = 1 << 4,
+			Korea = 1 << 5,
+		}
+
+		public static readonly IDictionary<int, string> DSI_TYPES = new Dictionary<int, string>() {
+			{0, "Cartridge"},
+			{4, "DSiWare"},
+			{5, "System fun tools"}, //wat
+			{15, "Non-executable data file"},
+			{21, "System base tools"},
+			{23, "System menu"},
 		};
 
 		public static Bitmap decodeDSIcon(byte[] bitmap, byte[] palette) {
@@ -241,9 +262,20 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void parseDSiHeader(ROMInfo info, WrappedInputStream s) {
+			s.Position = 0x1b0;
+			int regionFlags = s.readIntLE();
+			//TODO: Make this look nicer, and rename it "Region code" but call the DS region code something else if it's DSi
+			//There's only 6 bits used, everything else is reserved. What a good use of 5 bytes!
+			if (regionFlags == -1) {
+				//Hmm... Pokemon gen 5 games (I sure do talk about them a lot, huh? Well, they're weird. And they're good games) use 0xffffffef / -17 here, actually; explain that one nerd (bit 27 I guess? But then what the heck)
+				info.addInfo("DSi region code", "Region free");
+			} else {
+				info.addInfo("DSi region code", Enum.ToObject(typeof(DSiRegionFlags), regionFlags).ToString());
+			}
+
 			s.Position = 0x210;
 			int usedROMSize = s.readIntLE();
-			info.addInfo("Used ROM size including DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
+			info.addInfo("Used ROM size", usedROMSize, ROMInfo.FormatMode.SIZE);
 
 			info.addInfo("DSi reserved", s.read(4), true);
 			info.addInfo("DSi reserved 2", s.read(4), true);
@@ -261,8 +293,8 @@ namespace ROMniscience.Handlers {
 			string emagCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Game code backwards", emagCode, true);
 			int dsiType = s.read();
-			info.addInfo("Filetype", dsiType, true);
-			byte[] titleIDReserved = s.read(3);
+			info.addInfo("Filetype", dsiType, DSI_TYPES);
+			byte[] titleIDReserved = s.read(3); //Usually 00 03 00 for some reason
 			info.addInfo("DSi title ID reserved", titleIDReserved, true);
 
 			int publicSaveSize = s.readIntLE();
@@ -442,8 +474,7 @@ namespace ROMniscience.Handlers {
 			byte[] secureAreaDisable = s.read(8); //Usually 0 filled
 			info.addInfo("Secure area disable", secureAreaDisable, true);
 
-			int usedROMSize = s.readIntLE(); //Excludes DSi area
-			info.addInfo("Used ROM size", usedROMSize, ROMInfo.FormatMode.SIZE);
+			int usedROMSize = s.readIntLE(); //Excludes DSi area, so we add the info item later to determine the meaning
 			int romHeaderSize = s.readIntLE();
 			info.addInfo("Header size", romHeaderSize, ROMInfo.FormatMode.SIZE);
 
@@ -470,7 +501,10 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Reserved 5", reserved5, true);
 
 			if (unitCode >= 2) {
+				info.addInfo("Used ROM size excluding DSi area", usedROMSize, ROMInfo.FormatMode.SIZE);
 				parseDSiHeader(info, s);
+			} else {
+				info.addInfo("Used ROM size", usedROMSize, ROMInfo.FormatMode.SIZE);
 			}
 
 			info.addInfo("Homebrew?", arm9Offset < 0x4000);
