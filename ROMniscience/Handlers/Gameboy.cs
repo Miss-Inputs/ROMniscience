@@ -161,7 +161,7 @@ namespace ROMniscience.Handlers {
 			{"CAMR", "Pocket Camera / Gameboy Camera"},
 
 			{"HUC1", "Hudson HuC1"},
-			{"HUC3", "Hudson HuC1"},
+			{"HUC3", "Hudson HuC3"},
 			{"TAM5", "Bandai TAMA5"},
 
 			{"BBD", "BBD"},
