@@ -130,7 +130,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		static readonly IDictionary<int, string> CGB_FLAGS = new Dictionary<int, string>() {
-			{0, "Normal"},
+			{0, false.ToString()},
 			{0x80, "GBC enhanced"},
 			{0xc0, "GBC only"},
 			//Some GB docs also mention 0x42 and 0x44 but they're unused
