@@ -498,6 +498,7 @@ namespace ROMniscience.Handlers {
 			{"MAY", 5},
 			{"JUN", 6},
 			{"JUL", 7},
+			{"JLY", 7},
 			{"AUG", 8},
 			{"08", 8},
 			{"SEP", 9},
@@ -597,7 +598,7 @@ namespace ROMniscience.Handlers {
 				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), MANUFACTURERS);
 				info.addInfo("Year", matches.Groups[2].Value);
-				if(MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value, out int month)) {
+				if(MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value?.ToUpper(), out int month)) {
 					info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
 				} else {
 					info.addInfo("Month", String.Format("Unknown ({0})", matches.Groups[3].Value));
