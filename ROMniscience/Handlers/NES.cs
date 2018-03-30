@@ -55,7 +55,7 @@ namespace ROMniscience.Handlers {
 
 			int flags = s.read();
 			string mirroring = (flags & 1) == 1 ? "Vertical" : "Horizontal";
-			info.addInfo("Contains battery", (flags & 2) == 2);
+			info.addInfo("Has battery", (flags & 2) == 2);
 			info.addInfo("Contains trainer", (flags & 4) == 4);
 			bool ignoreMirroring = (flags & 8) == 8;
 			if(ignoreMirroring) {
