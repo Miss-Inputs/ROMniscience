@@ -44,8 +44,9 @@ namespace ROMniscience.Handlers {
 		public override string name => "Nintendo 64";
 
 		readonly static IDictionary<char, string> N64_REGIONS = new Dictionary<char, string> {
+			//This could plausibly use the same country codes as everything else... or could it?
 			{'\0', "Homebrew"},
-			{'A', "Asia"},
+			{'A', "Asia"}, //Or is it worldwide?
 			{'B', "Brazil"},
 			{'C', "China"},
 			{'D', "Germany"},
@@ -63,7 +64,7 @@ namespace ROMniscience.Handlers {
 			{'U', "Australia"},
 			{'W', "Scandanavia"},
 			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"},
+			{'Y', "Europe (Y)"}, //Is this valid?
 		};
 
 		readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {

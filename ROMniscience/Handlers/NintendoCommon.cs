@@ -32,7 +32,8 @@ namespace ROMniscience.Handlers {
 	class NintendoCommon {
 
 		public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
-			//Used by GBC, GBA, and GameCube; DS might have a few differences (still unsure about A)
+			//Used by GBC, GBA, Gamecube/Wii, Pokemon Mini, SNES (with product codes, not the other one in the ROM header), Virtual Boy, and WiiWare
+			//N64 and DS use the same XYYZ product code format where Z is region, but they seem to have their own set of region codes
 			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
 			{'B', "Brazil"},
 			{'C', "China"},
@@ -47,10 +48,22 @@ namespace ROMniscience.Handlers {
 			{'P', "Europe"},
 			{'R', "Russia"},
 			{'S', "Spain"},
-			{'T', "Taiwan"},
-			{'U', "Australia"},
+			{'T', "Taiwan"}, //Hmm... not so sure about this one, what did Nintendo release in Taiwan? Only shows up in a bunch of Gamecube multiboot ROMs where the product code is TEST; on DS this is USA + Australia
+			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
 			{'W', "Sweden/Scandinavia"},
 			{'X', "Europe (X)"},
+			//I want to get to the bottom of the Purope vs Xurope mystery one day... P is more common, X is used here:
+			//Daikatana GBC (the English/French/Italian one)
+			//Banjo-Kazooie: Grunty's Revenge (the Europe multilang one, not the USA/Europe one like my cart which has -UKV)
+			//Sabrina: The Animated Series: Zapped! (English/French/German)
+			//Banjo-Pilot beta, but that doesn't really count I suppose
+
+			//On DS:
+			//Scribblenauts & Super Scribblenauts (the suffix on the cart label is -SCN for some reason, what does that even mean? Scandanavia?)
+			//Guitar Hero: On Tour and Guitar Hero: On Tour: Decades kiosk demos (not sure about the full games, but maybe not)
+			//On N64 this is used for 40 Winks (an unreleased game, but would be the European version) and HSV Adventure Racing (an Australian only release), but N64 definitely has weird region codes
+
+			//My theory is that X is non-UK Europe, and P is UK + Europe (haha Brexit is gonna confuse me)
 		};
 
 		public static IDictionary<char, string> DISC_TYPES => new Dictionary<char, string> {

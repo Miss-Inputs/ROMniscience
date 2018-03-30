@@ -74,32 +74,34 @@ namespace ROMniscience.Handlers {
 
 		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string>() {
 			//Not the same as REGION_CODES, that's involved in region locking stuff but this is just informational really
-			{'A', "Asia"},
-			{'B', "N/A"}, //Not so sure about this one
+			//I have a feeling this list is somewhat wrong and it actually is the same as GB/GBC/GBA... but it might not be and I'd need to find out
+			{'A', "Worldwide"},
+			{'B', "N/A"}, //Not so sure about this one (in GB/GBA/Gamecube it is Brazil); this only shows up in GameYob DSi and some flashcart firmware whic are both obviously not real product codes
 			{'C', "China"},
 			{'D', "Germany"},
 			{'E', "USA"},
 			{'F', "France"},
-			{'G', "N/A (G)"},
+			{'G', "N/A (G)"}, //Where does this appear?
 			{'H', "Netherlands"},
 			{'I', "Italy"},
 			{'J', "Japan"},
 			{'K', "Korea"},
-			{'L', "USA (L)"},
+			{'L', "USA (L)"}, //doubt.jpg
 			{'M', "Sweden"},
-			{'N', "Norway"},
-			{'O', "International"}, //Apparently not China?
+			{'N', "Norway"}, //Does this actually appear anywhere? In GB/GBA/Gamecube N is Canada, but maybe that is wrong
+			{'O', "International"}, //Apparently excluding China? So not _entirely_ international, but to be fair, how would you word "Everywhere except China"? Only Pokemon gen 5 uses it anyway
 			{'P', "Europe"},
 			{'Q', "Denmark"},
 			{'R', "Russia"},
 			{'S', "Spain"},
 			{'T', "USA + Australia"},
 			{'U', "Australia"},
-			{'V', "Europe + Australia"},
-			{'W', "Europe (W)"},
-			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"},
-			{'Z', "Europe (Z)"},
+			{'V', "Europe + Australia"}, //Seen in DSi games, but given this exists can we stop pretending Australia is part of Europe? We haven't been since 1901
+			{'W', "Europe (W)"}, //Could be specifically Sweden/Scandanavia as with other Nintendo systems? Not seen anywhere (well, a Ganbare Goemon demo with an invalid product code)
+			{'X', "Europe (X)"}, //See NintendoCommon for rambling
+			{'Y', "Europe (Y)"}, //Where is this used? Is it real?
+			{'Z', "Europe (Z)"}, //Only seen in Keldeo Distribution 2012 and shiny Dialga/Palkia/Giratina 2013 distro carts... hmm.... well, they are European (hey I remember the latter happening here in Australia too)
+			{'#', "Homebrew"},
 		};
 
 		public readonly static IDictionary<int, string> BANNER_VERSIONS = new Dictionary<int, string>() {

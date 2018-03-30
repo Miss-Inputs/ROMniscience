@@ -107,12 +107,12 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string> {
-			{'4', "Brazil (4) or USA"},
-			{'8', "Hong Kong"},
-			{'A', "Asia"},
-			{'B', "Brazil"},
-			{'C', "USA + Europe"},
-			{'E', "Europe"},
+			{'4', "Brazil / USA"},
+			{'8', "Hong Kong"}, //Questionable... only seen in a few European Pico games
+			{'A', "Asia"}, //Is this actually Europe, or is No-Intro wrong? A handful of European betas and 32X games use this
+			{'B', "Brazil (B)"}, //Doesn't seem to be used, all the Brazilian stuff uses 4 (which is also used by some USA games)
+			{'C', "USA + Europe"}, //Usually not used in favour of just using U and E together, but Garfield: Caught in the Act uses it
+			{'E', "Europe"}, //Some Sega Pico games have this twice for some reason, or this plus another more specific European country
 			{'F', "France"}, //But then I've heard this can also be used for region-free
 			{'G', "Germany"},
 
@@ -120,11 +120,10 @@ namespace ROMniscience.Handlers {
 			{'J', "Japan"},
 			{'S', "Spain"},
 			{'U', "USA"},
-			{'e', "Europe"},
+			{'e', "Europe (e)"},
 	
-			//Not sure about these ones, I've only seen them in 32X stuff so far
 			{'1', "Japan"},
-			{'5', "Japan + USA"},
+			{'5', "Japan + USA"}, //This one's not really seen that often because most games would just use Japan and USA together, but the odd 32X game uses this combination... but then just to be confusing, this is also used in Samsung Pico games and some Taiwanese game, and Magic School Bus which wasn't even released in Japan
 	
 			//There's a 2 in the Multi-Mega BIOS, not sure what it means, as far as I can tell
 			//that BIOS is just for Europe which it also has as a country code

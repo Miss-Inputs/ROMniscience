@@ -214,6 +214,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Allowed on media board", (allowedMedia & 512) > 0, true);
 
 				int region = s.readIntLE();
+				//TODO Make this look much nicer
 				info.addInfo("Region", Enum.ToObject(typeof(XboxRegions), region).ToString());
 
 				byte[] ratings = s.read(4);

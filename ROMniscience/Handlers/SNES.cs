@@ -107,18 +107,18 @@ namespace ROMniscience.Handlers {
 		public static readonly IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
 			{0, "Japan"},
 			{1, "USA"},
-			{2, "Europe + Oceania + Asia"},
+			{2, "Europe"}, //Also includes Oceania + Asia, for example the Australian versions of the TMNT games use this (they're different because we don't call it Teenage Mutant Hero Turtles), but anyway consistency
 			{3, "Sweden + Scandinavia"},
 			{4, "Finland"},
 			{5, "Denmark"},
 			{6, "France"},
-			{7, "Holland"},
+			{7, "Netherlands"},
 			{8, "Spain"},
-			{9, "Germany + Austria + Switzerland"},
+			{9, "Germany"}, //Also includes Austria + Switzerland (supposedly)
 			{10, "Italy"},
-			{11, "Hong Kong + China"},
+			{11, "Hong Kong + China"}, //Should this just be Hong Kong?
 			{12, "Indonesia"},
-			{13, "South Korea"},
+			{13, "Korea"},
 			{15, "Canada"},
 			{16, "Brazil"},
 			{17, "Australia"},
