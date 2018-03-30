@@ -64,14 +64,15 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Four screen VRAM", false);
 				info.addInfo("Mirroring", mirroring);
 			}
-			int mapperLow = flags & 0b11110000;
+			int mapperLow = (flags & 0b11110000) >> 4;
 
 			int flags2 = s.read();
 			info.addInfo("VS Unisystem", (flags2 & 1) == 1);
 			info.addInfo("PlayChoice-10", (flags2 & 2) == 2);
-			int mapperHigh = flags & 0b11110000;
+			int mapperHigh = flags2 & 0b11110000;
 			if((flags2 & 0x0c) == 0x0c) {
 				//This is the fun part
+				//FIXME: This basically is guaranteed to be broken but I don't have NES 2.0 stuff to test with
 				info.addInfo("Detected format", "NES 2.0");
 
 				int flags3 = s.read();
@@ -90,7 +91,7 @@ namespace ROMniscience.Handlers {
 				//TODO: Bytes 10 to 14. I can't be stuffed and I also don't have any NES 2.0 ROMs so I'm programming all of this blind basically
 			} else {
 				info.addInfo("Detected format", "iNES");
-				info.addInfo("Mapper", mapperHigh & (mapperLow >> 4));
+				info.addInfo("Mapper", mapperHigh | mapperLow);
 				info.addInfo("PRG ROM size", prgSize * 16 * 1024, ROMInfo.FormatMode.SIZE);
 				info.addInfo("CHR ROM size", chrSize * 8 * 1024, ROMInfo.FormatMode.SIZE);
 
