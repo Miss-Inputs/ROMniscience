@@ -396,10 +396,18 @@ namespace ROMniscience.Handlers {
 
 				byte[] reserved = s.read(6);
 				info.addInfo("Reserved", reserved, true);
-				int expansionFlashSize = (1 << s.read()) * 1024; //Should this be left as 0 if the raw value is 0?
+
+				int expansionFlashSize = s.read();
+				if (expansionFlashSize > 0) {
+					expansionFlashSize = (1 << s.read()) * 1024;
+				}
 				info.addInfo("Expansion Flash size", expansionFlashSize, ROMInfo.FormatMode.SIZE);
-				int expansionRAMSize = (1 << s.read()) * 1024;
+				int expansionRAMSize = s.read();
+				if (expansionRAMSize > 0) {
+					expansionRAMSize = (1 << s.read()) * 1024;
+				}
 				info.addInfo("Expansion RAM size", expansionRAMSize, ROMInfo.FormatMode.SIZE);
+
 				int specialVersion = s.readShortLE();
 				info.addInfo("Special version", specialVersion);
 			} else {
