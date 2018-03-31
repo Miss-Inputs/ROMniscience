@@ -50,24 +50,6 @@ namespace ROMniscience.Handlers {
 			return magic[0] == 0x00 && magic[1] == 0x50 && magic[2] == 0x42 && magic[3] == 0x50;
 		}
 
-		public static string readNullTerminatedString(Stream s, Encoding encoding, int maxLength = -1) {
-			//TODO: Move this into WrappedInputStream once I've finished refactoring all the IO stuff
-			List<Byte> buf = new List<byte>();
-
-			while (true) {
-				int b = s.ReadByte();
-				if(b <= 0) {
-					break;
-				}
-				buf.Add((byte)b);
-				if(maxLength > 0 && buf.Count >= maxLength) {
-					break;
-				}
-			}
-
-			return encoding.GetString(buf.ToArray());
-		}
-
 		public static Dictionary<string, object> convertParamSFO(WrappedInputStream s) {
 			var d = new Dictionary<string, object>();
 
@@ -96,7 +78,7 @@ namespace ROMniscience.Handlers {
 				long originalPos = s.Position;
 
 				s.Position = keyOffset;
-				string key = readNullTerminatedString(s, Encoding.UTF8);
+				string key = s.readNullTerminatedString(Encoding.UTF8);
 
 				s.Position = dataOffset;
 				object value = null;
@@ -105,7 +87,7 @@ namespace ROMniscience.Handlers {
 						value = s.read(dataUsedLength, Encoding.UTF8);
 						break;
 					case 0x0204: //utf8 (null terminated)
-						value = readNullTerminatedString(s, Encoding.UTF8, dataUsedLength);
+						value = s.readNullTerminatedString(Encoding.UTF8, dataUsedLength);
 						break;
 					case 0x0404: //int32
 						value = s.readIntLE();

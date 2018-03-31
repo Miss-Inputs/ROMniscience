@@ -80,6 +80,7 @@ namespace ROMniscience.IO {
 			throw new NotImplementedException();
 		}
 
+		//There's not really a reason to rename this, but it feels more consistent I guess
 		public virtual int read() => ReadByte();
 
 		public virtual byte[] read(int bytes) {
@@ -115,5 +116,24 @@ namespace ROMniscience.IO {
 		public int readShortLE() {
 			return read() | (read() << 8);
 		}
+
+
+		public string readNullTerminatedString(Encoding encoding, int maxLength = -1) {
+			List<Byte> buf = new List<byte>();
+
+			while (true) {
+				int b = read();
+				if (b <= 0) {
+					break;
+				}
+				buf.Add((byte)b);
+				if (maxLength > 0 && buf.Count >= maxLength) {
+					break;
+				}
+			}
+
+			return encoding.GetString(buf.ToArray());
+		}
+
 	}
 }

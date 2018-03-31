@@ -109,7 +109,6 @@ namespace ROMniscience.Handlers {
 		}
 
 		static String readNullTerminatedString(WrappedInputStream s) {
-			//TODO Move this to WrappedInputStream
 			StringBuilder sb = new StringBuilder();
 			while (true) {
 				int b = s.read();
