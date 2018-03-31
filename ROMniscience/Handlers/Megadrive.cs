@@ -216,24 +216,41 @@ namespace ROMniscience.Handlers {
 
 		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
 		public static void parseMegadriveROM(ROMInfo info, WrappedInputStream s) {
+
+			bool isCD = "SEGADISCSYSTEM ".Equals(s.read(15, Encoding.ASCII));
+
 			s.Position = 0x100;
 
 			string consoleName = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Console name", consoleName);
-			if(consoleName.StartsWith("SEGA 32X")) {
+
+			//Is this actually the console name filed on Sega CD games? For Mega CD it definitely says "SEGA MEGA DRIVE"
+			bool isUSA = consoleName.StartsWith("SEGA GENESIS");
+
+			if (consoleName.StartsWith("SEGA 32X")) {
 				// There are a few homebrew apps (32xfire, Shymmer) and also Doom
 				// that misuse this field and say something else, so I've used
 				// startswith instead, which should be safe, and picks up those three
 				// except for 32xfire which claims to be a Megadrive game (it has
 				// "32X GAME" as the domestic and overseas name)
 				// Some cheeky buggers just use SEGA MEGADRIVE or SEGA GENESIS anyway even when they're 32X
-				// Note that whatever the case may be, a Genesis/Megadrive game
-				// better have "SEGA" at the start of the header or a real
-				// console won't boot it, which means there is inevitably a
-				// bootleg game that doesn't have it there
+				// Note that the TMSS present in Model 2 and Mega 3 Genesis/Megadrives requires
+				// games to have something starting with "SEGA" or " SEGA" here
 				info.addInfo("Platform", "Sega 32X");
 			} else {
-				info.addInfo("Platform", "Sega Megadrive/Genesis");
+				if (isCD) {
+					if (isUSA) {
+						info.addInfo("Platform", "Sega CD");
+					} else {
+						info.addInfo("Platform", "Mega CD");
+					}
+				} else {
+					if (isUSA) {
+						info.addInfo("Platform", "Sega Genesis");
+					} else {
+						info.addInfo("Platform", "Sega Megadrive");
+					}
+				}
 			}
 
 			string copyright = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
