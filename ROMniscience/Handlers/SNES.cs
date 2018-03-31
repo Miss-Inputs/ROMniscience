@@ -332,6 +332,7 @@ namespace ROMniscience.Handlers {
 			s.Position = offset;
 
 			//Finally now I can get on with the fun stuff
+			//A lot of this was written at like 4am so ignore the random yelling, or at least that's what I think the reason for some of these old comments is
 
 			//It's not ASCII
 			string name = s.read(21, MainProgram.shiftJIS).TrimEnd('\0', ' ');
@@ -387,6 +388,7 @@ namespace ROMniscience.Handlers {
 					info.addInfo("Type", productCode[0], GAME_TYPES);
 					info.addInfo("Short title", productCode.Substring(1, 2));
 					info.addInfo("Country", productCode[3], NintendoCommon.COUNTRIES);
+					info.addInfo("Country 2", countryCode, COUNTRIES); //TODO Word this better
 				} else {
 					if(productCode[2] == ' ' && productCode[3] == ' ') {
 						info.addInfo("Short title", productCode.TrimEnd(' '));
