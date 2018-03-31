@@ -408,11 +408,15 @@ namespace ROMniscience.Handlers {
 				}
 				info.addInfo("Expansion RAM size", expansionRAMSize, ROMInfo.FormatMode.SIZE);
 
-				int specialVersion = s.readShortLE();
+				int specialVersion = s.read();
 				info.addInfo("Special version", specialVersion);
 			} else {
 				info.addInfo("Country", countryCode, COUNTRIES);
 			}
+
+			s.Position = offset - 1;
+			int chipSubtype = s.read();
+			info.addInfo("ROM sub-type", chipSubtype);
 		}
 
 		public static int calcChecksum(WrappedInputStream s) {
