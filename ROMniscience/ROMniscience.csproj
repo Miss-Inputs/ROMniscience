@@ -92,6 +92,7 @@
     <Compile Include="Handlers\N64.cs" />
     <Compile Include="Handlers\NintendoCommon.cs" />
     <Compile Include="Handlers\Pico.cs" />
+    <Compile Include="Handlers\SegaCommon.cs" />
     <Compile Include="Handlers\Stubs\3DS.cs" />
     <Compile Include="Handlers\Stubs\AdventureVision.cs" />
     <Compile Include="Handlers\Stubs\APF.cs" />
