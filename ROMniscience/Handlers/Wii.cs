@@ -36,59 +36,6 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Wii";
 
-		//Japan, USA, Reservedland, Germany, Europe, Finland, Portgual, UK, Australia, and South Korea respectively (although Finland uses normal European PEGI now as I understand it)
-		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
-			new Tuple<string, IDictionary<int, string>>("CERO", NintendoCommon.CERO_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("ESRB", NintendoCommon.ESRB_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
-			new Tuple<string, IDictionary<int, string>>("USK", NintendoCommon.USK_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("PEGI (Europe)", NintendoCommon.PEGI_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("FBFC", null),
-			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", NintendoCommon.PEGI_PORTUGAL_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("PEGI", NintendoCommon.PEGI_UK_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("AGCB", NintendoCommon.AGCB_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("GRB", NintendoCommon.GRB_RATINGS),
-		};
-		public static void parseRatings(ROMInfo info, byte[] ratings) {
-			//Seems to be kinda different than DSi ratings
-			//There seems to be something more to this; for example the USA version of
-			//Super Smash Bros. Brawl contains 45 for the ESRB rating instead of
-			//13 (it's rated Teen in the USA), which indicates that bit 5 is set to 1 and
-			//therefore does something and I don't know what; as does Bomberman Blast
-			//but therefore we'll only use bits 0-4 for now
-			//(Possibly bit 5 indicates online interactivity?)
-			//Bit 6 is set for USK in Madworld (PAL), so it possibly indicates something
-			//like "banned in this country" or "refused classification"
-
-			for (int i = 0; i < 16; ++i) {
-				int rating = ratings[i];
-				string ratingName;
-				if (i >= RATING_NAMES.Length) {
-					ratingName = "Unknown rating " + (i - RATING_NAMES.Length);
-				} else {
-					ratingName = RATING_NAMES[i].Item1 + " rating";
-				}
-
-				if ((rating & 0x40) > 0) {
-					info.addInfo(ratingName + " bit 6", rating & 0x40, true);
-				}
-				if ((rating & 0x20) > 0) {
-					info.addInfo(ratingName + " bit 5", rating & 0x20, true);
-				}
-
-				if (rating != 0x80) {
-					int ratingValue = rating & 0x1f;
-					if (i < RATING_NAMES.Length && RATING_NAMES[i].Item2 != null) {
-						info.addInfo(ratingName, ratingValue, RATING_NAMES[i].Item2);
-					} else {
-						info.addInfo(ratingName, ratingValue);
-					}
-
-				}
-			}
-
-		}
-
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			WrappedInputStream s = file.stream;
 			Gamecube.parseGamecubeHeader(info, s);
@@ -144,7 +91,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Unused region data", unused, true);
 
 			byte[] ratings = s.read(16);
-			parseRatings(info, ratings);
+			NintendoCommon.parseRatings(info, ratings, false);
 		}
 	}
 }

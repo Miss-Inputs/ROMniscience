@@ -304,69 +304,8 @@ namespace ROMniscience.Handlers {
 
 			info.addInfo("DSi reserved 4", s.read(176), true);
 
-			int ceroByte = s.read();
-			if ((ceroByte & 128) > 0) {
-				info.addInfo("Banned in Japan", (ceroByte & 64) > 0);
-				info.addInfo("CERO rating", ceroByte & 0x1f, NintendoCommon.CERO_RATINGS);
-			}
-
-			int esrbByte = s.read();
-			if ((esrbByte & 128) > 0) {
-				info.addInfo("Banned in USA", (esrbByte & 64) > 0);
-				info.addInfo("ESRB rating", esrbByte & 0x1f, NintendoCommon.ESRB_RATINGS);
-			}
-
-			int reservedRatingByte = s.read();
-			if ((reservedRatingByte & 128) > 0) {
-				//Who knows maybe it's not so reserved after all, it does seem out of place in the middle here
-				info.addInfo("Banned in <reserved>", (reservedRatingByte & 64) > 0);
-				info.addInfo("<reserved> rating", reservedRatingByte & 0x1f);
-			}
-
-			int uskByte = s.read();
-			if ((uskByte & 128) > 0) {
-				info.addInfo("Banned in Germany", (uskByte & 64) > 0);
-				info.addInfo("USK rating", uskByte & 0x1f, NintendoCommon.USK_RATINGS);
-			}
-
-			int pegiByte = s.read();
-			if ((pegiByte & 128) > 0) {
-				info.addInfo("Banned in Europe", (pegiByte & 64) > 0);
-				info.addInfo("PEGI (Europe) rating", pegiByte & 0x1f, NintendoCommon.PEGI_RATINGS);
-			}
-
-			int reservedRating2Byte = s.read();
-			if ((reservedRating2Byte & 128) > 0) {
-				info.addInfo("Banned in <reserved 2>", (reservedRating2Byte & 64) > 0);
-				info.addInfo("<reserved 2> rating", reservedRating2Byte & 0x1f);
-			}
-
-			int pegiPortugalByte = s.read();
-			if ((pegiPortugalByte & 128) > 0) {
-				info.addInfo("Banned in Portgual", (pegiPortugalByte & 64) > 0);
-				info.addInfo("PEGI (Portgual) rating", pegiPortugalByte & 0x1f, NintendoCommon.PEGI_PORTUGAL_RATINGS);
-			}
-
-			int pegiUKByte = s.read();
-			if ((pegiUKByte & 128) > 0) {
-				info.addInfo("Banned in the UK", (pegiUKByte & 64) > 0);
-				info.addInfo("PEGI rating", pegiUKByte & 0x1f, NintendoCommon.PEGI_UK_RATINGS);
-			}
-
-			int agcbByte = s.read();
-			if ((agcbByte & 128) > 0) {
-				info.addInfo("Banned in Australia", (agcbByte & 64) > 0);
-				info.addInfo("AGCB rating", agcbByte & 0x1f, NintendoCommon.AGCB_RATINGS);
-			}
-
-			int grbByte = s.read();
-			if ((grbByte & 128) > 0) {
-				info.addInfo("Banned in South Korea", (grbByte & 64) > 0);
-				info.addInfo("GRB rating", grbByte & 0x1f, NintendoCommon.GRB_RATINGS);
-			}
-			//The next 6 bytes are reserved, and then there's apparently
-			//something involving DEJUS (Brazil), GSRMR (Taiwan) and
-			//PEGI (Finland) in there*
+			byte[] ratings = s.read(16);
+			NintendoCommon.parseRatings(info, ratings, true);
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {

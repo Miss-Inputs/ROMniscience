@@ -1,7 +1,7 @@
 ﻿/*
  * The MIT License
  *
- * Copyright 2017 Megan Leet (Zowayix).
+ * Copyright 2018 Megan Leet (Zowayix).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -447,26 +447,32 @@ namespace ROMniscience.Handlers {
 
 		};
 
-
+		//Is 0 = no rating correct for any of these, given that it's not no rating for the AGCB?
 		public readonly static IDictionary<int, string> CERO_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
+			//Used in Japan
+			{0, "A"},
 			{12, "B (12)"},
 			{15, "C (15)"},
 			{17, "D (17)"},
-			{18, "Z (17)"},
+			{18, "Z (18)"},
+			//There may be also some educational/utility/otherwise not-really-game software that has a
+			//"Education/Database" rating
 		};
 
 		public readonly static IDictionary<int, string> ESRB_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
-			{3, "EC"}, //The fuck is that?
+			//Used in USA, Canada, and Mexico
+			{0, "No rating"}, //Shouldn't really exist, but it's used in Nintendo DSi Demo Video (which wasn't really sold) and Photo Channel and Wii Shop Channel (which were pre-installed)
+			{3, "Early Childhood"},
 			{6, "Everyone"},
 			{10, "E10+"},
 			{13, "Teen"},
 			{17, "Mature"},
+			//In theory there is 18 = Adults Only but I don't think any game like that would appear on these systems
 		};
 
 		public readonly static IDictionary<int, string> USK_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
+			//Used in Germany
+			{0, "No age restriction"},
 			{6, "6+"},
 			{12, "12+"},
 			{16, "16+"},
@@ -474,7 +480,8 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<int, string> PEGI_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
+			//Used in Europe, India, Pakistan, and Israel
+			{0, "No rating"}, //In theory this doesn't exist (there isn't any PEGI rating label which corresponds to all ages including 2 and under), but Art Academy and Flipnote Studio use it?
 			{3, "3+"},
 			{7, "7+"},
 			{12, "12+"},
@@ -483,7 +490,8 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<int, string> PEGI_PORTUGAL_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
+			//Portugal decided to change 3 to 4 and 7 to 6 to align with the film rating system, so they end up being their own thing
+			{ 0, "No rating"},
 			{4, "4+"},
 			{6, "6+"},
 			{12, "12+"},
@@ -492,6 +500,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<int, string> PEGI_UK_RATINGS = new Dictionary<int, string>() {
+			//No informational comment here, I'm just as confused as to what's going on as you are, or possibly more so
 			{0, "No rating"},
 			{3, "3+"},
 			{4, "4+/U"},
@@ -504,18 +513,105 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<int, string> AGCB_RATINGS = new Dictionary<int, string>() {
+			//Used in Australia
 			{0, "G"},
 			{7, "PG"},
 			{14, "M"},
-			{15, "MA"},
-			{18, "R"},
+			{15, "MA15+"},
+			{18, "R"}, //Not introduced until 2013, all the Wii games released after that are not the kind of game which would earn such a rating
+			//Not sure if there are games marked Exempt From Classification and how that would work
+			//Back in my days there was a G8+ instead of PG
 		};
 
 		public readonly static IDictionary<int, string> GRB_RATINGS = new Dictionary<int, string>() {
-			{0, "No rating"},
+			//Used in South Korea, apparently since 2006
+			{0, "A"},
 			{12, "12+"},
 			{15, "15+"},
 			{18, "18+"},
 		};
+
+		public readonly static IDictionary<int, string> FBFC_RATINGS = new Dictionary<int, string>() {
+			//Used in Finland up until 2011, and then I think they started using PEGI
+			//Definitely exists and used in Wii games, DSi might not be (GBATEK says the byte which would be used for FBFC is reserved)
+			{0, "Not rated"},
+			{3, "S"},
+			{7, "K-7"},
+			{12, "K-12"},
+			{16, "K-16"},
+			{18, "K-18" }
+		};
+
+		//There are 6 unused bytes after these so those might be other countries
+		//Finland/FBFC might not actually be used, GBATEK lists it as a reserved byte for DSi games
+		//Some other countries and their rating boards in case they turn out to be used:
+		//Brazil (ClassInd): L = General Audiences, 10+, 12+, 14+, 16+, 18+; "Especially recommended for children/teenagers" rating abandoned in 2009
+		//Iran (ERSA): +3 (but they call it al ages), +7, +12, +15, +18
+		//Taiwan (GSRR): G = 0, Protected = 6+, PG 12 = 12+, PG 15 = 15+, Restricted = 18+
+		//Finland (FBFC up to 2011): S = 0, K-7 = 7+, K-12 = 12+, K-16 = 16+, K-18 = 18+, KK = Banned; albeit they adopted PEGI since 1 January 2007 so that's weird
+		//Argentina (INCAA): ATP = 0, 13+, 16+, 18+
+		//New Zealand (OFLC, not at all like the OFLC Australia used to have): G = 0, PG = ?, M = 16+, RP13 = 13+ or with parental guidance, R13 = 13+, R15 = 15+, R16 = 16+, RP16 = 16+ or with parental guidance, R18 = 18+, RP18 (not created until April 2017) = 18+ or with parental guidance
+		//There's a thing called the IARC which is an evil alliance of all the supervillains of the game rating world, and they have 3+/7+/12+/16+/18+ ratings for countries that don't have their own ratings thing, but that didn't exist since 2013
+
+		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
+			new Tuple<string, IDictionary<int, string>>("CERO", NintendoCommon.CERO_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("ESRB", NintendoCommon.ESRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
+			new Tuple<string, IDictionary<int, string>>("USK", NintendoCommon.USK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI", NintendoCommon.PEGI_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("FBFC", FBFC_RATINGS), //Finland uses a different ratings board since 2011, but for Wii and DSi games it should be fine; I haven't seen this used anyway
+			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", NintendoCommon.PEGI_PORTUGAL_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI (UK)", NintendoCommon.PEGI_UK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("AGCB", NintendoCommon.AGCB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("GRB", NintendoCommon.GRB_RATINGS),
+		};
+
+		public static void parseRatings(ROMInfo info, byte[] ratings, bool isDSi) {
+			//Used with Wii/WiiWare and DSi, which both introduced parental controls features I guess
+			//DSi seems to use bit 7 to indicate if a rating exists for a given country differently
+
+			//Bit 5 is set for ESRB on Super Smash Bros Brawl (USA v1.01), Bomberman Blast (USA), and
+			//Mario Strikers Charged
+			//Possibly indicates online interactivity, e.g. the specific label "Online Interactions Not Rated by the ESRB" / "Game Experience May Change During Online Play"
+			
+			//Bit 6 is set for USK in Madworld (PAL), so it possibly indicates something
+			//like "banned in this country" or "refused classification"; otherwise Madworld is parsed as being all ages in Germany which is absolutely not the case
+			//It's also set on Gnubox GX, VBA GX and USBLoaderCFG channel forwarders, but those are homebrew, so it might be just invalid (they also set bit 5, and without those two
+			//bits the rating is read as 10, which isn't a rating category for USK)
+
+			for (int i = 0; i < 16; ++i) {
+				int rating = ratings[i];
+				string ratingName;
+				if (i >= RATING_NAMES.Length) {
+					ratingName = "Unknown rating " + (i - RATING_NAMES.Length);
+				} else {
+					ratingName = RATING_NAMES[i].Item1 + " rating";
+				}
+
+				if ((rating & 0x40) > 0) {
+					info.addInfo(ratingName + " bit 6", rating & 0x40);
+				}
+				if ((rating & 0x20) > 0) {
+					info.addInfo(ratingName + " bit 5", rating & 0x20);
+				}
+
+				bool ratingExists;
+				if (isDSi) {
+					ratingExists = (rating & 0x80) != 0;
+				} else {
+					ratingExists = (rating & 0x80) == 0;
+				}
+				if (ratingExists) {
+					//Actual rating is bits 0-4
+					int ratingValue = rating & 0x1f;
+					if (i < RATING_NAMES.Length && RATING_NAMES[i].Item2 != null) {
+						info.addInfo(ratingName, ratingValue, RATING_NAMES[i].Item2);
+					} else {
+						info.addInfo(ratingName, ratingValue);
+					}
+				}
+			}
+
+		}
 	}
 }
