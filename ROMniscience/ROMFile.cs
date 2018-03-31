@@ -35,6 +35,7 @@ namespace ROMniscience {
 	abstract class ROMFile : IDisposable {
 
 		public abstract WrappedInputStream getSiblingFile(string filename);
+		public abstract bool hasSiblingFile(string filename);
 
 		public abstract FileInfo path {
 			get;

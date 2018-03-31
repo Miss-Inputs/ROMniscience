@@ -35,5 +35,9 @@ namespace ROMniscience {
 			string p = Path.Combine(path.DirectoryName, filename);
 			return new WrappedInputStream(File.OpenRead(p));
 		}
+
+		public override bool hasSiblingFile(string filename) {
+			return new FileInfo(Path.Combine(path.DirectoryName, filename)).Exists;
+		}
 	}
 }

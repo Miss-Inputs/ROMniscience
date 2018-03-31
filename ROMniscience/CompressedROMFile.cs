@@ -40,5 +40,14 @@ namespace ROMniscience {
 			}
 			throw new FileNotFoundException("Archive " + archivePath.FullName + " doesn't contain this file", filename);
 		}
+
+		public override bool hasSiblingFile(string filename) {
+			foreach (var siblingEntry in entry.Archive.Entries) {
+				if (siblingEntry.Key.Equals(filename)) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 }
