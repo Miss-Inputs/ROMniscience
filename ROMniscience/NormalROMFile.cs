@@ -13,7 +13,7 @@ namespace ROMniscience {
 
 		public NormalROMFile(FileInfo f) {
 			path = f;
-			fileStream = new WrappedInputStream(File.OpenRead(f.FullName));
+			fileStream = new WrappedInputStream(f.OpenRead());
 		}
 
 		public override FileInfo path {

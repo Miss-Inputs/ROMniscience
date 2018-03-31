@@ -37,7 +37,7 @@ namespace ROMniscience {
 
 		public GCZROMFile(FileInfo path) {
 			fi = path;
-			gcz = new GCZInputStream(File.OpenRead(path.FullName));
+			gcz = new GCZInputStream(path.OpenRead());
 		}
 
 		public override bool compressed => true;
