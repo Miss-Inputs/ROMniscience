@@ -109,7 +109,7 @@ namespace ROMniscience.Handlers {
 			//"The best" as the product type and code
 		};
 
-		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string> {
+		public readonly static IDictionary<char, string> COUNTRY = new Dictionary<char, string> {
 			{'J', "Japan"},
 			{'U', "USA"},
 			{'E', "Europe"}, //Some Sega Pico games have this twice for some reason, or this plus another more specific European country
@@ -303,8 +303,8 @@ namespace ROMniscience.Handlers {
 
 			string memo = s.read(40, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Memo", memo);
-			char[] regions = s.read(3, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
-			info.addInfo("Region", regions, REGIONS);
+			char[] countries = s.read(3, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
+			info.addInfo("Country", countries, COUNTRY);
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
