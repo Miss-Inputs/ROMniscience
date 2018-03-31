@@ -31,9 +31,9 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers {
 	class NintendoCommon {
 
-		public static readonly IDictionary<char, string> REGIONS = new Dictionary<char, string> {
+		public static readonly IDictionary<char, string> COUNTRIES = new Dictionary<char, string> {
 			//Used by GBC, GBA, Gamecube/Wii, Pokemon Mini, SNES (with product codes, not the other one in the ROM header), Virtual Boy, and WiiWare
-			//N64 and DS use the same XYYZ product code format where Z is region, but they seem to have their own set of region codes
+			//N64 and DS use the same XYYZ product code format where Z is region, but they seem to have their own set of country codes
 			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
 			{'B', "Brazil"},
 			{'C', "China"},
@@ -61,7 +61,7 @@ namespace ROMniscience.Handlers {
 			//On DS:
 			//Scribblenauts & Super Scribblenauts (the suffix on the cart label is -SCN for some reason, what does that even mean? Scandanavia?)
 			//Guitar Hero: On Tour and Guitar Hero: On Tour: Decades kiosk demos (not sure about the full games, but maybe not)
-			//On N64 this is used for 40 Winks (an unreleased game, but would be the European version) and HSV Adventure Racing (an Australian only release), but N64 definitely has weird region codes
+			//On N64 this is used for 40 Winks (an unreleased game, but would be the European version) and HSV Adventure Racing (an Australian only release), but N64 definitely has weird country codes
 
 			//My theory is that X is non-UK Europe, and P is UK + Europe (haha Brexit is gonna confuse me)
 		};
@@ -87,11 +87,11 @@ namespace ROMniscience.Handlers {
 			{'X', "WiiWare demo or MSX Virtual Console"},
 		};
 
-		public static readonly IDictionary<int, string> DISC_REGIONS = new Dictionary<int, string>() {
+		public static readonly IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
 			{0, "NTSC-J"},
 			{1, "NTSC"},
 			{2, "PAL"},
-			{3, "Region free"}, //maybe?
+			{3, "Region free"},
 			{4, "NTSC-K"},
 		};
 

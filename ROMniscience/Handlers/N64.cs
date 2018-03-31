@@ -43,7 +43,7 @@ namespace ROMniscience.Handlers {
 		};
 		public override string name => "Nintendo 64";
 
-		readonly static IDictionary<char, string> N64_REGIONS = new Dictionary<char, string> {
+		readonly static IDictionary<char, string> COUNTRIES = new Dictionary<char, string> {
 			//This could plausibly use the same country codes as everything else... or could it?
 			{'\0', "Homebrew"},
 			{'A', "Asia"}, //Or is it worldwide?
@@ -141,8 +141,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Type", mediaType, N64_MEDIA_TYPES);
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
-			char region = gameCode[3];
-			info.addInfo("Region", region, N64_REGIONS);
+			char country = gameCode[3];
+			info.addInfo("Country", country, COUNTRIES);
 			int version = s.read();
 			info.addInfo("Version", version);
 
@@ -198,8 +198,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Type", mediaType, N64_MEDIA_TYPES);
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
-			char region = gameCode[3];
-			info.addInfo("Region", region, N64_REGIONS);
+			char country = gameCode[3];
+			info.addInfo("Country", country, COUNTRIES);
 
 			int version = s.read();
 			info.addInfo("Version", version);

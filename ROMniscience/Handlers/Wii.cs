@@ -85,7 +85,7 @@ namespace ROMniscience.Handlers {
 
 			s.Position = 0x4e000;
 			int region = s.readIntBE();
-			info.addInfo("Region code", region, NintendoCommon.DISC_REGIONS);
+			info.addInfo("Region", region, NintendoCommon.REGIONS);
 
 			byte[] unused = s.read(12);
 			info.addInfo("Unused region data", unused, true);

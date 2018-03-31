@@ -139,8 +139,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Type", gameType, GBA_GAME_TYPES);
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
-			char region = gameCode[3];
-			info.addInfo("Region", region, NintendoCommon.REGIONS);
+			char country = gameCode[3];
+			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			string makerCode = f.read(2, Encoding.ASCII);
 			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);

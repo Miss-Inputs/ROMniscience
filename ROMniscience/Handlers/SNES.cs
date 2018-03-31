@@ -104,7 +104,7 @@ namespace ROMniscience.Handlers {
 			{'Z', "Game with expansion cart"},
 		};
 
-		public static readonly IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
+		public static readonly IDictionary<int, string> COUNTRIES = new Dictionary<int, string>() {
 			{0, "Japan"},
 			{1, "USA"},
 			{2, "Europe"}, //Also includes Oceania + Asia, for example the Australian versions of the TMNT games use this (they're different because we don't call it Teenage Mutant Hero Turtles), but anyway consistency
@@ -121,7 +121,7 @@ namespace ROMniscience.Handlers {
 			{13, "Korea"},
 			{15, "Canada"},
 			{16, "Brazil"},
-			{17, "Australia"},
+			{17, "Australia"}, //Is this actually used?
 		};
 
 		private static IDictionary<int, long> generateROMSizeDict() {
@@ -386,12 +386,12 @@ namespace ROMniscience.Handlers {
 				if (isProductCodeValid(productCode)) {
 					info.addInfo("Type", productCode[0], GAME_TYPES);
 					info.addInfo("Short title", productCode.Substring(1, 2));
-					info.addInfo("Region", productCode[3], NintendoCommon.REGIONS);
+					info.addInfo("Country", productCode[3], NintendoCommon.COUNTRIES);
 				} else {
 					if(productCode[2] == ' ' && productCode[3] == ' ') {
 						info.addInfo("Short title", productCode.TrimEnd(' '));
 					}
-					info.addInfo("Region", countryCode, REGIONS);
+					info.addInfo("Country", countryCode, COUNTRIES);
 				}
 
 				byte[] reserved = s.read(6);
@@ -403,7 +403,7 @@ namespace ROMniscience.Handlers {
 				int specialVersion = s.readShortLE();
 				info.addInfo("Special version", specialVersion);
 			} else {
-				info.addInfo("Region", countryCode, REGIONS);
+				info.addInfo("Country", countryCode, COUNTRIES);
 			}
 		}
 

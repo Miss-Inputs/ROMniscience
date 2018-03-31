@@ -110,19 +110,20 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string> {
+			{'J', "Japan"},
+			{'U', "USA"},
+			{'E', "Europe"}, //Some Sega Pico games have this twice for some reason, or this plus another more specific European country
+			
 			{'4', "Brazil / USA"},
 			{'8', "Hong Kong"}, //Questionable... only seen in a few European Pico games
 			{'A', "Asia"}, //Is this actually Europe, or is No-Intro wrong? A handful of European betas and 32X games use this
 			{'B', "Brazil (B)"}, //Doesn't seem to be used, all the Brazilian stuff uses 4 (which is also used by some USA games)
 			{'C', "USA + Europe"}, //Usually not used in favour of just using U and E together, but Garfield: Caught in the Act uses it
-			{'E', "Europe"}, //Some Sega Pico games have this twice for some reason, or this plus another more specific European country
 			{'F', "France"}, //But then I've heard this can also be used for region-free
 			{'G', "Germany"},
 
 			{'I', "Italy"},
-			{'J', "Japan"},
 			{'S', "Spain"},
-			{'U', "USA"},
 			{'e', "Europe (e)"},
 	
 			{'1', "Japan"},

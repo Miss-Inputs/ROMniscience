@@ -64,8 +64,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Type", gameType, NintendoCommon.DISC_TYPES);
 			string shortTitle = productCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
-			char region = productCode[3];
-			info.addInfo("Region", region, NintendoCommon.REGIONS);
+			char country = productCode[3];
+			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			int titleFlags = s.readIntBE();
 			info.addInfo("Title flags", titleFlags, true);
@@ -78,7 +78,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Unused", unused, true);
 
 			int regionCode = s.readShortBE();
-			info.addInfo("Region code", regionCode, NintendoCommon.DISC_REGIONS);
+			info.addInfo("Region", regionCode, NintendoCommon.REGIONS);
 
 			byte[] ratings = s.read(16);
 			NintendoCommon.parseRatings(info, ratings, false);

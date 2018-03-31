@@ -305,8 +305,8 @@ namespace ROMniscience.Handlers {
 					info.addInfo("Type", gameType, GBA.GBA_GAME_TYPES);
 					string shortTitle = productCode.Substring(1, 2);
 					info.addInfo("Short title", shortTitle);
-					char region = productCode[3];
-					info.addInfo("Region", region, NintendoCommon.REGIONS);
+					char country = productCode[3];
+					info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 				}
 			}
 

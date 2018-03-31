@@ -47,7 +47,7 @@ namespace ROMniscience.Handlers {
 			{3, "Nintendo DSi"},
 		};
 
-		public readonly static IDictionary<int, string> REGION_CODES = new Dictionary<int, string>() {
+		public readonly static IDictionary<int, string> REGIONS = new Dictionary<int, string>() {
 			//This actually matters, because if it's set to China then the DS
 			//will display a glowing "ONLY FOR iQue DS" error message, and seemingly that's all that's stopping you playing it
 			//DSi and 3DS won't care (the region locking on DSi stuff works differently)
@@ -73,8 +73,8 @@ namespace ROMniscience.Handlers {
 			{'Y', "Game (Y)"},
 		};
 
-		public readonly static IDictionary<char, string> REGIONS = new Dictionary<char, string>() {
-			//Not the same as REGION_CODES, that's involved in region locking stuff but this is just informational really
+		public readonly static IDictionary<char, string> COUNTRIES = new Dictionary<char, string>() {
+			//Not the same as REGIONS, that's involved in region locking stuff but this is just informational really
 			//I have a feeling this list is somewhat wrong and it actually is the same as GB/GBC/GBA... but it might not be and I'd need to find out
 			{'A', "Worldwide"},
 			{'B', "N/A"}, //Not so sure about this one (in GB/GBA/Gamecube it is Brazil); this only shows up in GameYob DSi and some flashcart firmware whic are both obviously not real product codes
@@ -264,13 +264,12 @@ namespace ROMniscience.Handlers {
 		public static void parseDSiHeader(ROMInfo info, WrappedInputStream s) {
 			s.Position = 0x1b0;
 			int regionFlags = s.readIntLE();
-			//TODO: Make this look nicer, and rename it "Region code" but call the DS region code something else if it's DSi
 			//There's only 6 bits used, everything else is reserved. What a good use of 5 bytes!
 			if (regionFlags == -1) {
 				//Hmm... Pokemon gen 5 games (I sure do talk about them a lot, huh? Well, they're weird. And they're good games) use 0xffffffef / -17 here, actually; explain that one nerd (bit 27 I guess? But then what the heck)
-				info.addInfo("DSi region code", "Region free");
+				info.addInfo("Region", "Region free");
 			} else {
-				info.addInfo("DSi region code", Enum.ToObject(typeof(DSiRegionFlags), regionFlags).ToString());
+				info.addInfo("Region", Enum.ToObject(typeof(DSiRegionFlags), regionFlags).ToString());
 			}
 
 			s.Position = 0x210;
@@ -321,7 +320,7 @@ namespace ROMniscience.Handlers {
 			string gameCode = s.read(4, Encoding.ASCII);
 			char gameType = gameCode[0];
 			string shortTitle = gameCode.Substring(1, 2);
-			char region = gameCode[3];
+			char country = gameCode[3];
 
 			string makerCode = s.read(2, Encoding.ASCII);
 
@@ -330,7 +329,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Product code", gameCode);
 				info.addInfo("Type", gameType, GAME_TYPES);
 				info.addInfo("Short title", shortTitle);
-				info.addInfo("Region", region, REGIONS);
+				info.addInfo("Country", country, COUNTRIES);
 				info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
 			}
 
@@ -350,7 +349,12 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Reserved 2", reserved2, true);
 
 			int regionCode = s.read();
-			info.addInfo("Region code", regionCode, REGION_CODES);
+			if (unitCode >= 2) {
+				//DSi has its own region locking system, and will happily play iQue games etc
+				info.addInfo("DS region", regionCode, REGIONS);
+			} else {
+				info.addInfo("Region", regionCode, REGIONS);
+			}
 			int version = s.read();
 			info.addInfo("Version", version);
 			int autostart = s.read(); //Bit 2 skips health and safety screen when autostarting the game

@@ -92,8 +92,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Type", gameType, GAME_TYPES);
 			string shortTitle = productCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
-			char region = productCode[3];
-			info.addInfo("Region", region, NintendoCommon.REGIONS);
+			char country = productCode[3];
+			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			//All the Japanese exclusive games use some kind of JIS (maybe the Japanese versions of worldwide games do too)
 			string title = s.read(12, MainProgram.shiftJIS).TrimEnd('\0', ' ');

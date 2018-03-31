@@ -59,8 +59,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Type", gameType, NintendoCommon.DISC_TYPES);
 			string shortTitle = productCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
-			char region = productCode[3];
-			info.addInfo("Region", region, NintendoCommon.REGIONS);
+			char country = productCode[3];
+			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			string maker = s.read(2, Encoding.ASCII);
 			info.addInfo("Manufacturer", maker, NintendoCommon.LICENSEE_CODES);
@@ -292,7 +292,7 @@ namespace ROMniscience.Handlers {
 
 			s.Position = 0x458;
 			int region = s.readIntBE();
-			info.addInfo("Region code", region, NintendoCommon.DISC_REGIONS);
+			info.addInfo("Region", region, NintendoCommon.REGIONS);
 
 			s.Position = 0x2440;
 			string apploaderDate = s.read(16, Encoding.ASCII).Trim('\0');
