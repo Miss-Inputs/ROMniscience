@@ -34,6 +34,8 @@ using SharpCompress.Archives;
 namespace ROMniscience {
 	abstract class ROMFile : IDisposable {
 
+		public abstract WrappedInputStream getSiblingFile(string filename);
+
 		public abstract FileInfo path {
 			get;
 		}

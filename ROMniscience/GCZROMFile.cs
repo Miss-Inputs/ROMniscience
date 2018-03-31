@@ -56,5 +56,10 @@ namespace ROMniscience {
 		public override void Dispose() {
 			((IDisposable)gcz).Dispose();
 		}
+
+		public override WrappedInputStream getSiblingFile(string filename) {
+			string path = Path.Combine(fi.DirectoryName, filename);
+			return new WrappedInputStream(File.OpenRead(path));
+		}
 	}
 }

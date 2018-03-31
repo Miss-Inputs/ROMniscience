@@ -31,5 +31,14 @@ namespace ROMniscience {
 		public override void Dispose() {
 			((IDisposable)archiveStream).Dispose();
 		}
+
+		public override WrappedInputStream getSiblingFile(string filename) {
+			foreach(var siblingEntry in entry.Archive.Entries) {
+				if (siblingEntry.Key.Equals(filename)) {
+					return new WrappedInputStream(siblingEntry.OpenEntryStream());
+				}
+			}
+			throw new FileNotFoundException("Archive " + archivePath.FullName + " doesn't contain this file", filename);
+		}
 	}
 }
