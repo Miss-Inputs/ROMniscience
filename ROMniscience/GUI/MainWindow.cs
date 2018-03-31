@@ -249,7 +249,7 @@ namespace ROMniscience {
 				statusBar.Refresh();
 			};
 
-			scanner.archiveExceptionHappened += addArchiveException;
+			scanner.exceptionHappened += addArchiveException;
 
 			scanner.haveRow += addRow;
 
@@ -258,7 +258,7 @@ namespace ROMniscience {
 			scanner.startScan();
 		}
 
-		private void addArchiveException(object sender, ROMScanner.ArchiveExceptionEventArgs args) {
+		private void addArchiveException(object sender, ROMScanner.ExceptionEventArgs args) {
 			var row = new ROMScanner.HaveRowEventArgs();
 			ROMInfo info = new ROMInfo();
 			row.info = info;

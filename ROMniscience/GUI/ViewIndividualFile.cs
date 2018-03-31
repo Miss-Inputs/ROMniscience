@@ -112,7 +112,11 @@ namespace ROMniscience {
 		}
 
 		public static void viewFile(string path) {
-			viewFile(new FileInfo(path));
+			try {
+				viewFile(new FileInfo(path));
+			} catch (Exception ex) {
+				MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		public static void viewFile(FileInfo path) {
@@ -128,7 +132,7 @@ namespace ROMniscience {
 						}
 					}
 				} catch (Exception ex) {
-					MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o");
+					MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			} else if (IO.ArchiveHelpers.isGCZ(path.Extension)) {
 				using(GCZROMFile gcz = new GCZROMFile(path)) {

@@ -40,9 +40,9 @@ namespace ROMniscience {
 		public event EventHandler datfilesLoadEnd;
 		public event EventHandler<HaveRowEventArgs> haveRow;
 		public event EventHandler<RunningWorkersUpdatedEventArgs> runningWorkersUpdated;
-		public event EventHandler<ArchiveExceptionEventArgs> archiveExceptionHappened;
+		public event EventHandler<ExceptionEventArgs> exceptionHappened;
 
-		public class ArchiveExceptionEventArgs : EventArgs {
+		public class ExceptionEventArgs : EventArgs {
 			public Exception ex { get; set; }
 			public FileInfo path { get; set; }
 		}
@@ -63,12 +63,12 @@ namespace ROMniscience {
 			datfilesLoadEnd?.Invoke(this, EventArgs.Empty);
 		}
 
-		protected virtual void onArchiveException(Exception exception, FileInfo fi) {
-			var args = new ArchiveExceptionEventArgs {
+		protected virtual void onException(Exception exception, FileInfo fi) {
+			var args = new ExceptionEventArgs {
 				ex = exception,
 				path = fi,
 			};
-			archiveExceptionHappened?.Invoke(this, args);
+			exceptionHappened?.Invoke(this, args);
 		}
 
 		protected virtual void onHaveRow(ROMInfo info) {
@@ -102,7 +102,7 @@ namespace ROMniscience {
 					}
 				} catch (Exception ex) {
 					//HECK
-					onArchiveException(ex, f);
+					onException(ex, f);
 				}
 			} else if (IO.ArchiveHelpers.isGCZ(f.Extension)){
 				//Refactor this later if I ever support any other kind of "custom" compressed formats like this
@@ -142,7 +142,11 @@ namespace ROMniscience {
 							return;
 						}
 						foreach (FileInfo f in handler.folder.EnumerateFiles("*", SearchOption.AllDirectories)) {
-							processFile(f, handler, datfiles);
+							try {
+								processFile(f, handler, datfiles);
+							} catch (Exception ex) {
+								onException(ex, f);
+							}
 						}
 					};
 
