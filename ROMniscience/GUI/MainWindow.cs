@@ -263,8 +263,22 @@ namespace ROMniscience {
 			ROMInfo info = new ROMInfo();
 			row.info = info;
 
-			info.addInfo("Filename", args.path.Name);
-			info.addInfo("Folder", args.path.DirectoryName);
+			try {
+				info.addInfo("Filename", args.path.Name);
+			} catch (Exception ex) {
+				info.addInfo("Filename", "Exception: " + ex.ToString());
+			}
+			try {
+				info.addInfo("Folder", args.path.DirectoryName);
+			} catch (Exception ex) {
+				//Fuck you .NET these methods should not throw exceptions at all, let alone because a path dares to be longer than
+				//260 characters. No seriously fuck you, that's fucking stupid, fuck you and your stupid fucking asinine operating
+				//system and its fucking idiotic limitations. Fuck off I am not going to make all my users upgrade to Windows 10 and
+				//tweak some group policy just so they can do things. Fuck you, things clearly work with a fucking network drive that
+				//has paths that long so clearly Windows works with that shit anyway and you just fucked everything up because you're
+				//a fucking incompetent fuckload of assclowns and I hate you
+				info.addInfo("Folder", "Exception: " + ex.ToString());
+			}
 			info.addInfo("Exception", args.ex);
 
 			addRow(this, row);
