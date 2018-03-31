@@ -63,11 +63,20 @@ namespace ROMniscience {
 			"File type",
 			"Icon",
 			"Internal name",
-			"Product code",
+			"Disc number",
 			"Version",
+			"Region code",
 			"Region",
+			"Product code",
 			"Type",
-			"Manufacturer"};
+			"Short title",
+			"Manufacturer",
+			"CRC32",
+			"MD5",
+			"SHA1",
+			"Checksum valid?",
+			"Mapper",
+		};
 
 		class DoubleBufferedDataGridView: DataGridView {
 			//Microsoft why? Why'd you make me do this? Come on Microsoft you
