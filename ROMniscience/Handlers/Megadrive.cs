@@ -31,7 +31,7 @@ using ROMniscience.IO;
 using System.IO;
 
 namespace ROMniscience.Handlers {
-	class Megadrive: Handler {
+	class Megadrive : Handler {
 		//Some stuff adapted from https://www.zophar.net/fileuploads/2/10614uauyw/Genesis_ROM_Format.txt
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"gen", "Sega Genesis/Megadrive ROM"},
@@ -125,7 +125,7 @@ namespace ROMniscience.Handlers {
 			{'I', "Italy"},
 			{'S', "Spain"},
 			{'e', "Europe (e)"},
-	
+
 			{'1', "Japan"},
 			{'5', "Japan + USA"}, //This one's not really seen that often because most games would just use Japan and USA together, but the odd 32X game uses this combination... but then just to be confusing, this is also used in Samsung Pico games and some Taiwanese game, and Magic School Bus which wasn't even released in Japan
 	
@@ -168,8 +168,8 @@ namespace ROMniscience.Handlers {
 			int buf_odd = 2;
 
 			int midpoint = 8192;
-			for(int i = 0; i < block.Length; ++i) {
-				if(i <= midpoint) {
+			for (int i = 0; i < block.Length; ++i) {
+				if (i <= midpoint) {
 					buf[buf_even] = block[i];
 					buf_even += 2;
 				} else {
@@ -256,11 +256,11 @@ namespace ROMniscience.Handlers {
 			string copyright = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Copyright", copyright);
 			var matches = copyrightRegex.Match(copyright);
-			if(matches.Success) {
+			if (matches.Success) {
 				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
 				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), SegaCommon.LICENSEES);
 				info.addInfo("Year", matches.Groups[2].Value);
-				if(MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value?.ToUpper(), out int month)) {
+				if (MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value?.ToUpper(), out int month)) {
 					info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
 				} else {
 					info.addInfo("Month", String.Format("Unknown ({0})", matches.Groups[3].Value));
@@ -281,9 +281,9 @@ namespace ROMniscience.Handlers {
 			string version = s.read(2, Encoding.ASCII);
 			info.addInfo("Version", version);
 
+			ushort checksum = (ushort)s.readShortBE();
+			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			if (!isCD) {
-				ushort checksum = (ushort)s.readShortBE();
-				info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 				int calculatedChecksum = calcChecksum(s);
 				info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 				info.addInfo("Checksum valid?", checksum == calculatedChecksum);
@@ -327,7 +327,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			if(isSMD(file.stream)) {
+			if (isSMD(file.stream)) {
 				info.addInfo("Detected format", "Super Magic Drive interleaved");
 				parseMegadriveROM(info, decodeSMD(file.stream));
 			} else {
