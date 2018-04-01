@@ -84,7 +84,7 @@ namespace ROMniscience {
 
 				if (handler.shouldCalculateHash) {
 					var hashes = DatfileCollection.hash(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
-					info.addInfo("CRC32", hashes.Item1, ROMInfo.FormatMode.HEX);
+					info.addInfo("CRC32", hashes.Item1, FormatMode.HEX);
 					info.addInfo("MD5", hashes.Item2);
 					info.addInfo("SHA-1", hashes.Item3);
 

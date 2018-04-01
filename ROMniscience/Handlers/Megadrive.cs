@@ -281,11 +281,13 @@ namespace ROMniscience.Handlers {
 			string version = s.read(2, Encoding.ASCII);
 			info.addInfo("Version", version);
 
-			ushort checksum = (ushort)s.readShortBE();
-			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
-			int calculatedChecksum = calcChecksum(s);
-			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
-			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
+			if (!isCD) {
+				ushort checksum = (ushort)s.readShortBE();
+				info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
+				int calculatedChecksum = calcChecksum(s);
+				info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
+				info.addInfo("Checksum valid?", checksum == calculatedChecksum);
+			}
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
 			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
