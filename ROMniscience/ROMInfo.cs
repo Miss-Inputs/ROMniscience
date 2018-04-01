@@ -70,12 +70,12 @@ namespace ROMniscience {
 			try {
 				info.addInfo("Filename", rom.path.Name);
 				info.addInfo("Folder", rom.path.DirectoryName);
-				info.addInfo("Size", rom.length, ROMInfo.FormatMode.SIZE);
+				info.addInfo("Size", rom.length, FormatMode.SIZE);
 
 				if (rom.compressed) {
 					info.addInfo("Uncompressed filename", rom.name);
-					info.addInfo("Compressed size", rom.compressedLength, ROMInfo.FormatMode.SIZE);
-					info.addInfo("Compression ratio", 1 - ((double)rom.compressedLength / rom.length), ROMInfo.FormatMode.PERCENT);
+					info.addInfo("Compressed size", rom.compressedLength, FormatMode.SIZE);
+					info.addInfo("Compression ratio", 1 - ((double)rom.compressedLength / rom.length), FormatMode.PERCENT);
 				}
 
 				string extension = rom.extension;
@@ -89,7 +89,6 @@ namespace ROMniscience {
 					info.addInfo("SHA-1", hashes.Item3);
 
 					if (datfiles != null) {
-						//XMLDatfile.IdentifyResult result = datfiles.identify(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
 						var result = datfiles.identify(hashes.Item1, hashes.Item2, hashes.Item3);
 						info.addInfo("Datfile", result?.datfile.name);
 						info.addInfo("Datfile game name", result?.game.name);
@@ -100,7 +99,7 @@ namespace ROMniscience {
 						if (result != null) {
 							//Lowkey hate that I can't just do result? here
 							//Anyway, if there's a match, then this should just be equal to the file size anyway
-							info.addInfo("Datfile ROM size", result.rom.size, ROMInfo.FormatMode.SIZE, true);
+							info.addInfo("Datfile ROM size", result.rom.size, FormatMode.SIZE, true);
 						}
 					}
 				}
