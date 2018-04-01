@@ -85,7 +85,7 @@ namespace ROMniscience.IO {
 			} else if(origin == SeekOrigin.Current) {
 				position += offset;
 			} else if(origin == SeekOrigin.End) {
-				position = (long)uncompressedSize - Length;
+				position = (long)uncompressedSize - offset;
 			}
 			return position;
 		}
