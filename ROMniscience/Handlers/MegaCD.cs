@@ -32,6 +32,14 @@ namespace ROMniscience.Handlers  {
 	class MegaCD : CDBasedSystem {
 		public override string name => "Mega CD";
 
+		public override IDictionary<string, string> filetypeMap {
+			get {
+				var map = base.filetypeMap;
+				map.Add("md", "Mega CD BIOS");
+				return map;
+			}
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file, WrappedInputStream stream) {
 			Megadrive.parseMegadriveROM(info, stream, true);
 			//There's also a "MAIN SEGAOS" at 0x3000 followed by what appears to be some kind of title. Does that mean anything? I don't know
