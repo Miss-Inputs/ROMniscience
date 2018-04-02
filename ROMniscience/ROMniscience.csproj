@@ -95,6 +95,7 @@
     <Compile Include="Handlers\NintendoCommon.cs" />
     <Compile Include="Handlers\Pico.cs" />
     <Compile Include="Handlers\SegaCommon.cs" />
+    <Compile Include="Handlers\Stubs\3DO.cs" />
     <Compile Include="Handlers\Stubs\3DS.cs" />
     <Compile Include="Handlers\Stubs\AdventureVision.cs" />
     <Compile Include="Handlers\Stubs\APF.cs" />
@@ -104,6 +105,8 @@
     <Compile Include="Handlers\Stubs\Atari5200.cs" />
     <Compile Include="Handlers\BenesseePocketChallenge.cs" />
     <Compile Include="Handlers\Stubs\AtariST.cs" />
+    <Compile Include="Handlers\Stubs\BandaiPippin.cs" />
+    <Compile Include="Handlers\Stubs\BandaiPlaydia.cs" />
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
     <Compile Include="Handlers\Stubs\Commodore64.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="Handlers\Stubs\GP32.cs" />
     <Compile Include="Handlers\Stubs\Intellivision.cs" />
     <Compile Include="Handlers\Stubs\Jaguar.cs" />
+    <Compile Include="Handlers\Stubs\JaguarCD.cs" />
     <Compile Include="Handlers\Stubs\Leapster.cs" />
     <Compile Include="Handlers\Stubs\Loopy.cs" />
     <Compile Include="Handlers\Stubs\Lynx.cs" />
@@ -131,10 +135,13 @@
     <Compile Include="Handlers\Stubs\PCEngine.cs" />
     <Compile Include="Handlers\PokemonMini.cs" />
     <Compile Include="Handlers\PSP.cs" />
+    <Compile Include="Handlers\Stubs\Playstation.cs" />
     <Compile Include="Handlers\Stubs\PV1000.cs" />
     <Compile Include="Handlers\RCAStudio2.cs" />
+    <Compile Include="Handlers\Stubs\Saturn.cs" />
     <Compile Include="Handlers\Stubs\SG1000.cs" />
     <Compile Include="Handlers\SNES.cs" />
+    <Compile Include="Handlers\Stubs\StubCDHandler.cs" />
     <Compile Include="Handlers\Stubs\StubHandler.cs" />
     <Compile Include="Handlers\Stubs\SuperAcan.cs" />
     <Compile Include="Handlers\Stubs\SuperCasetteVision.cs" />
