@@ -73,7 +73,7 @@ namespace ROMniscience {
 			"Manufacturer",
 			"CRC32",
 			"MD5",
-			"SHA1",
+			"SHA-1",
 			"Checksum valid?",
 			"Mapper",
 		};
