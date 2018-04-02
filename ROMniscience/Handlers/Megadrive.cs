@@ -216,7 +216,11 @@ namespace ROMniscience.Handlers {
 
 		static string getPlatformFromConsoleName(string consoleName, bool isCD) {
 			if (consoleName.StartsWith("SEGA 32X")) {
-				return "Sega 32X";
+				if (isCD) {
+					return "Sega CD/Mega CD + 32X";
+				} else {
+					return "Sega 32X";
+				}
 			} else if (consoleName.Equals("SAMSUNG PICO")) {
 				return "Samsung Pico";
 			} else if (consoleName.Equals("SEGA PICO") || consoleName.Equals("SEGATOYS PICO") || consoleName.Equals("SEGA TOYS PICO")
