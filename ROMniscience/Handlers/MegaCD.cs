@@ -33,7 +33,7 @@ namespace ROMniscience.Handlers  {
 		public override string name => "Mega CD";
 
 		public override void addROMInfo(ROMInfo info, ROMFile file, WrappedInputStream stream) {
-			Megadrive.parseMegadriveROM(info, stream);
+			Megadrive.parseMegadriveROM(info, stream, true);
 			//There's also a "MAIN SEGAOS" at 0x3000 followed by what appears to be some kind of title. Does that mean anything? I don't know
 			//Some more info:
 			//https://forums.sonicretro.org/index.php?showtopic=30588

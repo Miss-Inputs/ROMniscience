@@ -214,44 +214,51 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
-		public static void parseMegadriveROM(ROMInfo info, WrappedInputStream s) {
-
-			bool isCD = "SEGADISCSYSTEM ".Equals(s.read(15, Encoding.ASCII));
-
-			s.Position = 0x100;
-
-			string consoleName = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
-			info.addInfo("Console name", consoleName);
-
-			//Is this actually the console name filed on Sega CD games? For Mega CD it definitely says "SEGA MEGA DRIVE"
-			bool isUSA = consoleName.StartsWith("SEGA GENESIS");
-
+		static string getPlatformFromConsoleName(string consoleName, bool isCD) {
 			if (consoleName.StartsWith("SEGA 32X")) {
-				// There are a few homebrew apps (32xfire, Shymmer) and also Doom
-				// that misuse this field and say something else, so I've used
-				// startswith instead, which should be safe, and picks up those three
-				// except for 32xfire which claims to be a Megadrive game (it has
-				// "32X GAME" as the domestic and overseas name)
-				// Some cheeky buggers just use SEGA MEGADRIVE or SEGA GENESIS anyway even when they're 32X
-				// Note that the TMSS present in Model 2 and Mega 3 Genesis/Megadrives requires
-				// games to have something starting with "SEGA" or " SEGA" here
-				info.addInfo("Platform", "Sega 32X");
+				return "Sega 32X";
+			} else if (consoleName.Equals("SAMSUNG PICO")) {
+				return "Samsung Pico";
+			} else if (consoleName.Equals("SEGA PICO") || consoleName.Equals("SEGATOYS PICO") || consoleName.Equals("SEGA TOYS PICO")
+				|| consoleName.Equals("IMA IKUNOJYUKU") || consoleName.Equals("IMA IKUNOUJYUKU")) {
+				//I... have zero idea what those last two are about, but they're a thing in some Sega Pico titles
+				return "Sega Pico";
 			} else {
+				bool isUSA = consoleName.StartsWith("SEGA GENESIS");
+				bool isMD = consoleName.StartsWith("SEGA MEGA DRIVE") || consoleName.StartsWith("SEGA MEGADRIVE");
 				if (isCD) {
 					if (isUSA) {
-						info.addInfo("Platform", "Sega CD");
+						return "Sega CD";
+					} else if (isMD) {
+						return "Mega CD";
 					} else {
-						info.addInfo("Platform", "Mega CD");
+						return "Sega CD/Mega CD";
 					}
 				} else {
 					if (isUSA) {
-						info.addInfo("Platform", "Sega Genesis");
+						return "Sega Genesis";
+					} else if (isMD) {
+						return "Sega Mega Drive";
 					} else {
-						info.addInfo("Platform", "Sega Megadrive");
+						return "Sega Genesis/Mega Drive";
 					}
 				}
 			}
+		}
+
+		private static readonly Regex copyrightRegex = new Regex(@"\(C\)(\S{4}.)(\d{4})\.(.{3})");
+		public static void parseMegadriveROM(ROMInfo info, WrappedInputStream s, bool isCD = false) {
+			s.Position = 0x100;
+
+			//While we're here, it should be noted that some allegedly official licensed and final don't have correct header information
+			//of any kind, and as such you will see plain garbage all across here. Even the console name, which results in them not being
+			//able to boot on real Model 2 and Model 3 hardware. Point at them and laugh.
+			//These games are: Zany Golf (rev 0) and Budokan: The Martial Spirit, among others which aren't actually licensed.
+			//Anyway, I just thought that was interesting enough to comment on. I found it fascinating. Am I just kinda weird? Oh well.
+
+			string consoleName = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
+			info.addInfo("Console name", consoleName);
+			info.addInfo("Platform", getPlatformFromConsoleName(consoleName.TrimStart(' '), isCD));
 
 			string copyright = s.read(16, Encoding.ASCII).TrimEnd('\0', ' ');
 			info.addInfo("Copyright", copyright);
