@@ -38,5 +38,9 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			Megadrive.parseMegadriveROM(info, file.stream);
 		}
+
+		public override bool shouldSeeInChooseView() {
+			return false;
+		}
 	}
 }

@@ -111,6 +111,12 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
+		public virtual bool shouldSeeInChooseView() {
+			//If false, hide this in screens where the user is asked to choose a list of handlers for a file, e.g. in
+			//the individual file view where a file with an unknown or ambiguous extension is encountered
+			return true;
+		}
+
 		public virtual bool shouldSkipHeader(ROMFile rom) {
 			return false;
 		}

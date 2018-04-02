@@ -40,5 +40,10 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			Megadrive.parseMegadriveROM(info, file.stream);
 		}
+
+		public override bool shouldSeeInChooseView() {
+			//Since it just passes over to the Megadrive handler, it'll be a bit annoying to have to choose it every time a .md file is encountered
+			return false;
+		}
 	}
 }

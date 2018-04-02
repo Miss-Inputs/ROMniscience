@@ -150,7 +150,7 @@ namespace ROMniscience {
 
 			Handler handler = null;
 			if(handlers.Count == 0) {
-				handler = chooseChoices(Handler.allHandlers.Where(h => !(h is Handlers.Stubs.StubHandler)).OrderBy(h => h.name), "name", "I don't know what this file extension means. Do you want to try and read it as something else?", "Force Handler");
+				handler = chooseChoices(Handler.allHandlers.Where(h => h.shouldSeeInChooseView()).OrderBy(h => h.name), "name", "I don't know what this file extension means. Do you want to try and read it as something else?", "Force Handler");
 			} else {
 				handler = chooseChoices(handlers.OrderBy((h) => h.name), "name", 
 					"This file extension could be a number of things. Which handler do you want to try and read this with?", "Choose Handler");

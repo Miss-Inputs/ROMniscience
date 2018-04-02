@@ -1,7 +1,7 @@
 ﻿/*
  * The MIT License
  *
- * Copyright 2017 Megan Leet (Zowayix).
+ * Copyright 2018 Megan Leet (Zowayix).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,10 @@ namespace ROMniscience.Handlers.Stubs {
 	abstract class StubHandler : Handler{
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
+		}
+
+		public override bool shouldSeeInChooseView() {
+			return false;
 		}
 	}
 }
