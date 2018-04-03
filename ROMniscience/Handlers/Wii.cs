@@ -47,7 +47,6 @@ namespace ROMniscience.Handlers {
 			int partitionIndex = 0;
 			for (int partitionGroup = 0; partitionGroup < 4; ++partitionGroup) {
 				int partitions = s.readIntBE();
-				//info.addInfo("Number of partitions", partitions);
 				totalPartitions += partitions;
 
 				int partitionInfoOffset = s.readIntBE() << 2;

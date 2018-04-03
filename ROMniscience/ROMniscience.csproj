@@ -136,6 +136,7 @@
     <Compile Include="Handlers\PokemonMini.cs" />
     <Compile Include="Handlers\PSP.cs" />
     <Compile Include="Handlers\Stubs\Playstation.cs" />
+    <Compile Include="Handlers\Stubs\PS2.cs" />
     <Compile Include="Handlers\Stubs\PV1000.cs" />
     <Compile Include="Handlers\RCAStudio2.cs" />
     <Compile Include="Handlers\Stubs\Saturn.cs" />
