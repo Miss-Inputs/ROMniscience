@@ -1,7 +1,7 @@
 ﻿/*
  * The MIT License
  *
- * Copyright 2017 Megan Leet (Zowayix).
+ * Copyright 2018 Megan Leet (Zowayix).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
