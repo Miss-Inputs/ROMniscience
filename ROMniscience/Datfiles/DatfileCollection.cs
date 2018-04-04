@@ -77,7 +77,7 @@ namespace ROMniscience.Datfiles {
 				s.Position = offset;
 
 				byte[] buf;
-				while ((buf = s.read(1024 * 1024)).Length > 0) {
+				while ((buf = s.read(1024 * 1024 * 10)).Length > 0) {
 					md5.TransformBlock(buf, 0, buf.Length, buf, 0);
 					sha1.TransformBlock(buf, 0, buf.Length, buf, 0);
 					crc32 = CRC32.crc32(buf, crc32);
