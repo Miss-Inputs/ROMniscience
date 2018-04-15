@@ -129,7 +129,6 @@ namespace ROMniscience.Datfiles {
 		}
 
 		private static byte[] parseHexBytes(string s) {
-			//TODO Why the fuck this slow
 			if(s == null) {
 				return new byte[0];
 			}
@@ -137,14 +136,40 @@ namespace ROMniscience.Datfiles {
 			if(s.Length % 2 == 1) {
 				s = '0' + s;
 			}
+			int len = s.Length;
 			char[] chars = s.ToCharArray();
 
-			byte[] b = new byte[s.Length / 2];
-			for(int i = 0; i < s.Length; i += 2) {
-				string nybble = new string(new char[] { s[i], s[i + 1] });
-				b[i / 2] = Convert.ToByte(nybble, 16);
+			byte[] b = new byte[len / 2];
+			for(int i = 0; i < len; i += 2) {
+				byte hi = parseHexChar(chars[i]);
+				byte lo = parseHexChar(chars[i + 1]);
+				b[i / 2] = (byte)((hi * 16) + lo);
 			}
 			return b;
+		}
+
+		private static byte parseHexChar(char c) {
+			//Yeah it's ugly but whatever, I'm tired and depressed and this is the simplest thing that will work so fuck you and fuck your performance issues and fuck your weird in-built conversion functions that do weird and complicated shit (so don't tell me to use Convert.ToByte)
+			//It's still called so much it becomes a hot path anyway, maybe there's nothing I can do about it
+			switch (c) {
+				case '0': return 0;
+				case '1': return 1;
+				case '2': return 2;
+				case '3': return 3;
+				case '4': return 4;
+				case '5': return 5;
+				case '6': return 6;
+				case '7': return 7;
+				case '8': return 8;
+				case '9': return 9;
+				case 'A': case 'a': return 10;
+				case 'B': case 'b': return 11;
+				case 'C': case 'c': return 12;
+				case 'D': case 'd': return 13;
+				case 'E': case 'e': return 14;
+				case 'F': case 'f': return 15;
+				default: throw new ArgumentException(c.ToString(), "c");
+			}
 		}
 
 		private static bool byteArraysEqual(byte[] b1, byte[] b2) {
