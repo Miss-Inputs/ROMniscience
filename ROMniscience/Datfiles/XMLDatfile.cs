@@ -88,7 +88,6 @@ namespace ROMniscience.Datfiles {
 						rom.size = actualSize;
 					}
 
-					//rom.crc32 = romNode.Attribute("crc")?.Value;
 					var crc32Attrib = romNode.Attribute("crc");
 					rom.crc32 = null;
 					if(crc32Attrib != null) {
@@ -130,6 +129,7 @@ namespace ROMniscience.Datfiles {
 		}
 
 		private static byte[] parseHexBytes(string s) {
+			//TODO Why the fuck this slow
 			if(s == null) {
 				return new byte[0];
 			}
@@ -137,10 +137,12 @@ namespace ROMniscience.Datfiles {
 			if(s.Length % 2 == 1) {
 				s = '0' + s;
 			}
+			char[] chars = s.ToCharArray();
 
 			byte[] b = new byte[s.Length / 2];
 			for(int i = 0; i < s.Length; i += 2) {
-				b[i / 2] = Convert.ToByte(String.Empty + s[i] + s[i + 1], 16);
+				string nybble = new string(new char[] { s[i], s[i + 1] });
+				b[i / 2] = Convert.ToByte(nybble, 16);
 			}
 			return b;
 		}
