@@ -65,6 +65,25 @@ namespace ROMniscience {
 			return getROMInfo(handler, rom, null);
 		}
 
+		static void addDatfileResults(IList<XMLDatfile.IdentifyResult> results, ROMInfo info) {
+			int i = 1;
+			foreach (var result in results) {
+				string prefix = i == 1 ? "Datfile" : String.Format("Datfile {0}", i);
+				info.addInfo(prefix, result?.datfile.name);
+				info.addInfo(prefix + " game name", result?.game.name);
+				info.addInfo(prefix + " game category", result?.game.category);
+				info.addInfo(prefix + " game description", result?.game.description, true); //Generally the same as the name
+				info.addInfo(prefix + " ROM name", result?.rom.name);
+				info.addInfo(prefix + " ROM status", result?.rom.status);
+				if (result != null) {
+					//Lowkey hate that I can't just do result? here
+					//Anyway, if there's a match, then this should just be equal to the file size anyway; if not, you know some hash collision shit occured
+					info.addInfo(prefix + " ROM size", result.rom.size, FormatMode.SIZE, true);
+				}
+				++i;
+			}
+		}
+
 		public static ROMInfo getROMInfo(Handler handler, ROMFile rom, DatfileCollection datfiles) {
 			ROMInfo info = new ROMInfo();
 			try {
@@ -89,18 +108,8 @@ namespace ROMniscience {
 					info.addInfo("SHA-1", hashes.Item3);
 
 					if (datfiles != null) {
-						var result = datfiles.identify(hashes.Item1, hashes.Item2, hashes.Item3);
-						info.addInfo("Datfile", result?.datfile.name);
-						info.addInfo("Datfile game name", result?.game.name);
-						info.addInfo("Datfile game category", result?.game.category);
-						info.addInfo("Datfile game description", result?.game.description, true); //So far I haven't seen this not be the same as the name
-						info.addInfo("Datfile ROM name", result?.rom.name);
-						info.addInfo("Datfile ROM status", result?.rom.status);
-						if (result != null) {
-							//Lowkey hate that I can't just do result? here
-							//Anyway, if there's a match, then this should just be equal to the file size anyway
-							info.addInfo("Datfile ROM size", result.rom.size, FormatMode.SIZE, true);
-						}
+						var results = datfiles.identify(hashes.Item1, hashes.Item2, hashes.Item3);
+						addDatfileResults(results, info);
 					}
 				}
 

@@ -57,14 +57,16 @@ namespace ROMniscience.Datfiles {
 			this.datfiles = datfiles;
 		}
 
-		public XMLDatfile.IdentifyResult identify(int crc32, byte[] md5, byte[] sha1) {
+		public IList<XMLDatfile.IdentifyResult> identify(int crc32, byte[] md5, byte[] sha1) {
+			var results = new List<XMLDatfile.IdentifyResult>();
 			foreach(XMLDatfile datfile in datfiles) {
-				XMLDatfile.IdentifyResult result = datfile.identify(crc32, md5, sha1);
-				if(result != null) {
-					return result;
-				}
+				//XMLDatfile.IdentifyResult result = datfile.identify(crc32, md5, sha1);
+				//if(result != null) {
+				//	return result;
+				//}
+				results.AddRange(datfile.identify(crc32, md5, sha1));
 			}
-			return null;
+			return results;
 		}
 
 		public static Tuple<int, byte[], byte[]> hash(WrappedInputStream s, long offset) {
@@ -91,7 +93,7 @@ namespace ROMniscience.Datfiles {
 			}
 		}
 
-		public XMLDatfile.IdentifyResult identify(WrappedInputStream s, long offset) {
+		public IList<XMLDatfile.IdentifyResult> identify(WrappedInputStream s, long offset) {
 			var hashes = hash(s, offset);
 			return identify(hashes.Item1, hashes.Item2, hashes.Item3);
 		}
