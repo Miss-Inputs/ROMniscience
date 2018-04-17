@@ -78,7 +78,7 @@ namespace ROMniscience.Handlers {
 			byte[] reserved = s.read(2);
 			info.addInfo("Reserved", reserved, true);
 
-			int checksum = s.readShortLE();
+			ushort checksum = (ushort)s.readShortLE();
 			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 
 			byte[] productCodeHi = s.read(2);
@@ -105,7 +105,66 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Region", regionCode, REGIONS);
 			info.addInfo("ROM size", romSize, ROM_SIZES, ROMInfo.FormatMode.SIZE);
 
-			//TODO Calculate checksum http://www.smspower.org/Development/BIOSes
+			ushort calculatedChecksum = calculateChecksum(s, romSize);
+			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
+		}
+
+		static ushort calculateChecksum(WrappedInputStream f, int romSizeCode) {
+			long origPos = f.Position;
+			long length = f.Length;
+
+			int lowStart = 0;
+			int lowEnd;
+			if(romSizeCode == 0xa) {
+				lowEnd = 0x1fef;
+			} else if (romSizeCode == 0xb) {
+				lowEnd = 0x3fef;
+			} else if (romSizeCode == 0xd) {
+				lowEnd = 0xbfef; //Does weird things on some real BIOSes, so this may end up incorrect
+			} else {
+				lowEnd = 0x7fef;
+			}
+
+			ushort c = 0;
+			
+			try {
+				f.Position = lowStart;
+				while(f.Position <= lowEnd) {
+					int b = f.read();
+					if(b == -1) {
+						//Prevent infinite loop when the ROM size byte is incorrect and larger than the actual ROM size, causing us to go past the end of the stream and hence the position never changes while we keep reading and it's still before lowEnd
+						break;
+					}
+					c = (ushort)((ushort)(c + b) & 0xffff);
+				}
+
+				if(romSizeCode == 0xe || romSizeCode == 0xf || romSizeCode == 0 || romSizeCode == 1 || romSizeCode == 2) {
+					int highStart = 0x8000;
+					int highEnd = 0xffff;
+					if(romSizeCode == 0xf) {
+						highEnd = 0x1ffff;
+					} else if(romSizeCode == 0) {
+						highEnd = 0x3ffff;
+					} else if(romSizeCode == 1) {
+						highEnd = 0x7ffff;
+					} else if(romSizeCode == 2) {
+						highEnd = 0xfffff; //Also does weird things on some real BIOSes
+					}
+
+					f.Position = highStart;
+					while (f.Position <= highEnd && f.Position <= f.Length) {
+						int b = f.read();
+						if (b == -1) {
+							break;
+						}
+						c = (ushort)((ushort)(c + b) & 0xffff);
+					}
+				}
+				return c;
+			} finally {
+				f.Position = origPos;
+			}
 		}
 
 		static String readNullTerminatedString(WrappedInputStream s) {
@@ -179,7 +238,6 @@ namespace ROMniscience.Handlers {
 					headerOffset = s.Position;
 				} else {
 					s.Position = 0x7ff0;
-					//info.addInfo("Fuck you", s.read(8, Encoding.ASCII));
 					if (s.read(8, Encoding.ASCII).Equals(magic)) {
 						headerOffset = s.Position;
 					}
