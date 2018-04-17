@@ -153,9 +153,12 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Image size", imageSize, true);
 			info.addInfo("Image header size", imageHeaderSize, true);
 
-			int datetime = s.readIntLE();
+			DateTime xbeDate = convertWindowsDate(s.readIntLE());
 			//Presumably, this is the same format as the timestamp in Windows PE executables
-			info.addInfo("XBE date", convertWindowsDate(datetime));
+			info.addInfo("XBE date", xbeDate);
+			info.addInfo("XBE year", xbeDate.Year);
+			info.addInfo("XBE month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(xbeDate.Month));
+			info.addInfo("XBE day", xbeDate.Day);
 
 			int certificateOffset = s.readIntLE() - baseAddress;
 			info.addInfo("Certificate offset", certificateOffset, ROMInfo.FormatMode.HEX, true);
@@ -185,9 +188,13 @@ namespace ROMniscience.Handlers {
 				int certificateSize = s.readIntLE();
 				info.addInfo("Certificate size", certificateSize, true);
 
-				int certDate = s.readIntLE();
-				info.addInfo("Certificate date", convertWindowsDate(certDate));
+				DateTime certDate = convertWindowsDate(s.readIntLE());
+				info.addInfo("Date", certDate);
+				info.addInfo("Year", certDate.Year);
+				info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(certDate.Month));
+				info.addInfo("Day", certDate.Day);
 				//Not sure what the difference is between this and the XBE date, but sometimes it's different, most of the time not
+				//Anyway, when it is different it's always later, so let's go with this as the definitive date
 
 				//Supposedly, this stuff is printed onto retail discs
 				int titleID = s.readShortLE();

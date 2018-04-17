@@ -158,6 +158,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Year", year); //FDS Zelda has 2011 here, so that's weird; it has 0x86 as the raw byte and maybe it means 1986 there and not Showa 86
 			info.addInfo("Month", (month != 0 && month < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month) : String.Format("Unknown ({0})", month));
 			info.addInfo("Day", day);
+			try {
+				info.addInfo("Date", new DateTime(year, month, day));
+			} catch (ArgumentOutOfRangeException) {
+				//Ignore
+			}
 
 			int countryCode = s.read();
 			info.addInfo("Country code", countryCode, true); //Supposedly; it's always 0x49
@@ -182,6 +187,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Rewritten disk year", rewrittenYear);
 			info.addInfo("Rewritten disk month", (rewrittenMonth != 0 && rewrittenMonth < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(rewrittenMonth) : String.Format("Unknown ({0})", rewrittenMonth));
 			info.addInfo("Rewritten disk day", rewrittenDay);
+			try {
+				info.addInfo("Rewritten disk date", new DateTime(rewrittenYear, rewrittenMonth, rewrittenDay));
+			} catch (ArgumentOutOfRangeException) {
+				//Ignore
+			}
 
 			int unknown7 = s.read();
 			info.addInfo("Unknown 7", unknown7, true);

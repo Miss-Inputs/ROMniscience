@@ -131,12 +131,18 @@ namespace ROMniscience.Handlers {
 			int minorVersion = s.read();
 			info.addInfo("Minor version", decodeBCD(minorVersion));
 
-			int day = s.read();
-			info.addInfo("Day", decodeBCD(day));
+			int day = decodeBCD(s.read());
+			info.addInfo("Day", day);
 			int month = decodeBCD(s.read());
 			info.addInfo("Month", (month != 0 && month < 13) ? System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month) : String.Format("Unknown ({0})", month));
-			byte[] year = s.read(2);
-			info.addInfo("Year", decodeBCD(year));
+			int year = decodeBCD(s.read(2));
+			info.addInfo("Year", year);
+
+			try {
+				info.addInfo("Date", new DateTime(year, month, day));
+			} catch (ArgumentOutOfRangeException) {
+				//Ignore
+			}
 
 			int authorNameOffset = s.readShortLE();
 			int nameOffset = s.readShortLE();
