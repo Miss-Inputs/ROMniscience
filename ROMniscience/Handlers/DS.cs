@@ -37,7 +37,7 @@ namespace ROMniscience.Handlers {
 			{"nds", "Nintendo DS ROM"},
 			{"dsi", "Nintendo DS ROM (DSi exclusive)"},
 			{"ids", "Nintendo iQue DS ROM"},
-			//TODO DSiWare (.cia?), maybe SuperCard DSTwo .plg files
+			{"plg", "Supercard DSTwo plugin"},
 		};
 		public override string name => "Nintendo DS";
 
@@ -306,8 +306,37 @@ namespace ROMniscience.Handlers {
 			byte[] ratings = s.read(16);
 			NintendoCommon.parseRatings(info, ratings, true);
 		}
+	
+		public static void addSupercardDS2PluginInfo(ROMInfo info, ROMFile file) {
+			string iconFilename = System.IO.Path.ChangeExtension(file.name, "bmp");
+			//The icon is actually pointed to in the .ini file, but it's in a native DS format (starts with fat1:/) so it won't be of any use unless running on an actual DSTwo. Luckily, the filename is always the same as the .plg but with a .bmp extension; and this is the kind of convention that nobody would dare break
+			var icon = Image.FromStream(file.getSiblingFile(iconFilename));
+			info.addInfo("Icon", icon);
+			
+			string iniFilename = System.IO.Path.ChangeExtension(file.name, "ini");
+			using(var sr = new System.IO.StreamReader(file.getSiblingFile(iniFilename))) {
+				while (!sr.EndOfStream) {
+					string line = sr.ReadLine();
+					if (line == null) {
+						break;
+					}
+
+					if (line.ToLowerInvariant().StartsWith("name=")) {
+						//Once again, not really internal. I kinda want to rename this column globally, it's already kinda wordy and a mouthful and I don't like that
+						info.addInfo("Internal name", line.Split('=')[1]);
+						break;
+					}
+
+				}
+			}
+		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			if ("plg".Equals(file.extension)) {
+				addSupercardDS2PluginInfo(info, file);
+				return;
+			}
+
 			WrappedInputStream s = file.stream;
 
 			s.Position = 0xc0;
