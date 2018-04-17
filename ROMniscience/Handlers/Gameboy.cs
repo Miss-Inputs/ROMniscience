@@ -351,16 +351,14 @@ namespace ROMniscience.Handlers {
 
 
 		}
-
-		//public int 
-
+		
 		public int calcChecksum(WrappedInputStream f) {
 			int x = 0;
 			long originalPos = f.Position;
 			try {
 				f.Position = 0x134;
 				while (f.Position <= 0x14c) {
-					x = (((x - f.read()) & 0xff) - 1) & 0xff; //TODO Shouldn't this just work with unsigned bytes
+					x = (((x - f.read()) & 0xff) - 1) & 0xff;
 				}
 			} finally {
 				f.Position = originalPos;
