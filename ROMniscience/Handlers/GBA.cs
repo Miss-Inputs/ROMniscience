@@ -282,13 +282,6 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 			byte[] reserved2 = f.read(2);
 			info.addInfo("Reserved 2", reserved2, true);
-			byte[] multibootEntryPoint = f.read(4);
-			info.addInfo("Multiboot entry point", multibootEntryPoint, true);
-			int multibootMode = f.read();
-			info.addInfo("Multiboot mode", multibootMode, GBA_MULTIBOOT_MODES);
-			int multibootSlaveID = f.read();
-			info.addInfo("Multiboot slave ID", multibootSlaveID);
-			//0xe0 contains a joybus entry point if joybus stuff is set, meh
 
 			byte[] restOfCart = f.read((int)f.Length);
 			info.addInfo("Has RTC", ByteSearch.contains(restOfCart, RTC));
