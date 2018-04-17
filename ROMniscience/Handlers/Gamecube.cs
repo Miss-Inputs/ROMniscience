@@ -25,6 +25,7 @@ using ROMniscience.IO;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,7 @@ namespace ROMniscience.Handlers {
 			{"gcm", "Nintendo GameCube disc"},
 		};
 		//TODO: I guess it couldn't hurt to do .dol, but that's not a priority
+		//TODO .tgc too
 
 		public override string name => "Nintendo GameCube";
 
@@ -296,7 +298,14 @@ namespace ROMniscience.Handlers {
 
 			s.Position = 0x2440;
 			string apploaderDate = s.read(16, Encoding.ASCII).Trim('\0');
-			info.addInfo("Apploader date", apploaderDate);
+			if (DateTime.TryParseExact(apploaderDate, "yyyy/MM/dd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTime date)) {
+				info.addInfo("Date", date);
+				info.addInfo("Year", date.Year);
+				info.addInfo("Month", DateTimeFormatInfo.CurrentInfo.GetMonthName(date.Month));
+				info.addInfo("Day", date.Day);
+			} else {
+				info.addInfo("Date", apploaderDate);
+			}
 
 			if (fstOffset > 0 && fstSize > 12 && fstSize < (128 * 1024 * 1024)) {
 				s.Position = fstOffset;

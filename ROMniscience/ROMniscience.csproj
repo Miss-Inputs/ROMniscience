@@ -151,6 +151,7 @@
     <Compile Include="Handlers\Vectrex.cs" />
     <Compile Include="Handlers\VirtualBoy.cs" />
     <Compile Include="Handlers\Stubs\VSmile.cs" />
+    <Compile Include="Handlers\WiiHomebrew.cs" />
     <Compile Include="Handlers\WiiWare.cs" />
     <Compile Include="Handlers\Wii.cs" />
     <Compile Include="Handlers\Wonderswan.cs" />
