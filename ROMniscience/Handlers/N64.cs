@@ -90,6 +90,15 @@ namespace ROMniscience.Handlers {
 			Z64, N64, V64, UNKNOWN, JAPAN_NDD, USA_NDD
 		}
 
+		//CIC chips... should this be an enum? Eh, it'll take me longer to figure out if it should be an enum and how it would work instead of just taking the easy route and making them constants
+		const uint CIC_LYLAT = 0x27fdf31; //
+		const uint CIC_6101 = 0xfb631223; //Star Fox 64 (PAL equivalent is 7102, which would be CIC_LYLAT? Or have I confused myself somewhere)
+		const uint CIC_6102 = 0x57c85244; //PAL equivalent: 7101 (standard)
+		const uint CIC_6103 = 0x497e414b; //PAL equivalent: 7103 (Banjo-Kazooie/Paper Mario)
+		const uint CIC_6105 = 0x49f60e96; //PAL equivalent: 7105 (Ocarina of Time)
+		const uint CIC_6106 = 0xd5be5580; //PAL equivalent: 7106 (F-Zero X, Yoshi's Story)
+		const uint CIC_64DD = 0x3bc19870; //Apparently it's called "5137"? I dunno
+
 		static N64ROMFormat detectFormat(byte[] header) {
 			if (header[0] == 0x80 && header[1] == 0x37 && header[2] == 0x12 && header[3] == 0x40) {
 				return N64ROMFormat.Z64;
@@ -113,8 +122,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Entry point", programCounter, ROMInfo.FormatMode.HEX, true);
 			int release = s.readIntBE();
 			info.addInfo("Release address", release, ROMInfo.FormatMode.HEX, true); //What the fuck does that even mean
-			int crc1 = s.readIntBE(); //TODO: Calculate the checksum, see http://n64dev.org/n64crc.html... this is gonna be hell
-			int crc2 = s.readIntBE();
+			uint crc1 = (uint)s.readIntBE();
+			uint crc2 = (uint)s.readIntBE();
 			info.addInfo("CRC1", crc1, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("CRC2", crc2, ROMInfo.FormatMode.HEX, true);
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
@@ -152,27 +161,27 @@ namespace ROMniscience.Handlers {
 				bootCode[i] = s.readIntBE();
 				bootCodeChecksum = (uint)(bootCodeChecksum + bootCode[i]) & 0xffffffff;
 			}
-			//Should I even add this? Ehhhh
-			info.addInfo("Boot code", bootCode, true);
+			//Not sure why I insisted on making bootCode a separate array, but I'm sure I'll remember the reason later... until then, there's no point in adding an info item which just shows up as System.Int32[]
+			//info.addInfo("Boot code", bootCode, true);
 
 			switch (bootCodeChecksum) {
-				case 0x27fdf31: //Lylat Wars
-				case 0xfb631223: //Star Fox 64 (USA), or at least rev A
+				case CIC_LYLAT:
+				case CIC_6101: //Star Fox 64 (USA), or at least rev A; for some reason Lylat Wars ends up with a different boot code checksum even though it'd be the same chip except PAL
 					info.addInfo("CIC chip", "6101/7102 (Star Fox 64)");
 					break;
-				case 0x57c85244:
+				case CIC_6102:
 					info.addInfo("CIC chip", "6102/7101 (standard, Super Mario 64 etc)");
 					break;
-				case 0x497e414b:
+				case CIC_6103:
 					info.addInfo("CIC chip", "6103/7103 (Banjo-Kazooie, Paper Mario etc)");
 					break;
-				case 0x49f60e96:
+				case CIC_6105:
 					info.addInfo("CIC chip", "6105/7105 (Ocarina of Time etc)");
 					break;
-				case 0xd5be5580:
+				case CIC_6106:
 					info.addInfo("CIC chip", "6106/7106 (F-Zero X, Yoshi's Story etc)");
 					break;
-				case 0x3bc19870:
+				case CIC_64DD:
 					info.addInfo("CIC chip", "5137 (64DD cartridge conversion)");
 					break;
 				default:
@@ -185,7 +194,79 @@ namespace ROMniscience.Handlers {
 					//Vivid Dolls ripped from the MAME romset without further modifications: F80BF620
 			}
 
-			//Might be a way to detect save type
+			Tuple<uint, uint> calculatedChecksum = calcChecksum(s, bootCodeChecksum);
+			info.addInfo("Calculated CRC1", calculatedChecksum.Item1, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Calculated CRC2", calculatedChecksum.Item2, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("CRC1 valid?", calculatedChecksum.Item1 == crc1);
+			info.addInfo("CRC2 valid?", calculatedChecksum.Item2 == crc2);
+
+			//Might be a way to detect save type (probably not)
+		}
+
+		public static Tuple<uint, uint> calcChecksum(WrappedInputStream s, uint cicType) {
+			//What the fuck
+			uint seed;
+			switch (cicType) {
+				case CIC_6106:
+					seed = 0x1fea617a;
+					break;
+				case CIC_6105:
+					seed = 0xdf26f436;
+					break;
+				case CIC_6103:
+					seed = 0xa3886759;
+					break;
+				default:
+					seed = 0xf8ca4ddc;
+					break;
+			}
+
+			uint[] t = new uint[6];
+			t[0] = t[1] = t[2] = t[3] = t[4] = t[5] = seed;
+
+			s.Position = 0x1000;
+			//What the fucking dicks
+			//Why isn't this even documented properly anywhere other than "use this tool" well how about I don't wanna use that tool
+			uint d, r;
+			for (int i = 0x1000; i < 0x101000; i += 4) {
+				d = (uint)s.readIntBE();
+				if ((t[5] + d) < t[5]) {
+					t[3]++;
+				}
+				t[5] += d;
+				t[2] ^= d;
+				r = rol(d, (int)(d & 0x1f));
+				t[4] += r;
+				if (t[1] > d) {
+					t[1] ^= r;
+				} else {
+					t[1] ^= t[5] ^ d;
+				}
+
+				if (cicType == CIC_6105) {
+					//What the arse titty balls
+					long pos = s.Position;
+					s.Position = 0x750 + (i & 0xff);
+					t[0] += (uint)s.readIntBE() ^ d;
+					s.Position = pos;
+				} else {
+					t[0] += t[4] ^ d;
+				}
+
+			}
+
+			//What the absolute fuck I'm telling my therapist about this shit
+			if (cicType == CIC_6103) {
+				return new Tuple<uint, uint>((t[5] ^ t[3]) + t[2], (t[4] ^ t[1]) + t[0]);
+			} else if (cicType == CIC_6106) {
+				return new Tuple<uint, uint>((t[5] * t[3]) + t[2], (t[4] * t[1]) + t[0]);
+			} else {
+				return new Tuple<uint, uint>(t[5] ^ t[3] ^ t[2], t[4] ^ t[1] ^ t[0]);
+			}
+		}
+
+		public static uint rol(uint x, int n) {
+			return (x << n) | (x >> (64 - n));
 		}
 
 		public static void parse64DDDiskInfo(ROMInfo info, WrappedInputStream s) {
