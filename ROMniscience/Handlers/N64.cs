@@ -124,8 +124,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Release address", release, ROMInfo.FormatMode.HEX, true); //What the fuck does that even mean
 			uint crc1 = (uint)s.readIntBE();
 			uint crc2 = (uint)s.readIntBE();
-			info.addInfo("CRC1", crc1, ROMInfo.FormatMode.HEX, true);
-			info.addInfo("CRC2", crc2, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Checksum", crc1, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Checksum 2", crc2, ROMInfo.FormatMode.HEX, true);
 			byte[] unknown = s.read(8); //Should be 0 filled, console probably doesn't read it though
 			info.addInfo("Unknown", unknown, true);
 
@@ -195,10 +195,10 @@ namespace ROMniscience.Handlers {
 			}
 
 			Tuple<uint, uint> calculatedChecksum = calcChecksum(s, bootCodeChecksum);
-			info.addInfo("Calculated CRC1", calculatedChecksum.Item1, ROMInfo.FormatMode.HEX, true);
-			info.addInfo("Calculated CRC2", calculatedChecksum.Item2, ROMInfo.FormatMode.HEX, true);
-			info.addInfo("CRC1 valid?", calculatedChecksum.Item1 == crc1);
-			info.addInfo("CRC2 valid?", calculatedChecksum.Item2 == crc2);
+			info.addInfo("Calculated checksum", calculatedChecksum.Item1, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Calculated checksum 2", calculatedChecksum.Item2, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Checksum valid?", calculatedChecksum.Item1 == crc1);
+			info.addInfo("Checksum 2 valid?", calculatedChecksum.Item2 == crc2);
 
 			//Might be a way to detect save type (probably not)
 		}
