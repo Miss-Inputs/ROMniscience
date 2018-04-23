@@ -153,7 +153,7 @@
     <Compile Include="Handlers\RCAStudio2.cs" />
     <Compile Include="Handlers\Stubs\Radio86RK.cs" />
     <Compile Include="Handlers\Stubs\SamCoupe.cs" />
-    <Compile Include="Handlers\Stubs\Saturn.cs" />
+    <Compile Include="Handlers\Saturn.cs" />
     <Compile Include="Handlers\Stubs\SG1000.cs" />
     <Compile Include="Handlers\SNES.cs" />
     <Compile Include="Handlers\Stubs\SharpMZ.cs" />
