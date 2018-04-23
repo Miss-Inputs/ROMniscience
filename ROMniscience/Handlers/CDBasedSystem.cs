@@ -36,6 +36,9 @@ namespace ROMniscience.Handlers {
 			{"iso", "2048-byte sector CD image"},
 			{"bin", "CD image file"},
 			{"img", "CD image file"},
+			//TODO: Support .chd files, which maybe we can pretend are archives of .cue and .bin tracks to maintain checksums
+			//TODO: .toc .nrg and .cdr are in MAME so they can't be _that_ proprietary, but they're low priority because they're weird. .ccd if it's documented somewhere
+			//TODO: This should be reworked from within ROMScanner. Don't do .bin files here, but instead do .cue, and if ROMScanner encounters one then add all the track files it refers to as well, regardless of their extension (detecting sector size as normal), and skip over any other file that's already been added by a .cue; also .gdi could be done there (seems it _could_ be used as a generic CD format, as MAME supports it in the CD slot for many CD-based systems)
 		};
 		
 		public abstract void addROMInfo(ROMInfo info, ROMFile file, WrappedInputStream stream);
