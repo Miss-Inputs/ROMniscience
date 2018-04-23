@@ -110,6 +110,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public readonly static IDictionary<char, string> COUNTRY = new Dictionary<char, string> {
+			//Other than the first three, all of this is weird, confusing, and possibly all just a load of bullshit! Yay.
 			{'J', "Japan"},
 			{'U', "USA"},
 			{'E', "Europe"}, //Some Sega Pico games have this twice for some reason, or this plus another more specific European country
@@ -119,7 +120,7 @@ namespace ROMniscience.Handlers {
 			{'A', "Asia"}, //Is this actually Europe, or is No-Intro wrong? A handful of European betas and 32X games use this
 			{'B', "Brazil (B)"}, //Doesn't seem to be used, all the Brazilian stuff uses 4 (which is also used by some USA games)
 			{'C', "USA + Europe"}, //Usually not used in favour of just using U and E together, but Garfield: Caught in the Act uses it
-			{'F', "France"}, //But then I've heard this can also be used for region-free
+			{'F', "France"}, //But then I've heard this can also be used for region-free.. Yeah, given this is used in Sonic 3D Blast and Vectorman, it's definitely not France
 			{'G', "Germany"},
 
 			{'I', "Italy"},
@@ -269,7 +270,11 @@ namespace ROMniscience.Handlers {
 			var matches = copyrightRegex.Match(copyright);
 			if (matches.Success) {
 				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
-				info.addInfo("Manufacturer", matches.Groups[1].Value?.Trim().TrimEnd(','), SegaCommon.LICENSEES);
+				string maker = matches.Groups[1].Value?.Trim().TrimEnd(',');
+				maker = Regex.Replace(maker, "^T-0", "T-");
+				maker = Regex.Replace(maker, "^T(?!-)", "T-");
+
+				info.addInfo("Manufacturer", maker, SegaCommon.LICENSEES);
 				info.addInfo("Year", matches.Groups[2].Value);
 				if (MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value?.ToUpper(), out int month)) {
 					info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));
