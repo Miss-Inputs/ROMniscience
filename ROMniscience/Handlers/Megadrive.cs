@@ -301,7 +301,7 @@ namespace ROMniscience.Handlers {
 			}
 
 			char[] ioSupportList = s.read(16, Encoding.ASCII).ToCharArray().Where((c) => c != ' ' && c != '\0').ToArray();
-			info.addInfo("IO support", ioSupportList, IO_SUPPORT);
+			info.addInfo("Compatible peripherals", ioSupportList, IO_SUPPORT);
 
 			int romStart = s.readIntBE();
 			info.addInfo("ROM start", romStart, ROMInfo.FormatMode.HEX, true);
