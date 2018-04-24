@@ -91,6 +91,7 @@
     <Compile Include="Handlers\Handler.cs" />
     <Compile Include="Handlers\MegaCD.cs" />
     <Compile Include="Handlers\Megadrive.cs" />
+    <Compile Include="Handlers\MicrosoftCommon.cs" />
     <Compile Include="Handlers\N64.cs" />
     <Compile Include="Handlers\NintendoCommon.cs" />
     <Compile Include="Handlers\Pico.cs" />
@@ -165,7 +166,7 @@
     <Compile Include="Handlers\Stubs\Thomson.cs" />
     <Compile Include="Handlers\Stubs\TRS80.cs" />
     <Compile Include="Handlers\Stubs\Vic20.cs" />
-    <Compile Include="Handlers\Stubs\Xbox360.cs" />
+    <Compile Include="Handlers\Xbox360.cs" />
     <Compile Include="Handlers\Stubs\ZX81.cs" />
     <Compile Include="Handlers\Stubs\ZXSpectrum.cs" />
     <Compile Include="Handlers\Vectrex.cs" />
