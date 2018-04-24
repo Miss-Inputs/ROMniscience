@@ -80,6 +80,7 @@ namespace ROMniscience.Handlers {
 			{"SE", "Sega"},
 			{"SN", "SNK"},
 			{"SS", "Simon & Schuster"},
+			{"SQ", "Square Enix"}, //It's in the LR:FFXIII demo so I guess
 			{"SU", "Success Corporation"},
 			{"SW", "Swing! Deutschland"},
 			{"TA", "Takara"},
@@ -97,6 +98,8 @@ namespace ROMniscience.Handlers {
 			{"VV", "Vivendi (VV)"}, //Citation needed
 			{"WE", "Wanadoo Edition"},
 			{"WR", "Warner Bros"}, //Citation needed,
+			{"XA", "Xbox Live Arcade"}, //I guess? All XBLA titles have this manufacturer
+			{"XH", "Xbox app"}, //Not sure how else to word this, all the non-game Xbox 360 apps have this (Facebook, Internet Exploder, etc)
 			{"XI", "XPEC Entertainment / Idea Factory"},
 			{"XK", "Xbox kiosk disc"}, //Citation needed
 			{"XL", "Xbox live demo disc"}, //Citation needed

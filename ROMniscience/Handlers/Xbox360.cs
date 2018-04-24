@@ -41,6 +41,104 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "Xbox 360";
 
+		public static readonly IDictionary<string, string> GENRES = new Dictionary<string, string>() {
+			//These are probably wrong, and are just my own research
+			{"116010000", "Action & Adventure"},
+			{"116040000", "Puzzle & Trivia"},
+			{"116070000", "Classics"},
+		};
+
+		public static readonly IDictionary<int, string> ESRB_RATINGS = new Dictionary<int, string>() {
+			//These might also be wrong
+			{2, "Everyone"},
+			{6, "Teen"},
+			{8, "Mature"},
+			//1 might be Early Childhood?
+			//E10+ was only invented later on I think but it's probably 3 4 or 5
+		};
+
+		public static readonly IDictionary<int, string> PEGI_RATINGS = new Dictionary<int, string>() {
+			{0, "3+"},
+			{4, "7+"},
+			{9, "12+"},
+			{13, "16+"},
+			{14, "18+"},
+		};
+
+		public static readonly IDictionary<int, string> PEGI_FINLAND_RATINGS = new Dictionary<int, string>() {
+			{0, "3+"},
+			{4, "7+"},
+			{8, "12+"},
+			{12, "16+"},
+			{14, "18+"},
+		};
+
+		public static readonly IDictionary<int, string> PEGI_PORTGUAL_RATINGS = new Dictionary<int, string>() {
+			{1, "3+"},
+			{3, "7+"},
+			{9, "12+"},
+			{13, "16+"},
+			{14, "18+"},
+		};
+
+		public static readonly IDictionary<int, string> PEGI_UK_RATINGS = new Dictionary<int, string>() {
+			//BBFLC but maybe not? It confuses me quite a bit
+			{0, "3+"},
+			{4, "7+"},
+			{9, "12+"},
+			{12, "16+ (12)"}, //Doom
+			{13, "16+ (13)"}, //LR: FFXIII demo and CSI: Deadly Intent (TODO figure out what's going on here)
+			{14, "18+"},
+		};
+
+		public static readonly IDictionary<int, string> CERO_RATINGS = new Dictionary<int, string>() {
+			{0, "A"},
+			{2, "B"},
+			{4, "C"},
+			//6 = D? 8 = Z?
+		};
+
+		public static readonly IDictionary<int, string> USK_RATINGS = new Dictionary<int, string>() {
+			{0, "No age restriction"},
+			{2, "6+"},
+			{4, "12+"},
+			{6, "16+"}
+			//1 = 3+? 7 = 18+?
+		};
+
+		public static readonly IDictionary<int, string> OFLC_AU_RATINGS = new Dictionary<int, string>() {
+			//Might actually be AGB, which was formed slightly after the Xbox 360 was released. The ratings themselves stayed the same though, so it shouldn't matter
+			{0, "G"},
+			{2, "PG"},
+			{4, "M"},
+			{5, "M + Online interactivity"}, //LR:FF13 demo has this, the full game is rated M and has "Gaming experience may change online" in the descriptor
+			{6, "MA15+"},
+			//8 = R18+ (although that was only really introduced after the 360's lifespan)?
+		};
+
+		public static readonly IDictionary<int, string> OFLC_NZ_RATINGS = new Dictionary<int, string>() {
+			{0, "G"},
+			{2, "PG"},
+			{4, "R13+"},
+			{6, "R18+"},
+			{16, "M"}, //But it's not restricted (just advised for 16 and over), and confusing enough that the OFLC has to have a web page attempting to explain it. Anyway, it's non-linear and this annoys me for some reason
+			//There's R15+ and R16+ in there, theoretically
+		};
+
+		public static readonly IDictionary<int, string> BRAZIL_RATINGS = new Dictionary<int, string>() {
+			//Only Doom has a rating, so this is all I can know of
+			//This really doesn't seem right at all but that's what the Marketplace website says if you view Doom's page with the country set to Brazil
+			{80, "16+"},
+		};
+
+		public static readonly IDictionary<int, string> FBP_RATINGS = new Dictionary<int, string>() {
+			{6, "A"},
+			{10, "13"},
+			{13, "16"}, //Sorta making a big assumption here. There is a 16+ rating for FBP, but this value is just seen in CSI: Deadly Intent which I can't find any actual FBP rating info on (it's been removed from the Xbox Marketplace in South Africa seemingly), just a South African website which has a box art with the PEGI UK rating on it, and it has a value of 13 in the UK and released as 16+ so this is probably about right
+			{14, "18"},
+		};
+
+
 		static bool isDiscMagic(byte[] magic) {
 			return magic[0] == 0x58 && magic[1] == 0x53 && magic[2] == 0x46 && magic[3] == 0x1a;
 		}
@@ -96,19 +194,47 @@ namespace ROMniscience.Handlers {
 					info.addInfo("Title ID", titleID); //Not entirely sure what this does... could be some kind of product code?
 					break;
 				case 0x40310:
-					//TODO: There's some more to do be done here. The ratings seem to be indexes into some kind of array or enum or something, rather than minimum ages directly. Also some of these ratings boards stopped being used in the Xbox 360's lifespan so for parental controls to keep working they would have to support both I guess, such as OFLC AU (2005) or KMRB (2006); we can possibly cross-reference ArcadeInfo.xml data to figure out what means what
-					info.addInfo("ERSB rating", data[0]);
-					info.addInfo("PEGI rating", data[1]);
-					info.addInfo("PEGI (Finland) rating", data[2]);
-					info.addInfo("PEGI (Portgual) rating", data[3]);
-					info.addInfo("PEGI (BBFC) rating", data[4]);
-					info.addInfo("CERO rating", data[5]);
-					info.addInfo("USK rating", data[6]);
-					info.addInfo("OLFC (AU) rating", data[7]);
-					info.addInfo("OLFC (NZ) rating", data[8]);
-					info.addInfo("KMRB rating", data[9]);
-					info.addInfo("Brazil rating", data[10]);
-					info.addInfo("FBP rating", data[11]); //South African ratings board
+					//Uhh so I did a little bit of guessing here
+					//The numbers clearly aren't just the age ratings, but there's some kind of table going on, so all the numbers mean different arbitrary things for different rating systems. And 255 means it's not there, that's all I can figure out, really. Otherwise the code speaks for itself? Or I mean like I hope it does, because what I really mean is that I suck at explaining it with normal words
+					//What's interesting is that 255 is the OFLC (AU) rating for Boom Boom Rocket and it's quite obviously released here because I wouldn't have it otherwise and ???
+					//I can't help but feel this can be refactored a bit more neatly, but eh, never mind that for now...
+					if (data[0] != 255) {
+						info.addInfo("ERSB rating", data[0], ESRB_RATINGS);
+					}
+					if (data[1] != 255) {
+						info.addInfo("PEGI rating", data[1], PEGI_RATINGS);
+					}
+					if (data[2] != 255) {
+						info.addInfo("PEGI (Finland) rating", data[2], PEGI_FINLAND_RATINGS);
+					}
+					if (data[3] != 255) {
+						info.addInfo("PEGI (Portgual) rating", data[3], PEGI_PORTGUAL_RATINGS);
+					}
+					if (data[4] != 255) {
+						info.addInfo("PEGI (UK) rating", data[4], PEGI_UK_RATINGS);
+					}
+					if (data[5] != 255) {
+						info.addInfo("CERO rating", data[5], CERO_RATINGS);
+					}
+					if (data[6] != 255) {
+						info.addInfo("USK rating", data[6], USK_RATINGS);
+					}
+					if (data[7] != 255) {
+						info.addInfo("OLFC (AU) rating", data[7], OFLC_AU_RATINGS); //Stopped being used in 2005, but it's really just under new management but the same thing
+					}
+					if (data[8] != 255) {
+						info.addInfo("OLFC (NZ) rating", data[8], OFLC_NZ_RATINGS);
+					}
+					if (data[9] != 255) {
+						info.addInfo("KMRB rating", data[9]); //Stopped being used in 2006, and it doesn't look like any game I know of has a Korean rating anyway
+					}
+					if (data[10] != 255) {
+						info.addInfo("Brazil rating", data[10], BRAZIL_RATINGS);
+					}
+					if (data[11] != 255) {
+						info.addInfo("FBP rating", data[11], FBP_RATINGS); //South African ratings board
+					}
+					//In theory, there can be up to 63 ratings, but do you really want me to copypaste 3 lines 52 more times just to see if there's any secret ratings that probably aren't even used? Too bad, I'm not gonna
 					break;
 				case 0x40404:
 					//Seems to be zeroed out for every .xex I have, so I dunno
@@ -128,7 +254,7 @@ namespace ROMniscience.Handlers {
 					break;
 			}
 		}
-		
+
 		private static string combinePrefix(string prefix, string s) {
 			if (String.IsNullOrEmpty(prefix)) {
 				return s;
@@ -153,14 +279,14 @@ namespace ROMniscience.Handlers {
 			//This might actually just be the same as the Title ID in the .xex, if you convert that number to a byte array with big endian, and then as usual it's 2-char manufacturer and 2-byte something else
 
 			var nameAttrib = titleInfo.Attribute("Name");
-			if(nameAttrib != null) {
+			if (nameAttrib != null) {
 				info.addInfo(combinePrefix(prefix, "Name"), nameAttrib.Value);
 			}
 
 			//Path is the name of the xex file, but we already know where that is so don't mind that (although is there an XBLA game with this ArcadeInfo.xml file and multiple .xex files, and the main one this ArcadeInfo.xml is applicable is the one referred to and not the other ones? Probably not)
 
 			var iconAttrib = titleInfo.Attribute("ImagePath");
-			if(iconAttrib != null) {
+			if (iconAttrib != null) {
 				string iconName = iconAttrib.Value;
 				if (file.hasSiblingFile(iconName)) {
 					var icon = System.Drawing.Image.FromStream(file.getSiblingFile(iconName));
@@ -171,23 +297,23 @@ namespace ROMniscience.Handlers {
 			//MaxCred = 200 but I don't know what that does. Credits? You don't have credits in Banjo-Kazooie, kid
 
 			var minPlayersAttrib = titleInfo.Attribute("MinPlayers");
-			if(minPlayersAttrib != null) {
+			if (minPlayersAttrib != null) {
 				info.addInfo(combinePrefix(prefix, "Minimum players"), int.Parse(minPlayersAttrib.Value));
 			}
 
 			var maxPlayersAttrib = titleInfo.Attribute("MaxPlayers");
-			if(maxPlayersAttrib != null) {
+			if (maxPlayersAttrib != null) {
 				info.addInfo(combinePrefix(prefix, "Maximum players"), int.Parse(maxPlayersAttrib.Value));
 			}
 
 			var scoreNameAttrib = titleInfo.Attribute("ScoreName");
-			if(scoreNameAttrib != null) {
+			if (scoreNameAttrib != null) {
 				//Used for leaderboards, for example for Banjo-Kazooie this is "Jiggies" as it compares how many jiggies you've collected compared to your friends
 				info.addInfo(combinePrefix(prefix, "Scoring name"), scoreNameAttrib.Value);
 			}
 
 			var descriptionElement = titleInfo.Element("Description");
-			if(descriptionElement != null) {
+			if (descriptionElement != null) {
 				info.addInfo(combinePrefix(prefix, "Description"), descriptionElement.Value);
 			}
 
@@ -195,14 +321,37 @@ namespace ROMniscience.Handlers {
 
 			//Leaderboard I don't quite understand, it's like <Leaderboard view="12" column="2" type="int" sort="Descending" />
 
-			int i = 0;
-			foreach(var genreElement in titleInfo.Elements("Genre")) {
-				var genreAttrib = genreElement.Attribute("genreID");
-				if(genreAttrib != null) {
-					//TODO: How are genres encoded into numbers like this?
-					//Banjo-Kazooie displays as "Platformer, Classics" in the 360 dashboard and is 116070000 for example; could be a bitfield of some kind?
-					//Also there can be multiple elements despite a single element apparently representing more than one genre (Banjo-Tooie), or even none (Blade Kitten); I'll have to remember what those show up as on the actual system
-					info.addInfo(combinePrefix(prefix, i == 0 ? "Genre ID" : "Genre ID " + i), genreAttrib.Value);
+			int i = 1;
+			foreach (var genreElement in titleInfo.Elements("Genre")) {
+				var genreAttrib = genreElement.Attribute("genreId");
+				if (genreAttrib != null) {
+					//TODO: How are genres encoded into numbers like this? They don't seem to be consistent with what shows up in Game Details on an actual console, unless I need to redump my stuff because it's been updated or something
+					//Banjo-Kazooie: 116070000 > Platformer, Classics
+					//Banjo-Tooie: 116010000, 116070000 > Action-Adventure, Classics
+					//Blade Kitten: <no value> > Action-Adventure
+					//Bliss Island: 116040000, 116090000 > <nothing>
+					//Boom Boom Rocket: 116010000 > Action-Adventure
+					//Coffeetime Crosswords: 116040000 > <nothing>
+					//Doritos Crash Course: <no value> > Platformer, Racing & Flying
+					//ilomilo: <no value> > Platformer, Puzzle & Trivia
+					//Interpol: 116090000 > Family, Puzzle & Trivia
+					//Marble Blast Ultra: <no value> > <nothing>
+					//OutRun Online Arcade: 116130000 > <nothing>
+					//Phantasy Star II: 116070000 > Classics
+					//Rez HD: 116160000 > Shooter
+					//Sam & Max Save the World: 116040000 > Classics, Puzzle & Trivia
+					//Scott Pilgrim vs. The World <no value> > <nothing>
+					//Track & Field: 116030000 > Classics
+					//Uno: <no value> > <nothing>
+					//Daytona USA demo: <no value> > Classics, Racing & Flying
+					//Deathspank demo: <no value> > Action & Adventure, Role Playing
+					//Doom (1993) demo: <no value> > Shooter, Classics
+					//Peggle demo: 116040000 > Puzzle & Trivia
+					//Peggle 2 demo: <no value> > Family, Puzzle & Trivia
+					//Sonic the Hedgehog (1991) demo: 116070000 > Classics
+					//So as you can see it's a bit messed up, there are games of the same genre internally that don't display as the same genre, or there's games that display as the same genre but aren't the same internally. Either there's been updates and if I dump them again it'll start making sense, or the Xbox 360 just goes to Xbox Live to get genre information and ignores whatever's here anyway.
+					//Having said that, there seems to be a few values which we can deduce as most likely being correct
+					info.addInfo(combinePrefix(prefix, i == 1 ? "Genre" : "Genre " + i), genreAttrib.Value, GENRES);
 				}
 				++i;
 			}
@@ -230,7 +379,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("XDK version", arcadeInfo.Attribute("xdkVersion")?.Value);
 			info.addInfo("Project version", arcadeInfo.Attribute("projectVersion")?.Value);
 
-			foreach(var titleInfo in arcadeInfo.Elements("TitleInfo")) {
+			foreach (var titleInfo in arcadeInfo.Elements("TitleInfo")) {
 				parseTitleInfo(info, file, titleInfo);
 			}
 
@@ -259,7 +408,7 @@ namespace ROMniscience.Handlers {
 				} else {
 					long pos = s.Position;
 					try {
-						
+
 						uint offset = bytesToUintBE(headerData);
 						s.Position = offset;
 
@@ -272,7 +421,7 @@ namespace ROMniscience.Handlers {
 						data = s.read((int)headerSize);
 
 						addXEXInfo(info, headerID, data);
-						
+
 					} finally {
 						s.Position = pos;
 					}
