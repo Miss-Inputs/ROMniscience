@@ -327,6 +327,7 @@ namespace ROMniscience {
 				PictureBox pic = new PictureBox() {
 					Image = image.Value
 				};
+				pic.SizeMode = PictureBoxSizeMode.AutoSize;
 				flop.Controls.Add(label);
 				flop.Controls.Add(pic);
 				flop.SetFlowBreak(pic, true);
