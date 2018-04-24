@@ -72,7 +72,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Is official", (titleFlags & 1) == 1); //Hmmmmmm
 
 			string maker = s.read(2, Encoding.ASCII); //Documentation calls this "Group ID" for some reason
-			info.addInfo("Manufacturer", maker, NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", maker, NintendoCommon.LICENSEE_CODES);
 
 			byte[] unused = s.read(2);
 			info.addInfo("Unused", unused, true);

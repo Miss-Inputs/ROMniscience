@@ -69,7 +69,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Reserved", reserved, true);
 
 			string author = s.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", author, AUTHORS);
+			info.addInfo("Author", author, AUTHORS);
 
 			string dumper = s.read(2, Encoding.ASCII);
 			info.addInfo("Dumper", dumper, AUTHORS); //That's just how it works for some reason

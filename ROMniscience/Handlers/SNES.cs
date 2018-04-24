@@ -322,7 +322,7 @@ namespace ROMniscience.Handlers {
 
 			s.Position = offset - 16;
 			string licensee = s.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", licensee, NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", licensee, NintendoCommon.LICENSEE_CODES);
 
 			//Is there a product code in here? Who knows
 			info.addInfo("Unknown 2", s.read(8), true);
@@ -358,7 +358,7 @@ namespace ROMniscience.Handlers {
 				//WHY"D YOU HAVE TO GO AND MAKE EVERYTHING SO COMPLICATED
 				usesExtendedHeader = true;
 			} else {
-				info.addInfo("Manufacturer", licenseeCode.ToString("X2"), NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Publisher", licenseeCode.ToString("X2"), NintendoCommon.LICENSEE_CODES);
 			}
 			info.addInfo("Uses extended header", usesExtendedHeader);
 
@@ -379,7 +379,7 @@ namespace ROMniscience.Handlers {
 				s.Position = offset - 0x10;
 
 				string makerCode = s.read(2, Encoding.ASCII);
-				info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Publisher", makerCode, NintendoCommon.LICENSEE_CODES);
 
 				string productCode = s.read(4, Encoding.ASCII);
 				info.addInfo("Product code", productCode);

@@ -70,7 +70,7 @@ namespace ROMniscience {
 			"Product code",
 			"Type",
 			"Short title",
-			"Manufacturer",
+			"Publisher",
 			"CRC32",
 			"MD5",
 			"SHA-1",

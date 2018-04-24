@@ -65,7 +65,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			string maker = s.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", maker, NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", maker, NintendoCommon.LICENSEE_CODES);
 
 			int discNumber = s.read() + 1; //Used for multi-disc games, but otherwise 0
 			info.addInfo("Disc number", discNumber);

@@ -132,7 +132,7 @@ namespace ROMniscience.Handlers {
 			s.Seek(-10, System.IO.SeekOrigin.End);
 
 			int publisher = s.read();
-			info.addInfo("Manufacturer", publisher, PUBLISHERS);
+			info.addInfo("Publisher", publisher, PUBLISHERS);
 
 			int deviceFlag = s.read();
 			bool isColor = deviceFlag == 1;

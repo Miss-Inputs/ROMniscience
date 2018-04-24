@@ -91,9 +91,9 @@ namespace ROMniscience.Handlers {
 			if(isGameGear){
 				if (productCode.Length >= 5) {
 					string makerCode = "T-" + productCode.Substring(0, productCode.Length - 3);
-					info.addInfo("Manufacturer", makerCode, SegaCommon.LICENSEES);
+					info.addInfo("Publisher", makerCode, SegaCommon.LICENSEES);
 				} else {
-					info.addInfo("Manufacturer", "Sega");
+					info.addInfo("Publisher", "Sega");
 				}
 			}
 			info.addInfo("Version", version);

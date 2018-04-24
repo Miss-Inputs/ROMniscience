@@ -335,10 +335,10 @@ namespace ROMniscience.Handlers {
 
 			int oldLicensee = f.read();
 			if (oldLicensee == 0x33) {
-				info.addInfo("Manufacturer", licenseeCode, NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Publisher", licenseeCode, NintendoCommon.LICENSEE_CODES);
 				info.addInfo("Uses new licensee", true);
 			} else {
-				info.addInfo("Manufacturer", String.Format("{0:X2}", oldLicensee), NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Publisher", String.Format("{0:X2}", oldLicensee), NintendoCommon.LICENSEE_CODES);
 				info.addInfo("Uses new licensee", false);
 			}
 			int version = f.read();

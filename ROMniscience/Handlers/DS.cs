@@ -359,7 +359,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Type", gameType, GAME_TYPES);
 				info.addInfo("Short title", shortTitle);
 				info.addInfo("Country", country, COUNTRIES);
-				info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
+				info.addInfo("Publisher", makerCode, NintendoCommon.LICENSEE_CODES);
 			}
 
 			int unitCode = s.read();

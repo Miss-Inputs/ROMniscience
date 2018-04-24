@@ -303,7 +303,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Production time", productionTime);
 
 			string companyCode = s.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", companyCode, NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", companyCode, NintendoCommon.LICENSEE_CODES);
 
 			string freeArea = s.read(6, MainProgram.shiftJIS);
 			info.addInfo("Memo", freeArea);

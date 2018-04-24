@@ -257,7 +257,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			string makerCode = f.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", makerCode, NintendoCommon.LICENSEE_CODES);
 			int fixedValue = f.read();
 			info.addInfo("Fixed value", fixedValue, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Fixed value valid?", fixedValue == 0x96);

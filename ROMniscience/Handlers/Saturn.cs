@@ -75,13 +75,13 @@ namespace ROMniscience.Handlers {
 				string maker = makerID.Substring("SEGA TP ".Length);
 				info.addInfo("First party", false);
 				maker = Regex.Replace(maker, "^T-0", "T-");
-				info.addInfo("Manufacturer", maker, SegaCommon.LICENSEES);
+				info.addInfo("Publisher", maker, SegaCommon.LICENSEES);
 			} else if ("SEGA ENTERPRISES".Equals(makerID)) {
 				info.addInfo("First party", true);
-				info.addInfo("Manufacturer", "Sega");
+				info.addInfo("Publisher", "Sega");
 			} else {
 				info.addInfo("First party", false);
-				info.addInfo("Manufacturer", makerID);
+				info.addInfo("Publisher", makerID);
 			}
 
 			string productNumber = stream.read(10, Encoding.ASCII).TrimEnd(' ');

@@ -274,7 +274,7 @@ namespace ROMniscience.Handlers {
 				maker = Regex.Replace(maker, "^T-0", "T-");
 				maker = Regex.Replace(maker, "^T(?!-)", "T-");
 
-				info.addInfo("Manufacturer", maker, SegaCommon.LICENSEES);
+				info.addInfo("Publisher", maker, SegaCommon.LICENSEES);
 				info.addInfo("Year", matches.Groups[2].Value);
 				if (MONTH_ABBREVIATIONS.TryGetValue(matches.Groups[3].Value?.ToUpper(), out int month)) {
 					info.addInfo("Month", System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(month));

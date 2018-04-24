@@ -121,7 +121,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Magic", magic, true);
 
 			int manufacturer = s.read();
-			info.addInfo("Manufacturer", manufacturer.ToString("X2"), NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", manufacturer.ToString("X2"), NintendoCommon.LICENSEE_CODES);
 
 			string productCode = s.read(3, Encoding.ASCII); //I bet you $5 this is Shift-JIS
 			info.addInfo("Product code", productCode);

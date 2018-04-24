@@ -46,7 +46,7 @@ namespace ROMniscience.Handlers {
 			byte[] reserved = s.read(5);
 			info.addInfo("Reserved", reserved, true);
 			string makerCode = s.read(2, Encoding.ASCII);
-			info.addInfo("Manufacturer", makerCode, NintendoCommon.LICENSEE_CODES);
+			info.addInfo("Publisher", makerCode, NintendoCommon.LICENSEE_CODES);
 			string productCode = s.read(4, Encoding.ASCII);
 			info.addInfo("Product code", productCode);
 			//I don't know what to do about the game type, since it's all V so far

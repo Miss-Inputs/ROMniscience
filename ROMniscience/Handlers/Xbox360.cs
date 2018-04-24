@@ -189,7 +189,7 @@ namespace ROMniscience.Handlers {
 					info.addInfo("Base version as bytes", data.Skip(8).Take(4).ToArray(), true);
 
 					string maker = Encoding.ASCII.GetString(data, 12, 2);
-					info.addInfo("Manufacturer", maker, MicrosoftCommon.LICENSEE_CODES);
+					info.addInfo("Publisher", maker, MicrosoftCommon.LICENSEE_CODES);
 					int titleID = (data[14] << 8) | data[15];
 					info.addInfo("Title ID", titleID); //Not entirely sure what this does... could be some kind of product code?
 					break;
