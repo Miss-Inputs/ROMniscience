@@ -165,11 +165,11 @@ namespace ROMniscience.Handlers {
 			int score = 0;
 
 			s.Position = offset + 0x3c;
-			short resetVector = s.readShortLE();
+			ushort resetVector = (ushort)s.readShortLE();
 
 			s.Position = offset + 0x1c;
-			short inverseChecksum = s.readShortLE();
-			short checksum = s.readShortLE();
+			ushort inverseChecksum = (ushort)s.readShortLE();
+			ushort checksum = (ushort)s.readShortLE();
 
 			long resetOpcodeOffset = ((uint)(offset & -0x7fff)) | (ushort)(resetVector & 0x7ffff);
 			s.Position = resetOpcodeOffset;
