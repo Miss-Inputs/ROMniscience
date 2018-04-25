@@ -40,9 +40,9 @@ namespace ROMniscience.Handlers {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"iso", "Nintendo GameCube disc"},
 			{"gcm", "Nintendo GameCube disc"},
+			{"dol", "Nintendo GameCube executable"},
+			{"tgc", "Nintendo GameCube embedded disc"},
 		};
-		//TODO: I guess it couldn't hurt to do .dol, but that's not a priority
-		//TODO .tgc too
 
 		public override string name => "Nintendo GameCube";
 
@@ -131,7 +131,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		IList<FSTEntry> parseFST(byte[] fst) {
+		static IList<FSTEntry> parseFST(byte[] fst) {
 			int numEntries = (fst[8] << 24) | (fst[9] << 16) | (fst[10] << 8) | fst[11];
 
 			byte[] filenameTable = new byte[fst.Length - (numEntries * 12)];
@@ -146,10 +146,10 @@ namespace ROMniscience.Handlers {
 			return list;
 		}
 
-		byte[] getBanner(WrappedInputStream s, IList<FSTEntry> fst) {
+		static byte[] getBanner(WrappedInputStream s, int startFileOffset, IList<FSTEntry> fst) {
 			foreach (var entry in fst) {
 				if ("opening.bnr".Equals(entry.name)) {
-					s.Position = entry.fileOffset;
+					s.Position = startFileOffset + entry.fileOffset;
 					return s.read(entry.fileLength);
 				}
 			}
@@ -213,7 +213,7 @@ namespace ROMniscience.Handlers {
 		static void parseBanner(ROMInfo info, byte[] banner, int region) {
 			string bannerMagic = Encoding.ASCII.GetString(banner, 0, 4);
 			info.addInfo("Banner magic", bannerMagic, true);
-			
+
 			info.addInfo("Icon", convertBannerIcon(banner));
 
 			if ("BNR1".Equals(bannerMagic)) {
@@ -259,14 +259,14 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			WrappedInputStream s = file.stream;
+		static void parseGamecubeDisc(ROMInfo info, WrappedInputStream s, int startOffset, int fileOffset, bool isEmbedded) {
+			s.Position = startOffset;
 			parseGamecubeHeader(info, s);
 
-			s.Position = 0x400;
+			s.Position = 0x400 + startOffset;
 
 			int debugMonitorOffset = s.readIntBE();
-			info.addInfo("Debug monitor offset", debugMonitorOffset, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Debug monitor offset", debugMonitorOffset - startOffset, ROMInfo.FormatMode.HEX, true);
 
 			int debugMonitorLoadAddress = s.readIntBE();
 			info.addInfo("Debug monitor load address", debugMonitorLoadAddress, ROMInfo.FormatMode.HEX, true);
@@ -274,17 +274,29 @@ namespace ROMniscience.Handlers {
 			byte[] unused2 = s.read(24);
 			info.addInfo("Unused 2", unused2, true);
 
-			int bootDOLOffset = s.readIntBE();
+			int bootDOLOffset, fstOffset, fstSize, fstMaxSize;
+			if (!isEmbedded) {
+				bootDOLOffset = s.readIntBE();
+				fstOffset = s.readIntBE();
+				fstSize = s.readIntBE();
+				fstMaxSize = s.readIntBE();
+			} else {
+				long pos = s.Position;
+				try {
+					s.Position = 16;
+					fstOffset = s.readIntBE();
+					fstSize = s.readIntBE();
+					fstMaxSize = s.readIntBE();
+					bootDOLOffset = s.readIntBE();
+				} finally {
+					s.Position = pos;
+				}
+			}
 			info.addInfo("Boot DOL offset", bootDOLOffset, ROMInfo.FormatMode.HEX, true);
-
-			int fstOffset = s.readIntBE();
 			info.addInfo("FST offset", fstOffset, ROMInfo.FormatMode.HEX, true);
-
-			int fstSize = s.readIntBE();
 			info.addInfo("FST size", fstSize, ROMInfo.FormatMode.SIZE, true);
-
-			int fstMaxSize = s.readIntBE();
 			info.addInfo("FST maximum size", fstMaxSize, ROMInfo.FormatMode.SIZE, true);
+
 
 			int userPosition = s.readIntBE();
 			info.addInfo("User position", userPosition, ROMInfo.FormatMode.HEX, true);
@@ -292,11 +304,11 @@ namespace ROMniscience.Handlers {
 			int userSize = s.readIntBE();
 			info.addInfo("User size", userSize, ROMInfo.FormatMode.SIZE, true);
 
-			s.Position = 0x458;
+			s.Position = 0x458 + startOffset;
 			int region = s.readIntBE();
 			info.addInfo("Region", region, NintendoCommon.REGIONS);
 
-			s.Position = 0x2440;
+			s.Position = 0x2440 + startOffset;
 			string apploaderDate = s.read(16, Encoding.ASCII).Trim('\0');
 			if (DateTime.TryParseExact(apploaderDate, "yyyy/MM/dd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTime date)) {
 				info.addInfo("Date", date);
@@ -311,10 +323,40 @@ namespace ROMniscience.Handlers {
 				s.Position = fstOffset;
 				byte[] fst = s.read(fstSize);
 
-				byte[] banner = getBanner(s, parseFST(fst));
+				byte[] banner = getBanner(s, fileOffset, parseFST(fst));
 				if (banner != null) {
 					parseBanner(info, banner, region);
 				}
+			}
+		}
+
+		static bool isTGCMagic(byte[] magic) {
+			return magic[0] == 0xae && magic[1] == 0x0f && magic[2] == 0x38 && magic[3] == 0xa2;
+		}
+
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			if ("dol".Equals(file.extension)) {
+				//TODO Parse what little info there is out of dol (could use this for boot .dol and Wii homebrew .dol too I guess)
+				return;
+			}
+
+			WrappedInputStream s = file.stream;
+
+			byte[] magic = s.read(4);
+			if (isTGCMagic(magic)) {
+				s.Position = 8;
+				int tgcHeaderSize = s.readIntBE();
+				info.addInfo("TGC header size", tgcHeaderSize, ROMInfo.FormatMode.SIZE);
+				
+				//What the fuck? What does Dolphin know that YAGD doesn't and didn't decide to tell the rest of the class?
+				s.Position = 0x24;
+				int realOffset = s.readIntBE();
+				s.Position = 0x34;
+				int virtualOffset = s.readIntBE();
+				int fileOffset = realOffset - virtualOffset;
+				parseGamecubeDisc(info, s, tgcHeaderSize, fileOffset, true);
+			} else {
+				parseGamecubeDisc(info, s, 0, 0, false);
 			}
 		}
 	}
