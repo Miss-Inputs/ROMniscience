@@ -184,14 +184,37 @@ namespace ROMniscience.Handlers {
 			int bannerVersion = s.readShortLE();
 			info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
 			if (BANNER_VERSIONS.ContainsKey(bannerVersion)) {
-				byte[] bannerChecksum = s.read(2); //CRC16 of 0x20 to 0x83
-				info.addInfo("Banner checksum", bannerChecksum, true);
-				byte[] bannerChecksum2 = s.read(2); //CRC16 of 0x20 to 0x93
-				info.addInfo("Banner checksum 2", bannerChecksum2, true);
-				byte[] bannerChecksum3 = s.read(2); //CRC16 of 0x20 to 0xa3
-				info.addInfo("Banner checksum 3", bannerChecksum3, true);
-				byte[] bannerChecksum4 = s.read(2); //CRC16 of 0x1240 to 0x23bf
-				info.addInfo("Banner checksum 4", bannerChecksum4, true);
+				short bannerChecksum = (short)s.readShortLE(); //CRC16 of 0x20 to 0x83f (icons and titles)
+				short bannerChecksum2 = (short)s.readShortLE(); //CRC16 of 0x20 to 0x93f (icons and titles including Chinese)
+				short bannerChecksum3 = (short)s.readShortLE(); //CRC16 of 0x20 to 0xa3f (icons and titles including Chinese + Korea)
+				short bannerChecksum4 = (short)s.readShortLE(); //CRC16 of 0x1240 to 0x23bf (i.e. DSi animated icon)
+
+				info.addInfo("Banner checksum", bannerChecksum, ROMInfo.FormatMode.HEX, true);
+				short calculatedBannerChecksum = calcCRC16(s, bannerOffset + 0x20, bannerOffset + 0x83f);
+				info.addInfo("Calculated banner checksum", calculatedBannerChecksum, ROMInfo.FormatMode.HEX, true);
+				info.addInfo("Banner checksum valid?", bannerChecksum == calculatedBannerChecksum);
+
+				if (bannerVersion >= 2) {
+					info.addInfo("Banner checksum 2", bannerChecksum2, ROMInfo.FormatMode.HEX, true);
+					short calculatedBannerChecksum2 = calcCRC16(s, bannerOffset + 0x20, bannerOffset + 0x93f);
+					info.addInfo("Calculated banner checksum 2", calculatedBannerChecksum2, ROMInfo.FormatMode.HEX, true);
+					info.addInfo("Banner checksum 2 valid?", bannerChecksum2 == calculatedBannerChecksum2);
+				}
+
+				if (bannerVersion >= 3) {
+					info.addInfo("Banner checksum 3", bannerChecksum3, ROMInfo.FormatMode.HEX, true);
+					short calculatedBannerChecksum3 = calcCRC16(s, bannerOffset + 0x20, bannerOffset + 0xa3f);
+					info.addInfo("Calculated banner checksum 3", calculatedBannerChecksum3, ROMInfo.FormatMode.HEX, true);
+					info.addInfo("Banner checksum 3 valid?", bannerChecksum3 == calculatedBannerChecksum3);
+				}
+
+				if (bannerVersion >= 0x103) {
+					info.addInfo("Banner checksum 4", bannerChecksum4, ROMInfo.FormatMode.HEX, true);
+					short calculatedBannerChecksum4 = calcCRC16(s, bannerOffset + 0x1240, bannerOffset + 0x23bf);
+					info.addInfo("Calculated banner checksum 4", calculatedBannerChecksum4, ROMInfo.FormatMode.HEX, true);
+					info.addInfo("Banner checksum 4 valid?", bannerChecksum4 == calculatedBannerChecksum4);
+				}
+
 				byte[] bannerReserved = s.read(0x16); //Should be zero filled
 				info.addInfo("Banner reserved", bannerReserved, true);
 
@@ -331,6 +354,18 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
+		static short calcCRC16(WrappedInputStream s, long start, long end) {
+			long pos = s.Position;
+			try {
+				s.Position = start;
+				int length = (int)((end - start) + 1);
+				byte[] data = s.read(length);
+				return CRC16.crc16(data);
+			} finally {
+				s.Position = pos;
+			}
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			if ("plg".Equals(file.extension)) {
 				addSupercardDS2PluginInfo(info, file);
@@ -432,9 +467,13 @@ namespace ROMniscience.Handlers {
 			int bannerOffset = s.readIntLE();
 			info.addInfo("Banner offset", bannerOffset, ROMInfo.FormatMode.HEX, true);
 
-			byte[] secureAreaChecksum = s.read(2);
-			info.addInfo("Secure area checksum", secureAreaChecksum, true);
-			//TODO Calculate (CRC16 of 0x20 to 0x7fff)
+			short secureAreaChecksum = (short)s.readShortLE();
+			info.addInfo("Secure area checksum", secureAreaChecksum, ROMInfo.FormatMode.HEX, true);
+			short calculatedSecureAreaChecksum = calcCRC16(s, 0x4000, 0x7fff);
+			info.addInfo("Calculated secure area checksum", calculatedSecureAreaChecksum, ROMInfo.FormatMode.HEX, true);
+			//Do not be alarmed if this is not valid, since most DS dumps erase the secure area
+			info.addInfo("Secure area checksum valid?", secureAreaChecksum == calculatedSecureAreaChecksum);
+
 			int secureAreaDelay = s.readShortLE(); //131kHz units, 0x051e = 10ms, 0x0d7e = 26ms
 			info.addInfo("Secure area delay (ms)", secureAreaDelay / 131, true);
 
@@ -452,12 +491,20 @@ namespace ROMniscience.Handlers {
 
 			byte[] reserved3 = s.read(0x38); //0 filled except on DSi which uses first 12 bytes for some purpose
 			info.addInfo("Reserved 3", reserved3, true);
-			byte[] nintendoLogo = s.read(0x9c); //Same as on GBA
+			byte[] nintendoLogo = s.read(0x9c); //Same as on GBA (I think?)
 			info.addInfo("Nintendo logo", nintendoLogo, true);
-			byte[] nintendoLogoChecksum = s.read(2); //CRC16 of nintendoLogo, should be 0xcf56? TODO calculate
-			info.addInfo("Nintendo logo checksum", nintendoLogoChecksum, true);
-			byte[] headerChecksum = s.read(2); //CRC16 of header up until here (first 0x15d bytes) TODO calc
-			info.addInfo("Header checksum", headerChecksum, true);
+
+			short nintendoLogoChecksum = (short)s.readShortLE(); //CRC16 of nintendoLogo, should be 0xcf56?
+			info.addInfo("Nintendo logo checksum", nintendoLogoChecksum, ROMInfo.FormatMode.HEX, true);
+			short calculatedNintendoLogoChecksum = CRC16.crc16(nintendoLogo);
+			info.addInfo("Calculated Nintendo logo checksum", calculatedNintendoLogoChecksum, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Nintendo logo checksum valid?", nintendoLogoChecksum == calculatedNintendoLogoChecksum);
+
+			short headerChecksum = (short)s.readShortLE(); //CRC16 of header up until here (first 0x15d bytes)
+			info.addInfo("Header checksum", headerChecksum, ROMInfo.FormatMode.HEX, true);
+			short calculatedHeaderChecksum = calcCRC16(s, 0, 0x15d);
+			info.addInfo("Calculated header checksum", calculatedHeaderChecksum, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Header checksum valid?", headerChecksum == calculatedHeaderChecksum);
 
 			int debugROMOffset = s.readIntLE();
 			info.addInfo("Debug ROM offset", debugROMOffset, ROMInfo.FormatMode.HEX, true);
