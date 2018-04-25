@@ -212,13 +212,14 @@ namespace ROMniscience.Handlers {
 
 			if(authorNameOffset != 0xfff && authorNameOffset != 0) {
 				s.Position = authorNameOffset;
-				//TODO contemplate: Should I call this "Manufacturer"? Is that reaching for consistency too much?
 				info.addInfo("Author", readNullTerminatedString(s));
 			}
 			if(nameOffset != 0xffff) {
+				s.Position = nameOffset;
 				info.addInfo("Internal name", readNullTerminatedString(s));
 			}
 			if(descriptionOffset != 0xffff) {
+				s.Position = descriptionOffset;
 				info.addInfo("Description", readNullTerminatedString(s));
 			}
 		}
