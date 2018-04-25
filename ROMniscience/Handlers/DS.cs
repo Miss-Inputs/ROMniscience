@@ -181,13 +181,13 @@ namespace ROMniscience.Handlers {
 
 		public static void parseBanner(ROMInfo info, WrappedInputStream s, long bannerOffset) {
 			s.Position = bannerOffset;
-			int bannerVersion = s.readShortLE();
+			short bannerVersion = s.readShortLE();
 			info.addInfo("Banner version", bannerVersion, BANNER_VERSIONS);
 			if (BANNER_VERSIONS.ContainsKey(bannerVersion)) {
-				short bannerChecksum = (short)s.readShortLE(); //CRC16 of 0x20 to 0x83f (icons and titles)
-				short bannerChecksum2 = (short)s.readShortLE(); //CRC16 of 0x20 to 0x93f (icons and titles including Chinese)
-				short bannerChecksum3 = (short)s.readShortLE(); //CRC16 of 0x20 to 0xa3f (icons and titles including Chinese + Korea)
-				short bannerChecksum4 = (short)s.readShortLE(); //CRC16 of 0x1240 to 0x23bf (i.e. DSi animated icon)
+				short bannerChecksum = s.readShortLE(); //CRC16 of 0x20 to 0x83f (icons and titles)
+				short bannerChecksum2 = s.readShortLE(); //CRC16 of 0x20 to 0x93f (icons and titles including Chinese)
+				short bannerChecksum3 = s.readShortLE(); //CRC16 of 0x20 to 0xa3f (icons and titles including Chinese + Korea)
+				short bannerChecksum4 = s.readShortLE(); //CRC16 of 0x1240 to 0x23bf (i.e. DSi animated icon)
 
 				info.addInfo("Banner checksum", bannerChecksum, ROMInfo.FormatMode.HEX, true);
 				short calculatedBannerChecksum = calcCRC16(s, bannerOffset + 0x20, bannerOffset + 0x83f);
@@ -258,7 +258,7 @@ namespace ROMniscience.Handlers {
 					}
 
 					for (int i = 0; i < 64; ++i) {
-						int sequence = s.readShortLE();
+						ushort sequence = (ushort)s.readShortLE();
 						if (sequence == 0) {
 							break;
 						}
@@ -467,14 +467,14 @@ namespace ROMniscience.Handlers {
 			int bannerOffset = s.readIntLE();
 			info.addInfo("Banner offset", bannerOffset, ROMInfo.FormatMode.HEX, true);
 
-			short secureAreaChecksum = (short)s.readShortLE();
+			short secureAreaChecksum = s.readShortLE();
 			info.addInfo("Secure area checksum", secureAreaChecksum, ROMInfo.FormatMode.HEX, true);
 			short calculatedSecureAreaChecksum = calcCRC16(s, 0x4000, 0x7fff);
 			info.addInfo("Calculated secure area checksum", calculatedSecureAreaChecksum, ROMInfo.FormatMode.HEX, true);
 			//Do not be alarmed if this is not valid, since most DS dumps erase the secure area
 			info.addInfo("Secure area checksum valid?", secureAreaChecksum == calculatedSecureAreaChecksum);
 
-			int secureAreaDelay = s.readShortLE(); //131kHz units, 0x051e = 10ms, 0x0d7e = 26ms
+			short secureAreaDelay = s.readShortLE(); //131kHz units, 0x051e = 10ms, 0x0d7e = 26ms
 			info.addInfo("Secure area delay (ms)", secureAreaDelay / 131, true);
 
 			int arm9AutoLoadRAMAddress = s.readIntLE();
@@ -494,13 +494,13 @@ namespace ROMniscience.Handlers {
 			byte[] nintendoLogo = s.read(0x9c); //Same as on GBA (I think?)
 			info.addInfo("Nintendo logo", nintendoLogo, true);
 
-			short nintendoLogoChecksum = (short)s.readShortLE(); //CRC16 of nintendoLogo, should be 0xcf56?
+			short nintendoLogoChecksum = s.readShortLE(); //CRC16 of nintendoLogo, should be 0xcf56?
 			info.addInfo("Nintendo logo checksum", nintendoLogoChecksum, ROMInfo.FormatMode.HEX, true);
 			short calculatedNintendoLogoChecksum = CRC16.crc16(nintendoLogo);
 			info.addInfo("Calculated Nintendo logo checksum", calculatedNintendoLogoChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Nintendo logo checksum valid?", nintendoLogoChecksum == calculatedNintendoLogoChecksum);
 
-			short headerChecksum = (short)s.readShortLE(); //CRC16 of header up until here (first 0x15d bytes)
+			short headerChecksum = s.readShortLE(); //CRC16 of header up until here (first 0x15d bytes)
 			info.addInfo("Header checksum", headerChecksum, ROMInfo.FormatMode.HEX, true);
 			short calculatedHeaderChecksum = calcCRC16(s, 0, 0x15d);
 			info.addInfo("Calculated header checksum", calculatedHeaderChecksum, ROMInfo.FormatMode.HEX, true);

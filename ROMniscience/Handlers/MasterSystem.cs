@@ -203,9 +203,9 @@ namespace ROMniscience.Handlers {
 				//Ignore
 			}
 
-			int authorNameOffset = s.readShortLE();
-			int nameOffset = s.readShortLE();
-			int descriptionOffset = s.readShortLE();
+			ushort authorNameOffset = (ushort)s.readShortLE();
+			ushort nameOffset = (ushort)s.readShortLE();
+			ushort descriptionOffset = (ushort)s.readShortLE();
 			info.addInfo("Author offset", authorNameOffset, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Name offset", nameOffset, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Description offset", descriptionOffset, ROMInfo.FormatMode.HEX, true);

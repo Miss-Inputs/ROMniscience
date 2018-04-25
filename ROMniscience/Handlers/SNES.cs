@@ -165,11 +165,11 @@ namespace ROMniscience.Handlers {
 			int score = 0;
 
 			s.Position = offset + 0x3c;
-			int resetVector = s.readShortLE();
+			short resetVector = s.readShortLE();
 
 			s.Position = offset + 0x1c;
-			int inverseChecksum = s.readShortLE();
-			int checksum = s.readShortLE();
+			short inverseChecksum = s.readShortLE();
+			short checksum = s.readShortLE();
 
 			long resetOpcodeOffset = ((uint)(offset & -0x7fff)) | (ushort)(resetVector & 0x7ffff);
 			s.Position = resetOpcodeOffset;
@@ -281,7 +281,7 @@ namespace ROMniscience.Handlers {
 			byte[] blockAllocation = s.read(4);
 			info.addInfo("Block allocation flags", blockAllocation, true); //TODO (at the moment this confuzzles me)
 
-			int limitedStarts = s.readShortLE();
+			ushort limitedStarts = (ushort)s.readShortLE();
 			if ((limitedStarts & 0x8000) > 0) {
 				info.addInfo("Boots left", "Unlimited");
 			} else {
@@ -310,8 +310,8 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Version", version);
 			//superfamicom.org says: Version Number is an extension. Actual format is 1 + ord(val($ffdb))/10. (what the heckie)
 
-			int checksum = s.readShortLE();
-			int inverseChecksum = s.readShortLE();
+			short checksum = s.readShortLE();
+			short inverseChecksum = s.readShortLE();
 			info.addInfo("Checksum", checksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Inverse checksum", inverseChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksums add up?", checksum + inverseChecksum == 0xffff);

@@ -98,7 +98,7 @@ namespace ROMniscience.Handlers {
 				//Anyway, when it is different it's always later, so let's go with this as the definitive date
 
 				//Supposedly, this stuff is printed onto retail discs
-				int titleID = s.readShortLE();
+				short titleID = s.readShortLE();
 				info.addInfo("Title ID", titleID); //Could be a product code? I don't know, to be honest
 				string maker = new string(s.read(2, Encoding.ASCII).ToCharArray().Reverse().ToArray()); //It's... backwards. Don't ask me why. Endian weirdness most likely
 				info.addInfo("Publisher", maker, MicrosoftCommon.LICENSEE_CODES);

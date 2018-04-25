@@ -53,7 +53,7 @@ namespace ROMniscience.Handlers {
 			byte[] entryPoint = s.read(4);
 			info.addInfo("Entry point", entryPoint, ROMInfo.FormatMode.HEX, true);
 
-			int gameNumber = s.readShortLE();
+			short gameNumber = s.readShortLE();
 			info.addInfo("Product code", gameNumber.ToString("X2"));
 
 			int version = s.read();

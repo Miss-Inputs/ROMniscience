@@ -77,7 +77,7 @@ namespace ROMniscience.Handlers {
 			byte[] unused = s.read(2);
 			info.addInfo("Unused", unused, true);
 
-			int regionCode = s.readShortBE();
+			short regionCode = s.readShortBE();
 			info.addInfo("Region", regionCode, NintendoCommon.REGIONS);
 
 			byte[] ratings = s.read(16);
@@ -95,7 +95,7 @@ namespace ROMniscience.Handlers {
 			byte[] accessRights = s.read(4);
 			info.addInfo("Access rights", accessRights, true); //How do I interpret these?
 
-			int version = s.readShortBE();
+			short version = s.readShortBE();
 			info.addInfo("Version", version);
 		}
 

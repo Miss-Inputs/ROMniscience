@@ -109,12 +109,12 @@ namespace ROMniscience.IO {
 			return read() | (read() << 8) | (read() << 16) | (read() << 24);
 		}
 
-		public int readShortBE() {
-			return (read() << 8) | read();
+		public short readShortBE() {
+			return (short)((read() << 8) | read());
 		}
 
-		public int readShortLE() {
-			return read() | (read() << 8);
+		public short readShortLE() {
+			return (short)(read() | (read() << 8));
 		}
 
 

@@ -65,10 +65,10 @@ namespace ROMniscience.Handlers {
 			int[] dataRelativeOffsets = new int[numberOfEntries];
 
 			for (int i = 0; i < numberOfEntries; ++i) {
-				int keyRelativeOffset = s.readShortLE();
+				short keyRelativeOffset = s.readShortLE();
 				int keyOffset = keyTableStart + keyRelativeOffset;
 
-				int dataFormat = s.readShortLE();
+				short dataFormat = s.readShortLE();
 				int dataUsedLength = s.readIntLE();
 				int dataTotalLength = s.readIntLE();
 
