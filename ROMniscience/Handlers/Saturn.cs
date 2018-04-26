@@ -66,8 +66,10 @@ namespace ROMniscience.Handlers {
 			if (!("SEGA SEGASATURN ".Equals(hardwareID))) {
 				//Sorry kid, every single Saturn disc has this here, even the betas and.. if there was homebrews, even they would have to
 				//Well, if there was a disc that somehow didn't (it would have to be used with a HLE emulator or some weird modchip), it wouldn't have anything useful down here either
+				info.addInfo("Platform", hardwareID);
 				return;
 			}
+			info.addInfo("Platform", "Saturn");
 
 			string makerID = stream.read(16, Encoding.ASCII).TrimEnd(' ');
 			if (makerID.StartsWith("SEGA TP ")) {
