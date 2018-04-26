@@ -32,7 +32,7 @@ using ROMniscience.Handlers.Stubs;
 
 namespace ROMniscience.Handlers {
 	abstract class Handler {
-		public string getFiletypeName(string extension) {
+		public virtual string getFiletypeName(string extension) {
 			if(String.IsNullOrEmpty(extension)) {
 				return "Unknown";
 			}
@@ -45,7 +45,7 @@ namespace ROMniscience.Handlers {
 			return filetypeMap[extension.ToLowerInvariant()];
 		}
 
-		public bool handlesExtension(string extension) {
+		public virtual bool handlesExtension(string extension) {
 			if(String.IsNullOrEmpty(extension)) {
 				return false;
 			}
