@@ -269,7 +269,6 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Copyright", copyright);
 			var matches = copyrightRegex.Match(copyright);
 			if (matches.Success) {
-				//TODO Sometimes you have stuff like T-075 instead of T-75 or T112 instead of T-112 (but is that just the game's fault for being weird?)
 				string maker = matches.Groups[1].Value?.Trim().TrimEnd(',');
 				maker = Regex.Replace(maker, "^T-0", "T-");
 				maker = Regex.Replace(maker, "^T(?!-)", "T-");
