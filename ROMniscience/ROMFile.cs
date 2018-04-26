@@ -37,7 +37,7 @@ namespace ROMniscience {
 		public abstract WrappedInputStream getSiblingFile(string filename);
 		public abstract bool hasSiblingFile(string filename);
 
-		public string cdTrackMode;
+		public int cdSectorSize = 0;
 
 		public abstract FileInfo path {
 			get;

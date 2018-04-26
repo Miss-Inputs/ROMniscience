@@ -35,7 +35,7 @@ namespace ROMniscience.IO.CueSheets {
 
 		public static readonly IList<string> CUE_EXTENSIONS = new List<string>{
 			//I guess we'd put "gdi" and "ccd" in this list once we implement those
-			"cue"
+			"cue", "gdi"
 		};
 		public static bool isCueExtension(String extension) {
 			if (String.IsNullOrEmpty(extension)) {
@@ -51,13 +51,14 @@ namespace ROMniscience.IO.CueSheets {
 		public class CueFile {
 			//TODO Include track number and index; right now we are assuming track 1 is the data part and the only data part we want to look at. This is, in fact, not true just to piss me off; Bandai Playdia discs have two data tracks and PC Engine CD discs have the data on track 2 (track 1 is always an audio track, probably to tell people off for putting the disc in an audio CD player)
 			public string filename { get; set; }
-			public string mode { get; set; }
-			public CueFile(string filename, string mode) {
+			public int sectorSize { get; set; }
+			public CueFile(string filename, int sectorSize, bool isData) {
 				this.filename = filename;
-				this.mode = mode;
+				this.sectorSize = sectorSize;
+				this.isData = isData;
 			}
 
-			public bool isData => mode != null && mode.ToUpperInvariant().StartsWith("MODE");
+			public bool isData { get; set; }
 		}
 
 		public abstract IList<CueFile> filenames {
@@ -73,6 +74,10 @@ namespace ROMniscience.IO.CueSheets {
 			if ("cue".Equals(extension)) {
 				return new TextCueSheet(cueSheet);
 			}
+			if ("gdi".Equals(extension)) {
+				return new GDISheet(cueSheet);
+			}
+
 			throw new ArgumentException("Can't create " + extension + " cue sheet", extension);
 		}
 	}

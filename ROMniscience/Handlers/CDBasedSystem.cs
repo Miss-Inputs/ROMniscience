@@ -60,15 +60,11 @@ namespace ROMniscience.Handlers {
 
 		public abstract void addROMInfo(ROMInfo info, ROMFile file, WrappedInputStream stream);
 
-		static int sectorSizeFromMode(string mode) {
-			return int.Parse(mode.Split('/').Last());
-		}
-
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			//.iso files are 2048 sectors, and since they're read as normal ROM files without any special handling in ROMScanner, we'll specify that sector size here; for cue sheets we've already read that so we just do the thing
 			int sectorSize = 2048;
-			if (file.cdTrackMode != null) {
-				sectorSize = sectorSizeFromMode(file.cdTrackMode);
+			if (file.cdSectorSize != 0) {
+				sectorSize = file.cdSectorSize;
 			}
 
 			info.addInfo("Sector size", sectorSize);

@@ -43,10 +43,18 @@ namespace ROMniscience.IO.CueSheets {
 		//<mode> is defined here: https://www.gnu.org/software/ccd2cue/manual/html_node/MODE-_0028Compact-Disc-fields_0029.html#MODE-_0028Compact-Disc-fields_0029 but generally only AUDIO, MODE1/<size>, and MODE2/<size> are used
 		static readonly Regex TRACK_REGEX = new Regex(@"^\s*TRACK\s+(?<number>\d+)\s+(?<mode>.+)\s*$", RegexOptions.IgnoreCase);
 
-		internal TextCueSheet(Stream cueSheet) {
+		static int sectorSizeFromMode(string mode) {
+			if (int.TryParse(mode.Split('/').Last(), out int result)) {
+				return result;
+			}
+			return 0;
+		}
+
+		public TextCueSheet(Stream cueSheet) {
 			using (var sr = new StreamReader(cueSheet)) {
 				string currentFile = null;
 				string currentMode = null;
+				bool isData;
 
 				while (!sr.EndOfStream) {
 					string line = sr.ReadLine();
@@ -57,7 +65,8 @@ namespace ROMniscience.IO.CueSheets {
 					var match = FILE_REGEX.Match(line);
 					if (match.Success) {
 						if (currentFile != null && currentMode != null) {
-							_filenames.Add(new CueFile(currentFile, currentMode));
+							isData = currentMode.ToUpperInvariant().StartsWith("MODE");
+							_filenames.Add(new CueFile(currentFile, sectorSizeFromMode(currentMode), isData));
 							currentFile = null;
 							currentMode = null;
 						}
@@ -75,7 +84,8 @@ namespace ROMniscience.IO.CueSheets {
 					}
 				}
 
-				_filenames.Add(new CueFile(currentFile, currentMode));
+				isData = currentMode.ToUpperInvariant().StartsWith("MODE");
+				_filenames.Add(new CueFile(currentFile, sectorSizeFromMode(currentMode), isData));
 			}
 		}
 	}

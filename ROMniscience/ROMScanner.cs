@@ -142,7 +142,7 @@ namespace ROMniscience {
 					FileInfo filename = new FileInfo(Path.Combine(f.DirectoryName, cueFile.filename));
 
 					using(ROMFile file = new NormalROMFile(filename)) {
-						file.cdTrackMode = cueFile.mode;
+						file.cdSectorSize = cueFile.sectorSize;
 						if (cueFile.isData) {
 							info = ROMInfo.getROMInfo(handler, file, datfiles);
 						} else {

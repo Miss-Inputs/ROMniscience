@@ -182,6 +182,7 @@
     <Compile Include="IO\ByteSwappedInputStream.cs" />
     <Compile Include="IO\CDInputStream.cs" />
     <Compile Include="IO\CueSheets\CueSheet.cs" />
+    <Compile Include="IO\CueSheets\GDISheet.cs" />
     <Compile Include="IO\GCZInputStream.cs" />
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>

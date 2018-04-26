@@ -161,7 +161,7 @@ namespace ROMniscience {
 					if (choice != null) {
 						FileInfo filename = new FileInfo(Path.Combine(path.DirectoryName, choice.filename));
 						using (ROMFile rom = new NormalROMFile(filename)) {
-							rom.cdTrackMode = choice.mode;
+							rom.cdSectorSize = choice.sectorSize;
 							viewFile(rom, true);
 						}
 					}

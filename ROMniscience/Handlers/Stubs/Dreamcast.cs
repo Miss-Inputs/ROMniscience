@@ -29,16 +29,6 @@ using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers.Stubs {
 	class Dreamcast : StubCDHandler {
-		public override IDictionary<string, string> filetypeMap {
-			get {
-				var b = base.filetypeMap;
-				//TODO: Use .gdi properly
-				//This is just a workaround for now, because gdi files seem to refer to .bin .iso (which are already processed) and .raw. Ideally, what we should do is change around ROMScanner so that if it sees a .gdi file, it adds that and then adds whatever files the .gdi refers to no matter what extension they are
-				b.Add("raw", "Dreamcast GD-ROM raw track");
-				return b;
-			}
-		}
-
 		public override string name => "Dreamcast";
 	}
 }
