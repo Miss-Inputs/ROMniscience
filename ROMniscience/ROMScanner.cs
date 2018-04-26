@@ -87,37 +87,49 @@ namespace ROMniscience {
 
 		private void processFile(FileInfo f, Handler handler, DatfileCollection datfiles) {
 			if (IO.ArchiveHelpers.isArchiveExtension(f.Extension)) {
-				try {
-					using (IArchive archive = ArchiveFactory.Open(f)) {
-						foreach (IArchiveEntry entry in archive.Entries) {
-							if (handler.handlesExtension(Path.GetExtension(entry.Key))) {
-								ROMInfo info;
-								using (ROMFile file = new CompressedROMFile(entry, f)) {
-									info = ROMInfo.getROMInfo(handler, file, datfiles);
-								}
+				processArchive(f, handler, datfiles);
+			} else if (IO.ArchiveHelpers.isGCZ(f.Extension)) {
+				processGCZ(f, handler, datfiles);
+			} else if (handler.handlesExtension(f.Extension)) {
+				processNormalFile(f, handler, datfiles);
+			}
+		}
 
-								onHaveRow(info);
+		private void processNormalFile(FileInfo f, Handler handler, DatfileCollection datfiles) {
+			ROMInfo info;
+			using (ROMFile file = new NormalROMFile(f)) {
+				info = ROMInfo.getROMInfo(handler, file, datfiles);
+			}
+
+			onHaveRow(info);
+		}
+
+		private void processGCZ(FileInfo f, Handler handler, DatfileCollection datfiles) {
+			//Refactor this later if I ever support any other kind of "custom" compressed formats like this
+			ROMInfo info;
+			using (GCZROMFile gcz = new GCZROMFile(f)) {
+				info = ROMInfo.getROMInfo(handler, gcz, datfiles);
+			}
+			onHaveRow(info);
+		}
+
+		private void processArchive(FileInfo f, Handler handler, DatfileCollection datfiles) {
+			try {
+				using (IArchive archive = ArchiveFactory.Open(f)) {
+					foreach (IArchiveEntry entry in archive.Entries) {
+						if (handler.handlesExtension(Path.GetExtension(entry.Key))) {
+							ROMInfo info;
+							using (ROMFile file = new CompressedROMFile(entry, f)) {
+								info = ROMInfo.getROMInfo(handler, file, datfiles);
 							}
+
+							onHaveRow(info);
 						}
 					}
-				} catch (Exception ex) {
-					//HECK
-					onException(ex, f);
 				}
-			} else if (IO.ArchiveHelpers.isGCZ(f.Extension)){
-				//Refactor this later if I ever support any other kind of "custom" compressed formats like this
-				ROMInfo info;
-				using(GCZROMFile gcz = new GCZROMFile(f)) {
-					info = ROMInfo.getROMInfo(handler, gcz, datfiles);
-				}
-				onHaveRow(info);
-			} else if (handler.handlesExtension(f.Extension)) {
-				ROMInfo info;
-				using (ROMFile file = new NormalROMFile(f)) {
-					info = ROMInfo.getROMInfo(handler, file, datfiles);
-				}
-
-				onHaveRow(info);
+			} catch (Exception ex) {
+				//HECK
+				onException(ex, f);
 			}
 		}
 
