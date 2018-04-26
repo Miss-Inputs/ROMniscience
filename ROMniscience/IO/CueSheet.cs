@@ -48,7 +48,7 @@ namespace ROMniscience.IO {
 			return CUE_EXTENSIONS.Contains(extension.ToLowerInvariant());
 		}
 
-		public struct CueFile {
+		public class CueFile {
 			//TODO Include track number and index; right now we are assuming track 1 is the data part and the only data part we want to look at. This is, in fact, not true just to piss me off; Bandai Playdia discs have two data tracks and PC Engine CD discs have the data on track 2 (track 1 is always an audio track, probably to tell people off for putting the disc in an audio CD player)
 			public string filename;
 			public string mode;
