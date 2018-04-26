@@ -37,7 +37,7 @@ namespace ROMniscience.Handlers {
 			//I suppose currently that would prevent you from zipping a cue sheet, but would you really want to do that? Does anyone do that? Who does that?
 			{"iso", name + " 2048-byte sector CD image"},
 			//TODO: Support .chd files, which maybe we can pretend are archives of .cue and .bin tracks to maintain checksums
-			//TODO: .toc .nrg and .cdr are in MAME so they can't be _that_ proprietary, but they're low priority because they're weird. .ccd if it's documented somewhere (okay so it sort of is but it's proprietary and unofficial, see https://www.gnu.org/software/ccd2cue/manual/html_node/CCD-sheet-format.html#CCD-sheet-format); need .gdi for Dreamcast too
+			//TODO: .toc .nrg and .cdr are in MAME so they can't be _that_ proprietary, but they're low priority because they're weird. .ccd if it's documented somewhere (okay so it sort of is but it's proprietary and unofficial, see https://www.gnu.org/software/ccd2cue/manual/html_node/CCD-sheet-format.html#CCD-sheet-format); need DiscJuggler .cdi for Dreamcast too
 		};
 
 		public static readonly IDictionary<string, string> genericCueSheetFiletypeMap = new Dictionary<string, string>() {
