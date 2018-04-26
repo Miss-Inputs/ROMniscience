@@ -102,7 +102,7 @@ namespace ROMniscience.Handlers {
 			get {
 				List<Handler> list = new List<Handler>();
 				foreach(var type in System.Reflection.Assembly.GetCallingAssembly().GetTypes()) {
-					if(type.IsSubclassOf(typeof(Handler)) && !type.IsAbstract) {
+					if(type.IsSubclassOf(typeof(Handler)) && !type.IsAbstract && type.GetConstructor(Type.EmptyTypes) != null) {
 						Handler h = (Handler)Activator.CreateInstance(type);
 						list.Add(h);
 					}
