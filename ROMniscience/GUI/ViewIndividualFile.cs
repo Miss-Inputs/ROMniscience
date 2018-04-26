@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ROMniscience.Datfiles;
 using ROMniscience.Handlers;
+using ROMniscience.IO.CueSheets;
 using SharpCompress.Archives;
 
 namespace ROMniscience {
@@ -138,7 +139,7 @@ namespace ROMniscience {
 				using (GCZROMFile gcz = new GCZROMFile(path)) {
 					viewFile(gcz);
 				}
-			} else if (IO.CueSheet.isCueExtension(path.Extension)) {
+			} else if (CueSheet.isCueExtension(path.Extension)) {
 				viewCueFile(path);
 			} else {
 				using (ROMFile f = new NormalROMFile(path)) {
@@ -152,7 +153,7 @@ namespace ROMniscience {
 			//This whole view individual file thing doesn't seem suitable for this... anyway, the most notable problem is that due to the way I wrote all this other code here, it asks you for which track before you select a handler, and that feels kinda weird? Like I think that's kinda weird but anyway whatever who cares nothing matters
 			try {
 				using (var file = path.OpenRead()) {
-					var cue = new IO.CueSheet(file);
+					var cue = CueSheet.create(file, path.Extension);
 
 					var choices = cue.filenames;
 					var choice = chooseChoices(choices.Where(c => c.isData), "filename", "Which file do you want to view from this cuesheet?", "File selection");

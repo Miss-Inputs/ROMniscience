@@ -30,8 +30,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ROMniscience.IO {
-	class CueSheet {
+namespace ROMniscience.IO.CueSheets {
+	abstract class CueSheet {
 
 		public static readonly IList<string> CUE_EXTENSIONS = new List<string>{
 			//I guess we'd put "gdi" and "ccd" in this list once we implement those
@@ -60,48 +60,20 @@ namespace ROMniscience.IO {
 			public bool isData => mode != null && mode.ToUpperInvariant().StartsWith("MODE");
 		}
 
-		IList<CueFile> _filenames = new List<CueFile>();
-		public IList<CueFile> filenames => _filenames;
+		public abstract IList<CueFile> filenames {
+			get;
+		}
 
-		//<type> is BINARY for little endian, MOTOROLA for big endian, or AIFF/WAV/MP3. Generally only BINARY will be used (even audio tracks are usually ripped as raw binary)
-		static readonly Regex FILE_REGEX = new Regex(@"^\s*FILE\s+(?:""(?<name>.+)""|(?<name>\S+))\s+(?<type>.+)\s*$", RegexOptions.IgnoreCase);
-
-		//<mode> is defined here: https://www.gnu.org/software/ccd2cue/manual/html_node/MODE-_0028Compact-Disc-fields_0029.html#MODE-_0028Compact-Disc-fields_0029 but generally only AUDIO, MODE1/<size>, and MODE2/<size> are used
-		static readonly Regex TRACK_REGEX = new Regex(@"^\s*TRACK\s+(?<number>\d+)\s+(?<mode>.+)\s*$", RegexOptions.IgnoreCase);
-		public CueSheet(Stream cueSheet) {
-			using (var sr = new StreamReader(cueSheet)) {
-				string currentFile = null;
-				string currentMode = null;
-
-				while (!sr.EndOfStream) {
-					string line = sr.ReadLine();
-					if (line == null) {
-						break;
-					}
-
-					var match = FILE_REGEX.Match(line);
-					if (match.Success) {
-						if (currentFile != null && currentMode != null) {
-							_filenames.Add(new CueFile(currentFile, currentMode));
-							currentFile = null;
-							currentMode = null;
-						}
-
-						currentFile = match.Groups["name"].Value;
-					} else {
-						//Yeah, see what I mean? We're just gonna use the first track/mode of each file for simplicity until I'm forced to not do that
-						//Hence we only bother checking for a new track if it's a new file
-						if (currentMode == null) {
-							match = TRACK_REGEX.Match(line);
-							if (match.Success) {
-								currentMode = match.Groups["mode"].Value;
-							}
-						}
-					}
-				}
-
-				_filenames.Add(new CueFile(currentFile, currentMode));
+		public static CueSheet create(Stream cueSheet, string extension) {
+			if(extension[0] == '.') {
+				extension = extension.Substring(1);
 			}
+			extension = extension.ToLowerInvariant();
+
+			if ("cue".Equals(extension)) {
+				return new TextCueSheet(cueSheet);
+			}
+			throw new ArgumentException("Can't create " + extension + " cue sheet", extension);
 		}
 	}
 }

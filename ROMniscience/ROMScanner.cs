@@ -24,6 +24,7 @@
 
 using ROMniscience.Datfiles;
 using ROMniscience.Handlers;
+using ROMniscience.IO.CueSheets;
 using SharpCompress.Archives;
 using System;
 using System.Collections;
@@ -91,7 +92,7 @@ namespace ROMniscience {
 				processArchive(f, handler, datfiles);
 			} else if (IO.ArchiveHelpers.isGCZ(f.Extension)) {
 				processGCZ(f, handler, datfiles);
-			} else if (IO.CueSheet.isCueExtension(f.Extension)) {
+			} else if (CueSheet.isCueExtension(f.Extension)) {
 				processCueSheet(f, handler, datfiles);
 			} else if (handler.handlesExtension(f.Extension)) {
 				processNormalFile(f, handler, datfiles);
@@ -136,7 +137,7 @@ namespace ROMniscience {
 			onHaveRow(info);
 
 			using(var cueStream = f.OpenRead()) {
-				var cue = new IO.CueSheet(cueStream);
+				var cue = CueSheet.create(cueStream, f.Extension);
 				foreach(var cueFile in cue.filenames) {
 					FileInfo filename = new FileInfo(Path.Combine(f.DirectoryName, cueFile.filename));
 
