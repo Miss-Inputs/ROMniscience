@@ -120,7 +120,7 @@
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
     <Compile Include="Handlers\Stubs\Commodore64.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
-    <Compile Include="Handlers\Stubs\Dreamcast.cs" />
+    <Compile Include="Handlers\Dreamcast.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />
     <Compile Include="Handlers\Stubs\GameCom.cs" />
     <Compile Include="Handlers\Stubs\GameMaster.cs" />
