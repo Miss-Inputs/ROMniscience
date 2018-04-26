@@ -26,6 +26,7 @@ using ROMniscience.Datfiles;
 using ROMniscience.Handlers;
 using SharpCompress.Archives;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,8 +91,65 @@ namespace ROMniscience {
 				processArchive(f, handler, datfiles);
 			} else if (IO.ArchiveHelpers.isGCZ(f.Extension)) {
 				processGCZ(f, handler, datfiles);
+			} else if (IO.CueSheet.isCueExtension(f.Extension)) {
+				processCueSheet(f, handler, datfiles);
 			} else if (handler.handlesExtension(f.Extension)) {
 				processNormalFile(f, handler, datfiles);
+			}
+		}
+
+		private class GenericCueHandler : Handler {
+			string _name;
+
+			public GenericCueHandler(string name) {
+				_name = name;
+			}
+
+			public override IDictionary<string, string> filetypeMap => CDBasedSystem.genericCueSheetFiletypeMap;
+
+			public override string getFiletypeName(string extension) {
+				string _base = base.getFiletypeName(extension);
+				if(_base == null) {
+					return _name + " " + extension + " file";
+				}
+				return _name + " " + _base;
+			}
+
+			public override bool handlesExtension(string extension) {
+				return true;
+			}
+
+			public override string name => _name;
+
+			public override void addROMInfo(ROMInfo info, ROMFile file) {
+				info.addInfo("Platform", name);
+			}
+		}
+
+		private void processCueSheet(FileInfo f, Handler handler, DatfileCollection datfiles) {
+			//Add the cue itself for identification purposes, although no handler would handle it correctly (since they expect to see the actual data of the thing) so use a fake stub one
+			Handler fakeHandler = new GenericCueHandler(handler.name);
+			ROMInfo info;
+			using (ROMFile file = new NormalROMFile(f)) {
+				info = ROMInfo.getROMInfo(fakeHandler, file, datfiles);
+			}
+			onHaveRow(info);
+
+			using(var cueStream = f.OpenRead()) {
+				var cue = new IO.CueSheet(cueStream);
+				foreach(var cueFile in cue.filenames) {
+					FileInfo filename = new FileInfo(Path.Combine(f.DirectoryName, cueFile.filename));
+
+					using(ROMFile file = new NormalROMFile(filename)) {
+						file.cdTrackMode = cueFile.mode;
+						if (cueFile.isData) {
+							info = ROMInfo.getROMInfo(handler, file, datfiles);
+						} else {
+							info = ROMInfo.getROMInfo(fakeHandler, file, datfiles);
+						}
+					}
+					onHaveRow(info);
+				}
 			}
 		}
 
@@ -100,7 +158,6 @@ namespace ROMniscience {
 			using (ROMFile file = new NormalROMFile(f)) {
 				info = ROMInfo.getROMInfo(handler, file, datfiles);
 			}
-
 			onHaveRow(info);
 		}
 

@@ -181,6 +181,7 @@
     <Compile Include="IO\ArchiveHelpers.cs" />
     <Compile Include="IO\ByteSwappedInputStream.cs" />
     <Compile Include="IO\CDInputStream.cs" />
+    <Compile Include="IO\CueSheet.cs" />
     <Compile Include="IO\GCZInputStream.cs" />
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>

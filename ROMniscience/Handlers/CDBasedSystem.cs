@@ -33,66 +33,53 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers {
 	abstract class CDBasedSystem : Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
-			{"iso", "2048-byte sector CD image"},
-			{"bin", "CD image file"},
-			{"img", "CD image file"},
+			//Only put standalone file types in here, i.e. that don't consist of a TOC and other files; others will be handled by ROMScanner directly.
+			//I suppose currently that would prevent you from zipping a cue sheet, but would you really want to do that? Does anyone do that? Who does that?
+			{"iso", name + " 2048-byte sector CD image"},
 			//TODO: Support .chd files, which maybe we can pretend are archives of .cue and .bin tracks to maintain checksums
-			//TODO: .toc .nrg and .cdr are in MAME so they can't be _that_ proprietary, but they're low priority because they're weird. .ccd if it's documented somewhere
-			//TODO: This should be reworked from within ROMScanner. Don't do .bin files here, but instead do .cue, and if ROMScanner encounters one then add all the track files it refers to as well, regardless of their extension (detecting sector size as normal), and skip over any other file that's already been added by a .cue; also .gdi could be done there (seems it _could_ be used as a generic CD format, as MAME supports it in the CD slot for many CD-based systems)
+			//TODO: .toc .nrg and .cdr are in MAME so they can't be _that_ proprietary, but they're low priority because they're weird. .ccd if it's documented somewhere (okay so it sort of is but it's proprietary and unofficial, see https://www.gnu.org/software/ccd2cue/manual/html_node/CCD-sheet-format.html#CCD-sheet-format); need .gdi for Dreamcast too
+		};
+
+		public static readonly IDictionary<string, string> genericCueSheetFiletypeMap = new Dictionary<string, string>() {
+			//This will be used for files that are either cuesheets themselves, or non-data tracks that are referred to in cuesheets. Word everything as though it had a thing prefixed to it, so in all lowercase basically
+			//Although if you miss something it'll just show up as "<system> <ext> file" for the filetype name
+			{"cue", "cue sheet"},
+			{"bin", "non-data track"},
+			{"mp3", "MP3 audio track"},
+			{"ogg", "Ogg Vorbis audio track"},
 		};
 		
+		public override string getFiletypeName(string extension) {
+			//This stops data tracks being read as "Unknown". Caveat is that if you override filetypeMap in the actual handler to add something like BIOSes or executables with a .bin extension, you'll get .bin data tracks recognized as a BIOS or executable accordingly
+			string b = base.getFiletypeName(extension);
+			if(b == null) {
+				return name + " data track";
+			}
+			return b;
+		}
+
 		public abstract void addROMInfo(ROMInfo info, ROMFile file, WrappedInputStream stream);
 
+		static int sectorSizeFromMode(string mode) {
+			return int.Parse(mode.Split('/').Last());
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			if ("iso".Equals(file.extension)) {
-				//Straight 2048 byte sectors, nothing to do here
-				info.addInfo("Sector size", 2048);
-				addROMInfo(info, file, file.stream);
-			} else if ("bin".Equals(file.extension) || "img".Equals(file.extension)) {
-				//Just to be annoying, there can be .bin/.img formats with 2048 byte sectors instead of 2352
-				int sectorSize;
-				//We'll check the cue first
-				string cueFilename = Path.ChangeExtension(file.name, "cue");
-				if (file.hasSiblingFile(cueFilename)) {
-					using (var cue = file.getSiblingFile(cueFilename)) {
-						string mode = parseCueSheet(cue);
-						sectorSize = int.Parse(mode.Split('/').Last());
-					}
-				} else {
-					//Assume 2352 if there isn't a cue there (which there should be, but y'know)
-					sectorSize = 2352;
-				}
-				info.addInfo("Sector size", sectorSize);
+			//.iso files are 2048 sectors, and since they're read as normal ROM files without any special handling in ROMScanner, we'll specify that sector size here; for cue sheets we've already read that so we just do the thing
+			int sectorSize = 2048;
+			if (file.cdTrackMode != null) {
+				sectorSize = sectorSizeFromMode(file.cdTrackMode);
+			}
 
-				if (sectorSize == 2352) {
-					addROMInfo(info, file, new CDInputStream(file.stream));
-				} else {
-					addROMInfo(info, file, file.stream);
-				}
+			info.addInfo("Sector size", sectorSize);
+
+			if (sectorSize == 2352) {
+				addROMInfo(info, file, new CDInputStream(file.stream));
 			} else {
-				//If we end up here, the handler decided to override or add to filetypeMap, so it's their problem
 				addROMInfo(info, file, file.stream);
 			}
- 
+
 		}
 
-		static Regex trackLineRegex = new Regex(@"^\s*TRACK\s+\d+\s+(?<mode>MODE./\d+)\s*$");
-		static string parseCueSheet(Stream cueSheet) {
-			//TODO This is very hacky and bad!!
-			using(var sr = new StreamReader(cueSheet)) {
-				while (!sr.EndOfStream) {
-					string line = sr.ReadLine();
-					if(line == null) {
-						break;
-					}
-
-					var matches = trackLineRegex.Match(line);
-					if (matches.Success) {
-						return matches.Groups["mode"].Value;
-					}
-				}
-				return null;
-			}
-		}
 	}
 }

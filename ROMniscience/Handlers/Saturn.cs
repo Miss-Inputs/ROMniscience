@@ -34,7 +34,6 @@ namespace ROMniscience.Handlers {
 	class Saturn : CDBasedSystem {
 		public override string name => "Sega Saturn";
 
-
 		public static readonly Dictionary<char, string> REGIONS = new Dictionary<char, string>() {
 			{'J', "Japan"},
 			{'T', "Asia (NTSC)"}, //Taiwan/Philippines/not Korea?
