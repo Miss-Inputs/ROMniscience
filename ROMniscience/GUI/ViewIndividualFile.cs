@@ -34,15 +34,15 @@ using ROMniscience.Handlers;
 using SharpCompress.Archives;
 
 namespace ROMniscience {
-	class ViewIndividualFile: Form {
+	class ViewIndividualFile : Form {
 		private Panel fuckinPanelIGuess;
 		private TextBox notALabel;
 		private Button okButton;
 		private Button showImagesButton;
 		private IDictionary<string, Image> images = new Dictionary<string, Image>();
 
-		public static T chooseChoices<T>(IEnumerable<T> choices, string displayKey, string helpText, string title) where T: class {
-			if(choices.Count() == 1) {
+		public static T chooseChoices<T>(IEnumerable<T> choices, string displayKey, string helpText, string title) where T : class {
+			if (choices.Count() == 1) {
 				return choices.First();
 			}
 
@@ -75,7 +75,7 @@ namespace ROMniscience {
 			};
 
 			f.Controls.Add(list);
-			foreach(T t in choices) {
+			foreach (T t in choices) {
 				list.Items.Add(t);
 			}
 
@@ -98,14 +98,14 @@ namespace ROMniscience {
 				DialogResult = DialogResult.Cancel,
 			};
 			cancelButton.Left = (okButton.Left - 10) - cancelButton.Width;
-			
+
 			f.Controls.Add(okButton);
 			f.Controls.Add(cancelButton);
 			f.AcceptButton = okButton;
 			f.CancelButton = cancelButton;
 
 			DialogResult result = f.ShowDialog();
-			if(result == DialogResult.OK) {
+			if (result == DialogResult.OK) {
 				return choice;
 			}
 			return null;
@@ -135,33 +135,65 @@ namespace ROMniscience {
 					MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			} else if (IO.ArchiveHelpers.isGCZ(path.Extension)) {
-				using(GCZROMFile gcz = new GCZROMFile(path)) {
+				using (GCZROMFile gcz = new GCZROMFile(path)) {
 					viewFile(gcz);
 				}
+			} else if (IO.CueSheet.isCueExtension(path.Extension)) {
+				viewCueFile(path);
 			} else {
-				using(ROMFile f = new NormalROMFile(path)) {
+				using (ROMFile f = new NormalROMFile(path)) {
 					viewFile(f);
 				}
 			}
 		}
 
-		public static void viewFile(ROMFile rom) {
-			IList<Handler> handlers = findHandlersForExtension(rom.extension);
+		public static void viewCueFile(FileInfo path) {
+			//Yeah, this kinda sucks actually, and it's the pinnacle of my hatred for shit which requires multiple files to represent one thing
+			//This whole view individual file thing doesn't seem suitable for this... anyway, the most notable problem is that due to the way I wrote all this other code here, it asks you for which track before you select a handler, and that feels kinda weird? Like I think that's kinda weird but anyway whatever who cares nothing matters
+			try {
+				using (var file = path.OpenRead()) {
+					var cue = new IO.CueSheet(file);
 
-			Handler handler = null;
-			if(handlers.Count == 0) {
-				handler = chooseChoices(Handler.allHandlers.Where(h => h.shouldSeeInChooseView()).OrderBy(h => h.name), "name", "I don't know what this file extension means. Do you want to try and read it as something else?", "Force Handler");
-			} else {
-				handler = chooseChoices(handlers.OrderBy((h) => h.name), "name", 
-					"This file extension could be a number of things. Which handler do you want to try and read this with?", "Choose Handler");
+					var choices = cue.filenames;
+					var choice = chooseChoices(choices.Where(c => c.isData), "filename", "Which file do you want to view from this cuesheet?", "File selection");
+					
+					if (choice != null) {
+						FileInfo filename = new FileInfo(Path.Combine(path.DirectoryName, choice.filename));
+						using (ROMFile rom = new NormalROMFile(filename)) {
+							rom.cdTrackMode = choice.mode;
+							viewFile(rom, true);
+						}
+					}
+					//TODO: Include a way for user to view the cuesheet itself or non-data tracks, if they reaaaally wanted to do that
+
+				}
+			} catch (Exception ex) {
+				MessageBox.Show(ex.ToString(), "Uh oh spaghetti-o", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			if(handler == null) {
+		}
+
+		public static void viewFile(ROMFile rom, bool isCDTrack = false) {
+			
+			Handler handler = null;
+			if (isCDTrack) {
+				handler = chooseChoices(Handler.allHandlers.Where(h => h is CDBasedSystem), "name", "Which system is this?", "Choose hander");
+			} else {
+				IList<Handler> handlers = findHandlersForExtension(rom.extension);
+
+				if (handlers.Count == 0) {
+					handler = chooseChoices(Handler.allHandlers.Where(h => h.shouldSeeInChooseView()).OrderBy(h => h.name), "name", "I don't know what this file extension means. Do you want to try and read it as something else?", "Force Handler");
+				} else {
+					handler = chooseChoices(handlers.OrderBy((h) => h.name), "name",
+						"This file extension could be a number of things. Which handler do you want to try and read this with?", "Choose Handler");
+				}
+			}
+			if (handler == null) {
 				return;
 			}
 
 			string datFolder = SettingsManager.readSetting("datfiles");
 			DatfileCollection datfiles = null;
-			if(datFolder != null && handler.shouldCalculateHash) {
+			if (datFolder != null && handler.shouldCalculateHash) {
 				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
 			}
 
@@ -215,8 +247,8 @@ namespace ROMniscience {
 
 		public static IList<Handler> findHandlersForExtension(string ext) {
 			IList<Handler> listy = new List<Handler>();
-			foreach(Handler handler in Handler.allHandlers) {
-				if(handler.handlesExtension(ext)) {
+			foreach (Handler handler in Handler.allHandlers) {
+				if (handler.handlesExtension(ext)) {
 					listy.Add(handler);
 				}
 			}
@@ -226,7 +258,7 @@ namespace ROMniscience {
 		public ViewIndividualFile() {
 			InitializeComponent();
 			AcceptButton = okButton;
-			if(Environment.OSVersion.Platform == PlatformID.Unix && MainProgram.isMono) {
+			if (Environment.OSVersion.Platform == PlatformID.Unix && MainProgram.isMono) {
 				//Some would argue I shouldn't do this, but right now Mono seems to be setting
 				//the default fonts to DejaVu Sans and it doesn't support Japanese characters and
 				//I'm not okay with that
@@ -320,7 +352,7 @@ namespace ROMniscience {
 				AutoScroll = true,
 			};
 			f.Controls.Add(flop);
-			foreach(var image in images) {
+			foreach (var image in images) {
 				Label label = new Label() {
 					Text = image.Key
 				};
