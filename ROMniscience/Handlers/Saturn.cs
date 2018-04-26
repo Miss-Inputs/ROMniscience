@@ -93,7 +93,7 @@ namespace ROMniscience.Handlers {
 			if (versionMatches.Success) {
 				info.addInfo("Version", version.Substring(1));
 				info.addInfo("Major version", versionMatches.Groups["major"].Value);
-				info.addInfo("Minor version", versionMatches.Groups["major"].Value);
+				info.addInfo("Minor version", versionMatches.Groups["minor"].Value);
 			} else {
 				info.addInfo("Version", version);
 			}
