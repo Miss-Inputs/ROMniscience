@@ -127,7 +127,7 @@
     <Compile Include="Handlers\Stubs\ColecoVision.cs" />
     <Compile Include="Handlers\Stubs\Cybiko.cs" />
     <Compile Include="Handlers\Stubs\CybikoExtreme.cs" />
-    <Compile Include="Handlers\Stubs\EReader.cs" />
+    <Compile Include="Handlers\EReader.cs" />
     <Compile Include="Handlers\GameGear.cs" />
     <Compile Include="Handlers\Stubs\GameWave.cs" />
     <Compile Include="Handlers\Stubs\GP32.cs" />

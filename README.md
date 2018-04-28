@@ -21,6 +21,7 @@ At the time of writing:
 
   - Atari 7800 (but only the community-developed header)
   - Dreamcast
+  - e-Reader (slightly broken, see comments in that source file)
   - Game Boy Advance  
   - Game Boy/Game Boy Color  
   - GameCube
@@ -67,7 +68,7 @@ Oh yeah. Should have mentioned, you can't really use .zip or .7z etc to compress
 ## Why's it called ROMniscience? That name sucks.
 Well, because it's like omniscience, which is knowing all the things, and it's like ROM, and it knows all the things about your ROMs (in theory), so ROM + omniscience = ROMniscience and... look, naming stuff is hard, okay?  
 
-## Why does <GUI thing> suck?  
+## Why does [this GUI thing] suck?  
 WinForms.  
 
 ## Why do you swear so much in your commit messages and comments?
