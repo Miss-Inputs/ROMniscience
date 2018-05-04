@@ -52,6 +52,7 @@ namespace ROMniscience.Handlers {
 			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
 			{'W', "Sweden/Scandinavia"},
 			{'X', "Europe (X)"},
+			{'Y', "Europe (Y)"}, //So far, only seen in Daikatana GBC French/German/Spanish?
 			//I want to get to the bottom of the Purope vs Xurope mystery one day... P is more common, X is used here:
 			//Daikatana GBC (the English/French/Italian one)
 			//Banjo-Kazooie: Grunty's Revenge (the Europe multilang one, not the USA/Europe one like my cart which has -UKV)
@@ -141,16 +142,8 @@ namespace ROMniscience.Handlers {
 			{"51", "Acclaim"},
 			{"52", "Activision"},
 			{"53", "Sammy (America)"}, //Sammy's USA division, which may or may not be called American Sammy
-			{"54", "Take-Two Interactive/GameTek/Rockstar/etc)"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage
-																			   //because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune
-																			   //on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets
-																			   //fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this
-																			   //code too and was published under the Take-Two Interactive name.. but where it gets fun is that
-																			   //Dora the Explorer: Dora's World Adventures also uses this code but was published
-																			   //under Global Star Software, which was a company that became 2K Play which is then a branch of
-																			   //2K Games and if you've lost track of everything I don't blame you and I just spent several
-																			   //tens of minutes googling around for info on Dora the Explorer why do I do this to myself
-																			   //Anyway this one just seems to cover everything that's owned by Take-Two Interactive
+			{"54", "Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
+			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
 			{"55", "Hi-Tech Expressions"},
 			{"56", "LJN"},
 			{"57", "Matchbox"},
