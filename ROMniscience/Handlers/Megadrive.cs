@@ -115,12 +115,13 @@ namespace ROMniscience.Handlers {
 			{'U', "USA"},
 			{'E', "Europe"}, //Some Sega Pico games have this twice for some reason, or this plus another more specific European country
 			
-			{'4', "Brazil / USA"},
+			{'4', "Brazil + USA"}, //Definitely used in Brazilian Pico games, but also some USA Genesis games (Comix Zone, Beyond Oasis) and USA Pico games
 			{'8', "Hong Kong"}, //Questionable... only seen in a few European Pico games
-			{'A', "Asia"}, //Is this actually Europe, or is No-Intro wrong? A handful of European betas and 32X games use this
+			{'A', "Europe (A)"}, //This is listed in some documentation as Asia, but there are some definitely-Europe-only games which have it (e.g. Darxide) so it's not even PAL Asia or Australia being mistaken for Europe. I don't get it because E is definitely used in other European games as you would expect, even on the 32X so they never changed it from E to A oranything like that...
 			{'B', "Brazil (B)"}, //Doesn't seem to be used, all the Brazilian stuff uses 4 (which is also used by some USA games)
 			{'C', "USA + Europe"}, //Usually not used in favour of just using U and E together, but Garfield: Caught in the Act uses it
-			{'F', "France"}, //But then I've heard this can also be used for region-free.. Yeah, given this is used in Sonic 3D Blast and Vectorman, it's definitely not France
+			{'F', "Worldwide / France"}, //Also said to be France, but that isn't quite right except for the French Pico games that have EF for Europe + France
+			//I might need to process this field differently.... but then it's used in a Japanese Pico game and there's a French Pico game that doesn't have E! AAAA!!! Did Sega just not give a shit about the headers when approving games for release?
 			{'G', "Germany"},
 
 			{'I', "Italy"},
@@ -128,7 +129,7 @@ namespace ROMniscience.Handlers {
 			{'e', "Europe (e)"},
 
 			{'1', "Japan"},
-			{'5', "Japan + USA"}, //This one's not really seen that often because most games would just use Japan and USA together, but the odd 32X game uses this combination... but then just to be confusing, this is also used in Samsung Pico games and some Taiwanese game, and Magic School Bus which wasn't even released in Japan
+			{'5', "Japan + USA"}, //This one's not really seen that often because most games would just use Japan and USA together, but the odd 32X game uses this combination... but then just to be confusing, this is also used in Samsung Pico games and some Taiwanese game, and Magic School Bus which wasn't even released in Japan, so I guess it could also mean all of NTSC
 	
 			//There's a 2 in the Multi-Mega BIOS, not sure what it means, as far as I can tell
 			//that BIOS is just for Europe which it also has as a country code
