@@ -69,7 +69,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Platform", hardwareID);
 				return;
 			}
-			info.addInfo("Platform", "Saturn");
+			info.addInfo("Platform", "Sega Saturn");
 
 			string makerID = stream.read(16, Encoding.ASCII).TrimEnd(' ');
 			if (makerID.StartsWith("SEGA TP ")) {

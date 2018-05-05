@@ -331,6 +331,7 @@ namespace ROMniscience.Handlers {
 		}
 	
 		public static void addSupercardDS2PluginInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", "Supercard DSTwo");
 			string iconFilename = System.IO.Path.ChangeExtension(file.name, "bmp");
 			//The icon is actually pointed to in the .ini file, but it's in a native DS format (starts with fat1:/) so it won't be of any use unless running on an actual DSTwo. Luckily, the filename is always the same as the .plg but with a .bmp extension; and this is the kind of convention that nobody would dare break
 			var icon = Image.FromStream(file.getSiblingFile(iconFilename));

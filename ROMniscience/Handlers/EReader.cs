@@ -333,6 +333,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", "e-Reader");
 			if ("raw".Equals(file.extension)) {
 				byte[] data = uninterleaveRawFile(info, file);
 				parseUninterleavedData(info, data);

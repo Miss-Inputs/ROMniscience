@@ -432,6 +432,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			var stream = file.stream;
 			byte[] magic = stream.read(4);
+			info.addInfo("Platform", "Xbox 360");
 
 			if (isDiscMagic(magic)) {
 				info.addInfo("Detected format", "Disc");

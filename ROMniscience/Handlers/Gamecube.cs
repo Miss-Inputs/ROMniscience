@@ -88,7 +88,7 @@ namespace ROMniscience.Handlers {
 			byte[] magic = s.read(4);
 			info.addInfo("Magic", magic, true);
 
-			info.addInfo("Platform", isGamecubeMagic(magic) ? "GameCube" : isWiiMagic(wiiMagic) ? "Wii" : "Unknown");
+			info.addInfo("Platform", isGamecubeMagic(magic) ? "GameCube" : isWiiMagic(wiiMagic) ? "Wii" : "Unknown Nintendo optical disc-based system");
 
 			string gameName = s.read(0x60, Encoding.ASCII).TrimEnd('\0');
 			info.addInfo("Internal name", gameName);
@@ -337,6 +337,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			if ("dol".Equals(file.extension)) {
 				//TODO Parse what little info there is out of dol (could use this for boot .dol and Wii homebrew .dol too I guess)
+				info.addInfo("Platform", "GameCube");
 				return;
 			}
 
