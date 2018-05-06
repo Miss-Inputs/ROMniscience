@@ -139,6 +139,10 @@ namespace ROMniscience {
 		private readonly IDictionary<string, InfoItem> _info = new Dictionary<string, InfoItem>();
 		public IDictionary<string, InfoItem> info => _info;
 
+		public bool hasInfoAlreadyBeenAdded(string key) {
+			return info.ContainsKey(key);
+		}
+
 		public void addInfo(string key, object value) {
 			addInfo(key, value, FormatMode.NONE);
 		}
