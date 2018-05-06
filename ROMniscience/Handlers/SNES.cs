@@ -106,7 +106,7 @@ namespace ROMniscience.Handlers {
 
 		public static readonly IDictionary<int, string> COUNTRIES = new Dictionary<int, string>() {
 			{0, "Japan"},
-			{1, "USA"},
+			{1, "USA"}, //Seemingly also includes Canada, so is 15 Canada actually used?
 			{2, "Europe"}, //Also includes Oceania + Asia, for example the Australian versions of the TMNT games use this (they're different because we don't call it Teenage Mutant Hero Turtles), but anyway consistency
 			{3, "Sweden + Scandinavia"},
 			{4, "Finland"},

@@ -51,7 +51,7 @@ namespace ROMniscience.Handlers {
 			//This actually matters, because if it's set to China then the DS
 			//will display a glowing "ONLY FOR iQue DS" error message, and seemingly that's all that's stopping you playing it
 			//DSi and 3DS won't care (the region locking on DSi stuff works differently)
-			//Korea doesn't seem to make a difference though, in fact Pokemon White 2 (USA) has it set to that for some reason
+			//Korea doesn't seem to make a difference though, in fact Pokemon White 2 (USA) has it set to that for some reason, and there are some Korean games (Touch Dictionary etc) that use Normal anyway
 			{0, "Normal"},
 			{1, "DSi app"},
 			{0x40, "Korea"},
@@ -75,9 +75,9 @@ namespace ROMniscience.Handlers {
 
 		public readonly static IDictionary<char, string> COUNTRIES = new Dictionary<char, string>() {
 			//Not the same as REGIONS, that's involved in region locking stuff but this is just informational really
-			//I have a feeling this list is somewhat wrong and it actually is the same as GB/GBC/GBA... but it might not be and I'd need to find out
-			{'A', "Worldwide"},
-			{'B', "N/A"}, //Not so sure about this one (in GB/GBA/Gamecube it is Brazil); this only shows up in GameYob DSi and some flashcart firmware whic are both obviously not real product codes
+			//I have a feeling this list is somewhat wrong and it actually is the same as GB/GBC/GBA... but it might not be and I'd need to find out, and find out is what I plan on doing...
+			{'A', "Worldwide"}, //Is this actually used?
+			{'B', "N/A (B)"}, //Not so sure about this one (in GB/GBA/Gamecube it is Brazil); this only shows up in GameYob DSi and some flashcart firmware whic are both obviously not real product codes
 			{'C', "China"},
 			{'D', "Germany"},
 			{'E', "USA"},
@@ -87,17 +87,17 @@ namespace ROMniscience.Handlers {
 			{'I', "Italy"},
 			{'J', "Japan"},
 			{'K', "Korea"},
-			{'L', "USA (L)"}, //doubt.jpg
+			{'L', "Canada"}, //Seen in two games that apparently had a Canada-specific release for some reason. Undefined in other Nintendo systems, some in-flight thing for N64
 			{'M', "Sweden"},
-			{'N', "Norway"}, //Does this actually appear anywhere? In GB/GBA/Gamecube N is Canada, but maybe that is wrong
-			{'O', "International"}, //Apparently excluding China? So not _entirely_ international, but to be fair, how would you word "Everywhere except China"? Only Pokemon gen 5 uses it anyway
+			{'N', "Norway"}, //Only seen in some "Josefine" games as far as I can tell, in GB/GBA/Gamecube/etc N is Canada, but maybe that is wrong
+			{'O', "International"}, //Apparently excluding China? So if that's actually true, not _entirely_ international, but to be fair, how would you word "Everywhere except China"? Only Pokemon gen 5 uses it anyway
 			{'P', "Europe"},
 			{'Q', "Denmark"},
 			{'R', "Russia"},
 			{'S', "Spain"},
-			{'T', "USA + Australia"},
+			{'T', "USA, Australia"},
 			{'U', "Australia"},
-			{'V', "Europe + Australia"}, //Seen in DSi games, but given this exists can we stop pretending Australia is part of Europe? We haven't been since 1901
+			{'V', "Europe, Australia"}, //Seen in DSi games, but given this exists can we stop pretending Australia is part of Europe? We haven't been since 1901
 			{'W', "Europe (W)"}, //Could be specifically Sweden/Scandanavia as with other Nintendo systems? Not seen anywhere (well, a Ganbare Goemon demo with an invalid product code)
 			{'X', "Europe (X)"}, //See NintendoCommon for rambling
 			{'Y', "Europe (Y)"}, //Where is this used? Is it real?
@@ -107,7 +107,7 @@ namespace ROMniscience.Handlers {
 
 		public readonly static IDictionary<int, string> BANNER_VERSIONS = new Dictionary<int, string>() {
 			{1, "Original"},
-			{2, "With Chinese title"},
+			{2, "With Chinese title"}, //Ironically, only Chinese New Super Mario Bros uses this
 			{3, "With Chinese and Korean titles"},
 			{0x103, "With Chinese and Korean titles and DSi animated icon"},
 		};

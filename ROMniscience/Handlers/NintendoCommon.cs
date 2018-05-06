@@ -33,7 +33,7 @@ namespace ROMniscience.Handlers {
 
 		public static readonly IDictionary<char, string> COUNTRIES = new Dictionary<char, string> {
 			//Used by GBC, GBA, Gamecube/Wii, Pokemon Mini, SNES (with product codes, not the other one in the ROM header), Virtual Boy, and WiiWare
-			//N64 and DS use the same XYYZ product code format where Z is region, but they seem to have their own set of country codes
+			//N64 and DS use the same XYYZ product code format where Z is region, but they seem to have their own set of country codes or do they?
 			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
 			{'B', "Brazil"},
 			{'C', "China"},
@@ -44,15 +44,16 @@ namespace ROMniscience.Handlers {
 			{'I', "Italy"},
 			{'J', "Japan"},
 			{'K', "Korea"},
-			{'N', "Canada"},
+			{'N', "Canada"}, //Or is it?
 			{'P', "Europe"},
-			{'R', "Russia"},
+			{'Q', "Denmark"},
+			{'R', "Russia"}, //Maybe?
 			{'S', "Spain"},
-			{'T', "Taiwan"}, //Hmm... not so sure about this one, what did Nintendo release in Taiwan? Only shows up in a bunch of Gamecube multiboot ROMs where the product code is TEST; on DS this is USA + Australia
+			{'T', "Taiwan"}, //Hmm... not so sure about this one, what did Nintendo release in Taiwan? (One NES game and two Wii games, by the looks of it, then a whole bunch of 3DS games) Only shows up in a bunch of Gamecube multiboot ROMs where the product code is TEST; on DS this is USA + Australia
 			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
 			{'W', "Sweden/Scandinavia"},
 			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"}, //So far, only seen in Daikatana GBC French/German/Spanish?
+			{'Y', "Europe (Y)"}, //So far, only seen in Daikatana GBC French/German/Spanish and Paard & Pony - Paard in Galop (Netherlands) (En,Nl) and the other European release of Miffy's World?
 			//I want to get to the bottom of the Purope vs Xurope mystery one day... P is more common, X is used here:
 			//Daikatana GBC (the English/French/Italian one)
 			//Banjo-Kazooie: Grunty's Revenge (the Europe multilang one, not the USA/Europe one like my cart which has -UKV)
@@ -63,6 +64,7 @@ namespace ROMniscience.Handlers {
 			//Scribblenauts & Super Scribblenauts (the suffix on the cart label is -SCN for some reason, what does that even mean? Scandanavia?)
 			//Guitar Hero: On Tour and Guitar Hero: On Tour: Decades kiosk demos (not sure about the full games, but maybe not)
 			//On N64 this is used for 40 Winks (an unreleased game, but would be the European version) and HSV Adventure Racing (an Australian only release), but N64 definitely has weird country codes
+			//Miffy's World (but only one of them, the other has Europe (Y))
 
 			//My theory is that X is non-UK Europe, and P is UK + Europe (haha Brexit is gonna confuse me)
 		};
@@ -97,7 +99,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
-			//These are used by FDS, SNES, GB/GBC, GBA, Gamecube, Wii, DS, 64DD and Virtual Boy; seemingly Pokemon Mini
+			//Big list! Used in every Nintendo system except: NES (but FDS does use it), N64 (but 64DD does use it), e-Reader, and depending on who you ask Pokemon Mini either has 2P for every game (i.e. if you ask me) or it doesn't use this. Well, I presume 3DS/Wii U/Switch do in some way.
 			//Preferred format that I probably don't always use consistently:
 			//Company without Co, Inc, Ltd, etc
 			//Company (Brand name used by company)
@@ -121,12 +123,16 @@ namespace ROMniscience.Handlers {
 			{"19", "Bandai (B-AI)"},
 			{"1A", "Yanoman"},
 			{"1D", "Clary"},
+			{"1M", "Micro Cabin"},
+			{"1Q", "TDK (Japan)"},
 			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
 			{"24", "PCM Complete"},
 			{"29", "Seta"},
+			{"2L", "Tamsoft"},
 			{"2N", "Smilesoft"},
 			{"2P", "The Pokémon Company"},
 			{"35", "Hector"},
+			{"36", "Codemasters"},
 			{"3E", "Gremlin"},
 			{"41", "Ubisoft"},
 			{"44", "Malibu"},
@@ -153,9 +159,12 @@ namespace ROMniscience.Handlers {
 			{"5B", "Romstar"},
 			{"5D", "Midway/Tradewest/Williams"}, //They're all the same thing really, everyone's buying out everyone
 			{"5G", "Majesco"},
+			{"5H", "The 3DO Company"},
+			{"5K", "Hasbro"},
 			{"5L", "NewKidsCo"},
 			{"5Q", "Lego"},
 			{"5T", "Cyro Interactive"},
+			{"5X", "Microids"},
 			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well
 			{"60", "Titus"},
 			{"61", "Virgin"},
@@ -164,8 +173,11 @@ namespace ROMniscience.Handlers {
 			{"69", "Electronic Arts"}, //nice
 			{"6B", "Beam Software/Melbourne House"},
 			{"6F", "Electro Brain"},
+			{"6H", "BBC Multimedia"},
+			{"6J", "Software 2000"},
 			{"6L", "BAM! Entertainment"},
 			{"6S", "TDK"},
+			{"6V", "JoWooD Entertainment"},
 			{"70", "Infogrames/Atari, SA"}, //The modern Atari these days _is_ Infogrames basically and it's all very confusing, but anyway yeah there's DS games like Point Blank DS which use this and they're published under the Atari name, and then there's stuff like Legacy of Goku which is published under Infogrames but they're basically just the same company, and don't ask me about the original Atari because I'll die of confusion
 			{"71", "Interplay"},
 			{"72", "JVC"},
@@ -175,13 +187,18 @@ namespace ROMniscience.Handlers {
 			{"7C", "Microprose"},
 			{"7D", "Vivendi"},
 			{"7F", "Kemco"},
+			{"7G", "Rage Software"},
+			{"7L", "Simon & Schuster"},
 			{"80", "Misawa Entertainment"},
+			{"82", "Namcot"}, //Some division of Namco that was apparently necessary to create as a separate thing.... I don't know
 			{"83", "LOZC"},
 			{"86", "Tokuma Shoten"},
 			{"87", "Tsukuda Ori"},
 			{"8B", "Bullet-Proof Software"},
 			{"8C", "Vic Tokai"},
 			{"8E", "Character Soft"},
+			{"8F", "I'Max"},
+			{"8N", "Success"},
 			{"8P", "Sega"},
 			{"91", "Chunsoft"},
 			{"92", "Video System"},
@@ -192,10 +209,13 @@ namespace ROMniscience.Handlers {
 			{"9B", "Tecmo"},
 			{"9C", "Imagineer"},
 			{"9F", "Nova"},
+			{"9H", "Bottom Up"},
 			{"9M", "Jaguar"}, //The sewing machine company
+			{"A0", "Telenet"}, //Sometimes known as Telenet Japan, or Nippon Telenet, but I think it's fair to just call it "Telenet"
 			{"A1", "Hori Electric"},
 			{"A2", "Scorpion Soft"},
 			{"A4", "Konami"},
+			{"A5", "K Amusement Leasing"},
 			{"A6", "Kawada"},
 			{"A7", "Takara"}, //Vast Fame also uses this for most of their GBC bootlegs, interestingly
 			{"A8", "Royal Industries"}, //More damn sewing machine companies!
@@ -204,6 +224,7 @@ namespace ROMniscience.Handlers {
 			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; there's an FDS game I already forgot the name of that's actually published by Toei though
 			{"AD", "Toho"},
 			{"AF", "[Bandai] Namco"}, //Namco games have always used this, but when they merged with Bandai, they kept this code (so newer games like that Code Geass DS one use this code as well), which is interesting because Square Enix doesn't reuse Squaresoft or Enix's licensee codes and gets a new one
+			{"AH", "J-Wing"},
 			{"AL", "Media Factory"},
 			{"B1", "ASCII/Nexoft"},
 			{"B2", "Bandai"},
@@ -214,6 +235,7 @@ namespace ROMniscience.Handlers {
 			{"B9", "Pony Canyon"},
 			{"BA", "Culture Brain"},
 			{"BB", "Sunsoft"},
+			{"BC", "Toshiba EMI"},
 			{"BD", "Sony Imagesoft"},
 			{"BF", "Sammy"},
 			{"BJ", "Compile"},
@@ -239,11 +261,13 @@ namespace ROMniscience.Handlers {
 			{"D7", "Copya Systems"},
 			{"D9", "Banpresto"},
 			{"DA", "Tomy"},
+			{"DB", "Hiro"},
 			{"DD", "Masaka"}, //Brand that Nippon Computer Systems uses to distribute games, but the rest of the company has no involvement so I might as well just put Masaka here and call it a day
 			{"DE", "Human"},
 			{"DF", "Altron"},
 			{"E1", "Towachiki"},
 			{"E2", "Yuutaka"},
+			{"E4", "T&E Soft"},
 			{"E5", "Epoch"},
 			{"E7", "Athena"},
 			{"E8", "Asmik"},
@@ -255,23 +279,26 @@ namespace ROMniscience.Handlers {
 			{"F0", "A Wave"},
 			{"F3", "Extreme Entertainment"},
 			{"FJ", "Virtual Toys"},
+			{"FQ", "iQue"}, //Sort of. Only WarioWare: Touched, Polarium, and Yoshi: Touch & Go use this, the other three iQue games: New Super Mario Bros, Super Mario 64, and Nintendogs (kiosk demo) use Nintendo instead. Those were all 2007 or later, the latter being on the iQue DSi, so it may be something corporate related going on there
 			{"FR", "Digital Tainment Pool"},
+			{"FT", "Daiwon C&A Holdings"},
 			{"GD", "Square Enix"},
 			{"GL", "Gameloft"},
 			{"HF", "Level5"},
 			{"JS", "Digital Leisure"},
+			{"KR", "Krea Medie"},
 			{"RW", "RealNetworks"},
 			{"TL", "Telltale"},
 
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
 			{"B0", "Acclaim (B0)"}, //Already uses 51
-			{"46", "Angel (46)"}, //Already uses CF
+			{"46", "Angel (46)"}, //Already uses CF; seen in Super Putty (Europe) and Desert Fighter (Europe) which should be theoretically System 3 (Super Putty was published in Japan and US by Varie and US Gold respectively, Desert Fighter was published by Seta elsewhere)
 			{"39", "Banpresto (39)"}, //Already uses D9
-			{"9D", "Banpresto (9D)"}, 
+			{"9D", "Banpresto (9D)"},
 			{"6E", "Elite Systems (6E)"}, //Already uses 0C; this one is used in the Power Slide SNES prototype; this may have something to do with their in-house development studio MotiveTime
 			{"E0", "Jaleco (E0)"}, //Already uses 0A
 			{"C2", "Kemco (C2)"}, //Already uses 7F; not sure what's going on here. This is used by Electrician and Roger Rabbit for FDS, 7F is used by Top Gear 3000, Daikatana GBC and Virtual League Baseball, could be C2 is Kemco Japan and 7F is Kemco Not-Japan? Also used for The Sword of Hope for GBC which was published by Seika
-			{"28", "Kemco (28)"},
+			{"28", "Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
 			{"34", "Konami (34)"}, //Already uses A4
 			{"4D", "Malibu (4D)"}, //Already uses 44
 			{"5C", "Naxat Soft (5C)"},//Already uses D6
@@ -286,9 +313,8 @@ namespace ROMniscience.Handlers {
 			{"22", "pow"},
 			{"3C", "Entertainment I"}, //ndustries?
 			{"09", "hot-b"},
-			{"8F", "i'max"},
 			{"25", "san-x"},
-			{"75", "sci/The Sales Curve"},
+			{"75", "sci/The Sales Curve"}, //Seen in Super SWIV, which is _developed_ by those people, but published by Storm...
 			{"96", "Yonezawa/s''pal"},
 
 			//Questionable
@@ -300,7 +326,6 @@ namespace ROMniscience.Handlers {
 						   //code anyway; and there is also an 0x56 up there for LJN for some SNES games that use it instead of Aclaim
 			{"42", "Atlus (42)"}, //Only seen in Project S-11 which is by Paragon 5/Sunsoft and not Atlus (also some cheeky bugger homebrew games that want to use 42), all Atlus games so far use EB
 			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
-			{"DB", "LJN (DB)"}, //Actually might not be LJN, it is seen in Ishidou for FDS which is by Hiro
 			{"38", "Hudson/Capcom"},
 			{"31", "Nintendo (31)"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
 			//Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
@@ -323,72 +348,68 @@ namespace ROMniscience.Handlers {
 			//Rambling and large amounts of comments and speculation on more maker codes below!
 
 			//Official games, but I want to confirm by seeing if more titles use them:
-			//1M: Magical Chase GB (Micro Cabin)
 			//1P (Chee-Chai Alien): Creatures
-			//1Q: McDonalds Monogatari: Honobono Tenchou Ikusei Game (GBC) TDK Core (might be TDK's Japanese branch?)
-			//2L: Barcode Taisen Bardigun (dev Graphic Research, pub Tamsoft)
-			//36 (Cannon Fodder) Could be Codemasters (developer) or Activision (publisher)
-			//3B: Nightmare Busters prototype (SNES)
-			//40: Super Turrican (SNES), 
-			//5H: Warriors of Might and Magic (3DO Company)
-			//5K (Q-bert GBC) Dev: Pipe Dream / Pub: Hasbro
+			//21: Albert Odyssey, Xak: The Art of Visual Stage (SNES) (Sunsoft? How many fuckin licensee codes do they need, they use BB in Albert odyssey 2)
+			//3B: Nightmare Busters prototype (SNES) Planned for release by Nichibutsu, re-released by Super Fighter Team eventually
+			//40: Super Turrican (SNES): Hudson Soft (UK), Seika (USA), Tonkinhouse (Japan) 
+			//5F: Super Copa (SNES) (US by American Softworks, BR by Playtronic)
 			//5V (Cookie & Cream demo) FromSoftware I guess?
-			//5X: The Fish Files (GBC) dev: Microids / pub: 7th Sense
 			//62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
-			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release
+			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release and there's this DSi Demonstration thing inside my 3DS what the fuck is this it has the SDK logo is this some kind of unused thing and it has 65 as the thing aaaa
 			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
-			//6M: Gottlieb Pinball Classics (Wii) 
+			//6M: Gottlieb Pinball Classics (Wii) System 3, in Murica they call it "Pinball Hall of Fame: The Gottlieb Collection" and it's published by Crave
 			//6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games) but Classified Games are already 5Z? Ehhhh??
-			//6V: The Nations: Land of Legends (dev: Neon / pub: JoWooD Entertainment)
-			//7G (Pocket Music GBC) Jester Interactive / Rage Software
-			//7J: Who Wants to Be a Millionaire (GBA), or at least the Australian version
-			//7L: Sabrina the Teenage Witch: Spooked (dev: WayForward / pub: Simon & Schuster)
-			//7S: Max Payne (GBA)
-			//82: Cosmo Gang the Video (SNES) (just Namco? wat although title screen says Namcot, which I guess is a brand of Namco for some reason)
-			//85: Mr. Bloopy Saves the World (SNES) (dev: Compedia and Rare)
+			//6X: Gremlins: Stripe vs. Gizmo beta (GBA) (dev/pub: Magic Pockets / DreamCatcher Interactive)
+			//7J: Who Wants to Be a Millionaire (GBA), or at least the Australian version; Chicken Shoot (Europe) (GBA) which are both published by Zoo but that's already 20? Nyaaaaa?
+			//7S: Max Payne (GBA) Rockstar? Oh... oh crap how many Rockstars and Take-Two subsidiaries are there fuck everything why me
+			//85: Mr. Bloopy Saves the World (SNES proto) (dev: Compedia and Rare)
 			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
-			//8N (Guruguru Nagetto demo) Dev: BeeWorks / Pub: Success (EU release was 505 Game Street), endrift also uses this for Scrum: A Game Very Vaguely About Programming
 			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)); both publishers are owned by Take-Two Interactive; could be wrapped up as 2K Play, also Spark World (SNES) published by Den'Z which makes absolutely no goddamned sense but everything else in the header is valid
-			//9H: Super Tsumeshougi 1000 (BS) Pub: Bottom Up
-			//9N: Dark Empire (GBA) was developed by Marvelous, never published
-			//A0: Let's Pachinko Nante Gindama series (BS) dev: Daiichi / pub: Telenet, BS Parlor! Parlor!: Dai-2-shuu (BS) dev: Daiichi / pub: Telenet; also Ninjapass flashcards
-			//A5: Ryuuko no Ken (Art of Fighting JP) (SNES) dev/pub: SNK
+			//9N: Dark Empire (GBA) was developed by Marvelous, never published; Chobits: Atashi Dake no Hito (GBA) (Marvelous)
 			//AG: Ballz 3D JP (SNES) dev: PF Magic pub: Media Rings (Accolade originally)
-			//BC: Pachicom (FDS) Dev: Bear's / Shouei System Pub: Toshiba EMI
 			//BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
 			//C7: Reflect World (FDS) (East Cube)
 			//CL: Oekaki Logic (SNES) (Sekaibunka Publishing)
+			//CP: RPG Tsukuru Advance (GBA)
 			//DK (Initial D Gaiden) MTO / Kodansha?
 			//DM: Doshin the Giant 64DD games, but also the Randnet Disk, and not sure what's in common there (Randnet themselves? Alps? Did they have any involvement with Doshin the Giant though?)
-			//E4: Bushi Seiryuuden (SNES) dev: Game Freak pub: T&E Soft (or Technology & Entertainment Software if you prefer)
 			//EL: ANA Original: Gotouchi Kentei DS (dev: Studio Zan pub: originally Spike, this version is some All Nippon Airways promo)
 			//F9 Spectre (SNES) (Mac dev: Peninsula Gameworks / pub: Velocity Development) (SNES dev: Synergistic Software / pub: US Cybersoft EU GameTek)
 			//FG Bomberman Selection (dev: Hudson Soft / pub: Jupiter or Hudson Soft themselves, depending on who you ask) This is tricky because Hudson Soft already has a licensee code of 0x18, and Jupiter never published anything else, maybe some kind of Korean branch of Hudson?
-			//FQ (WarioWare: Touched iQue version aka Momo Waliou Zhizao) Alpha-Unit (according to the banner)? Intelligent Systems? iQue itself or Wei Yen? But Nintendogs iQue doesn't use this
 			//G0 (Monster Finder (albeit a bad dump) aka Foto Showdown outside JP) Alpha Unit
-			//GN: Cartoon Network Punch Time Explosion (Wii) except only the PAL version, the USA one has Crave Entertainment
+			//GN: Cartoon Network Punch Time Explosion (Wii) except only the PAL version, the USA one has Crave Entertainment (OG International)
 			//GT (Picture Perfect Hair Salon): 505 Games
+			//GX: C64 Wii VC games (NTSC at least)
 			//H4 (Doki Doki Majo Shinpan!): SNK?
 			//HC (Jam Sessions demo) Dev: Plato / Pub: Ubisoft
 			//HL: LostWinds (WiiWare) (Frontier Developments)
 			//HN: VIP Casino Blackjack (WiiWare) (High Voltage)
+			//J8: Metal Slug X (Neo Geo Wii VC), Space Manbow (MSX Wii VC)
+			//J9: Korg DS-10 Synthesizer (Japan) (DS) (+ and limited edition) (AQ Interactive)
 			//JT: Groovin Blocks (WiiWare) dev: Empty Clip Studios pub: Zoo
 			//JY: Bruiser and Scratch (WiiWare) (Steel Penny)
 			//K0 (DSVision Starter Kit (am3 Inc, DSVision itself is just Nintendo)), also Tsuji Gakuen Tsuji Cooking Kanshuu - Koharu no DS Uchigohan. - Shokuji Balance Guide Tsuki (Comolink)
-			//LR: Doctor Who: Evacuation Earth (DS) dev: Asylum Entertainment pub: BBC in Europe (which is my cart's region), US version by Sunsoft
+			//LR: Doctor Who: Evacuation Earth (DS) dev: Asylum Entertainment pub: Koch Media in Europe (which is my cart's region), US version by Sunsoft
+			//MN: Paard & Pony - Paard in Galop (GBA) (Mindscape I think? But they are already 5A)
 			//MV (Contact beta): Dev: Grasshopper Manufacture / Pub: Marvelous (JP), Atlus (US), Rising Star Games (PAL); also Beer Belly Bill (GBA homebrew)
 			//NJ (System Flaw Europe): Enjoy Gaming
 			//NK (Cocoto: Kart Racer beta): Dev: Neko Entertainment / Pub: BigBen Interactive (EU), Conspiracy Games (US), Kemco (JP)
+			//NR: Giana Sisters DS (USA) (Destineer)
 			//PQ (Peggle: Dual Shot): Popcap Games
+			//PV: Miffy's World (DS) (I can't find any info on the DS version but WiiWare is published by PAN Vision AB)
+			//RB: Korg M01 Music Workstation (Japan) (DS) (Detune)
 			//QH (Intellivision Lives): Virtual Play Games
+			//Q7: MapleStory DS (dev: Nexon / pub: Nexon, Nintendo of Korea)
 			//SZ (System Flaw USA): Storm City Entertainment
-			//T1: GP-1 Racing (GBA), sounds like it would have been published by Edge Interactive
+			//T1: GP-1 Racing (GBA proto), sounds like it would have been published by Edge Interactive
 			//T2: Major League Baseball 2K6 beta (GameCube), dev: Visual Concepts / pub: 2K Sports
 			//TR: Tetris Party (WiiWare) (Tetris Online for USA/Europe version)
 			//WR (Scribblenauts, Super Scribblenauts): Warner Bros
 			//WY: LIT (WiiWare) (WayForward)
+			//XJ: Korg DS-10+ Synthesizer (USA DS) (XSeed)
 			//XG: Defend Your Castle (WiiWare) (XGen Studios)
 			//XS: Family Glide Hockey (WiiWare) dev: Arc System Works / pub: Aksys Games
+			//ZH: K3 en de Vrolijke Noten (DS)
 
 			//Darkrai Distribution cart and Surfing Pikachu Distribution cart have KX, but as they're
 			//not supposed to be released, I think that doesn't count. Or it could mean
@@ -397,6 +418,7 @@ namespace ROMniscience.Handlers {
 			//And then also to be confusing, Puyo Nexus's translation of Puyo Puyo 7 uses KX as well, but the
 			//official Puyo Puyo 7 just uses 8P/Sega... is KX inserted by some kind of hacking/patching tool and those two
 			//distro carts are actually hacked and that's why they're not showing up in No-Intro?
+			//Animal Life: North America too but that's a bad dump hmm I dunno if I believe it; says something about UIG Entertainment on the box art and I don't know anything else about it
 
 
 			//Kirby's Amazing Mirror prototype has MA as the maker, but it also has
@@ -532,11 +554,11 @@ namespace ROMniscience.Handlers {
 			{7, "K-7"},
 			{12, "K-12"},
 			{16, "K-16"},
-			{18, "K-18" }
+			{18, "K-18"}
+			//TODO 11 in Twilight Princess? What on top of the fuck?
 		};
 
 		//There are 6 unused bytes after these so those might be other countries
-		//Finland/FBFC might not actually be used, GBATEK lists it as a reserved byte for DSi games
 		//Some other countries and their rating boards in case they turn out to be used:
 		//Brazil (ClassInd): L = General Audiences, 10+, 12+, 14+, 16+, 18+; "Especially recommended for children/teenagers" rating abandoned in 2009
 		//Iran (ERSA): +3 (but they call it al ages), +7, +12, +15, +18
@@ -566,7 +588,7 @@ namespace ROMniscience.Handlers {
 			//Bit 5 is set for ESRB on Super Smash Bros Brawl (USA v1.01), Bomberman Blast (USA), and
 			//Mario Strikers Charged
 			//Possibly indicates online interactivity, e.g. the specific label "Online Interactions Not Rated by the ESRB" / "Game Experience May Change During Online Play"
-			
+
 			//Bit 6 is set for USK in Madworld (PAL), so it possibly indicates something
 			//like "banned in this country" or "refused classification"; otherwise Madworld is parsed as being all ages in Germany which is absolutely not the case
 			//It's also set on Gnubox GX, VBA GX and USBLoaderCFG channel forwarders, but those are homebrew, so it might be just invalid (they also set bit 5, and without those two

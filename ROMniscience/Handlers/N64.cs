@@ -44,11 +44,11 @@ namespace ROMniscience.Handlers {
 		public override string name => "Nintendo 64";
 
 		readonly static IDictionary<char, string> COUNTRIES = new Dictionary<char, string> {
-			//This could plausibly use the same country codes as everything else... or could it?
+			//This could plausibly use the same country codes as everything else... or could it? Only those Gateway 64 codes are out of place
 			{'\0', "Homebrew"},
 			{'A', "Asia"}, //Or is it worldwide?
 			{'B', "Brazil"},
-			{'C', "China"},
+			{'C', "China"}, //Although iQue Player dumps don't have product codes...
 			{'D', "Germany"},
 			{'E', "USA"},
 			{'F', "France"},
