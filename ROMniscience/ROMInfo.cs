@@ -48,11 +48,11 @@ namespace ROMniscience {
 
 		public static string formatByteSize(long bytes, bool isMetric) {
 			int baseUnit = isMetric ? 1000 : 1024;
-
+			//FIXME 4GB bytes is formatted as 0 bytes
 			if (bytes < baseUnit) {
 				return String.Format("{0} bytes", bytes);
 			}
-
+			
 			int exp = (int)(Math.Log(bytes) / Math.Log(baseUnit));
 			char suffix = "KMGTPE"[exp - 1];
 

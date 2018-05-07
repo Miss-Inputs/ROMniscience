@@ -98,7 +98,7 @@
     <Compile Include="Handlers\Pico.cs" />
     <Compile Include="Handlers\SegaCommon.cs" />
     <Compile Include="Handlers\Stubs\3DO.cs" />
-    <Compile Include="Handlers\Stubs\3DS.cs" />
+    <Compile Include="Handlers\3DS.cs" />
     <Compile Include="Handlers\Stubs\AcornElectron.cs" />
     <Compile Include="Handlers\Stubs\AdventureVision.cs" />
     <Compile Include="Handlers\Stubs\Amiga.cs" />

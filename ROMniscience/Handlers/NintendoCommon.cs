@@ -558,10 +558,18 @@ namespace ROMniscience.Handlers {
 			//TODO 11 in Twilight Princess? What on top of the fuck?
 		};
 
+		public readonly static IDictionary<int, string> CGSRR_RATINGS = new Dictionary<int, string>() {
+			{0, "G"},
+			{6, "Protected"},
+			{12, "PG 12"},
+			{15, "PG 15"},
+			{18, "Restricted"},
+		};
+
 		//There are 6 unused bytes after these so those might be other countries
 		//Some other countries and their rating boards in case they turn out to be used:
 		//Brazil (ClassInd): L = General Audiences, 10+, 12+, 14+, 16+, 18+; "Especially recommended for children/teenagers" rating abandoned in 2009
-		//Iran (ERSA): +3 (but they call it al ages), +7, +12, +15, +18
+		//Iran (ERSA): +3 (but they call it all ages), +7, +12, +15, +18
 		//Taiwan (GSRR): G = 0, Protected = 6+, PG 12 = 12+, PG 15 = 15+, Restricted = 18+
 		//Finland (FBFC up to 2011): S = 0, K-7 = 7+, K-12 = 12+, K-16 = 16+, K-18 = 18+, KK = Banned; albeit they adopted PEGI since 1 January 2007 so that's weird
 		//Argentina (INCAA): ATP = 0, 13+, 16+, 18+
@@ -569,21 +577,23 @@ namespace ROMniscience.Handlers {
 		//There's a thing called the IARC which is an evil alliance of all the supervillains of the game rating world, and they have 3+/7+/12+/16+/18+ ratings for countries that don't have their own ratings thing, but that didn't exist since 2013
 
 		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
-			new Tuple<string, IDictionary<int, string>>("CERO", NintendoCommon.CERO_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("ESRB", NintendoCommon.ESRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("CERO", CERO_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("ESRB", ESRB_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
-			new Tuple<string, IDictionary<int, string>>("USK", NintendoCommon.USK_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("PEGI", NintendoCommon.PEGI_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("FBFC", FBFC_RATINGS), //Finland uses a different ratings board since 2011, but for Wii and DSi games it should be fine; I haven't seen this used anyway
-			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", NintendoCommon.PEGI_PORTUGAL_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("PEGI (UK)", NintendoCommon.PEGI_UK_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("AGCB", NintendoCommon.AGCB_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("GRB", NintendoCommon.GRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("USK", USK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI", PEGI_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("FBFC", FBFC_RATINGS), //Finland uses a different ratings board since 2011, but for Wii and DSi games it should be fine; I haven't seen this used anyway (actually, it might be Wii only and then became reserved with DSi/3DS)
+			new Tuple<string, IDictionary<int, string>>("PEGI (Portgual)", PEGI_PORTUGAL_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("PEGI (UK)", PEGI_UK_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("AGCB", AGCB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("GRB", GRB_RATINGS),
+			new Tuple<string, IDictionary<int, string>>("CGSRR", CGSRR_RATINGS), //3DS only
 		};
 
 		public static void parseRatings(ROMInfo info, byte[] ratings, bool isDSi) {
 			//Used with Wii/WiiWare and DSi, which both introduced parental controls features I guess
 			//DSi seems to use bit 7 to indicate if a rating exists for a given country differently
+			//To be precise: With DSi (and 3DS), bit 7 is set when a rating exists, on Wii, bit 7 is unset when a rating exists
 
 			//Bit 5 is set for ESRB on Super Smash Bros Brawl (USA v1.01), Bomberman Blast (USA), and
 			//Mario Strikers Charged
@@ -593,6 +603,8 @@ namespace ROMniscience.Handlers {
 			//like "banned in this country" or "refused classification"; otherwise Madworld is parsed as being all ages in Germany which is absolutely not the case
 			//It's also set on Gnubox GX, VBA GX and USBLoaderCFG channel forwarders, but those are homebrew, so it might be just invalid (they also set bit 5, and without those two
 			//bits the rating is read as 10, which isn't a rating category for USK)
+
+			//On 3DS, bit 6 indicates "Rating Pending" and bit 5 indicates No Age Restriction but that can't be right for Wii and probably not DSi
 
 			for (int i = 0; i < 16; ++i) {
 				int rating = ratings[i];
@@ -604,10 +616,10 @@ namespace ROMniscience.Handlers {
 				}
 
 				if ((rating & 0x40) > 0) {
-					info.addInfo(ratingName + " bit 6", rating & 0x40);
+					info.addInfo(ratingName + " bit 6", true);
 				}
 				if ((rating & 0x20) > 0) {
-					info.addInfo(ratingName + " bit 5", rating & 0x20);
+					info.addInfo(ratingName + " bit 5", true);
 				}
 
 				bool ratingExists;
