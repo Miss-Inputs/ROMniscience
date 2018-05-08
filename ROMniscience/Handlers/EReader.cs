@@ -303,12 +303,6 @@ namespace ROMniscience.Handlers {
 			for (int i = 0; i < interleaveValue; ++i) {
 				IList<byte> fragment = new List<byte>();
 				for (int j = 0, pos = i; j < totalFragmentSize; ++j) {
-					//long pos = i + (interleaveValue * j);
-					//long step = 2 * ((pos / 102) + 1);
-					//pos += step;
-
-					//s.Position = pos;
-					//fragment.Add((byte)s.read());
 					
 					int blockNum = pos / (BLOCK_SIZE);
 					byte[] block = blocks[blockNum];

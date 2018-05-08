@@ -29,6 +29,7 @@ At the time of writing:
   - NES, FDS  
   - Nintendo 64, 64DD
   - Nintendo DS  
+  - Nintendo 3DS  
   - Pokemon Mini  
   - PSP (only PBP files at this point)
   - RCA Studio II

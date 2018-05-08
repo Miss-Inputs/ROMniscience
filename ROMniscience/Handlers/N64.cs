@@ -76,13 +76,6 @@ namespace ROMniscience.Handlers {
 			{'N', "Cartridge"},
 			{'Z', "Seta Aleck64 arcade board"}, //While these would usually be MAME romsets, it's possible to extract the file representing the game and it's just a byteswapped N64 rom
 			{'\0', "Homebrew"},
-			//Some other ones that might not be valid (since product codes only make sense for officially released products):
-			//M: Dragon Sword prototype (not the Aug 25 1999 one, but the one in No-Intro)
-			//7: GameShark Pro (region code is also 'p' and the short title has a garbage character so the whole thing is probs junk)
-			//1: Starcraft 64 beta
-			//X: Tristar 64 BIOS, CD64 BIOS
-			//A: Turok 3 Jun 6 2000 beta (the whole game code is ABCD so probably just the developers using a placeholder)
-			//Presumably iQue would have a different one as well but I think they haven't even been dumped yet? So who knows
 
 		};
 
@@ -91,7 +84,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		//CIC chips... should this be an enum? Eh, it'll take me longer to figure out if it should be an enum and how it would work instead of just taking the easy route and making them constants
-		const uint CIC_LYLAT = 0x27fdf31; //
+		const uint CIC_LYLAT = 0x27fdf31; 
 		const uint CIC_6101 = 0xfb631223; //Star Fox 64 (PAL equivalent is 7102, which would be CIC_LYLAT? Or have I confused myself somewhere)
 		const uint CIC_6102 = 0x57c85244; //PAL equivalent: 7101 (standard)
 		const uint CIC_6103 = 0x497e414b; //PAL equivalent: 7103 (Banjo-Kazooie/Paper Mario)

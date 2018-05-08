@@ -326,30 +326,7 @@ namespace ROMniscience.Handlers {
 				var genreAttrib = genreElement.Attribute("genreId");
 				if (genreAttrib != null) {
 					//TODO: How are genres encoded into numbers like this? They don't seem to be consistent with what shows up in Game Details on an actual console, unless I need to redump my stuff because it's been updated or something
-					//Banjo-Kazooie: 116070000 > Platformer, Classics
-					//Banjo-Tooie: 116010000, 116070000 > Action-Adventure, Classics
-					//Blade Kitten: <no value> > Action-Adventure
-					//Bliss Island: 116040000, 116090000 > <nothing>
-					//Boom Boom Rocket: 116010000 > Action-Adventure
-					//Coffeetime Crosswords: 116040000 > <nothing>
-					//Doritos Crash Course: <no value> > Platformer, Racing & Flying
-					//ilomilo: <no value> > Platformer, Puzzle & Trivia
-					//Interpol: 116090000 > Family, Puzzle & Trivia
-					//Marble Blast Ultra: <no value> > <nothing>
-					//OutRun Online Arcade: 116130000 > <nothing>
-					//Phantasy Star II: 116070000 > Classics
-					//Rez HD: 116160000 > Shooter
-					//Sam & Max Save the World: 116040000 > Classics, Puzzle & Trivia
-					//Scott Pilgrim vs. The World <no value> > <nothing>
-					//Track & Field: 116030000 > Classics
-					//Uno: <no value> > <nothing>
-					//Daytona USA demo: <no value> > Classics, Racing & Flying
-					//Deathspank demo: <no value> > Action & Adventure, Role Playing
-					//Doom (1993) demo: <no value> > Shooter, Classics
-					//Peggle demo: 116040000 > Puzzle & Trivia
-					//Peggle 2 demo: <no value> > Family, Puzzle & Trivia
-					//Sonic the Hedgehog (1991) demo: 116070000 > Classics
-					//So as you can see it's a bit messed up, there are games of the same genre internally that don't display as the same genre, or there's games that display as the same genre but aren't the same internally. Either there's been updates and if I dump them again it'll start making sense, or the Xbox 360 just goes to Xbox Live to get genre information and ignores whatever's here anyway.
+					//So as you can see from the wiki page it's a bit messed up, there are games of the same genre internally that don't display as the same genre, or there's games that display as the same genre but aren't the same internally. Either there's been updates and if I dump them again it'll start making sense, or the Xbox 360 just goes to Xbox Live to get genre information and ignores whatever's here anyway.
 					//Having said that, there seems to be a few values which we can deduce as most likely being correct
 					info.addInfo(combinePrefix(prefix, i == 1 ? "Genre" : "Genre " + i), genreAttrib.Value, GENRES);
 				}

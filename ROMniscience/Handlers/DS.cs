@@ -52,6 +52,7 @@ namespace ROMniscience.Handlers {
 			//will display a glowing "ONLY FOR iQue DS" error message, and seemingly that's all that's stopping you playing it
 			//DSi and 3DS won't care (the region locking on DSi stuff works differently)
 			//Korea doesn't seem to make a difference though, in fact Pokemon White 2 (USA) has it set to that for some reason, and there are some Korean games (Touch Dictionary etc) that use Normal anyway
+			//Have also seen 65 (wat?)
 			{0, "Normal"},
 			{1, "DSi app"},
 			{0x40, "Korea"},
@@ -126,7 +127,7 @@ namespace ROMniscience.Handlers {
 		public static readonly IDictionary<int, string> DSI_TYPES = new Dictionary<int, string>() {
 			{0, "Cartridge"},
 			{4, "DSiWare"},
-			{5, "System fun tools"}, //wat
+			{5, "System fun tools"}, //wat (seen in this DSi Demonstration thingy that was tucked away in my 3DS's internal storage somewhere)
 			{15, "Non-executable data file"},
 			{21, "System base tools"},
 			{23, "System menu"},

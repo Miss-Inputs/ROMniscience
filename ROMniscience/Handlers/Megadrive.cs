@@ -44,7 +44,7 @@ namespace ROMniscience.Handlers {
 		public override string name => "Megadrive/Genesis";
 
 		public readonly static IDictionary<string, string> PRODUCT_TYPES = new Dictionary<string, string> {
-			{"AI", "Education"}, //Wonder Library, Time Trax (although that's not educational), Miracle Piano Teaching System... maybe this is actually wrong, especially as no Pico games use it
+			{"AI", "Education"}, //Wonder Library, Time Trax (although that's not educational), Miracle Piano Teaching System... maybe this is actually the wrong thing to call it, especially as no Pico games use it
 			{"BR", "Boot ROM"}, //Mega CD BIOS, LaserActive BIOS etc
 			{"GM", "Game"},
 			{"OS", "Operating system"}, //Genesis OS ROM uses this
@@ -145,6 +145,7 @@ namespace ROMniscience.Handlers {
 			{"MAY", 5},
 			{"JUN", 6},
 			{"JUL", 7},
+			{"JUR", 7},
 			{"JLY", 7},
 			{"AUG", 8},
 			{"08", 8},

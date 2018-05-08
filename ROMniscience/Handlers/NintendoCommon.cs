@@ -107,7 +107,7 @@ namespace ROMniscience.Handlers {
 			//Company A / New name of Company A
 			//[Company B that merged with company A but kept A's licensee code] Company A e.g. [Bandai] Namco (Namco used the code AF before the merger)
 
-			{"00", "Nobody"}, //Probably homebrew
+			{"00", "Nobody"}, //Probably homebrew; although... some 3DS games use this? What the heck, I don't think Smash 4 was published by nobody
 			{"  ", "Nobody"},
 			{"\0\0", "Nobody"},
 			{"##", "Nobody"},
@@ -344,122 +344,6 @@ namespace ROMniscience.Handlers {
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
 			//Banjo-Pilot's beta version that has XXXX as the game code
-
-			//Rambling and large amounts of comments and speculation on more maker codes below!
-
-			//Official games, but I want to confirm by seeing if more titles use them:
-			//1P (Chee-Chai Alien): Creatures
-			//21: Albert Odyssey, Xak: The Art of Visual Stage (SNES) (Sunsoft? How many fuckin licensee codes do they need, they use BB in Albert odyssey 2)
-			//3B: Nightmare Busters prototype (SNES) Planned for release by Nichibutsu, re-released by Super Fighter Team eventually
-			//40: Super Turrican (SNES): Hudson Soft (UK), Seika (USA), Tonkinhouse (Japan) 
-			//5F: Super Copa (SNES) (US by American Softworks, BR by Playtronic)
-			//5V (Cookie & Cream demo) FromSoftware I guess?
-			//62: SimAnt (SNES) Maxis, but this was the only game where they published their own game (albeit they didn't develop the SNES version, Imagineer did from what I can tell), so... hmm...
-			//65 (X USA prototype) Dev: Nintendo & Argonaut / Pub: Nintendo for Japanese release and there's this DSi Demonstration thing inside my 3DS what the fuck is this it has the SDK logo is this some kind of unused thing and it has 65 as the thing aaaa
-			//6K (Monster Rancher proto) Dev: Cing / Pub: would have been Tecmo or UFO Interactive
-			//6M: Gottlieb Pinball Classics (Wii) System 3, in Murica they call it "Pinball Hall of Fame: The Gottlieb Collection" and it's published by Crave
-			//6Q: Microsoft Pinball Arcade (GBC) (dev: Saffire pub: Classified Games) but Classified Games are already 5Z? Ehhhh??
-			//6X: Gremlins: Stripe vs. Gizmo beta (GBA) (dev/pub: Magic Pockets / DreamCatcher Interactive)
-			//7J: Who Wants to Be a Millionaire (GBA), or at least the Australian version; Chicken Shoot (Europe) (GBA) which are both published by Zoo but that's already 20? Nyaaaaa?
-			//7S: Max Payne (GBA) Rockstar? Oh... oh crap how many Rockstars and Take-Two subsidiaries are there fuck everything why me
-			//85: Mr. Bloopy Saves the World (SNES proto) (dev: Compedia and Rare)
-			//8M (Densha de Go! 2 GBC) Dev: ITL / Pub: CyberFront
-			//9G (Dora the Explorer: Super Spies (Dev: Cinegroupe / Pub: Gotham Games), Dora the Explorer: Super Star Adventures (Dev: ImaginEngine / Pub: Global Star Software)); both publishers are owned by Take-Two Interactive; could be wrapped up as 2K Play, also Spark World (SNES) published by Den'Z which makes absolutely no goddamned sense but everything else in the header is valid
-			//9N: Dark Empire (GBA) was developed by Marvelous, never published; Chobits: Atashi Dake no Hito (GBA) (Marvelous)
-			//AG: Ballz 3D JP (SNES) dev: PF Magic pub: Media Rings (Accolade originally)
-			//BH: Super Drift Out: World Rally Championships proto (SNES) (dev: Dragnet / pub: was Visco in Japan, US was going to be Accolade)
-			//C7: Reflect World (FDS) (East Cube)
-			//CL: Oekaki Logic (SNES) (Sekaibunka Publishing)
-			//CP: RPG Tsukuru Advance (GBA)
-			//DK (Initial D Gaiden) MTO / Kodansha?
-			//DM: Doshin the Giant 64DD games, but also the Randnet Disk, and not sure what's in common there (Randnet themselves? Alps? Did they have any involvement with Doshin the Giant though?)
-			//EL: ANA Original: Gotouchi Kentei DS (dev: Studio Zan pub: originally Spike, this version is some All Nippon Airways promo)
-			//F9 Spectre (SNES) (Mac dev: Peninsula Gameworks / pub: Velocity Development) (SNES dev: Synergistic Software / pub: US Cybersoft EU GameTek)
-			//FG Bomberman Selection (dev: Hudson Soft / pub: Jupiter or Hudson Soft themselves, depending on who you ask) This is tricky because Hudson Soft already has a licensee code of 0x18, and Jupiter never published anything else, maybe some kind of Korean branch of Hudson?
-			//G0 (Monster Finder (albeit a bad dump) aka Foto Showdown outside JP) Alpha Unit
-			//GN: Cartoon Network Punch Time Explosion (Wii) except only the PAL version, the USA one has Crave Entertainment (OG International)
-			//GT (Picture Perfect Hair Salon): 505 Games
-			//GX: C64 Wii VC games (NTSC at least)
-			//H4 (Doki Doki Majo Shinpan!): SNK?
-			//HC (Jam Sessions demo) Dev: Plato / Pub: Ubisoft
-			//HL: LostWinds (WiiWare) (Frontier Developments)
-			//HN: VIP Casino Blackjack (WiiWare) (High Voltage)
-			//J8: Metal Slug X (Neo Geo Wii VC), Space Manbow (MSX Wii VC)
-			//J9: Korg DS-10 Synthesizer (Japan) (DS) (+ and limited edition) (AQ Interactive)
-			//JT: Groovin Blocks (WiiWare) dev: Empty Clip Studios pub: Zoo
-			//JY: Bruiser and Scratch (WiiWare) (Steel Penny)
-			//K0 (DSVision Starter Kit (am3 Inc, DSVision itself is just Nintendo)), also Tsuji Gakuen Tsuji Cooking Kanshuu - Koharu no DS Uchigohan. - Shokuji Balance Guide Tsuki (Comolink)
-			//LR: Doctor Who: Evacuation Earth (DS) dev: Asylum Entertainment pub: Koch Media in Europe (which is my cart's region), US version by Sunsoft
-			//MN: Paard & Pony - Paard in Galop (GBA) (Mindscape I think? But they are already 5A)
-			//MV (Contact beta): Dev: Grasshopper Manufacture / Pub: Marvelous (JP), Atlus (US), Rising Star Games (PAL); also Beer Belly Bill (GBA homebrew)
-			//NJ (System Flaw Europe): Enjoy Gaming
-			//NK (Cocoto: Kart Racer beta): Dev: Neko Entertainment / Pub: BigBen Interactive (EU), Conspiracy Games (US), Kemco (JP)
-			//NR: Giana Sisters DS (USA) (Destineer)
-			//PQ (Peggle: Dual Shot): Popcap Games
-			//PV: Miffy's World (DS) (I can't find any info on the DS version but WiiWare is published by PAN Vision AB)
-			//RB: Korg M01 Music Workstation (Japan) (DS) (Detune)
-			//QH (Intellivision Lives): Virtual Play Games
-			//Q7: MapleStory DS (dev: Nexon / pub: Nexon, Nintendo of Korea)
-			//SZ (System Flaw USA): Storm City Entertainment
-			//T1: GP-1 Racing (GBA proto), sounds like it would have been published by Edge Interactive
-			//T2: Major League Baseball 2K6 beta (GameCube), dev: Visual Concepts / pub: 2K Sports
-			//TR: Tetris Party (WiiWare) (Tetris Online for USA/Europe version)
-			//WR (Scribblenauts, Super Scribblenauts): Warner Bros
-			//WY: LIT (WiiWare) (WayForward)
-			//XJ: Korg DS-10+ Synthesizer (USA DS) (XSeed)
-			//XG: Defend Your Castle (WiiWare) (XGen Studios)
-			//XS: Family Glide Hockey (WiiWare) dev: Arc System Works / pub: Aksys Games
-			//ZH: K3 en de Vrolijke Noten (DS)
-
-			//Darkrai Distribution cart and Surfing Pikachu Distribution cart have KX, but as they're
-			//not supposed to be released, I think that doesn't count. Or it could mean
-			//Game Freak themselves, but it's interesting because every other Pokemon DS distro cart has Nintendo as the maker
-			//code, and those two in particular seem to be the odd ones out as No-Intro doesn't include them...
-			//And then also to be confusing, Puyo Nexus's translation of Puyo Puyo 7 uses KX as well, but the
-			//official Puyo Puyo 7 just uses 8P/Sega... is KX inserted by some kind of hacking/patching tool and those two
-			//distro carts are actually hacked and that's why they're not showing up in No-Intro?
-			//Animal Life: North America too but that's a bad dump hmm I dunno if I believe it; says something about UIG Entertainment on the box art and I don't know anything else about it
-
-
-			//Kirby's Amazing Mirror prototype has MA as the maker, but it also has
-			//MAKO as the game code (and MAKOTOSAMPLE as the internal name)
-
-			//The multiboot ROM used with Final Fantasy Crystal Chronicles on Gamecube uses
-			//GC, which might be Square, but it also might be them setting the game code
-			//to whatever they want because it's not meant to be used without the Gamecube
-			//game, or it might be to indicate GameCube
-
-
-			//Some I found in non-commercially released roms, just out of interest since unlicensed
-			//games by definition have nothing to do with licensee codes:
-			//I'm ignoring anything that has characters that aren't numbers or uppercase letters
-
-			//02: Karate Joe (GBC, Datel)
-			//0D: Little Short Demo (GBC homebrew)
-			//27: Chip the Chick (GBC bootlegged hack of Peetan)
-			//48: Jingorou (FDS bootleg)
-			//7E: GB Basic (homebrew) (game code says JEFF)
-			//CR: Super Fighter Demo (VB homebrew)
-			//F1: Sonic 3D Blast 5 (bootleg): F1 (also has unknown cart type of 234)
-			//GC: Shuma Baobei - Chao Mengmeng Fanji Zhan (Mewtwo Strikes Back),
-			//  Shuma Baobei - Hai Zhi Shen (both GBC bootlegs, Li Cheng)
-			//(Interestingly enough, Huojian Bingtuan is an alternate version of Chao Mengmeng Fanji Zhan or
-			//	vice versa, but doesn't have the same manufacturer)
-			//HY: Rocman X (GBC bootleg, Sachen)
-			//MH: Advanced Pasta Cooking Simulator (Virtual Boy homebrew)
-			//MK: Shuma Baobei - Huojian Bingtuan (Team Rocket, aka Pokemon Red), Sonic Adventure 7,
-			//  Sonic Adventure 8, Pokemon Adventure (all GBC bootleg), but also
-			//  HF Demo, VB Racing (Virtual Boy hommebrew)
-			//NP: Krawall Demo (GBA homebrew)
-			//OK: Bleep (GBC homebrew)
-			//QC: SM Coukyoushi Hitomi (SNES unlicensed)
-			//RX: Terrifying 9/11 (GBC bootleg)
-			//SS: Magic Eye (GBC homebrew)
-			//VB: Sample Soft for VUE Programming (Virtual Boy homebrew)
-			//WK: Datel Wii Freeloader
-			//XX: 2048 (GBC homebrew), Hang Time Basketball (GBC bootleg, Datel), The Matrix (Virtual Boy homebrew), Lights Out (DS homebrew)
-			//ZZ: mooneye-gb test ROMs
-
 		};
 
 		//Is 0 = no rating correct for any of these, given that it's not no rating for the AGCB?

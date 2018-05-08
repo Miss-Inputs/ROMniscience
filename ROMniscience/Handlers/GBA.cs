@@ -189,47 +189,6 @@ namespace ROMniscience.Handlers {
 			} else {
 				return "Unknown";
 			}
-			//Games with unknown sound drivers:
-			//007: Nightfire (JV Games)
-			//Barbie as the Island Princess (Human Soft)
-			//Barbie Groovy Games (DICE)
-			//Barbie Horse Adventures: Blue Ribbon Race (Mobius, Blitz)
-			//Classic NES Series / Famicom Mini
-			//Crazy Frog Racer (Independent Arts)
-			//Crazy Taxi: Catch a Ride (Graphic State, music by Paragon 5)
-			//Doom (David A. Palmer Productions)
-			//Doom II (Torus, same Southpaw engine as used in Duke Nukem Advance)
-			//Dora the Explorer: Super Spies (Cinegroupe)
-			//Dora the Explorer: The Search for the Pirate Pig's Treasure (Cinegroupe)
-			//Dragon Ball GT: Transformation (Webfoot)
-			//Dragon Ball Z: Collectible Card Game (ImaginEngine)
-			//Dragon Ball Z: Taiketsu (Webfoot)
-			//Dragon Ball Z: The Legacy of Goku trilogy (Webfoot)
-			//Duke Nukem Advance (Torus, same Southpaw engine as used in Doom II)
-			//FIFA Soccer 07 (Exient)
-			//Hamtaro: Ham-Ham Games (AlphaDream)
-			//Hamtaro: Rainbow Rescue (AlphaDream)
-			//Harry Potter and the Philosopher's Stone, Chamber of Secrets (Griptonite, says something about MusyX in the intro)
-			//Hello Kitty: Happy Party Pals (Webfoot)
-			//Lego Island 2 (Silicon Dreams)
-			//Mario vs. Donkey Kong (Nintendo Software Technology)
-			//Mary Kate & Ashley: Girls Night Out, Sweet 16: Licensed to Drive (Powerhead)
-			//Max Payne (Mobius)
-			//Meine Tiearztpraxis / Meine Tierpension (Independent Arts)
-			//Metroid Fusion (Uses the MP2000 sequence format but not the MP2000 playback. Metroid: Zero Mission and Wario Land 4 are probably the same?)
-			//My Little Pony: Crystal Princess: The Runaway Rainbow (Webfoot)
-			//Need For Speed: Underground (Pocketeers)
-			//Pinball Challenge Deluxe (Binary9, uses Logik State's music playback according to the credits but doesn't have the usual copyright string, so I may be doing something wrong)
-			//SimCity 2000 (Full Fat)
-			//Super Mario Advance 2/3/4 (Nintendo R&D2, Super Mario Advance 1 uses MP2000)
-			//V-Rally 3 (Velez & Dubail)
-			//WarioWare Inc, WarioWare: Twisted (Nintendo SPD 1)
-			//Who Wants to be a Millionaire? (Houthouse)
-			//GBA Video (4Kidz apparently?)
-			//Rhythm Tengoku (Nintendo SPD 1)
-
-			//Pokemon Liquid Crystal and Pokemon Shiny Gold are Pokemon ROM hacks so they should use MP2000, but apparently they don't somehow or they broke something to make them not detect as using it
-			//Also, apparently Mario & Luigi: Superstar Saga only uses MP2000 for the Mario Bros part and not for the main game, so that's weird
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {

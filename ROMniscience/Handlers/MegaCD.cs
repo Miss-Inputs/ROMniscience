@@ -46,7 +46,7 @@ namespace ROMniscience.Handlers  {
 			//Some more info:
 			//https://forums.sonicretro.org/index.php?showtopic=30588
 			//https://segaretro.org/Sega_CD_programming_FAQ_(1998-12-06)
-			//So 0x200 and beyond may have some kind of boot code which could then be checksummed to detemine region, perhaps...
+			//So 0x200 and beyond may have some kind of boot code which could then be checksummed to determine region, perhaps...
 		}
 	}
 }
