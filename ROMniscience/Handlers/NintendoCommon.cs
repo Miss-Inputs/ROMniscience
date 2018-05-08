@@ -49,9 +49,9 @@ namespace ROMniscience.Handlers {
 			{'Q', "Denmark"},
 			{'R', "Russia"}, //Maybe?
 			{'S', "Spain"},
-			{'T', "Taiwan"}, //Hmm... not so sure about this one, what did Nintendo release in Taiwan? (One NES game and two Wii games, by the looks of it, then a whole bunch of 3DS games) Only shows up in a bunch of Gamecube multiboot ROMs where the product code is TEST; on DS this is USA + Australia
+			{'T', "Taiwan (T)"}, //Questionable, only shows up in a bunch of Gamecube multiboot ROMs where the product code is TEST; on DS this is USA + Australia
 			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
-			{'W', "Sweden/Scandinavia"},
+			{'W', "Taiwan"},
 			{'X', "Europe (X)"},
 			{'Y', "Europe (Y)"}, //Not seen very often...
 		};

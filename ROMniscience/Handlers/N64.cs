@@ -62,7 +62,7 @@ namespace ROMniscience.Handlers {
 			{'P', "Europe"}, //P for PAL I guess
 			{'S', "Spain"},
 			{'U', "Australia"},
-			{'W', "Scandanavia"},
+			{'W', "Scandanavia"}, //orly?
 			{'X', "Europe (X)"},
 			{'Y', "Europe (Y)"}, //Is this valid?
 		};

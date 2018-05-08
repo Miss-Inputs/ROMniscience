@@ -99,9 +99,9 @@ namespace ROMniscience.Handlers {
 			{'T', "USA, Australia"},
 			{'U', "Australia"},
 			{'V', "Europe, Australia"}, //Seen in DSi games, but given this exists can we stop pretending Australia is part of Europe? We haven't been since 1901
-			{'W', "Europe (W)"}, //Could be specifically Sweden/Scandanavia as with other Nintendo systems? Not seen anywhere (well, a Ganbare Goemon demo with an invalid product code)
-			{'X', "Europe (X)"}, //See NintendoCommon for rambling
-			{'Y', "Europe (Y)"}, //Where is this used? Is it real?
+			{'W', "Europe (W)"}, //Could actually be Taiwan (except DS games weren't released specifically there I think)? Not seen anywhere (well, a Ganbare Goemon demo with an invalid product code)
+			{'X', "Europe (X)"},
+			{'Y', "Europe (Y)"}, 
 			{'Z', "Europe (Z)"}, //Only seen in Keldeo Distribution 2012 and shiny Dialga/Palkia/Giratina 2013 distro carts... hmm.... well, they are European (hey I remember the latter happening here in Australia too)
 			{'#', "Homebrew"},
 		};
