@@ -53,20 +53,7 @@ namespace ROMniscience.Handlers {
 			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
 			{'W', "Sweden/Scandinavia"},
 			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"}, //So far, only seen in Daikatana GBC French/German/Spanish and Paard & Pony - Paard in Galop (Netherlands) (En,Nl) and the other European release of Miffy's World?
-			//I want to get to the bottom of the Purope vs Xurope mystery one day... P is more common, X is used here:
-			//Daikatana GBC (the English/French/Italian one)
-			//Banjo-Kazooie: Grunty's Revenge (the Europe multilang one, not the USA/Europe one like my cart which has -UKV)
-			//Sabrina: The Animated Series: Zapped! (English/French/German)
-			//Banjo-Pilot beta, but that doesn't really count I suppose
-
-			//On DS:
-			//Scribblenauts & Super Scribblenauts (the suffix on the cart label is -SCN for some reason, what does that even mean? Scandanavia?)
-			//Guitar Hero: On Tour and Guitar Hero: On Tour: Decades kiosk demos (not sure about the full games, but maybe not)
-			//On N64 this is used for 40 Winks (an unreleased game, but would be the European version) and HSV Adventure Racing (an Australian only release), but N64 definitely has weird country codes
-			//Miffy's World (but only one of them, the other has Europe (Y))
-
-			//My theory is that X is non-UK Europe, and P is UK + Europe (haha Brexit is gonna confuse me)
+			{'Y', "Europe (Y)"}, //Not seen very often...
 		};
 
 		public static IDictionary<char, string> DISC_TYPES => new Dictionary<char, string> {
@@ -390,7 +377,7 @@ namespace ROMniscience.Handlers {
 
 		public readonly static IDictionary<int, string> PEGI_PORTUGAL_RATINGS = new Dictionary<int, string>() {
 			//Portugal decided to change 3 to 4 and 7 to 6 to align with the film rating system, so they end up being their own thing
-			{ 0, "No rating"},
+			{0, "No rating"},
 			{4, "4+"},
 			{6, "6+"},
 			{12, "12+"},
@@ -454,7 +441,6 @@ namespace ROMniscience.Handlers {
 		//Some other countries and their rating boards in case they turn out to be used:
 		//Brazil (ClassInd): L = General Audiences, 10+, 12+, 14+, 16+, 18+; "Especially recommended for children/teenagers" rating abandoned in 2009
 		//Iran (ERSA): +3 (but they call it all ages), +7, +12, +15, +18
-		//Taiwan (GSRR): G = 0, Protected = 6+, PG 12 = 12+, PG 15 = 15+, Restricted = 18+
 		//Finland (FBFC up to 2011): S = 0, K-7 = 7+, K-12 = 12+, K-16 = 16+, K-18 = 18+, KK = Banned; albeit they adopted PEGI since 1 January 2007 so that's weird
 		//Argentina (INCAA): ATP = 0, 13+, 16+, 18+
 		//New Zealand (OFLC, not at all like the OFLC Australia used to have): G = 0, PG = ?, M = 16+, RP13 = 13+ or with parental guidance, R13 = 13+, R15 = 15+, R16 = 16+, RP16 = 16+ or with parental guidance, R18 = 18+, RP18 (not created until April 2017) = 18+ or with parental guidance
