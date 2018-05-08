@@ -134,6 +134,7 @@ namespace ROMniscience.Handlers {
 			bool isSystemUpdate = (flags[5] & 4) > 0;
 			bool isElectronicManual = (flags[5] & 8) > 0;
 			bool isTrial = (flags[5] & 16) > 0;
+			bool isZeroKeyEncrypted = (flags[7] & 1) > 0;
 			bool isDecrypted = (flags[7] & 4) > 0;
 
 			info.addInfo(combinePrefix(prefix, "Is CXI"), isCXI);
@@ -142,6 +143,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo(combinePrefix(prefix, "Is system update"), isSystemUpdate);
 			info.addInfo(combinePrefix(prefix, "Is electronic manual"), isElectronicManual); //TODO This just goes to show we should make some of this stuff extra if it's not the main thing ("Electronic manual is electronic manual" = true)
 			info.addInfo(combinePrefix(prefix, "Is trial"), isTrial);
+			info.addInfo(combinePrefix(prefix, "Is encrypted with 0 key"), isZeroKeyEncrypted);
 			info.addInfo(combinePrefix(prefix, "Is decrypted"), isDecrypted);
 
 			long plainRegionOffset = (uint)s.readIntLE() * MEDIA_UNIT + offset;
