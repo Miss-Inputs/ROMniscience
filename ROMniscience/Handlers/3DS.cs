@@ -164,13 +164,17 @@ namespace ROMniscience.Handlers {
 			}
 
 			if(exeFSSize > 0) {
-				info.addInfo(combinePrefix(prefix, "ExeFS offset"), exeFSOffset, ROMInfo.FormatMode.HEX);
-				info.addInfo(combinePrefix(prefix, "ExeFS size"), exeFSSize, ROMInfo.FormatMode.SIZE);
+				info.addInfo(combinePrefix(prefix, "ExeFS offset", true), exeFSOffset, ROMInfo.FormatMode.HEX);
+				info.addInfo(combinePrefix(prefix, "ExeFS size", true), exeFSSize, ROMInfo.FormatMode.SIZE);
 
 				if (isDecrypted) {
 					//If the ROM is encrypted, it'll be all garbled, so there's not much we can do there...
 					parseExeFS(info, s, prefix, exeFSOffset);
 				}
+			}
+			if(romFSSize > 0) {
+				info.addInfo(combinePrefix(prefix, "RomFS offset", true), romFSOffset, ROMInfo.FormatMode.HEX);
+				info.addInfo(combinePrefix(prefix, "RomFS size", true), romFSSize, ROMInfo.FormatMode.SIZE);
 			}
 			//Should look into RomFS once we start doing filesystem browsing, albeit it also won't work with encrypted dumps
 
