@@ -424,10 +424,11 @@ namespace ROMniscience.Handlers {
 			{0, "Not rated"},
 			{3, "S"},
 			{7, "K-7"},
+			{11, "K-11"}, //May or may not exist, but Twilight Princess's FBFC rating is set to 11
 			{12, "K-12"},
+			{15, "K-15"}, //May or may not exist, but Red Steel's FBFC rating is set to 15
 			{16, "K-16"},
-			{18, "K-18"}
-			//TODO 11 in Twilight Princess? What on top of the fuck?
+			{18, "K-18"},
 		};
 
 		public readonly static IDictionary<int, string> CGSRR_RATINGS = new Dictionary<int, string>() {
