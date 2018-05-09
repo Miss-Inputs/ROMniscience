@@ -273,6 +273,7 @@ namespace ROMniscience.Handlers {
 			{"GL", "Gameloft"},
 			{"HF", "Level5"},
 			{"JS", "Digital Leisure"},
+			{"KM", "Deep Silver"},
 			{"KR", "Krea Medie"},
 			{"RW", "RealNetworks"},
 			{"TL", "Telltale"},
