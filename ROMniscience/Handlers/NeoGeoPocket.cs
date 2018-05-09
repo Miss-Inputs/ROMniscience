@@ -41,8 +41,6 @@ namespace ROMniscience.Handlers {
 		public override string name => "Neo Geo Pocket";
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			info.addInfo("Platform", name);
-
 			WrappedInputStream s = file.stream;
 
 			string copyrightInfo = s.read(28, Encoding.ASCII);
@@ -61,6 +59,8 @@ namespace ROMniscience.Handlers {
 
 			bool isColor = s.read() == 0x10;
 			info.addInfo("Is colour", isColor);
+			info.addInfo("Platform", isColor ? "Neo Geo Pocket Color" : "Neo Geo Pocket");
+
 
 			string internalName = s.read(12, Encoding.ASCII);
 			info.addInfo("Internal name", internalName);
