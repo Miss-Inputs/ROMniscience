@@ -122,7 +122,9 @@ namespace ROMniscience.Handlers {
 			info.addInfo(combinePrefix(prefix, "Type"), productCode[6], GAME_TYPES);
 			info.addInfo(combinePrefix(prefix, "Short title"), productCode.Substring(7, 2));
 			info.addInfo(combinePrefix(prefix, "Country"), productCode[9], NintendoCommon.COUNTRIES);
-
+			s.Position = offset + 0x180;
+			int extendedHeaderSize = s.readIntLE(); //NOT in media units!
+			info.addInfo(combinePrefix(prefix, "Extended header size"), extendedHeaderSize, ROMInfo.FormatMode.SIZE);
 
 			//Something about a reserved and an extended header SHA-256
 
