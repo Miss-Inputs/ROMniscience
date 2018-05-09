@@ -443,7 +443,6 @@ namespace ROMniscience.Handlers {
 		//Some other countries and their rating boards in case they turn out to be used:
 		//Brazil (ClassInd): L = General Audiences, 10+, 12+, 14+, 16+, 18+; "Especially recommended for children/teenagers" rating abandoned in 2009
 		//Iran (ERSA): +3 (but they call it all ages), +7, +12, +15, +18
-		//Finland (FBFC up to 2011): S = 0, K-7 = 7+, K-12 = 12+, K-16 = 16+, K-18 = 18+, KK = Banned; albeit they adopted PEGI since 1 January 2007 so that's weird
 		//Argentina (INCAA): ATP = 0, 13+, 16+, 18+
 		//New Zealand (OFLC, not at all like the OFLC Australia used to have): G = 0, PG = ?, M = 16+, RP13 = 13+ or with parental guidance, R13 = 13+, R15 = 15+, R16 = 16+, RP16 = 16+ or with parental guidance, R18 = 18+, RP18 (not created until April 2017) = 18+ or with parental guidance
 		//There's a thing called the IARC which is an evil alliance of all the supervillains of the game rating world, and they have 3+/7+/12+/16+/18+ ratings for countries that don't have their own ratings thing, but that didn't exist since 2013
