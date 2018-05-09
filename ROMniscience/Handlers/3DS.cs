@@ -451,6 +451,8 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", name);
+
 			var s = file.stream;
 			s.Position = 0x100;
 			byte[] magic = s.read(4);
