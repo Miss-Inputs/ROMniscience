@@ -254,7 +254,6 @@ namespace ROMniscience.Handlers {
 
 			f.Position = 0x100;
 
-			info.addInfo("Platform", name);
 			byte[] startVector = f.read(4);
 			info.addInfo("Entry point", startVector, ROMInfo.FormatMode.HEX, true);
 			byte[] nintendoLogo = f.read(48);
@@ -275,6 +274,7 @@ namespace ROMniscience.Handlers {
 			if (CGB_FLAGS.ContainsKey(title[15])) {
 				titleLength = 15;
 				info.addInfo("Is colour", title[15], CGB_FLAGS);
+				info.addInfo("Platform", title[15] == 0xc0 ? "Game Boy Color" : "Game Boy");
 				//Here's the tricky part... well, we know that any game old enough to not
 				//have a CGB flag isn't going to have a product code either, because those are new
 				//and also I looked at every single commercially released GB/GBC ROM I have to figure out
@@ -308,6 +308,8 @@ namespace ROMniscience.Handlers {
 					char country = productCode[3];
 					info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 				}
+			} else {
+				info.addInfo("Platform", "Game Boy");
 			}
 
 			//Now we can add what's left of the title
