@@ -255,7 +255,7 @@ namespace ROMniscience.Handlers {
 			f.Position = 0x100;
 
 			byte[] startVector = f.read(4);
-			info.addInfo("Entry point", startVector, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Entry point", startVector, true);
 			byte[] nintendoLogo = f.read(48);
 			info.addInfo("Nintendo logo", nintendoLogo, true);
 			info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
