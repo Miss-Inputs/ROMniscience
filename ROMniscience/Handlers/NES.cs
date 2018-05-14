@@ -46,8 +46,8 @@ namespace ROMniscience.Handlers {
 			{'R', "Reduced price"},
 		};
 
-		public static void parseiNES(ROMInfo info, WrappedInputStream s) {
-			s.Position = 4; //Don't need to read the header magic again
+		public static void parseiNES(ROMInfo info, WrappedInputStream s, long offset = 0) {
+			s.Position = offset + 4; //Don't need to read the header magic again
 
 			int prgSize = s.read();
 			int chrSize = s.read();
@@ -73,7 +73,9 @@ namespace ROMniscience.Handlers {
 			if((flags2 & 0x0c) == 0x0c) {
 				//This is the fun part
 				//FIXME: This basically is guaranteed to be broken but I don't have NES 2.0 stuff to test with
-				info.addInfo("Detected format", "NES 2.0");
+				if (!info.hasInfoAlreadyBeenAdded("Detected format")) {
+					info.addInfo("Detected format", "NES 2.0");
+				}
 
 				int flags3 = s.read();
 				info.addInfo("Submapper", flags3 & 0b11110000 >> 4);
@@ -90,7 +92,9 @@ namespace ROMniscience.Handlers {
 
 				//TODO: Bytes 10 to 14. I can't be stuffed and I also don't have any NES 2.0 ROMs so I'm programming all of this blind basically
 			} else {
-				info.addInfo("Detected format", "iNES");
+				if (!info.hasInfoAlreadyBeenAdded("Detected format")) {
+					info.addInfo("Detected format", "iNES");
+				}
 				info.addInfo("Mapper", mapperHigh | mapperLow);
 				info.addInfo("PRG ROM size", prgSize * 16 * 1024, ROMInfo.FormatMode.SIZE);
 				info.addInfo("CHR ROM size", chrSize * 8 * 1024, ROMInfo.FormatMode.SIZE);
@@ -288,7 +292,14 @@ namespace ROMniscience.Handlers {
 				s.Position = 0;
 				parseFDS(info, s);
 			} else {
-				info.addInfo("Detected format", "Unknown");
+				s.Position = 0x30;
+				headerMagic = s.read(4);
+				if (isINES(headerMagic)) {
+					info.addInfo("Detected format", "SSB4 Masterpiece");
+					parseiNES(info, s, 0x30);
+				} else {
+					info.addInfo("Detected format", "Unknown");
+				}
 			}
 		}
 	}
