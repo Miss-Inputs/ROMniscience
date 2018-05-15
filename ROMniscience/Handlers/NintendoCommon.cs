@@ -277,6 +277,7 @@ namespace ROMniscience.Handlers {
 			{"KR", "Krea Medie"},
 			{"RW", "RealNetworks"},
 			{"TL", "Telltale"},
+			{"WY", "WayForward"},
 
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
 			{"B0", "Acclaim (B0)"}, //Already uses 51
