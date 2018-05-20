@@ -204,6 +204,7 @@ namespace ROMniscience {
 
 		private void formatCell(object sender, DataGridViewCellFormattingEventArgs args) {
 			//Welcome to the most called function in the program! So this needs to be hecking fast
+			//TODO Really should hecking refactor this shit so ViewIndividualFile can use it without having to be updated too
 			if(args.Value is string[]) {
 				args.Value = String.Join(", ", (string[])args.Value);
 				args.FormattingApplied = true;
@@ -211,6 +212,9 @@ namespace ROMniscience {
 			}
 			if(args.Value is byte[]) {
 				args.Value = BitConverter.ToString((byte[])args.Value);
+				if (ROMInfo.FormatMode.BYTEARRAY_WITHOUT_DASHES.Equals(args.CellStyle.Tag)) {
+					args.Value = ((string)args.Value).Replace("-", "");
+				}
 				args.FormattingApplied = true;
 				return;
 			}
@@ -233,6 +237,12 @@ namespace ROMniscience {
 				args.FormattingApplied = true;
 				return;
 			}
+			if (ROMInfo.FormatMode.HEX_WITHOUT_0X.Equals(args.CellStyle.Tag)) {
+				args.Value = String.Format("{0:X2}", args.Value);
+				args.FormattingApplied = true;
+				return;
+			}
+			
 		}
 
 		private void startScan() {

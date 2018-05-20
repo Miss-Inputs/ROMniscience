@@ -86,7 +86,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		public static readonly IDictionary<String, String> LICENSEE_CODES = new Dictionary<String, String>() {
-			//Big list! Used in every Nintendo system except: NES (but FDS does use it), N64 (but 64DD does use it), e-Reader, and depending on who you ask Pokemon Mini either has 2P for every game (i.e. if you ask me) or it doesn't use this. Well, I presume 3DS/Wii U/Switch do in some way.
+			//Big list! Used in every Nintendo system except: NES (but FDS does use it), N64 (but 64DD does use it), e-Reader, and depending on who you ask Pokemon Mini either has 2P for every game (i.e. if you ask me) or it doesn't use this. Well, I presume Switch does in some way; 3DS seems to be a bit weird, and Wii U uses 4 characters so I guess they ran out of codes with all the indie publishers (most just use this list prepended with 00)
 			//Preferred format that I probably don't always use consistently:
 			//Company without Co, Inc, Ltd, etc
 			//Company (Brand name used by company)
@@ -126,6 +126,7 @@ namespace ROMniscience.Handlers {
 			{"47", "Bullet-Proof Software/Spectrum Holobyte"},
 			{"49", "Irem"},
 			{"4A", "Gakken"},
+			{"4B", "Raya Systems"},
 			{"4F", "Eidos"}, //The other documentation on the internets seems to think this is U.S. Gold, which I don't think is correct from ROMs I've seen use the code; the other thing is that this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
 			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
 			{"4S", "Black Pearl Software"},
@@ -191,13 +192,14 @@ namespace ROMniscience.Handlers {
 			{"92", "Video System"},
 			{"95", "Varie"},
 			{"97", "Kaneko"},
-			{"99", "Pack-in Video"},
+			{"99", "Pack-in Video/Victor Interactive/Marvelous Interactive"}, //Merged with Victor in 1997 and then with Marvelous in 2003, so Victor and Marvelous probably used different codes before then
 			{"9A", "Nihon Bussan (Nichibutsu)"},
 			{"9B", "Tecmo"},
 			{"9C", "Imagineer"},
 			{"9F", "Nova"},
 			{"9H", "Bottom Up"},
 			{"9M", "Jaguar"}, //The sewing machine company
+			{"9N", "Marvelous"}, //Before merger in 2003
 			{"A0", "Telenet"}, //Sometimes known as Telenet Japan, or Nippon Telenet, but I think it's fair to just call it "Telenet"
 			{"A1", "Hori Electric"},
 			{"A2", "Scorpion Soft"},
@@ -239,6 +241,7 @@ namespace ROMniscience.Handlers {
 			{"CC", "Use"},
 			{"CD", "Meldac"},
 			{"CE", "Pony Canyon"}, //Might also be Fujisankei Communications International (which is owned by Fujisankei Communications Group which also owns Pony Canyon) as seen in SimEarth (SNES)
+			{"CP", "Enterbrain"},
 			{"CF", "Angel"},
 			{"D1", "SOFEL"},
 			{"D2", "Bothtec / Quest"},
@@ -298,7 +301,7 @@ namespace ROMniscience.Handlers {
 			{"1F", "Virgin (1F)"}, //Already uses 61, this is found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			
 			//Pan Docs (or whatever GB documentation I got them from) probably cut these off, and
-			//if not I want to verify the names
+			//if not I want to verify the names are the correct formatting
 			{"22", "pow"},
 			{"3C", "Entertainment I"}, //ndustries?
 			{"09", "hot-b"},

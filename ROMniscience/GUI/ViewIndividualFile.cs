@@ -229,8 +229,14 @@ namespace ROMniscience {
 				if (thing.Value.formatMode == ROMInfo.FormatMode.HEX) {
 					value = string.Format("0x{0:X2}", value);
 				}
+				if(thing.Value.formatMode == ROMInfo.FormatMode.HEX_WITHOUT_0X) {
+					value = string.Format("{0:X2}", value);
+				}
 				if (value is byte[] bytes) {
 					value = BitConverter.ToString(bytes);
+					if(thing.Value.formatMode == ROMInfo.FormatMode.BYTEARRAY_WITHOUT_DASHES) {
+						value = ((string)value).Replace("-", "");
+					}
 				}
 				if (value is string[] strings) {
 					value = String.Join(", ", strings);

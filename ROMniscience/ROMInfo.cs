@@ -37,6 +37,8 @@ namespace ROMniscience {
 			SIZE,
 			PERCENT,
 			HEX,
+			HEX_WITHOUT_0X,
+			BYTEARRAY_WITHOUT_DASHES,
 		}
 
 		public static string formatByteSize(long bytes) {
