@@ -105,9 +105,9 @@ namespace ROMniscience {
 
 				if (handler.shouldCalculateHash) {
 					var hashes = DatfileCollection.hash(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
-					info.addInfo("CRC32", hashes.Item1, FormatMode.HEX);
-					info.addInfo("MD5", hashes.Item2);
-					info.addInfo("SHA-1", hashes.Item3);
+					info.addInfo("CRC32", hashes.Item1, FormatMode.HEX_WITHOUT_0X);
+					info.addInfo("MD5", hashes.Item2, FormatMode.BYTEARRAY_WITHOUT_DASHES);
+					info.addInfo("SHA-1", hashes.Item3, FormatMode.BYTEARRAY_WITHOUT_DASHES);
 
 					if (datfiles != null) {
 						var results = datfiles.identify(hashes.Item1, hashes.Item2, hashes.Item3);
