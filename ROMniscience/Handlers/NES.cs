@@ -285,6 +285,10 @@ namespace ROMniscience.Handlers {
 			return magic[0] == 0x4E && magic[1] == 0x45 && magic[2] == 0x53 && (magic[3] == 0x1A || magic[3] == 0x00);
 		}
 
+		bool isUNIF(byte[] magic) {
+			return magic[0] == 0x55 && magic[1] == 0x4e && magic[2] == 0x49 && magic[3] == 0x46;
+		}
+
 		bool isFwNES(byte[] magic) {
 			return magic[0] == 0x46 && magic[1] == 0x44 && magic[2] == 0x53 && magic[3] == 0x1A;
 		}
@@ -292,6 +296,7 @@ namespace ROMniscience.Handlers {
 		public override bool shouldSkipHeader(ROMFile rom) {
 			byte[] magic = getHeaderMagic(rom.stream);
 			return isINES(magic) || isFwNES(magic);
+			//TODO: If UNIF, should skip that header too, but it's not 16 bytes and it's also... not 32 bytes, it's variable length. Why me
 		}
 
 		public override int skipHeaderBytes() {
@@ -306,6 +311,8 @@ namespace ROMniscience.Handlers {
 
 			if (isINES(headerMagic)) {
 				parseiNES(info, s);
+			} else if (isUNIF(headerMagic)) {
+				info.addInfo("Detected format", "UNIF");
 			} else if (isFwNES(headerMagic)) {
 				info.addInfo("Detected format", "fwNES");
 
