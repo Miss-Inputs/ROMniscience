@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 using ROMniscience.IO;
 
 namespace ROMniscience.Handlers {
-	class NES: Handler {
+	class NES : Handler {
 		//https://wiki.nesdev.com/w/index.php/INES
 		//https://wiki.nesdev.com/w/index.php/NES_2.0
 		//TODO: https://wiki.nesdev.com/w/index.php/TNES and http://wiki.nesdev.com/w/index.php/UNIF maybe?
@@ -59,7 +59,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Has battery", (flags & 2) == 2);
 			info.addInfo("Contains trainer", (flags & 4) == 4);
 			bool ignoreMirroring = (flags & 8) == 8;
-			if(ignoreMirroring) {
+			if (ignoreMirroring) {
 				info.addInfo("Four screen VRAM", true);
 			} else {
 				info.addInfo("Four screen VRAM", false);
@@ -71,27 +71,55 @@ namespace ROMniscience.Handlers {
 			info.addInfo("VS Unisystem", (flags2 & 1) == 1);
 			info.addInfo("PlayChoice-10", (flags2 & 2) == 2);
 			int mapperHigh = flags2 & 0b11110000;
-			if((flags2 & 0x0c) == 0x0c) {
+			if ((flags2 & 0b00001100) == 0x1000) {
 				//This is the fun part
-				//FIXME: This basically is guaranteed to be broken but I don't have NES 2.0 stuff to test with
 				if (!info.hasInfoAlreadyBeenAdded("Detected format")) {
 					info.addInfo("Detected format", "NES 2.0");
 				}
 
-				int flags3 = s.read();
-				info.addInfo("Submapper", flags3 & 0b11110000 >> 4);
-				int mapperHi2 = flags3 & 0b00001111;
-				int mapper = (mapperHi2 << 8) & mapperHigh & (mapperLow >> 4);
+				int mapperVariant = s.read();
+				info.addInfo("Submapper", (mapperVariant & 0b11110000) >> 4);
+				int mapperHi2 = mapperVariant & 0b00001111;
+				int mapper = (mapperHi2 << 8) | mapperHigh | (mapperLow >> 4);
 				info.addInfo("Mapper", mapper);
 
-				int flags4 = s.read();
-				int prgSizeHi = flags4 & 0b00001111;
-				int chrSizeHi = flags4 & 0b11110000;
+				int romUpperBits = s.read();
+				int prgSizeHi = romUpperBits & 0b00001111;
+				int chrSizeHi = romUpperBits & 0b11110000;
 
-				info.addInfo("PRG ROM size", ((prgSizeHi << 8) & prgSize) * 16 * 1024, ROMInfo.FormatMode.SIZE);
-				info.addInfo("CHR ROM size", ((chrSizeHi << 8) & chrSize) * 8 * 1024, ROMInfo.FormatMode.SIZE);
+				info.addInfo("PRG ROM size", ((prgSizeHi << 8) | prgSize) * 16 * 1024, ROMInfo.FormatMode.SIZE);
+				info.addInfo("CHR ROM size", ((chrSizeHi << 8) | chrSize) * 8 * 1024, ROMInfo.FormatMode.SIZE);
 
-				//TODO: Bytes 10 to 14. I can't be stuffed and I also don't have any NES 2.0 ROMs so I'm programming all of this blind basically
+				int ramSize = s.read();
+				int batteryBackedRAM = ramSize & 0b00001111;
+				int nonBatteryRAM = (ramSize & 0b11110000) >> 4;
+				if (batteryBackedRAM > 0) {
+					batteryBackedRAM = 1 << (batteryBackedRAM + 6);
+				}
+				if (nonBatteryRAM > 0) {
+					nonBatteryRAM = 1 << (nonBatteryRAM + 6);
+				}
+				info.addInfo("Save size", batteryBackedRAM, ROMInfo.FormatMode.SIZE);
+				info.addInfo("RAM size", nonBatteryRAM, ROMInfo.FormatMode.SIZE);
+
+				int videoRAMSize = s.read();
+				int batteryBackedVideoRAM = videoRAMSize & 0b00001111;
+				int nonBatteryVideoRAM = (videoRAMSize & 0b11110000) >> 4;
+				if (batteryBackedVideoRAM > 0) {
+					batteryBackedVideoRAM = 1 << (batteryBackedVideoRAM + 6);
+				}
+				if (nonBatteryVideoRAM > 0) {
+					nonBatteryVideoRAM = 1 << (nonBatteryVideoRAM + 6);
+				}
+				info.addInfo("CHR save size", batteryBackedVideoRAM, ROMInfo.FormatMode.SIZE); //This can happen somehow apparently
+				info.addInfo("CHR RAM size", nonBatteryVideoRAM, ROMInfo.FormatMode.SIZE);
+
+				int tvSystem = s.read();
+				bool isNTSC = (tvSystem & 1) > 0;
+				bool isPAL = (tvSystem & 2) > 0;
+				info.addInfo("TV type", isNTSC ? (isPAL ? "NTSC/PAL" : "NTSC") : (isPAL ? "PAL" : "Unknown"));
+
+				//TODO VS System stuff which I don't have any idea about and I gotta leave at least one todo comment right
 			} else {
 				if (!info.hasInfoAlreadyBeenAdded("Detected format")) {
 					info.addInfo("Detected format", "iNES");
@@ -179,7 +207,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Unknown 4", unknown4, true); //Seemingly always 0
 
 			byte[] unknown5 = s.read(2); //Seemingly always 00 02
-			info.addInfo("Unknown 5", unknown5, true); 
+			info.addInfo("Unknown 5", unknown5, true);
 
 			byte[] unknown6 = s.read(5);
 			info.addInfo("Unknown 6", unknown6, true);
@@ -220,7 +248,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Unknown 10", unknown10, true);
 
 			int rawPrice = s.read();
-			if(diskRewriteCount > 0) {
+			if (diskRewriteCount > 0) {
 				//I don't really even know what's going on here at this point
 				info.addInfo("Price", String.Format("{0}円", 500 + (100 * rawPrice)));
 			} else {
@@ -231,7 +259,7 @@ namespace ROMniscience.Handlers {
 			//There is a CRC here as well but .fds files don't include it
 		}
 
-		byte[] getHeaderMagic (WrappedInputStream s) {
+		byte[] getHeaderMagic(WrappedInputStream s) {
 			long pos = s.Position;
 			try {
 				s.Position = 0;
@@ -246,8 +274,7 @@ namespace ROMniscience.Handlers {
 			try {
 				s.Position = 1;
 				return "*NINTENDO-HVC*".Equals(s.read(14, Encoding.ASCII));
-			}
-			finally {
+			} finally {
 				s.Position = pos;
 			}
 		}
