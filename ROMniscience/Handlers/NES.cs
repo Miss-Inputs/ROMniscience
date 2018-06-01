@@ -129,14 +129,14 @@ namespace ROMniscience.Handlers {
 				info.addInfo("CHR ROM size", chrSize * 8 * 1024, ROMInfo.FormatMode.SIZE);
 
 				int ramSize = s.read() * 8 * 1024;
-				info.addInfo("PRG RAM size", ramSize, ROMInfo.FormatMode.SIZE);
+				info.addInfo("Save size", ramSize, ROMInfo.FormatMode.SIZE);
 
 				int flags3 = s.read();
 				info.addInfo("TV type", (flags3 & 1) == 1 ? "PAL" : "NTSC");
 				info.addInfo("Byte 9 reserved", flags3 & 0xfe, true);
-
+				
 				//Byte 10 isn't actually part of the specification so screw it
-				info.addInfo("Reserved", s.read(6));
+				info.addInfo("Reserved", s.read(6), true);
 			}
 		}
 
