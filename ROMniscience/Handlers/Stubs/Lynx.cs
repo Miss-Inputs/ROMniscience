@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+using ROMniscience.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,5 +35,21 @@ namespace ROMniscience.Handlers.Stubs {
 		};
 
 		public override string name => "Atari Lynx";
+
+		public override bool shouldSkipHeader(ROMFile rom) {
+			WrappedInputStream s = rom.stream;
+			long pos = s.Position;
+			try {
+				//I hope this doesn't result in false positives. Might be worth checking the file size modulo 64 or something clever like that? Not sure if that works
+				string magic = s.read(4, Encoding.ASCII);
+				return "LYNX".Equals(magic);
+			} finally {
+				s.Position = pos;
+			}
+		}
+
+		public override int skipHeaderBytes() {
+			return 64;
+		}
 	}
 }
