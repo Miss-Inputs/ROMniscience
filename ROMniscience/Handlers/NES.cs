@@ -36,7 +36,8 @@ namespace ROMniscience.Handlers {
 
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"nes", "Nintendo Entertainment System ROM"},
-			{"fds", "Nintendo Famicom Disk System disk image" },
+			{"fds", "Nintendo Famicom Disk System disk image"},
+			{"unf", "Universal NES Image Format ROM"}, //TODO while I'm here: Parse UNIF headers
 		};
 		public override string name => "Nintendo Entertainment System";
 
