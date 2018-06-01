@@ -147,6 +147,7 @@ namespace ROMniscience.Handlers {
 			{"gb", "Nintendo Game Boy ROM"},
 			{"gbc", "Nintendo Game Boy Color ROM"},
 			{"gbx", "Nintendo Game Boy ROM + GBX footer"},
+			{"sgb", "Nintendo Super Game Boy ROM"}, //Who _does_ that? Why? Anyway...
 		};
 
 		public override string name => "Game Boy";
@@ -260,6 +261,7 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Nintendo logo", nintendoLogo, true);
 			info.addInfo("Nintendo logo valid?", isNintendoLogoEqual(nintendoLogo));
 
+			bool isCGB;
 			//Hoo boy this is gonna be tricky hold my... I don't have a beer right now
 			byte[] title = f.read(16);
 			//This gets tricky because only early games use the full 16 characters and then
@@ -272,6 +274,7 @@ namespace ROMniscience.Handlers {
 			//At least we can reliably detect if the game uses a CGB flag or not because the only
 			//two valid values aren't valid inside titles
 			if (CGB_FLAGS.ContainsKey(title[15])) {
+				isCGB = title[15] != 0;
 				titleLength = 15;
 				info.addInfo("Is colour", title[15], CGB_FLAGS);
 				info.addInfo("Platform", title[15] == 0xc0 ? "Game Boy Color" : "Game Boy");
@@ -310,6 +313,8 @@ namespace ROMniscience.Handlers {
 				}
 			} else {
 				info.addInfo("Platform", "Game Boy");
+				isCGB = false;
+				info.addInfo("Is colour", false);
 			}
 
 			//Now we can add what's left of the title
@@ -352,6 +357,15 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
 
+			if (!isCGB) {
+				//Game Boy Color automatically colorizes some old Game Boy games via hashing the title and other data, albeit it only does this if licensee code = 01
+				//If I had a way for the user to point to the location of the GBC BIOS, I could do more here, but until then nah
+				f.Position = 0x134;
+				byte[] hashData = f.read(15);
+				byte hash = (byte)hashData.Aggregate(0, (x, y) => (x + y) & 0xff);
+				info.addInfo("GBC palette hash", hash, ROMInfo.FormatMode.HEX);
+				info.addInfo("GBC palette disambiguation value", title[3], ROMInfo.FormatMode.HEX);
+			}
 		}
 		
 		public int calcChecksum(WrappedInputStream f) {
