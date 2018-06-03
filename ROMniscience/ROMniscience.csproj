@@ -104,7 +104,7 @@
     <Compile Include="Handlers\Stubs\Amiga.cs" />
     <Compile Include="Handlers\Stubs\AmigaCD32.cs" />
     <Compile Include="Handlers\Stubs\AmstradCPC.cs" />
-    <Compile Include="Handlers\Stubs\APF.cs" />
+    <Compile Include="Handlers\APF.cs" />
     <Compile Include="Handlers\Stubs\Apple2.cs" />
     <Compile Include="Handlers\Stubs\Arcadia.cs" />
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
