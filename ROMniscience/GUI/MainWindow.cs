@@ -61,6 +61,7 @@ namespace ROMniscience {
 			"Compression ratio",
 			"Platform",
 			"File type",
+			"Has header",
 			"Icon",
 			"Internal name",
 			"Disc number",

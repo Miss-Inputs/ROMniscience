@@ -92,6 +92,8 @@ namespace ROMniscience {
 				info.addInfo("Filename", rom.path.Name);
 				info.addInfo("Folder", rom.path.DirectoryName);
 				info.addInfo("Size", rom.length, FormatMode.SIZE);
+				bool shouldSkipHeader = handler.shouldSkipHeader(rom);
+				info.addInfo("Has header", shouldSkipHeader);
 
 				if (rom.compressed) {
 					info.addInfo("Uncompressed filename", rom.name);
@@ -104,7 +106,7 @@ namespace ROMniscience {
 				info.addInfo("File type", fileType ?? "Unknown");
 
 				if (handler.shouldCalculateHash) {
-					var hashes = DatfileCollection.hash(rom.stream, handler.shouldSkipHeader(rom) ? handler.skipHeaderBytes() : 0);
+					var hashes = DatfileCollection.hash(rom.stream, shouldSkipHeader ? handler.skipHeaderBytes() : 0);
 					info.addInfo("CRC32", hashes.Item1, FormatMode.HEX_WITHOUT_0X);
 					info.addInfo("MD5", hashes.Item2, FormatMode.BYTEARRAY_WITHOUT_DASHES);
 					info.addInfo("SHA-1", hashes.Item3, FormatMode.BYTEARRAY_WITHOUT_DASHES);
