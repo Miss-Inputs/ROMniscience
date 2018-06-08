@@ -124,7 +124,7 @@
     <Compile Include="Handlers\Stubs\G7400.cs" />
     <Compile Include="Handlers\Stubs\GameCom.cs" />
     <Compile Include="Handlers\Stubs\GameMaster.cs" />
-    <Compile Include="Handlers\Stubs\ColecoVision.cs" />
+    <Compile Include="Handlers\ColecoVision.cs" />
     <Compile Include="Handlers\Stubs\Cybiko.cs" />
     <Compile Include="Handlers\Stubs\CybikoExtreme.cs" />
     <Compile Include="Handlers\EReader.cs" />
