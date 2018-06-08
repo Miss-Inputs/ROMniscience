@@ -109,7 +109,7 @@
     <Compile Include="Handlers\Stubs\Arcadia.cs" />
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
     <Compile Include="Handlers\Stubs\Atari2600.cs" />
-    <Compile Include="Handlers\Stubs\Atari5200.cs" />
+    <Compile Include="Handlers\Atari5200.cs" />
     <Compile Include="Handlers\BenesseePocketChallenge.cs" />
     <Compile Include="Handlers\Stubs\AtariST.cs" />
     <Compile Include="Handlers\Stubs\BandaiPippin.cs" />
