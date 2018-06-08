@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+using ROMniscience.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers.Stubs {
-	class Commodore64 : StubHandler {
+	class Commodore64 : Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			//Whoa! There is a _lot_ of formats here and they're all documented. I love that. Makes all the other communities for consoles and computers look bad.
 			//There's even more in https://ist.uwaterloo.ca/~schepers/formats.html but I may be going out of scope, whatever the scope even is... but like... whoa
@@ -60,5 +61,106 @@ namespace ROMniscience.Handlers.Stubs {
 		};
 
 		public override string name => "Commodore 64";
+
+		public readonly static IDictionary<short, string> CARTRIDGE_TYPES = new Dictionary<short, string>() {
+			{0, "Normal"},
+			{1, "Action Replay"},
+			{2, "KCS Power Cartridge"},
+			{3, "Final Cartridge III"},
+			{4, "Simons' Basic"},
+			{5, "Ocean type 1"},
+			{6, "Expert Cartridge"},
+			{7, "Fun Play / Power Play"},
+			{8, "Super Games"},
+			{9, "Atomic Power"},
+			{10, "Epyx Fastload"},
+			{11, "Westermann Learning"},
+			{12, "Rex Utility"},
+			{13, "Final Cartridge I"},
+			{14, "Magic Formel"},
+			{15, "C64GS / System 3"}, //Designed specifically for the C64GS, and seem to not actually run properly on a normal C64, or at least with MAME?
+			{16, "Warp Speed"},
+			{17, "Dinamic"},
+			{18, "[Super] Zaxxon"},
+			{19, "Magic Desk / Domark / HES"},
+			{20, "Super Snapshot v5"},
+			{21, "Comal-80"},
+			{22, "Structured BASIC"},
+			{23, "Ross"},
+			{24, "Dela EP64"},
+			{25, "Dela EP7x8"},
+			{26, "Dela EP256"},
+			{27, "Rex EP256"},
+			{28, "Mikro Assembler"},
+			{29, "Final Cartridge Plus"},
+			{30, "Action Replay 4"},
+			{31, "StarDOS"},
+			{32, "EasyFlash"},
+			{33, "EasyFlash Xbank"},
+			{34, "Capture"},
+			{35, "Action Replay 3"},
+			{36, "Retro Replay"},
+			{37, "MMC64"},
+			{38, "MMC Replay"},
+			{39, "IDE64"},
+			{40, "Super Snapshot v4"},
+			{41, "IEEE-488"},
+			{42, "Game Killer"},
+			{43, "Prophet64"},
+			{44, "EXOS"},
+			{45, "Freeze Frame"},
+			{46, "Freeze machine"},
+			{47, "Snapshot64"},
+			{48, "Super Explode v5.0"},
+			{49, "Magic Voice"},
+			{50, "Action Replay 2"},
+			{51, "Mach 5"},
+			{52, "Diashow-Maker"},
+			{53, "Pagefox"},
+			{54, "Kingsoft"},
+			{55, "Silverrock 128k"},
+			{56, "Formel 64"},
+			{57, "RGCD"},
+			{58, "RR-Net MK3"},
+			{59, "EasyCalc"},
+			{60, "GMod2"},
+		};
+
+		static bool isCCS64CartMagic(byte[] magic) {
+			return Encoding.ASCII.GetString(magic).Equals("C64 CARTRIDGE   ");
+		}
+
+		public static void parseCCS64Cart(ROMInfo info, WrappedInputStream s) {
+			s.Position = 0x10;
+			int headerLength = s.readIntBE();
+			info.addInfo("Header size", headerLength);
+
+			short version = s.readShortBE();
+			info.addInfo("Version", version); //Is this actually the kind of version I'm thinking of, or is it more like the header version?
+
+			short cartType = s.readShortBE();
+			info.addInfo("Type", cartType, CARTRIDGE_TYPES);
+
+			int exromLineStatus = s.read();
+			info.addInfo("EXROM line status", exromLineStatus == 0 ? "Active" : "Inactive");
+
+			int gameLineStatus = s.read();
+			info.addInfo("Game line status", gameLineStatus == 0 ? "Active" : "Inactive");
+
+			byte[] reserved = s.read(6);
+			info.addInfo("Reserved", reserved, true);
+
+			string name = s.read(32, Encoding.ASCII).TrimEnd('\0');
+			info.addInfo("Internal name", name);
+			//TODO Read CHIP packets (not entirely trivial as there can be more than one)
+		}
+
+		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			byte[] magic = file.stream.read(16);
+			if (isCCS64CartMagic(magic)) {
+				info.addInfo("Detected format", "CCS64 cartridge");
+				parseCCS64Cart(info, file.stream);
+			}
+		}
 	}
 }

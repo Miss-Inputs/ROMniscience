@@ -118,7 +118,7 @@
     <Compile Include="Handlers\Stubs\CDi.cs" />
     <Compile Include="Handlers\Stubs\CDTV.cs" />
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
-    <Compile Include="Handlers\Stubs\Commodore64.cs" />
+    <Compile Include="Handlers\Commodore64.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
     <Compile Include="Handlers\Dreamcast.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />
