@@ -31,14 +31,17 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers.Stubs {
 	class Commodore64 : Handler {
 		//http://vice-emu.sourceforge.net/vice_16.html#SEC349
+		//http://vice-emu.sourceforge.net/vice_16.html#SEC314
+		//http://vice-emu.sourceforge.net/vice_16.html#SEC327
+		//http://ist.uwaterloo.ca/~schepers/formats/D64.TXT
 
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			//Whoa! There is a _lot_ of formats here and they're all documented. I love that. Makes all the other communities for consoles and computers look bad.
 			//There's even more in https://ist.uwaterloo.ca/~schepers/formats.html but I may be going out of scope, whatever the scope even is... but like... whoa
 
 			{"crt", "Commodore 64 cartridge"}, 
-			{"d64", "Commodore 64 disk image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC327
-			{"t64", "Commodore 64 tape image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC314
+			{"d64", "Commodore 64 disk image"}, 
+			{"t64", "Commodore 64 tape image"}, 
 			{"g64", "Commodore 64 GCR-encoded disk image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC318
 			{"p64", "Commodore 64 NRZI flux pulse disk image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC321
 			{"x64", "Commodore 64 image"}, //Any other type of image but with a 64 byte header http://vice-emu.sourceforge.net/vice_16.html#SEC332
@@ -162,7 +165,7 @@ namespace ROMniscience.Handlers.Stubs {
 			return magicString.Equals("C64 tape image file".PadRight(31, '\0')) || magicString.Equals("C64S tape image file".PadRight(31, '\0'));
 		}
 
-		static void parseT64(ROMInfo info, WrappedInputStream s) {
+		public static void parseT64(ROMInfo info, WrappedInputStream s) {
 			s.Position = 32;
 
 			short version = s.readShortLE();
@@ -181,6 +184,44 @@ namespace ROMniscience.Handlers.Stubs {
 			info.addInfo("Internal name", name);
 		}
 
+		static bool isD64Magic(WrappedInputStream stream) {
+			if(stream.Length < 0x16500) {
+				return false;
+			}
+			stream.Position = 0x16500;
+			byte[] magic = stream.read(4);
+
+			//Actually, what we're really doing is checking that track and sector of first directory sector is 18 and 1 respectively and that Disk DOS version is 0x41. There's not really any magic here since it's a raw dump
+			return magic[0] == 18 && magic[1] == 01 && magic[2] == 0x41 && magic[3] == 00;
+		}
+
+		public static void parseBAMArea(ROMInfo info, WrappedInputStream s, long offset) {
+			s.Position = offset;
+
+			int firstTrack = s.read();
+			int firstSector = s.read();
+			info.addInfo("First directory track", firstTrack);
+			info.addInfo("First directory sector", firstSector);
+
+			int diskType = s.read();
+			info.addInfo("Disk type", diskType);
+
+			int unused = s.read();
+			info.addInfo("Unused", unused, true);
+
+			//TODO Individual BAM entries
+
+			s.Position = offset + 0x90;
+			//Official documentation says it goes up to 16 bytes, and the rest are 2-byte 0xa0 padding, 2-byte disk ID, 1 byte unused 0xa0, and "2A" for DOS type. Howevevr, that seems to not actually be the case half the time, as people just put whatever they want here, especially cracking groups
+			string diskLabel = Encoding.ASCII.GetString(s.read(27).Select(b => b == 0xa0 ? (byte)0x20 : b).ToArray()).TrimEnd(' ');
+			info.addInfo("Internal name", diskLabel);
+
+		}
+
+		public static void parseD64(ROMInfo info, WrappedInputStream stream) {
+			parseBAMArea(info, stream, 0x16500);
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			byte[] magic = file.stream.read(32);
 			if (isCCS64CartMagic(magic)) {
@@ -189,6 +230,9 @@ namespace ROMniscience.Handlers.Stubs {
 			} else if (isT64Magic(magic)) {
 				info.addInfo("Detected format", "T64");
 				parseT64(info, file.stream);
+			} else if (isD64Magic(file.stream)) {
+				info.addInfo("Detected format", "D64");
+				parseD64(info, file.stream);
 			}
 		}
 	}
