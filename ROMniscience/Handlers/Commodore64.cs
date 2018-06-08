@@ -236,6 +236,9 @@ namespace ROMniscience.Handlers {
 			} else if (isD64Magic(file.stream)) {
 				info.addInfo("Detected format", "D64");
 				parseD64(info, file.stream);
+			} else {
+				info.addInfo("Detected format", "Unknown");
+				info.addInfo("Platform", "Commodore 64");
 			}
 		}
 	}
