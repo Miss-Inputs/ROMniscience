@@ -30,11 +30,13 @@ using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers.Stubs {
 	class Commodore64 : Handler {
+		//http://vice-emu.sourceforge.net/vice_16.html#SEC349
+
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			//Whoa! There is a _lot_ of formats here and they're all documented. I love that. Makes all the other communities for consoles and computers look bad.
 			//There's even more in https://ist.uwaterloo.ca/~schepers/formats.html but I may be going out of scope, whatever the scope even is... but like... whoa
 
-			{"crt", "Commodore 64 cartridge"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC349
+			{"crt", "Commodore 64 cartridge"}, 
 			{"d64", "Commodore 64 disk image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC327
 			{"t64", "Commodore 64 tape image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC314
 			{"g64", "Commodore 64 GCR-encoded disk image"}, //http://vice-emu.sourceforge.net/vice_16.html#SEC318
@@ -127,7 +129,7 @@ namespace ROMniscience.Handlers.Stubs {
 		};
 
 		static bool isCCS64CartMagic(byte[] magic) {
-			return Encoding.ASCII.GetString(magic).Equals("C64 CARTRIDGE   ");
+			return Encoding.ASCII.GetString(magic.Take(16).ToArray()).Equals("C64 CARTRIDGE   ");
 		}
 
 		public static void parseCCS64Cart(ROMInfo info, WrappedInputStream s) {
@@ -155,11 +157,38 @@ namespace ROMniscience.Handlers.Stubs {
 			//TODO Read CHIP packets (not entirely trivial as there can be more than one)
 		}
 
+		static bool isT64Magic(byte[] magic) {
+			string magicString = Encoding.ASCII.GetString(magic.Take(31).ToArray());
+			return magicString.Equals("C64 tape image file".PadRight(31, '\0')) || magicString.Equals("C64S tape image file".PadRight(31, '\0'));
+		}
+
+		static void parseT64(ROMInfo info, WrappedInputStream s) {
+			s.Position = 32;
+
+			short version = s.readShortLE();
+			info.addInfo("Version", version);
+
+			short dirEntries = s.readShortLE();
+			info.addInfo("Number of files", dirEntries);
+
+			short usedEntries = s.readShortLE();
+			info.addInfo("Number of used entries", usedEntries);
+
+			short reserved = s.readShortLE();
+			info.addInfo("Reserved", reserved, true);
+
+			string name = s.read(24, Encoding.ASCII).TrimEnd(' ');
+			info.addInfo("Internal name", name);
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			byte[] magic = file.stream.read(16);
+			byte[] magic = file.stream.read(32);
 			if (isCCS64CartMagic(magic)) {
 				info.addInfo("Detected format", "CCS64 cartridge");
 				parseCCS64Cart(info, file.stream);
+			} else if (isT64Magic(magic)) {
+				info.addInfo("Detected format", "T64");
+				parseT64(info, file.stream);
 			}
 		}
 	}
