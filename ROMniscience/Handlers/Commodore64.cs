@@ -28,7 +28,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ROMniscience.Handlers.Stubs {
+namespace ROMniscience.Handlers {
 	class Commodore64 : Handler {
 		//http://vice-emu.sourceforge.net/vice_16.html#SEC349
 		//http://vice-emu.sourceforge.net/vice_16.html#SEC314
