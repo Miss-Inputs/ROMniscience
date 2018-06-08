@@ -21,6 +21,7 @@ At the time of writing:
 
   - APF-MP1000
   - Atari 7800 (but only the community-developed header)
+  - Commodore 64 (only some formats)
   - Dreamcast
   - e-Reader (slightly broken, see comments in that source file)
   - Game Boy Advance  
