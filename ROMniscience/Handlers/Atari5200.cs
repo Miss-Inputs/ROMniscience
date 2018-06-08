@@ -127,6 +127,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", "Atari 5200");
 			var s = file.stream;
 			s.Position = file.length - 3;// 0x1ffd;
 

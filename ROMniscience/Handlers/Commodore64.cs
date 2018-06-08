@@ -145,6 +145,7 @@ namespace ROMniscience.Handlers {
 
 			short cartType = s.readShortBE();
 			info.addInfo("Type", cartType, CARTRIDGE_TYPES);
+			info.addInfo("Platform", cartType == 15 ? "Commodore 64GS" : "Commodore 64");
 
 			int exromLineStatus = s.read();
 			info.addInfo("EXROM line status", exromLineStatus == 0 ? "Active" : "Inactive");
@@ -166,6 +167,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void parseT64(ROMInfo info, WrappedInputStream s) {
+			info.addInfo("Platform", "Commodore 64");
 			s.Position = 32;
 
 			short version = s.readShortLE();
@@ -185,7 +187,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		static bool isD64Magic(WrappedInputStream stream) {
-			if(stream.Length < 0x16500) {
+			if (stream.Length < 0x16500) {
 				return false;
 			}
 			stream.Position = 0x16500;
@@ -219,6 +221,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public static void parseD64(ROMInfo info, WrappedInputStream stream) {
+			info.addInfo("Platform", "Commodore 64");
 			parseBAMArea(info, stream, 0x16500);
 		}
 
