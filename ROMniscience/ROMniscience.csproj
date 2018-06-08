@@ -119,8 +119,10 @@
     <Compile Include="Handlers\Stubs\CDTV.cs" />
     <Compile Include="Handlers\Stubs\ChannelF.cs" />
     <Compile Include="Handlers\Commodore64.cs" />
+    <Compile Include="Handlers\Stubs\CommodorePET.cs" />
     <Compile Include="Handlers\Stubs\Creativision.cs" />
     <Compile Include="Handlers\Dreamcast.cs" />
+    <Compile Include="Handlers\Stubs\DreamcastVMU.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />
     <Compile Include="Handlers\Stubs\GameCom.cs" />
     <Compile Include="Handlers\Stubs\GameMaster.cs" />
@@ -149,7 +151,9 @@
     <Compile Include="Handlers\PokemonMini.cs" />
     <Compile Include="Handlers\PSP.cs" />
     <Compile Include="Handlers\Stubs\PCEngineCD.cs" />
+    <Compile Include="Handlers\Stubs\PCFX.cs" />
     <Compile Include="Handlers\Stubs\Playstation.cs" />
+    <Compile Include="Handlers\Stubs\PocketStation.cs" />
     <Compile Include="Handlers\Stubs\PS2.cs" />
     <Compile Include="Handlers\Stubs\PV1000.cs" />
     <Compile Include="Handlers\RCAStudio2.cs" />
@@ -165,6 +169,7 @@
     <Compile Include="Handlers\Stubs\SuperCasetteVision.cs" />
     <Compile Include="Handlers\Stubs\Supervision.cs" />
     <Compile Include="Handlers\Stubs\Thomson.cs" />
+    <Compile Include="Handlers\Stubs\TomyTutor.cs" />
     <Compile Include="Handlers\Stubs\TRS80.cs" />
     <Compile Include="Handlers\Stubs\Vic20.cs" />
     <Compile Include="Handlers\Xbox360.cs" />
