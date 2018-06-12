@@ -133,6 +133,7 @@
     <Compile Include="Handlers\GameGear.cs" />
     <Compile Include="Handlers\Stubs\GameWave.cs" />
     <Compile Include="Handlers\Stubs\GP32.cs" />
+    <Compile Include="Handlers\Stubs\IBMPCJr.cs" />
     <Compile Include="Handlers\Stubs\Intellivision.cs" />
     <Compile Include="Handlers\Stubs\Jaguar.cs" />
     <Compile Include="Handlers\Stubs\JaguarCD.cs" />
