@@ -102,6 +102,7 @@ namespace ROMniscience.Handlers {
 
 			{"01", "Nintendo"},
 			{"08", "Capcom"},
+			{"09", "Hot-B"},
 			{"0A", "Jaleco"},
 			{"0B", "Coconuts"},
 			{"0C", "Elite Systems"},
@@ -304,7 +305,6 @@ namespace ROMniscience.Handlers {
 			//if not I want to verify the names are the correct formatting
 			{"22", "pow"},
 			{"3C", "Entertainment I"}, //ndustries?
-			{"09", "hot-b"},
 			{"25", "san-x"},
 			{"75", "sci/The Sales Curve"}, //Seen in Super SWIV, which is _developed_ by those people, but published by Storm...
 			{"96", "Yonezawa/s''pal"},
