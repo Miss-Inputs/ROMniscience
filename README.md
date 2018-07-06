@@ -20,6 +20,7 @@ Sometimes I just make it up as I go along, but I force myself to stick to those 
 At the time of writing:  
 
   - APF-MP1000
+  - Atari 8-bit computers
   - Atari 5200
   - Atari 7800 (but only the community-developed header)
   - ColecoVision

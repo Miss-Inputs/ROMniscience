@@ -113,11 +113,14 @@
     <Compile Include="Handlers\APF.cs" />
     <Compile Include="Handlers\Stubs\APFImaginationMachine.cs" />
     <Compile Include="Handlers\Stubs\Apple2.cs" />
+    <Compile Include="Handlers\Stubs\AppleIIGS.cs" />
+    <Compile Include="Handlers\Stubs\AppleLisa.cs" />
     <Compile Include="Handlers\Stubs\Arcadia.cs" />
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
     <Compile Include="Handlers\Stubs\Atari2600.cs" />
     <Compile Include="Handlers\Atari5200.cs" />
     <Compile Include="Handlers\BenesseePocketChallenge.cs" />
+    <Compile Include="Handlers\Atari8Bit.cs" />
     <Compile Include="Handlers\Stubs\AtariST.cs" />
     <Compile Include="Handlers\Stubs\BandaiPippin.cs" />
     <Compile Include="Handlers\Stubs\BandaiPlaydia.cs" />
