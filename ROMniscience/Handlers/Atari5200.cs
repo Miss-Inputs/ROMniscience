@@ -41,8 +41,20 @@ namespace ROMniscience.Handlers {
 			//This is all that's known from all known Atari 5200 ROMs (that are in No-Intro)... could be more
 			//Lowercase here is used to represent rainbow characters, because how else am I gonna represent them? No really, I dunno
 			{0x00, ' '}, //Maybe it's a rainbow space
+			{0x01, '!'}, //Rainbow
+			{0x07, '\''}, //Rainbow
 			{0x0d, '-'}, //Rainbow
 			{0x0e, '.'}, //Rainbow
+			{0x10, '0'}, //Rainbow
+			{0x11, '1'}, //Rainbow
+			{0x12, '2'}, //Rainbow
+			{0x13, '3'}, //Rainbow
+			{0x14, '4'}, //Rainbow
+			{0x15, '5'}, //Rainbow
+			{0x16, '6'}, //Rainbow
+			{0x17, '7'}, //Rainbow
+			{0x18, '8'}, //Rainbow
+			{0x19, '9'}, //Rainbow
 			{0x20, '@'}, //Rainbow
 			{0x21, 'a'},
 			{0x22, 'b'},
