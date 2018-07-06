@@ -101,7 +101,7 @@ namespace ROMniscience.Handlers {
 			{'V', "Europe, Australia"}, //Seen in DSi games, but given this exists can we stop pretending Australia is part of Europe? We haven't been since 1901
 			{'W', "Europe (W)"}, //Could actually be Taiwan (except DS games weren't released specifically there I think)? Not seen anywhere (well, a Ganbare Goemon demo with an invalid product code)
 			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"}, 
+			{'Y', "Europe (Y)"},
 			{'Z', "Europe (Z)"}, //Only seen in Keldeo Distribution 2012 and shiny Dialga/Palkia/Giratina 2013 distro carts... hmm.... well, they are European (hey I remember the latter happening here in Australia too)
 			{'#', "Homebrew"},
 		};
@@ -114,7 +114,7 @@ namespace ROMniscience.Handlers {
 		};
 
 		[Flags]
-		public enum DSiRegionFlags: uint {
+		public enum DSiRegionFlags : uint {
 			//This stuff actually is checked and is how the region locking works
 			Japan = 1 << 0,
 			USA = 1 << 1,
@@ -177,9 +177,7 @@ namespace ROMniscience.Handlers {
 		bool isDecryptedSecureAreaID(byte[] b) {
 			return b[0] == 0xff && b[1] == 0xde && b[2] == 0xff && b[3] == 0xe7 && b[4] == 0xff && b[5] == 0xde && b[6] == 0xff && b[7] == 0xe7;
 		}
-
-		readonly static byte[] WIFI_CONFIG_NAME = Encoding.ASCII.GetBytes("utility.bin");
-
+		
 		public static void parseBanner(ROMInfo info, WrappedInputStream s, long bannerOffset) {
 			s.Position = bannerOffset;
 			short bannerVersion = s.readShortLE();
@@ -330,16 +328,16 @@ namespace ROMniscience.Handlers {
 			byte[] ratings = s.read(16);
 			NintendoCommon.parseRatings(info, ratings, true);
 		}
-	
+
 		public static void addSupercardDS2PluginInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Supercard DSTwo");
 			string iconFilename = System.IO.Path.ChangeExtension(file.name, "bmp");
 			//The icon is actually pointed to in the .ini file, but it's in a native DS format (starts with fat1:/) so it won't be of any use unless running on an actual DSTwo. Luckily, the filename is always the same as the .plg but with a .bmp extension; and this is the kind of convention that nobody would dare break
 			var icon = Image.FromStream(file.getSiblingFile(iconFilename));
 			info.addInfo("Icon", icon);
-			
+
 			string iniFilename = System.IO.Path.ChangeExtension(file.name, "ini");
-			using(var sr = new System.IO.StreamReader(file.getSiblingFile(iniFilename))) {
+			using (var sr = new System.IO.StreamReader(file.getSiblingFile(iniFilename))) {
 				while (!sr.EndOfStream) {
 					string line = sr.ReadLine();
 					if (line == null) {
@@ -545,12 +543,119 @@ namespace ROMniscience.Handlers {
 			//This should be true, but it's often false, especially for No-Intro verified dumps
 			info.addInfo("Contains Blowfish encryption tables", s.read(8).Any(x => x != 0));
 
-			s.Position = filenameTableOffset;
-			byte[] filenameTable = s.read(filenameTableSize);
+			bool containsWifi = false;
+			if (fatOffset > 0 && fatSize > 0 && filenameTableOffset > 0 && filenameTableSize > 0) {
+				var fs = readNitroFS(s, fatOffset, fatSize, filenameTableOffset, filenameTableSize);
+				info.addFilesystem(fs);
+				if (fs.contains("dwc")) {
+					var dwc = (FilesystemDirectory)fs.getChild("dwc");
+					containsWifi = dwc.contains("utility.bin");
+				}
+			}
+			info.addInfo("Contains WFC setup", containsWifi);
+
+
+			//TODO: Replace this with FilesystemDirectory.contains(string filename) method, fairly trivial once it all works
+
+			//s.Position = filenameTableOffset;
+			//byte[] filenameTable = s.read(filenameTableSize);
 			//This is the roughest and dirtiest way possible of doing this, but it'll do
-			info.addInfo("Contains WFC setup", ByteSearch.contains(filenameTable, WIFI_CONFIG_NAME));
+			//info.addInfo("Contains WFC setup", ByteSearch.contains(filenameTable, WIFI_CONFIG_NAME));
 
 			parseBanner(info, s, bannerOffset);
+		}
+
+		public static void printFilesystem(FilesystemDirectory fs, int indentAmount=0) {
+			//TODO: Once we're happy that this is printing everything, expose the functionality in the GUI
+			string indent = new string(Enumerable.Repeat('\t', indentAmount).ToArray());
+			Console.WriteLine("{0} Folder name: {1}", indent, fs.name);
+			foreach(var child in fs.children) {
+				//Console.WriteLine("{0} Child name: {1}", indent, child.name);
+				if(child is FilesystemDirectory) {
+					printFilesystem((FilesystemDirectory)child, indentAmount + 1);
+				} else {
+					var f = (FilesystemFile)child;
+					Console.WriteLine("{0}\t File name: {1} Size: {2} Offset: {3} 0x{3:X2}", indent, f.name, f.size, f.offset);
+				}
+			}
+		}
+
+		public static Tuple<int, int> getFatInfo(WrappedInputStream s, int fatOffset, short fileID) {
+			long origPos = s.Position;
+			try {
+				s.Position = fatOffset + (fileID * 8);
+
+				int startOffset = s.readIntLE();
+				int endOffset = s.readIntLE();
+				int size = endOffset - startOffset;
+				return new Tuple<int, int>(startOffset, size);
+			} finally {
+				s.Position = origPos;
+			}
+		}
+
+		public static void readNitroSubFNT(FilesystemDirectory fs, WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int fntSize, int subTableOffset, short firstID) {
+
+			long origPos = s.Position;
+			try {
+				short currentFileID = firstID;
+				s.Position = fntOffset + subTableOffset;
+				while (true) {
+					int length = s.read();
+					if (length == -1 || length == 0 || length == 0x80) {
+						break;
+					}
+
+					if (length < 0x80) {
+						short fileID = currentFileID;
+						currentFileID++;
+						string name = s.read(length, Encoding.ASCII);
+						var offsetAndSize = getFatInfo(s, fatOffset, fileID);
+						//Console.WriteLine("file: {0} ID: {1} size: {2} 0x{2:X2} offset: {3} 0x{3:X2}", name, fileID, offsetAndSize.Item2, offsetAndSize.Item1);
+						fs.addChild(name, offsetAndSize.Item1, offsetAndSize.Item2);
+					} else {
+						length -= 0x80;
+
+						string name = s.read(length, Encoding.ASCII);
+						int dirID = (ushort)s.readShortLE() & 0x0fff;
+						//Console.WriteLine("folder: {0} ID: {1}", name, dirID);
+						FilesystemDirectory folder = new FilesystemDirectory() {
+							name = name,
+						};
+						//readNitroMainFNT(fs, s, fatOffset, fatSize, fntOffset, fntSize, dirID * 8);
+						readNitroMainFNT(folder, s, fatOffset, fatSize, fntOffset, fntSize, dirID * 8);
+						fs.addChild(folder);
+					}
+				}
+			} finally {
+				s.Position = origPos;
+			}
+		}
+
+		public static void readNitroMainFNT(FilesystemDirectory fs, WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int filenameTableSize, int tableOffset) {
+			//tableOffset being the offset _into_ the FNT, not the offset _of_ the FNT (which is fntOffset). That's confusing. I'll figure out how to be less confusing later
+
+			long origPos = s.Position;
+			try {
+				s.Position = fntOffset + tableOffset;
+				int subTableOffset = s.readIntLE();
+				short firstID = s.readShortLE();
+
+				//Console.WriteLine("subTableOffset = {0} 0x{0:X2}", subTableOffset);
+				//Console.WriteLine("firstID = {0} 0x{0:X2}", firstID);
+				readNitroSubFNT(fs, s, fatOffset, fatSize, fntOffset, filenameTableSize, subTableOffset, firstID);
+			} finally {
+				s.Position = origPos;
+			}
+		}
+
+		public static FilesystemDirectory readNitroFS(WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int fntSize) {
+			//Number of directories = fnt[6], but we don't need that info
+			FilesystemDirectory fs = new FilesystemDirectory {
+				name = "NitroFS"
+			};
+			readNitroMainFNT(fs, s, fatOffset, fatSize, fntOffset, fntSize, 0);
+			return fs;
 		}
 	}
 }

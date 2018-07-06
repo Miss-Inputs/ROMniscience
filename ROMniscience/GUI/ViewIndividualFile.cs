@@ -30,6 +30,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ROMniscience.Datfiles;
+using ROMniscience.GUI;
 using ROMniscience.Handlers;
 using ROMniscience.IO.CueSheets;
 using SharpCompress.Archives;
@@ -40,7 +41,9 @@ namespace ROMniscience {
 		private TextBox notALabel;
 		private Button okButton;
 		private Button showImagesButton;
+		private Button showFilesystemsButton;
 		private IDictionary<string, Image> images = new Dictionary<string, Image>();
+		private ROMInfo info = null;
 
 		public static T chooseChoices<T>(IEnumerable<T> choices, string displayKey, string helpText, string title) where T : class {
 			if (choices.Count() == 1) {
@@ -248,6 +251,10 @@ namespace ROMniscience {
 
 				me.notALabel.Text += String.Format("{0} => {1}{2}", thing.Key, value, Environment.NewLine);
 			}
+			me.info = info;
+			if (info.filesystems.Count > 0) {
+				me.showFilesystemsButton.Enabled = true;
+			}
 
 			me.ShowDialog();
 		}
@@ -280,11 +287,11 @@ namespace ROMniscience {
 		//Call me a coward if you will but I am not staying up until 7am again
 #pragma warning disable IDE1006 // Naming Styles
 		private void InitializeComponent() {
-#pragma warning restore IDE1006 // Naming Styles
 			this.okButton = new System.Windows.Forms.Button();
 			this.fuckinPanelIGuess = new System.Windows.Forms.Panel();
 			this.notALabel = new System.Windows.Forms.TextBox();
 			this.showImagesButton = new System.Windows.Forms.Button();
+			this.showFilesystemsButton = new System.Windows.Forms.Button();
 			this.fuckinPanelIGuess.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -301,9 +308,9 @@ namespace ROMniscience {
 			// 
 			// fuckinPanelIGuess
 			// 
-			this.fuckinPanelIGuess.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.fuckinPanelIGuess.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.fuckinPanelIGuess.Controls.Add(this.notALabel);
 			this.fuckinPanelIGuess.Location = new System.Drawing.Point(13, 13);
 			this.fuckinPanelIGuess.Name = "fuckinPanelIGuess";
@@ -333,9 +340,22 @@ namespace ROMniscience {
 			this.showImagesButton.UseVisualStyleBackColor = true;
 			this.showImagesButton.Click += new System.EventHandler(this.showImagesButton_Click);
 			// 
+			// showFilesystemsButton
+			// 
+			this.showFilesystemsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.showFilesystemsButton.Enabled = false;
+			this.showFilesystemsButton.Location = new System.Drawing.Point(35, 228);
+			this.showFilesystemsButton.Name = "showFilesystemsButton";
+			this.showFilesystemsButton.Size = new System.Drawing.Size(75, 23);
+			this.showFilesystemsButton.TabIndex = 3;
+			this.showFilesystemsButton.Text = "Files...";
+			this.showFilesystemsButton.UseVisualStyleBackColor = true;
+			this.showFilesystemsButton.Click += new System.EventHandler(this.showFilesystemsButton_Click);
+			// 
 			// ViewIndividualFile
 			// 
 			this.ClientSize = new System.Drawing.Size(284, 262);
+			this.Controls.Add(this.showFilesystemsButton);
 			this.Controls.Add(this.showImagesButton);
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.fuckinPanelIGuess);
@@ -372,6 +392,12 @@ namespace ROMniscience {
 				flop.SetFlowBreak(pic, true);
 			}
 			f.ShowDialog();
+		}
+
+		
+
+		private void showFilesystemsButton_Click(object sender, EventArgs e) {
+			ViewFilesystems.viewFilesystems(info);
 		}
 	}
 }

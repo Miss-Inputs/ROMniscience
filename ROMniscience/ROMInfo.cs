@@ -200,5 +200,12 @@ namespace ROMniscience {
 			info.Add(key, new InfoItem(value, format, extra));
 		}
 
+		private readonly IList<FilesystemDirectory> _filesystems = new List<FilesystemDirectory>();
+		public IList<FilesystemDirectory> filesystems => _filesystems;
+
+		public void addFilesystem(FilesystemDirectory fs) {
+			filesystems.Add(fs);
+		}
+
 	}
 }
