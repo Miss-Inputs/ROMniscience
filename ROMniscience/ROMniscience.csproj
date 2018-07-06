@@ -178,6 +178,7 @@
     <Compile Include="Handlers\Stubs\Thomson.cs" />
     <Compile Include="Handlers\Stubs\TomyTutor.cs" />
     <Compile Include="Handlers\Stubs\TRS80.cs" />
+    <Compile Include="Handlers\Stubs\VC4000.cs" />
     <Compile Include="Handlers\Stubs\Vic20.cs" />
     <Compile Include="Handlers\Xbox360.cs" />
     <Compile Include="Handlers\Stubs\ZX81.cs" />
