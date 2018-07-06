@@ -30,9 +30,9 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers.Stubs {
 	class AdventureVision: StubHandler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
-			{"bin", "Entrex Adventure Vision ROM"},
+			{"bin", "Entex Adventure Vision ROM"},
 		};
 
-		public override string name => "Entrex Adventure Vision";
+		public override string name => "Entex Adventure Vision";
 	}
 }
