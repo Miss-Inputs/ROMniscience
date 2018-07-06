@@ -30,7 +30,9 @@ using System.Threading.Tasks;
 namespace ROMniscience.Handlers.Stubs {
 	class SG1000: StubHandler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
-			{"sg", "Sega SG-1000 ROM"}
+			{"sg", "Sega SG-1000 ROM"},
+			{"sc", "Sega SC-3000 tape"}, //Had a good and long think about whether or not to make this a separate handler, or add it here. I decided on the latter because while the SC-3000 is a separate system, you can also get a keyboard (that has casette + printer ports) to make the SG-1000 into a SC-3000, so I think I'll consider it to be part of the SG-1000
+			{"sf7", "Sega Super Control Station SF-7000 disk image"},
 		};
 
 		public override string name => "Sega SG-1000";
