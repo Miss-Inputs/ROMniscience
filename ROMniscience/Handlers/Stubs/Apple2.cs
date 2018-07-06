@@ -29,15 +29,12 @@ using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers.Stubs {
 	class Apple2 : StubHandler {
-		//TODO: http://apple2.org.za/gswv/a2zine/Docs/DiskImage_2MG_Info.txt I guess?
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"dsk", "Apple II disk image"},
 			{"do", "Apple II disk image (DOS 3.3 order)"},
 			{"po", "Apple II disk image (ProDOS order)"},
 			{"hdv", "Apple II hard disk image"},
 			{"nib", "Apple II Super Transcopy disk image"},
-			{"2mg", "Apple IIgs disk image"},
-
 		};
 
 		public override string name => "Apple II";
