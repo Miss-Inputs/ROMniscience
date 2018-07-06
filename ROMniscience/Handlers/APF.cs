@@ -33,11 +33,9 @@ namespace ROMniscience.Handlers.Stubs {
 	class APF : Handler {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"bin", "APF-MP1000 ROM"},
-			{"cpf", "APF Imagination Machine casette"},
-			{"cas", "APF Imagination Machine casette"},
 		};
 
-		public override string name => "APF-MP1000"; //Or is it "APF Micromputer System"? I don't fuckin know
+		public override string name => "APF-MP1000"; //Or is it "APF Microcomputer System"? I don't fuckin know
 
 		public static void parseAPFCart(ROMInfo info, WrappedInputStream s) {
 			//First byte should always be 0xbb, and I should check that, but ehhhhh

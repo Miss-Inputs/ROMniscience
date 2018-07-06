@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 
 namespace ROMniscience.Handlers.Stubs {
 	class AmstradCPC : StubHandler {
-		//I guess this'll cover GX4000 too
 		//TODO: There's info here http://www.cpcwiki.eu/index.php/Disk_image_file_format
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string>() {
 			{"sna", "Amstrad CPC snapshot"},

@@ -111,6 +111,7 @@
     <Compile Include="Handlers\Stubs\AmigaCD32.cs" />
     <Compile Include="Handlers\Stubs\AmstradCPC.cs" />
     <Compile Include="Handlers\APF.cs" />
+    <Compile Include="Handlers\Stubs\APFImaginationMachine.cs" />
     <Compile Include="Handlers\Stubs\Apple2.cs" />
     <Compile Include="Handlers\Stubs\Arcadia.cs" />
     <Compile Include="Handlers\Stubs\Astrocade.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Handlers\GameGear.cs" />
     <Compile Include="Handlers\Stubs\GameWave.cs" />
     <Compile Include="Handlers\Stubs\GP32.cs" />
+    <Compile Include="Handlers\Stubs\GX4000.cs" />
     <Compile Include="Handlers\Stubs\IBMPCJr.cs" />
     <Compile Include="Handlers\Stubs\Intellivision.cs" />
     <Compile Include="Handlers\Stubs\Jaguar.cs" />
