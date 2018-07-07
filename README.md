@@ -30,6 +30,7 @@ At the time of writing:
   - Game Boy Advance  
   - Game Boy/Game Boy Color  
   - GameCube
+  - Konami Picno (experimental and based on guessing/observation rather than any info)
   - Neo Geo Pocket/Neo Geo Pocket Color  
   - NES, FDS  
   - Nintendo 64, 64DD
