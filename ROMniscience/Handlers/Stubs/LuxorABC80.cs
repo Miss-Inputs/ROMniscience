@@ -32,8 +32,6 @@ namespace ROMniscience.Handlers.Stubs {
 		public override IDictionary<string, string> filetypeMap => new Dictionary<string, string> {
 			{"bac", "Luxor ABC80 program"},
 			{"dsk", "Luxor ABC80 disk image"},
-			{"bac", "Luxor ABC80 program"},
-
 		};
 
 		public override string name => "Luxor ABC80";
