@@ -553,31 +553,7 @@ namespace ROMniscience.Handlers {
 				}
 			}
 			info.addInfo("Contains WFC setup", containsWifi);
-
-
-			//TODO: Replace this with FilesystemDirectory.contains(string filename) method, fairly trivial once it all works
-
-			//s.Position = filenameTableOffset;
-			//byte[] filenameTable = s.read(filenameTableSize);
-			//This is the roughest and dirtiest way possible of doing this, but it'll do
-			//info.addInfo("Contains WFC setup", ByteSearch.contains(filenameTable, WIFI_CONFIG_NAME));
-
 			parseBanner(info, s, bannerOffset);
-		}
-
-		public static void printFilesystem(FilesystemDirectory fs, int indentAmount=0) {
-			//TODO: Once we're happy that this is printing everything, expose the functionality in the GUI
-			string indent = new string(Enumerable.Repeat('\t', indentAmount).ToArray());
-			Console.WriteLine("{0} Folder name: {1}", indent, fs.name);
-			foreach(var child in fs.children) {
-				//Console.WriteLine("{0} Child name: {1}", indent, child.name);
-				if(child is FilesystemDirectory) {
-					printFilesystem((FilesystemDirectory)child, indentAmount + 1);
-				} else {
-					var f = (FilesystemFile)child;
-					Console.WriteLine("{0}\t File name: {1} Size: {2} Offset: {3} 0x{3:X2}", indent, f.name, f.size, f.offset);
-				}
-			}
 		}
 
 		public static Tuple<int, int> getFatInfo(WrappedInputStream s, int fatOffset, short fileID) {
