@@ -177,7 +177,7 @@ namespace ROMniscience.Handlers {
 		bool isDecryptedSecureAreaID(byte[] b) {
 			return b[0] == 0xff && b[1] == 0xde && b[2] == 0xff && b[3] == 0xe7 && b[4] == 0xff && b[5] == 0xde && b[6] == 0xff && b[7] == 0xe7;
 		}
-		
+
 		public static void parseBanner(ROMInfo info, WrappedInputStream s, long bannerOffset) {
 			s.Position = bannerOffset;
 			short bannerVersion = s.readShortLE();
@@ -587,18 +587,15 @@ namespace ROMniscience.Handlers {
 						currentFileID++;
 						string name = s.read(length, Encoding.ASCII);
 						var offsetAndSize = getFatInfo(s, fatOffset, fileID);
-						//Console.WriteLine("file: {0} ID: {1} size: {2} 0x{2:X2} offset: {3} 0x{3:X2}", name, fileID, offsetAndSize.Item2, offsetAndSize.Item1);
 						fs.addChild(name, offsetAndSize.Item1, offsetAndSize.Item2);
 					} else {
 						length -= 0x80;
 
 						string name = s.read(length, Encoding.ASCII);
 						int dirID = (ushort)s.readShortLE() & 0x0fff;
-						//Console.WriteLine("folder: {0} ID: {1}", name, dirID);
 						FilesystemDirectory folder = new FilesystemDirectory() {
 							name = name,
 						};
-						//readNitroMainFNT(fs, s, fatOffset, fatSize, fntOffset, fntSize, dirID * 8);
 						readNitroMainFNT(folder, s, fatOffset, fatSize, fntOffset, fntSize, dirID * 8);
 						fs.addChild(folder);
 					}
@@ -617,8 +614,6 @@ namespace ROMniscience.Handlers {
 				int subTableOffset = s.readIntLE();
 				short firstID = s.readShortLE();
 
-				//Console.WriteLine("subTableOffset = {0} 0x{0:X2}", subTableOffset);
-				//Console.WriteLine("firstID = {0} 0x{0:X2}", firstID);
 				readNitroSubFNT(fs, s, fatOffset, fatSize, fntOffset, filenameTableSize, subTableOffset, firstID);
 			} finally {
 				s.Position = origPos;
