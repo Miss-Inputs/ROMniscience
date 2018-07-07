@@ -137,13 +137,17 @@
     <Compile Include="Handlers\Stubs\FM7.cs" />
     <Compile Include="Handlers\Stubs\G7400.cs" />
     <Compile Include="Handlers\Stubs\Galaksija.cs" />
+    <Compile Include="Handlers\Stubs\Gamate.cs" />
     <Compile Include="Handlers\Stubs\GameCom.cs" />
+    <Compile Include="Handlers\Stubs\GameKing.cs" />
+    <Compile Include="Handlers\Stubs\GameKing3.cs" />
     <Compile Include="Handlers\Stubs\GameMaster.cs" />
     <Compile Include="Handlers\ColecoVision.cs" />
     <Compile Include="Handlers\Stubs\Cybiko.cs" />
     <Compile Include="Handlers\Stubs\CybikoExtreme.cs" />
     <Compile Include="Handlers\EReader.cs" />
     <Compile Include="Handlers\GameGear.cs" />
+    <Compile Include="Handlers\Stubs\GamePocketComputer.cs" />
     <Compile Include="Handlers\Stubs\GameWave.cs" />
     <Compile Include="Handlers\Stubs\GP32.cs" />
     <Compile Include="Handlers\Stubs\GX4000.cs" />
@@ -163,6 +167,7 @@
     <Compile Include="Handlers\Stubs\MSX2.cs" />
     <Compile Include="Handlers\NeoGeoPocket.cs" />
     <Compile Include="Handlers\NES.cs" />
+    <Compile Include="Handlers\Stubs\NeoGeoCD.cs" />
     <Compile Include="Handlers\Stubs\Odyssey2.cs" />
     <Compile Include="Handlers\Stubs\Oric.cs" />
     <Compile Include="Handlers\Stubs\Orion128.cs" />
@@ -174,6 +179,7 @@
     <Compile Include="Handlers\PSP.cs" />
     <Compile Include="Handlers\Stubs\PCEngineCD.cs" />
     <Compile Include="Handlers\Stubs\PCFX.cs" />
+    <Compile Include="Handlers\Stubs\Picno.cs" />
     <Compile Include="Handlers\Stubs\Playstation.cs" />
     <Compile Include="Handlers\Stubs\PocketStation.cs" />
     <Compile Include="Handlers\Stubs\PS2.cs" />
@@ -198,6 +204,7 @@
     <Compile Include="Handlers\Stubs\Thomson.cs" />
     <Compile Include="Handlers\Stubs\TomyTutor.cs" />
     <Compile Include="Handlers\Stubs\TRS80.cs" />
+    <Compile Include="Handlers\Stubs\Uzebox.cs" />
     <Compile Include="Handlers\Stubs\VC4000.cs" />
     <Compile Include="Handlers\Stubs\Vic20.cs" />
     <Compile Include="Handlers\Stubs\X68000.cs" />
