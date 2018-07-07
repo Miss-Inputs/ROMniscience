@@ -106,54 +106,97 @@ namespace ROMniscience.Handlers {
 			return sb.ToString();
 		}
 
-		struct FSTEntry {
-			//Since this is all just looking for opening.bnr, which is at the root, we're ignoring directories and whatnot
-			public bool isDirectory;
-			public int filenameOffset;
-			public int fileOffset;
-			public int fileLength;
-			public string name;
+		public static void readFileEntry(byte[] entry, byte[] fnt, int virtualOffset, Dictionary<int, FilesystemDirectory> parentDirs, int index, Dictionary<int, FilesystemFile> filesToAdd, Dictionary<int, int> directoryNextIndexes) {
+			bool isDirectory = entry[0] > 0;
+			//FIXME: Should check this type flag, sometimes garbage files end up here where they have neither 0 (file) or 1 (directory). It seems to be on beta discs and such so it's probably caused by incorrect header entries causing the FST parsing to stuff up
 
-			public FSTEntry(byte[] b, byte[] filenameTable) {
-				isDirectory = b[0] > 0;
-				filenameOffset = (b[1] << 16) | (b[2] << 8) | b[3];
-				fileOffset = (b[4] << 24) | (b[5] << 16) | (b[6] << 8) | b[7];
-				fileLength = (b[8] << 24) | (b[9] << 16) | (b[10] << 8) | b[11];
-				if (filenameOffset >= filenameTable.Length) {
-					name = String.Format("<Invalid offset: {0}>", filenameOffset);
-				} else {
-					try {
-						name = getNullTerminatedString(filenameTable, filenameOffset);
-					} catch (Exception ex) {
-						name = String.Format("<Exception: {0}>", ex);
+			int filenameOffset = (entry[1] << 16) | (entry[2] << 8) | entry[3];
+			string name = getNullTerminatedString(fnt, filenameOffset);
+			if (isDirectory) {
+				var dir = new FilesystemDirectory {
+					name = name
+				};
+				parentDirs.Add(index, dir);
+				int parentIndex = (entry[4] << 24) | (entry[5] << 16) | (entry[6] << 8) | entry[7];
+				int nextIndex = (entry[8] << 24) | (entry[9] << 16) | (entry[10] << 8) | entry[11]; //If I'm understanding all this correctly (I probably am not): The next index out of all the indexes that isn't a child of this directory; i.e. all indexes between here and next index are in this directory
+				directoryNextIndexes.Add(index, nextIndex);
+				
+				//TODO: There has never been a case where parentDirs doesn't contain parentIndex other than the aforementioned garbage files, but we really should make this more robust
+				parentDirs[parentIndex].addChild(dir);
+			} else {
+				int fileOffset = (entry[4] << 24) | (entry[5] << 16) | (entry[6] << 8) | entry[7];
+				int fileLength = (entry[8] << 24) | (entry[9] << 16) | (entry[10] << 8) | entry[11];
+
+				var file = new FilesystemFile {
+					name = name,
+					offset = fileOffset + virtualOffset,
+					size = fileLength
+				};
+				filesToAdd.Add(index, file);
+			}
+		}
+
+		public static void readRootFST(FilesystemDirectory fs, WrappedInputStream s, int fstOffset, int fstSize, int virtualOffset) {
+			//TODO: Check against FST max size in header, and also Wii RAM limit (since this is also used on Wii I think, otherwise I'd say GameCube RAM limit) (88MB for Wii, 24MB system / 43MB total for GameCube) as it would be impossible for real hardware to read a bigger filesystem
+			//TODO: Wii shifts offset by one
+			long origPos = s.Position;
+			Dictionary<int, FilesystemDirectory> parentDirectories = new Dictionary<int, FilesystemDirectory> {
+				{0, fs}
+			};
+
+			try {
+				s.Position = fstOffset + 8;
+				//1 byte flag at fstOffset + 0: Filesystem root _must_ be a directory
+				//Name offset is irrelevant since the root doesn't really have a name (I think it's just set to 0 anyway)
+				//Parent index would also be irrelevant because it doesn't have a parent by definition
+				//TODO: Throw error or something if not a directory
+				//TODO: Throw error if number of entries * 12 > fstSize
+				int numberOfEntries = s.readIntBE();
+				int fntOffset = fstOffset + (numberOfEntries * 12);
+				int fntSize = fstSize - ((numberOfEntries) * 12);
+				s.Position = fntOffset;
+				byte[] fnt = s.read(fntSize);
+				s.Position = fstOffset + 12;
+
+				//Due to weirdness, we need to figure out which directories these files go in afterwards. It's really weird. I just hope it makes enough sense for whatever purpose you're reading this code for.
+				Dictionary<int, FilesystemFile> filesToAdd = new Dictionary<int, FilesystemFile>();
+				Dictionary<int, int> directoryNextIndexes = new Dictionary<int, int> {
+					{0, numberOfEntries}
+				};
+
+				for (int i = 0; i < numberOfEntries - 1; ++i) {
+					byte[] entry = s.read(12);
+					readFileEntry(entry, fnt, virtualOffset, parentDirectories, i + 1, filesToAdd, directoryNextIndexes);
+				}
+
+				//Now that we have the directory structure, add the files to them
+				//This sucks, by the way
+				//Like it's not that my code sucks (although it probably kinda does), it's like... I hate the GameCube filesystem
+				foreach(var fileToAdd in filesToAdd){
+					int fileIndex = fileToAdd.Key;
+					FilesystemFile file = fileToAdd.Value;
+
+					for(int potentialParentIndex = fileIndex -1; potentialParentIndex >= 0; potentialParentIndex--) {
+						if (directoryNextIndexes.ContainsKey(potentialParentIndex)) {
+							if (directoryNextIndexes[potentialParentIndex] > fileIndex) {
+								var parentDir = parentDirectories[potentialParentIndex];
+								parentDir.addChild(file);
+								break;
+							}
+						}
 					}
 				}
+			} finally {
+				s.Position = origPos;
 			}
 		}
 
-		static IList<FSTEntry> parseFST(byte[] fst) {
-			int numEntries = (fst[8] << 24) | (fst[9] << 16) | (fst[10] << 8) | fst[11];
-
-			byte[] filenameTable = new byte[fst.Length - (numEntries * 12)];
-			Array.Copy(fst, numEntries * 12, filenameTable, 0, filenameTable.Length);
-
-			IList<FSTEntry> list = new List<FSTEntry>();
-			for (int i = 1; i < numEntries; ++i) {
-				byte[] temp = new byte[12];
-				Array.Copy(fst, i * 12, temp, 0, 12);
-				list.Add(new FSTEntry(temp, filenameTable));
-			}
-			return list;
-		}
-
-		static byte[] getBanner(WrappedInputStream s, int startFileOffset, IList<FSTEntry> fst) {
-			foreach (var entry in fst) {
-				if ("opening.bnr".Equals(entry.name)) {
-					s.Position = startFileOffset + entry.fileOffset;
-					return s.read(entry.fileLength);
-				}
-			}
-			return null;
+		public static FilesystemDirectory readGamecubeFS(WrappedInputStream s, int fstOffset, int fstSize, int virtualOffset) {
+			FilesystemDirectory fs = new FilesystemDirectory {
+				name = "GameCube Filesystem"
+			};
+			readRootFST(fs, s, fstOffset, fstSize, virtualOffset);
+			return fs;
 		}
 
 		//TODO Refactor these 3 methods into one
@@ -218,6 +261,7 @@ namespace ROMniscience.Handlers {
 
 			if ("BNR1".Equals(bannerMagic)) {
 				//TODO These variable names fuckin suck and this whole thing needs refactoring
+				//FIXME: Sonic Adventure DX (Prototype - Review) (hidden-palace.org).gcz is a completely NTSC USA disc with English gameplay and text and audio and whatnot, but has a Japanese banner for some reason. Not sure if I would consider this to be just the disc being weird, or if it's worth fixing, would need to know what it does on real hardware I guess, but anyway it displays mojibake here (and in Dolphin, fwiw) because it's actually using Shift-JIS text that we're decoding as Latin-1 (because disc region is NTSC-U). Can't use Shift-JIS everywhere because then it'd not work with extended ASCII characters (accented letters mostly) on actual NTSC-U discs
 				if (region == 0) { //NTSC-J
 					string title = MainProgram.shiftJIS.GetString(banner, 0x1820, 32);
 					string title2 = MainProgram.shiftJIS.GetString(banner, 0x1840, 32);
@@ -320,13 +364,14 @@ namespace ROMniscience.Handlers {
 			}
 
 			if (fstOffset > 0 && fstSize > 12 && fstSize < (128 * 1024 * 1024)) {
-				s.Position = fstOffset;
-				byte[] fst = s.read(fstSize);
-
-				byte[] banner = getBanner(s, fileOffset, parseFST(fst));
-				if (banner != null) {
-					parseBanner(info, banner, region);
+				var fs = readGamecubeFS(s, fstOffset, fstSize, fileOffset);
+				if (fs.contains("opening.bnr")) {
+					var banner = (FilesystemFile)fs.getChild("opening.bnr");
+					s.Position = banner.offset;
+					byte[] bannerData = s.read((int)banner.size);
+					parseBanner(info, bannerData, region);
 				}
+				info.addFilesystem(fs);
 			}
 		}
 
@@ -348,7 +393,7 @@ namespace ROMniscience.Handlers {
 				s.Position = 8;
 				int tgcHeaderSize = s.readIntBE();
 				info.addInfo("TGC header size", tgcHeaderSize, ROMInfo.FormatMode.SIZE);
-				
+
 				//What the fuck? What does Dolphin know that YAGD doesn't and didn't decide to tell the rest of the class?
 				s.Position = 0x24;
 				int realOffset = s.readIntBE();
@@ -360,5 +405,6 @@ namespace ROMniscience.Handlers {
 				parseGamecubeDisc(info, s, 0, 0, false);
 			}
 		}
+
 	}
 }
