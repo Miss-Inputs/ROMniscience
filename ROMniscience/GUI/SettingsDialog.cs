@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ROMniscience.Handlers;
 
-namespace ROMniscience {
+namespace ROMniscience.GUI {
 	//I hate GUIs and I just like I feel like I should apologise for this whole class it's just a load of fuck
 	//just trying to get things to work
 	//TODO: Fix current caveat of not being able to store equals signs as values

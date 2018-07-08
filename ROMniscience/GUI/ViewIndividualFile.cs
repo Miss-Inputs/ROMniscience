@@ -35,7 +35,7 @@ using ROMniscience.Handlers;
 using ROMniscience.IO.CueSheets;
 using SharpCompress.Archives;
 
-namespace ROMniscience {
+namespace ROMniscience.GUI {
 	class ViewIndividualFile : Form {
 		private Panel fuckinPanelIGuess;
 		private TextBox notALabel;

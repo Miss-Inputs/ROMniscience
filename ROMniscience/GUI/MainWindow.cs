@@ -35,7 +35,7 @@ using ROMniscience.Datfiles;
 using SharpCompress.Archives;
 using System.Collections.Concurrent;
 
-namespace ROMniscience {
+namespace ROMniscience.GUI {
 	class MainWindow: Form {
 		DataGridView table = new DoubleBufferedDataGridView();
 		StatusStrip statusBar = new StatusStrip() {
