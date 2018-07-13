@@ -194,9 +194,13 @@ namespace ROMniscience {
 		public void startScan() {
 			onDatfilesLoadStart();
 			DatfileCollection datfiles = null;
-			string datFolder = SettingsManager.readSetting("datfiles");
-			if (datFolder != null) {
-				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
+			string datFolderSetting = SettingsManager.readSetting("datfiles");
+			if (datFolderSetting != null) {
+				List<DirectoryInfo> directories = new List<DirectoryInfo>();
+				foreach(var datFolder in datFolderSetting.Split(';')) {
+					directories.Add(new DirectoryInfo(datFolder));
+				}
+				datfiles = DatfileCollection.loadFromFolders(directories);
 			}
 			onDatfilesLoadEnd();
 

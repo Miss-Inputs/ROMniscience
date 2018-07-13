@@ -53,6 +53,22 @@ namespace ROMniscience.Datfiles {
 			return new DatfileCollection(datfiles);
 		}
 
+		public static DatfileCollection loadFromFolders(IEnumerable<DirectoryInfo> folders) {
+			IList<XMLDatfile> datfiles = new List<XMLDatfile>();
+			foreach (var folder in folders) {
+				foreach (var f in folder.EnumerateFiles("*.dat")) {
+					try {
+						XMLDatfile xf = new XMLDatfile(f.FullName);
+						datfiles.Add(xf);
+					} catch (System.Xml.XmlException) {
+						//Well, that wasn't a valid XML file, moving on
+						//TODO: This will still print crap to stdout, so we want to detect if it's a valid XML file some other way
+					}
+				}
+			}
+			return new DatfileCollection(datfiles);
+		}
+
 		public DatfileCollection(IList<XMLDatfile> datfiles) {
 			this.datfiles = datfiles;
 		}

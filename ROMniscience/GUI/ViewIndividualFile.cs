@@ -195,10 +195,14 @@ namespace ROMniscience.GUI {
 				return;
 			}
 
-			string datFolder = SettingsManager.readSetting("datfiles");
+			string datFolderSetting = SettingsManager.readSetting("datfiles");
 			DatfileCollection datfiles = null;
-			if (datFolder != null && handler.shouldCalculateHash) {
-				datfiles = DatfileCollection.loadFromFolder(new DirectoryInfo(datFolder));
+			if (datFolderSetting != null && handler.shouldCalculateHash) {
+				List<DirectoryInfo> directories = new List<DirectoryInfo>();
+				foreach (var datFolder in datFolderSetting.Split(';')) {
+					directories.Add(new DirectoryInfo(datFolder));
+				}
+				datfiles = DatfileCollection.loadFromFolders(directories);
 			}
 
 			ROMInfo info = ROMInfo.getROMInfo(handler, rom, datfiles);
