@@ -113,6 +113,7 @@
     <Compile Include="Handlers\Stubs\AmstradCPC.cs" />
     <Compile Include="Handlers\APF.cs" />
     <Compile Include="Handlers\Stubs\APFImaginationMachine.cs" />
+    <Compile Include="Handlers\Stubs\ApogeyBK01.cs" />
     <Compile Include="Handlers\Stubs\Apple2.cs" />
     <Compile Include="Handlers\Stubs\AppleIIGS.cs" />
     <Compile Include="Handlers\Stubs\AppleLisa.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Handlers\Stubs\MattelAquarius.cs" />
     <Compile Include="Handlers\Stubs\MegaDuck.cs" />
     <Compile Include="Handlers\Stubs\Microvision.cs" />
+    <Compile Include="Handlers\Stubs\Mikrosha.cs" />
     <Compile Include="Handlers\Stubs\MSX.cs" />
     <Compile Include="Handlers\Stubs\MSX2.cs" />
     <Compile Include="Handlers\NeoGeoPocket.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Handlers\Stubs\Odyssey2.cs" />
     <Compile Include="Handlers\Stubs\Oric.cs" />
     <Compile Include="Handlers\Stubs\Orion128.cs" />
+    <Compile Include="Handlers\Stubs\Partner0101.cs" />
     <Compile Include="Handlers\Stubs\PC6001.cs" />
     <Compile Include="Handlers\Stubs\PC88.cs" />
     <Compile Include="Handlers\Stubs\PC98.cs" />

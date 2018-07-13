@@ -36,14 +36,6 @@ namespace ROMniscience.Handlers.Stubs {
 			{"gam", "Radio 86-RK tape image"},
 			{"g16", "Radio 86-RK tape image"},
 			{"pki", "Radio 86-RK tape image"},
-			//These are clones of the Radio 86-RK or something
-			{"rko", "Orion tape iage"},
-			{"rkp", "SAM SKB VM Partner-01.01 tape image"},
-			{"rka", "Zavod BRA Apogee BK-01 tape image"},
-			{"rkm", "Mikroshka tape image"},
-			{"rku", "UT-88 tape image"},
-			{"rk8", "Mikro-80 tape image"},
-			{"rks", "Specialist tape image"},
 		};
 
 		public override string name => "Radio 86-RK";
