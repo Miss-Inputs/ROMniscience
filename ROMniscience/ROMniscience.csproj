@@ -175,6 +175,7 @@
     <Compile Include="Handlers\Stubs\PC6001.cs" />
     <Compile Include="Handlers\Stubs\PC88.cs" />
     <Compile Include="Handlers\Stubs\PC98.cs" />
+    <Compile Include="Handlers\Stubs\PCBooter.cs" />
     <Compile Include="Handlers\Stubs\PCEngine.cs" />
     <Compile Include="Handlers\PokemonMini.cs" />
     <Compile Include="Handlers\PSP.cs" />
