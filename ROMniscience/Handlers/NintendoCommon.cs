@@ -149,6 +149,7 @@ namespace ROMniscience.Handlers {
 			{"5A", "Mindscape"},
 			{"5B", "Romstar"},
 			{"5D", "Midway/Tradewest/Williams"}, //They're all the same thing really, everyone's buying out everyone
+			{"5F", "American Softworks"},
 			{"5G", "Majesco"},
 			{"5H", "The 3DO Company"},
 			{"5K", "Hasbro"},
