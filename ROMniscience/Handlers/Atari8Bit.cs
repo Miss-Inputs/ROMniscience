@@ -172,5 +172,15 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Platform", "Atari 8-bit");
 			}
 		}
+
+		public override bool shouldSkipHeader(ROMFile rom) {
+			//TODO: Definitely don't if it's not a cartridge file at all (just in case of false positives with disk images having CART at the beginning)
+			byte[] magic = rom.stream.read(4);
+			return isCARTMagic(magic);
+		}
+
+		public override int skipHeaderBytes() {
+			return 16;
+		}
 	}
 }

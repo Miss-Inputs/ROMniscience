@@ -135,6 +135,15 @@ namespace ROMniscience.Handlers {
 			return Encoding.ASCII.GetString(magic.Take(16).ToArray()).Equals("C64 CARTRIDGE   ");
 		}
 
+		public override bool shouldSkipHeader(ROMFile rom) {
+			byte[] magic = rom.stream.read(16);
+			return isCCS64CartMagic(magic);
+		}
+
+		public override int skipHeaderBytes() {
+			return 64;
+		}
+
 		public static void parseCCS64Cart(ROMInfo info, WrappedInputStream s) {
 			s.Position = 0x10;
 			int headerLength = s.readIntBE();

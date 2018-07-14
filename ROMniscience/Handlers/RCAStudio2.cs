@@ -38,6 +38,15 @@ namespace ROMniscience.Handlers {
 
 		public override string name => "RCA Studio II";
 
+		public override bool shouldSkipHeader(ROMFile rom) {
+			string magic = rom.stream.read(4, Encoding.ASCII);
+			return "RCA2".Equals(magic);
+		}
+
+		public override int skipHeaderBytes() {
+			return 256;
+		}
+
 		public readonly static IDictionary<string, string> AUTHORS = new Dictionary<string, string>() {
 			//Yes really
 			{"PR", "Paul Robson"},
