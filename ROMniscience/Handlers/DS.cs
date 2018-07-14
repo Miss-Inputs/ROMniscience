@@ -614,6 +614,13 @@ namespace ROMniscience.Handlers {
 				s.Position = fntOffset + tableOffset;
 				uint subTableOffset = (uint)s.readIntLE();
 				ushort firstID = (ushort)s.readShortLE();
+				if(firstID > 0xefff) {
+					//Shouldn't go higher than that, apparently
+					return;
+				}
+				//TODO: For tableOffset = 0 (root), read number of directories (short LE here):
+				//Validate that <= 4096 directories
+				//Validate that number of directories * 8 < fntSize
 
 				readNitroSubFNT(fs, s, fatOffset, fatSize, fntOffset, filenameTableSize, subTableOffset, firstID);
 			} finally {
