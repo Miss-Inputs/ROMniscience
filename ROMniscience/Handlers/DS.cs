@@ -556,7 +556,7 @@ namespace ROMniscience.Handlers {
 			parseBanner(info, s, bannerOffset);
 		}
 
-		public static Tuple<int, int> getFatInfo(WrappedInputStream s, int fatOffset, short fileID) {
+		public static Tuple<int, int> getFatInfo(WrappedInputStream s, int fatOffset, ushort fileID) {
 			long origPos = s.Position;
 			try {
 				s.Position = fatOffset + (fileID * 8);
@@ -570,11 +570,11 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static void readNitroSubFNT(FilesystemDirectory fs, WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int fntSize, int subTableOffset, short firstID) {
+		public static void readNitroSubFNT(FilesystemDirectory fs, WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int fntSize, int subTableOffset, ushort firstID) {
 
 			long origPos = s.Position;
 			try {
-				short currentFileID = firstID;
+				ushort currentFileID = firstID;
 				s.Position = fntOffset + subTableOffset;
 				while (true) {
 					int length = s.read();
@@ -583,7 +583,7 @@ namespace ROMniscience.Handlers {
 					}
 
 					if (length < 0x80) {
-						short fileID = currentFileID;
+						ushort fileID = currentFileID;
 						currentFileID++;
 						string name = s.read(length, Encoding.ASCII);
 						var offsetAndSize = getFatInfo(s, fatOffset, fileID);
@@ -612,7 +612,7 @@ namespace ROMniscience.Handlers {
 			try {
 				s.Position = fntOffset + tableOffset;
 				int subTableOffset = s.readIntLE();
-				short firstID = s.readShortLE();
+				ushort firstID = (ushort)s.readShortLE();
 
 				readNitroSubFNT(fs, s, fatOffset, fatSize, fntOffset, filenameTableSize, subTableOffset, firstID);
 			} finally {
