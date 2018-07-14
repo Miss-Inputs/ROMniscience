@@ -123,6 +123,7 @@ namespace ROMniscience.Handlers {
 
 		public virtual int skipHeaderBytes() {
 			//Override this with the amount of bytes this should skip
+			//TODO: Should just merge this with shouldSkipHeader, if it returns 0, don't skip header
 			return 0;
 		}
 	}

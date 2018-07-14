@@ -76,10 +76,6 @@ namespace ROMniscience.Datfiles {
 		public IList<XMLDatfile.IdentifyResult> identify(int crc32, byte[] md5, byte[] sha1) {
 			var results = new List<XMLDatfile.IdentifyResult>();
 			foreach(XMLDatfile datfile in datfiles) {
-				//XMLDatfile.IdentifyResult result = datfile.identify(crc32, md5, sha1);
-				//if(result != null) {
-				//	return result;
-				//}
 				results.AddRange(datfile.identify(crc32, md5, sha1));
 			}
 			return results;
@@ -103,6 +99,7 @@ namespace ROMniscience.Datfiles {
 				md5.TransformFinalBlock(new byte[0], 0, 0);
 				sha1.TransformFinalBlock(new byte[0], 0, 0);
 
+				//TODO: Should make new class/struct to hold sets of hashes instead of using weird tuple
 				return new Tuple<int, byte[], byte[]>(crc32, md5.Hash, sha1.Hash);
 			} finally {
 				s.Position = originalPos;

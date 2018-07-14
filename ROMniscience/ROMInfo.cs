@@ -93,7 +93,7 @@ namespace ROMniscience {
 				info.addInfo("Folder", rom.path.DirectoryName);
 				info.addInfo("Size", rom.length, FormatMode.SIZE);
 				bool shouldSkipHeader = handler.shouldSkipHeader(rom);
-				info.addInfo("Has header", shouldSkipHeader);
+				info.addInfo("Has extra header", shouldSkipHeader);
 
 				if (rom.compressed) {
 					info.addInfo("Uncompressed filename", rom.name);
@@ -106,13 +106,27 @@ namespace ROMniscience {
 				info.addInfo("File type", fileType ?? "Unknown");
 
 				if (handler.shouldCalculateHash) {
-					var hashes = DatfileCollection.hash(rom.stream, shouldSkipHeader ? handler.skipHeaderBytes() : 0);
+					var hashes = DatfileCollection.hash(rom.stream, 0);
 					info.addInfo("CRC32", hashes.Item1, FormatMode.HEX_WITHOUT_0X);
 					info.addInfo("MD5", hashes.Item2, FormatMode.BYTEARRAY_WITHOUT_DASHES);
 					info.addInfo("SHA-1", hashes.Item3, FormatMode.BYTEARRAY_WITHOUT_DASHES);
 
+					Tuple<int, byte[], byte[]> hashesWithoutHeader = null;
+					if (shouldSkipHeader) {
+						hashesWithoutHeader = DatfileCollection.hash(rom.stream, handler.skipHeaderBytes());
+						info.addInfo("CRC32 without header", hashesWithoutHeader.Item1, FormatMode.HEX_WITHOUT_0X);
+						info.addInfo("MD5 without header", hashesWithoutHeader.Item2, FormatMode.BYTEARRAY_WITHOUT_DASHES);
+						info.addInfo("SHA-1 without header", hashesWithoutHeader.Item3, FormatMode.BYTEARRAY_WITHOUT_DASHES);
+					}
+
 					if (datfiles != null) {
 						var results = datfiles.identify(hashes.Item1, hashes.Item2, hashes.Item3);
+						if(hashesWithoutHeader != null) {
+							var resultsWithoutHeader = datfiles.identify(hashesWithoutHeader.Item1, hashesWithoutHeader.Item2, hashesWithoutHeader.Item3);
+							foreach(var resultWithoutHeader in resultsWithoutHeader) {
+								results.Add(resultWithoutHeader);
+							}
+						}
 						addDatfileResults(results, info);
 					}
 				}
