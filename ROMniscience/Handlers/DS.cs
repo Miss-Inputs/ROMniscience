@@ -545,7 +545,8 @@ namespace ROMniscience.Handlers {
 
 			bool containsWifi = false;
 			if (fatOffset > 0 && fatSize > 0 && filenameTableOffset > 0 && filenameTableSize > 0) {
-				var fs = readNitroFS(s, fatOffset, fatSize, filenameTableOffset, filenameTableSize);
+				//TODO: Negative fatOffset/fatSize/etc values might mean it is actually there, just really big (and unsigned). But we should check for absurdly big values that are invalid before doing that
+				var fs = readNitroFS(s, (uint)fatOffset, (uint)fatSize, (uint)filenameTableOffset, (uint)filenameTableSize);
 				info.addFilesystem(fs);
 				if (fs.contains("dwc")) {
 					var dwc = (FilesystemDirectory)fs.getChild("dwc");
@@ -556,21 +557,21 @@ namespace ROMniscience.Handlers {
 			parseBanner(info, s, bannerOffset);
 		}
 
-		public static Tuple<int, int> getFatInfo(WrappedInputStream s, int fatOffset, ushort fileID) {
+		public static Tuple<uint, uint> getFatInfo(WrappedInputStream s, uint fatOffset, ushort fileID) {
 			long origPos = s.Position;
 			try {
 				s.Position = fatOffset + (fileID * 8);
 
-				int startOffset = s.readIntLE();
-				int endOffset = s.readIntLE();
-				int size = endOffset - startOffset;
-				return new Tuple<int, int>(startOffset, size);
+				uint startOffset = (uint)s.readIntLE();
+				uint endOffset = (uint)s.readIntLE();
+				uint size = endOffset - startOffset;
+				return new Tuple<uint, uint>(startOffset, size);
 			} finally {
 				s.Position = origPos;
 			}
 		}
 
-		public static void readNitroSubFNT(FilesystemDirectory fs, WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int fntSize, int subTableOffset, ushort firstID) {
+		public static void readNitroSubFNT(FilesystemDirectory fs, WrappedInputStream s, uint fatOffset, uint fatSize, uint fntOffset, uint fntSize, uint subTableOffset, ushort firstID) {
 
 			long origPos = s.Position;
 			try {
@@ -592,11 +593,11 @@ namespace ROMniscience.Handlers {
 						length -= 0x80;
 
 						string name = s.read(length, Encoding.ASCII);
-						int dirID = (ushort)s.readShortLE() & 0x0fff;
+						ushort dirID = (ushort)((ushort)s.readShortLE() & 0x0fff);
 						FilesystemDirectory folder = new FilesystemDirectory() {
 							name = name,
 						};
-						readNitroMainFNT(folder, s, fatOffset, fatSize, fntOffset, fntSize, dirID * 8);
+						readNitroMainFNT(folder, s, fatOffset, fatSize, fntOffset, fntSize, dirID * (uint)8);
 						fs.addChild(folder);
 					}
 				}
@@ -605,13 +606,13 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static void readNitroMainFNT(FilesystemDirectory fs, WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int filenameTableSize, int tableOffset) {
+		public static void readNitroMainFNT(FilesystemDirectory fs, WrappedInputStream s, uint fatOffset, uint fatSize, uint fntOffset, uint filenameTableSize, uint tableOffset) {
 			//tableOffset being the offset _into_ the FNT, not the offset _of_ the FNT (which is fntOffset). That's confusing. I'll figure out how to be less confusing later
 
 			long origPos = s.Position;
 			try {
 				s.Position = fntOffset + tableOffset;
-				int subTableOffset = s.readIntLE();
+				uint subTableOffset = (uint)s.readIntLE();
 				ushort firstID = (ushort)s.readShortLE();
 
 				readNitroSubFNT(fs, s, fatOffset, fatSize, fntOffset, filenameTableSize, subTableOffset, firstID);
@@ -620,7 +621,7 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
-		public static FilesystemDirectory readNitroFS(WrappedInputStream s, int fatOffset, int fatSize, int fntOffset, int fntSize) {
+		public static FilesystemDirectory readNitroFS(WrappedInputStream s, uint fatOffset, uint fatSize, uint fntOffset, uint fntSize) {
 			//Number of directories = fnt[6], but we don't need that info
 			FilesystemDirectory fs = new FilesystemDirectory {
 				name = "NitroFS"
