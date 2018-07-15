@@ -110,7 +110,7 @@ namespace ROMniscience {
 
 			public override string getFiletypeName(string extension) {
 				string _base = base.getFiletypeName(extension);
-				if(_base == null) {
+				if (_base == null) {
 					return _name + " " + extension + " file";
 				}
 				return _name + " " + _base;
@@ -136,12 +136,12 @@ namespace ROMniscience {
 			}
 			onHaveRow(info);
 
-			using(var cueStream = f.OpenRead()) {
+			using (var cueStream = f.OpenRead()) {
 				var cue = CueSheet.create(cueStream, f.Extension);
-				foreach(var cueFile in cue.filenames) {
+				foreach (var cueFile in cue.filenames) {
 					FileInfo filename = new FileInfo(Path.Combine(f.DirectoryName, cueFile.filename));
 
-					using(ROMFile file = new NormalROMFile(filename)) {
+					using (ROMFile file = new NormalROMFile(filename)) {
 						file.cdSectorSize = cueFile.sectorSize;
 						if (cueFile.isData) {
 							info = ROMInfo.getROMInfo(handler, file, datfiles);
@@ -197,14 +197,53 @@ namespace ROMniscience {
 			string datFolderSetting = SettingsManager.readSetting("datfiles");
 			if (datFolderSetting != null) {
 				List<DirectoryInfo> directories = new List<DirectoryInfo>();
-				foreach(var datFolder in datFolderSetting.Split(';')) {
+				foreach (var datFolder in datFolderSetting.Split(';')) {
 					directories.Add(new DirectoryInfo(datFolder));
 				}
 				datfiles = DatfileCollection.loadFromFolders(directories);
 			}
 			onDatfilesLoadEnd();
+			bool singleThreaded = false;
+			if (bool.TryParse(SettingsManager.readSetting("single_threaded"), out bool result)) {
+				singleThreaded = result;
+			}
+			//TODO: Write that setting back to a sensible default and ensure it exists next time
+
+			if (singleThreaded) {
+				scanUnthreaded(datfiles);
+			} else {
+				scanThreaded(datfiles);
+			}
+		}
+
+		private void scanUnthreaded(DatfileCollection datfiles) {
+			foreach (Handler handler in Handler.allHandlers) {
+				var runningWorkers = new ConcurrentDictionary<string, bool>();
+				runningWorkers.TryAdd(handler.name, true);
+				onSetStatus(runningWorkers);
+				//Ehhhhh...............
+				System.Windows.Forms.Application.DoEvents();
+
+				if (handler.configured && handler.enabled) {
+					if (!handler.folder.Exists) {
+						System.Diagnostics.Trace.TraceWarning("{0} has folder {1} but that doesn't exist", handler.name, handler.folder);
+						return;
+					}
+					foreach (FileInfo f in handler.folder.EnumerateFiles("*", SearchOption.AllDirectories)) {
+						try {
+							processFile(f, handler, datfiles);
+							//Mehhhhhhhh...............
+							System.Windows.Forms.Application.DoEvents();
+						} catch (Exception ex) {
+							onException(ex, f);
+						}
+					}
+				};
+			}
+		}
 
 
+		private void scanThreaded(DatfileCollection datfiles) {
 			ConcurrentDictionary<string, bool> runningWorkers = new ConcurrentDictionary<string, bool>();
 
 			foreach (Handler handler in Handler.allHandlers) {
