@@ -141,18 +141,17 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", "Atari 5200");
 			var s = file.stream;
-			s.Position = file.length - 3;// 0x1ffd;
+			s.Position = file.length - 3;
 
-			bool skipLogo = s.read() == 0xff; //Frogger does this, maybe some others. I guess this is the second digit of the year being set to F?
+			bool skipLogo = s.read() == 0xff; //Frogger does this, maybe some others. I guess this is the second digit of the year being set to 0xff?
 			info.addInfo("Skip BIOS", skipLogo);
 			short entryPoint = s.readShortLE();
 			info.addInfo("Entry point", entryPoint, ROMInfo.FormatMode.HEX);
 
 			if (!skipLogo) {
-				s.Position = file.length - 24; // 0x1fe8;
+				s.Position = file.length - 24;
 				//Copyright info is usually displayed on the screen, the BIOS displays a graphic from its own ROM and something like "TITLE\nCOPYRIGHT YEAR ATARI"
 				//This can be used to get the name for our purposes, though it will be padded with @ (displays as blank I guess?) or null char to make it centred on screen
-				//string name = s.read(20, Encoding.ASCII).Replace("\x0", "<0!>").Replace(" ", "<sp>");
 				string name = decodeAtari5200String(s.read(20));
 				info.addInfo("Internal name", name);
 
