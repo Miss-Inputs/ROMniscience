@@ -65,9 +65,12 @@ namespace ROMniscience.Handlers {
 		public static readonly IDictionary<int, string> ROM_LAYOUTS = new Dictionary<int, string>() {
 			{0x20, "LoROM"},
 			{0x21, "HiROM"},
+			{0x22, "LoROM + S-DD1"},
+			{0x23, "LoROM + S-A1"},
 			{0x30, "LoROM + FastROM"},
 			{0x31, "HiROM + FastROM"},
-			{0x32, "ExLoROM"},
+			{0x32, "ExLoROM"}, //Or would this be LoROM + S-DD1 + FastROM?
+			{0x33, "LoROM + S-A1 + FastROM"},
 			{0x35, "ExHiROM"},
 		};
 
