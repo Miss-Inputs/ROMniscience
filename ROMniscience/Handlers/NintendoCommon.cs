@@ -341,6 +341,12 @@ namespace ROMniscience.Handlers {
 			//Banjo-Pilot's beta version that has XXXX as the game code
 		};
 
+		public readonly static IDictionary<string, string> EXTENDED_LICENSEE_CODES = new Dictionary<string, string>() {
+			//Seen on Wii U, which has four character licensee codes, but if they start with 00 they're just the old list of licensee codes (with the 00 at the front). So I guess they ran out of licensee codes at that point, huh? There's like, 1296 you can do with 2 alphanumeric characters. 1292 as 00, 33, FF, and ZZ would be probably invalid. So like... damn. I guess that's a thing that happened. Welp.
+			{"010P", "13AM Games"},
+			{"0167", "GalaxyTrail"},
+		};
+
 		//Is 0 = no rating correct for any of these, given that it's not no rating for the AGCB?
 		public readonly static IDictionary<int, string> CERO_RATINGS = new Dictionary<int, string>() {
 			//Used in Japan

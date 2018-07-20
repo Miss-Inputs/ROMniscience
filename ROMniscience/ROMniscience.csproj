@@ -213,6 +213,7 @@
     <Compile Include="Handlers\Stubs\VC4000.cs" />
     <Compile Include="Handlers\Stubs\Vic20.cs" />
     <Compile Include="Handlers\Stubs\X68000.cs" />
+    <Compile Include="Handlers\WiiU.cs" />
     <Compile Include="Handlers\Xbox360.cs" />
     <Compile Include="Handlers\Stubs\ZX81.cs" />
     <Compile Include="Handlers\Stubs\ZXSpectrum.cs" />
