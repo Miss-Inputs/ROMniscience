@@ -416,6 +416,8 @@ namespace ROMniscience.Handlers {
 			//Used in Australia
 			{0, "G"},
 			{7, "PG"},
+			{8, "PG (8)"}, //Seen on Wii U games
+			{13, "M (13)"}, //Seen on Wii U games. I know it's definitely correct at least, because Earthbound has this and definitely says M when you start it up (which I will always find funny)
 			{14, "M"},
 			{15, "MA15+"},
 			{18, "R"}, //Not introduced until 2013, all the Wii games released after that are not the kind of game which would earn such a rating
