@@ -463,7 +463,7 @@ namespace ROMniscience.Handlers {
 		readonly static Tuple<string, IDictionary<int, string>>[] RATING_NAMES = {
 			new Tuple<string, IDictionary<int, string>>("CERO", CERO_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("ESRB", ESRB_RATINGS),
-			new Tuple<string, IDictionary<int, string>>("<reserved>", null),
+			new Tuple<string, IDictionary<int, string>>("<reserved>", null), //Probably BBFC, given position relative to Wii U XML stuff
 			new Tuple<string, IDictionary<int, string>>("USK", USK_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("PEGI", PEGI_RATINGS),
 			new Tuple<string, IDictionary<int, string>>("FBFC", FBFC_RATINGS), //Finland uses a different ratings board since 2011, but for Wii and DSi games it should be fine; I haven't seen this used anyway (actually, it might be Wii only and then became reserved with DSi/3DS)
@@ -474,11 +474,7 @@ namespace ROMniscience.Handlers {
 			new Tuple<string, IDictionary<int, string>>("CGSRR", CGSRR_RATINGS), //3DS only
 		};
 
-		public static void parseRatings(ROMInfo info, byte[] ratings, bool isDSi) {
-			//Used with Wii/WiiWare and DSi, which both introduced parental controls features I guess
-			//DSi seems to use bit 7 to indicate if a rating exists for a given country differently
-			//To be precise: With DSi (and 3DS), bit 7 is set when a rating exists, on Wii, bit 7 is unset when a rating exists
-
+		public static void parseRating(ROMInfo info, int rating, string name, IDictionary<int, string> dict, bool isDSi) {
 			//Bit 5 is set for ESRB on Super Smash Bros Brawl (USA v1.01), Bomberman Blast (USA), and
 			//Mario Strikers Charged
 			//Possibly indicates online interactivity, e.g. the specific label "Online Interactions Not Rated by the ESRB" / "Game Experience May Change During Online Play"
@@ -490,6 +486,40 @@ namespace ROMniscience.Handlers {
 
 			//On 3DS, bit 6 indicates "Rating Pending" and bit 5 indicates No Age Restriction but that can't be right for Wii and probably not DSi
 
+			//Wii U seems to set bit 6 on every single BBFC and reserved rating so maybe it's like "not used"
+
+			if ((rating & 0x40) > 0) {
+				info.addInfo(name + " bit 6", true);
+			}
+			if ((rating & 0x20) > 0) {
+				info.addInfo(name + " bit 5", true);
+			}
+
+			bool ratingExists;
+			if (isDSi) {
+				ratingExists = (rating & 0x80) != 0;
+			} else {
+				ratingExists = (rating & 0x80) == 0;
+			}
+
+			if (ratingExists) {
+				//Actual rating is bits 0-4
+				int ratingValue = rating & 0x1f;
+				if (dict != null) {
+					info.addInfo(name, ratingValue, dict);
+				} else {
+					info.addInfo(name, ratingValue);
+				}
+			}
+		}
+
+		public static void parseRatings(ROMInfo info, byte[] ratings, bool isDSi) {
+			//Used with Wii/WiiWare and DSi, which both introduced parental controls features I guess
+			//DSi seems to use bit 7 to indicate if a rating exists for a given country differently
+			//To be precise: With DSi (and 3DS), bit 7 is set when a rating exists, on Wii, bit 7 is unset when a rating exists
+			//Wii U has ratings too, but they're XML. Seemingly very similar, though
+
+			
 			for (int i = 0; i < 16; ++i) {
 				int rating = ratings[i];
 				string ratingName;
@@ -499,28 +529,12 @@ namespace ROMniscience.Handlers {
 					ratingName = RATING_NAMES[i].Item1 + " rating";
 				}
 
-				if ((rating & 0x40) > 0) {
-					info.addInfo(ratingName + " bit 6", true);
+				IDictionary<int, string> ratingsDict = null;
+				if (i < RATING_NAMES.Length && RATING_NAMES[i].Item2 != null) {
+					ratingsDict = RATING_NAMES[i].Item2;
 				}
-				if ((rating & 0x20) > 0) {
-					info.addInfo(ratingName + " bit 5", true);
-				}
+				parseRating(info, rating, ratingName, ratingsDict, isDSi);
 
-				bool ratingExists;
-				if (isDSi) {
-					ratingExists = (rating & 0x80) != 0;
-				} else {
-					ratingExists = (rating & 0x80) == 0;
-				}
-				if (ratingExists) {
-					//Actual rating is bits 0-4
-					int ratingValue = rating & 0x1f;
-					if (i < RATING_NAMES.Length && RATING_NAMES[i].Item2 != null) {
-						info.addInfo(ratingName, ratingValue, RATING_NAMES[i].Item2);
-					} else {
-						info.addInfo(ratingName, ratingValue);
-					}
-				}
 			}
 
 		}
