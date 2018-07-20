@@ -123,6 +123,7 @@ namespace ROMniscience.Handlers {
 			{"2P", "The Pokémon Company"},
 			{"35", "Hector"},
 			{"36", "Codemasters"},
+			{"39", "Event Evolution Entertainment"},
 			{"3E", "Gremlin"},
 			{"41", "Ubisoft"},
 			{"44", "Malibu"},
@@ -289,7 +290,6 @@ namespace ROMniscience.Handlers {
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
 			{"B0", "Acclaim (B0)"}, //Already uses 51
 			{"46", "Angel (46)"}, //Already uses CF; seen in Super Putty (Europe) and Desert Fighter (Europe) which should be theoretically System 3 (Super Putty was published in Japan and US by Varie and US Gold respectively, Desert Fighter was published by Seta elsewhere)
-			{"39", "Banpresto (39)"}, //Already uses D9
 			{"9D", "Banpresto (9D)"},
 			{"6E", "Elite Systems (6E)"}, //Already uses 0C; this one is used in the Power Slide SNES prototype; this may have something to do with their in-house development studio MotiveTime
 			{"E0", "Jaleco (E0)"}, //Already uses 0A
