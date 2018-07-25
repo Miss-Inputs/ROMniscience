@@ -44,6 +44,7 @@ namespace ROMniscience.GUI {
 		private Button showFilesystemsButton;
 		private IDictionary<string, Image> images = new Dictionary<string, Image>();
 		private ROMInfo info = null;
+		private ROMFile file = null;
 
 		public static T chooseChoices<T>(IEnumerable<T> choices, string displayKey, string helpText, string title) where T : class {
 			if (choices.Count() == 1) {
@@ -206,14 +207,15 @@ namespace ROMniscience.GUI {
 			}
 
 			ROMInfo info = ROMInfo.getROMInfo(handler, rom, datfiles);
-			viewFile(info, String.Format("ROMniscience: {0} ({1})", rom.path, handler.name));
+			viewFile(info, rom, String.Format("ROMniscience: {0} ({1})", rom.path, handler.name));
 		}
 
-		public static void viewFile(ROMInfo info, string title) {
+		public static void viewFile(ROMInfo info, ROMFile file, string title) {
 
 			ViewIndividualFile me = new ViewIndividualFile {
 				Text = title
 			};
+			me.file = file;
 
 			foreach (var thing in info.info) {
 				object value = thing.Value.value;
@@ -401,7 +403,7 @@ namespace ROMniscience.GUI {
 		
 
 		private void showFilesystemsButton_Click(object sender, EventArgs e) {
-			ViewFilesystems.viewFilesystems(info);
+			ViewFilesystems.viewFilesystems(info, file);
 		}
 	}
 }
