@@ -314,7 +314,6 @@ namespace ROMniscience.Handlers {
 
 			//Duplicates that seem dubious... dubiouplicatious... no that's not a good pun
 			{"42", "Atlus (42)"}, //Only seen in Project S-11 which is by Paragon 5/Sunsoft and not Atlus (also some cheeky bugger homebrew games that want to use 42), all Atlus games so far use EB, but also all other Sunsoft games use BB
-			{"46", "Angel (46)"}, //Already uses CF; seen in Super Putty (Europe) and Desert Fighter (Europe) which should be theoretically System 3 (Super Putty was published in Japan and US by Varie and US Gold respectively, Desert Fighter was published by Seta elsewhere)
 
 			//Duplicates that haven't even been seen anywhere (reliable) and hence are very dubious
 			{"B0", "Acclaim (B0)"}, //Already uses 51
