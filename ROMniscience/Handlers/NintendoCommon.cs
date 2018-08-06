@@ -95,250 +95,252 @@ namespace ROMniscience.Handlers {
 			//Company A / Company B which purchased A or A otherwise got absorbed into
 			//Company A / New name of Company A
 			//[Company B that merged with company A but kept A's licensee code] Company A e.g. [Bandai] Namco (Namco used the code AF before the merger)
-
+			
+			//These are invalid, honestly, but eh
 			{"00", "Nobody"}, //Probably homebrew; although... some 3DS games use this? What the heck, I don't think Smash 4 was published by nobody
 			{"  ", "Nobody"},
 			{"\0\0", "Nobody"},
 			{"##", "Nobody"},
 			{"??", "Nobody"},
 
+			//These are definitely what they are, appears in multiple games that are definitely published by that thing
 			{"01", "Nintendo"},
 			{"08", "Capcom"},
-			{"09", "Hot-B"},
 			{"0A", "Jaleco"},
-			{"0B", "Coconuts"},
-			{"0C", "Elite Systems"},
-			{"13", "EA Japan"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number; anyway I don't know what EA actually calls their Japanese branch but that'll do
+			{"13", "EA Japan"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number; anyway I don't know what EA actually calls their Japanese branch but that'll do. Might be that Square EA venture / Electronic Arts KK?
 			{"18", "Hudson Soft"},
-			{"19", "Bandai (B-AI)"},
-			{"1A", "Yanoman"},
-			{"1D", "Clary"},
 			{"1M", "Micro Cabin"},
 			{"1Q", "TDK (Japan)"},
 			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
-			{"24", "PCM Complete"},
 			{"29", "Seta"},
 			{"2L", "Tamsoft"},
 			{"2N", "Smilesoft"},
 			{"2P", "The Pokémon Company"},
-			{"35", "Hector"},
+			{"30", "Viacom"},
 			{"36", "Codemasters"},
 			{"39", "Event Evolution Entertainment"},
-			{"3E", "Gremlin"},
 			{"41", "Ubisoft"},
-			{"44", "Malibu"},
-			{"47", "Spectrum Holobyte"},
 			{"49", "Irem"},
-			{"4A", "Gakken"},
 			{"4B", "Raya Systems"},
-			{"4F", "Eidos"}, //The other documentation on the internets seems to think this is U.S. Gold, which I don't think is correct from ROMs I've seen use the code; the other thing is that this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
-			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet
+			{"4F", "Eidos"}, //Purchased U.S. Gold in 1995 so that might make sense; also this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
 			{"4S", "Black Pearl Software"},
 			{"4Y", "Rare"},
 			{"4Z", "Crave Entertainment"}, //Resident Evil GBC prototype also has this, but it was developed by HotGen and would have been published by Capcom
 			{"50", "Absolute"},
 			{"51", "Acclaim"},
 			{"52", "Activision"},
-			{"53", "Sammy (America)"}, //Sammy's USA division, which may or may not be called American Sammy
-			{"54", "Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
-			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
-			{"55", "Hi-Tech Expressions"},
+			{"55", "Hi-Tech Expressions"}, //Or just "Hi-Tech"?
 			{"56", "LJN"},
-			{"57", "Matchbox"},
 			{"58", "Mattel"},
-			{"59", "Milton Bradley"},
 			{"5A", "Mindscape"},
-			{"5B", "Romstar"},
-			{"5D", "Midway/Tradewest/Williams"}, //They're all the same thing really, everyone's buying out everyone
+			{"5D", "Midway/Tradewest/Williams"}, //Need to sort out which companies bought out which...
 			{"5F", "American Softworks"},
 			{"5G", "Majesco"},
 			{"5H", "The 3DO Company"},
 			{"5K", "Hasbro"},
 			{"5L", "NewKidsCo"},
-			{"5Q", "Lego"},
 			{"5T", "Cyro Interactive"},
 			{"5X", "Microids"},
-			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well
 			{"60", "Titus"},
 			{"61", "Virgin"},
 			{"64", "LucasArts"},
 			{"67", "Ocean"},
 			{"69", "Electronic Arts"}, //nice
-			{"6B", "Beam Software/Melbourne House"},
+			{"6B", "Beam Software/Melbourne House"}, //Beam Software until 2000, then Melbourne House from 2006, currently Krome Studios Melbourne. Latter two iterations of company might not have done any publishing?
 			{"6F", "Electro Brain"},
 			{"6H", "BBC Multimedia"},
 			{"6J", "Software 2000"},
 			{"6L", "BAM! Entertainment"},
 			{"6S", "TDK"},
 			{"6V", "JoWooD Entertainment"},
-			{"70", "Infogrames/Atari, SA"}, //The modern Atari these days _is_ Infogrames basically and it's all very confusing, but anyway yeah there's DS games like Point Blank DS which use this and they're published under the Atari name, and then there's stuff like Legacy of Goku which is published under Infogrames but they're basically just the same company, and don't ask me about the original Atari because I'll die of confusion
+			{"70", "Infogrames/Atari, SA"}, //The modern Atari these days _is_ Infogrames basically and it's all very confusing, but anyway yeah there's DS games like Point Blank DS which use this and they're published under the Atari name, and then there's stuff like Legacy of Goku which is published under Infogrames but they're basically just the same company, and hopefully the original Atari won't be relevant
 			{"71", "Interplay"},
 			{"72", "JVC"},
+			{"75", "The Sales Curve"},
 			{"78", "THQ"},
 			{"79", "Accolade"},
-			{"7A", "Triffix Entertainment"},
-			{"7C", "Microprose"},
-			{"7D", "Vivendi"},
+			{"7D", "Vivendi"}, //And/or Sierra
 			{"7F", "Kemco"},
 			{"7G", "Rage Software"},
 			{"7L", "Simon & Schuster"},
-			{"80", "Misawa Entertainment"},
 			{"82", "Namcot"}, //Some division of Namco that was apparently necessary to create as a separate thing.... I don't know
-			{"83", "LOZC"},
-			{"86", "Tokuma Shoten"},
-			{"87", "Tsukuda Ori"},
 			{"8B", "Bullet-Proof Software"},
-			{"8C", "Vic Tokai"},
+			{"8C", "Vic Tokai"}, //Zerd no Densetsu (Japan)
 			{"8E", "Character Soft"},
 			{"8F", "I'Max"},
-			{"8N", "Success"},
 			{"8P", "Sega"},
-			{"91", "Chunsoft"},
-			{"92", "Video System"},
 			{"95", "Varie"},
 			{"97", "Kaneko"},
-			{"99", "Pack-in Video/Victor Interactive/Marvelous Interactive"}, //Merged with Victor in 1997 and then with Marvelous in 2003, so Victor and Marvelous probably used different codes before then
-			{"9A", "Nihon Bussan (Nichibutsu)"},
+			{"99", "Pack-in Video/Victor Interactive/Marvelous Interactive"}, //Merged with Victor in 1997 and then with Marvelous in 2003, so Victor and Marvelous probably used different codes before then (or weren't involved with Nintendo)
+			{"9A", "Nihon Bussan (Nichibutsu)"}, //But which one? Maybe it's better to just say Nichibutsu
 			{"9B", "Tecmo"},
 			{"9C", "Imagineer"},
-			{"9F", "Nova"},
 			{"9H", "Bottom Up"},
 			{"9M", "Jaguar"}, //The sewing machine company
 			{"9N", "Marvelous"}, //Before merger in 2003
 			{"A0", "Telenet"}, //Sometimes known as Telenet Japan, or Nippon Telenet, but I think it's fair to just call it "Telenet"
-			{"A1", "Hori Electric"},
-			{"A2", "Scorpion Soft"},
 			{"A4", "Konami"},
 			{"A5", "K Amusement Leasing"},
-			{"A6", "Kawada"},
 			{"A7", "Takara"}, //Vast Fame also uses this for most of their GBC bootlegs, interestingly
 			{"A8", "Royal Industries"}, //More damn sewing machine companies!
-			{"A9", "Technos Japan"},
-			{"AA", "Broderbund"},
-			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; there's an FDS game I already forgot the name of that's actually published by Toei though
 			{"AD", "Toho"},
 			{"AF", "[Bandai] Namco"}, //Namco games have always used this, but when they merged with Bandai, they kept this code (so newer games like that Code Geass DS one use this code as well), which is interesting because Square Enix doesn't reuse Squaresoft or Enix's licensee codes and gets a new one
 			{"AH", "J-Wing"},
 			{"AL", "Media Factory"},
-			{"B1", "ASCII/Nexoft"},
+			{"B1", "ASCII/Nexoft"}, //Nexoft being in here is questionable, might be just ASCII?
 			{"B2", "Bandai"},
 			{"B3", "Soft Pro"},
 			{"B4", "Enix"},
 			{"B6", "HAL"},
-			{"B7", "SNK"},
-			{"B9", "Pony Canyon"},
 			{"BA", "Culture Brain"},
 			{"BB", "Sunsoft"},
 			{"BC", "Toshiba EMI"},
 			{"BD", "Sony Imagesoft"},
-			{"BF", "Sammy"},
 			{"BJ", "Compile"},
 			{"BL", "MTO"},
 			{"C0", "Taito"},
 			{"C1", "Sunsoft (Chinou Game Series)"}, //I guess it's an educational branch of Sunsoft? Or it might all be published by Ask Odansha
 			{"C3", "Squaresoft"},
 			{"C5", "Data East"},
-			{"C6", "Tokyo Shoseki (Tonkin House)"},
+			{"C6", "Tokyo Shoseki (Tonkin House)"}, //They're sorta the same company, or something? Not quite sure
 			{"C8", "Koei"},
-			{"C9", "UFL"},
-			{"CA", "Konami (Ultra Games)"},
 			{"CB", "Vap"},
-			{"CC", "Use"},
-			{"CD", "Meldac"},
-			{"CE", "Pony Canyon"}, //Might also be Fujisankei Communications International (which is owned by Fujisankei Communications Group which also owns Pony Canyon) as seen in SimEarth (SNES)
-			{"CP", "Enterbrain"},
 			{"CF", "Angel"},
+			{"CP", "Enterbrain"},
 			{"D1", "SOFEL"},
-			{"D2", "Bothtec / Quest"},
-			{"D3", "Sigma Enterprises"},
-			{"D4", "Ask Kodansha"},
-			{"D6", "Naxat Soft"},
-			{"D7", "Copya Systems"},
 			{"D9", "Banpresto"},
 			{"DA", "Tomy"},
-			{"DB", "Hiro"},
-			{"DD", "Masaka"}, //Brand that Nippon Computer Systems uses to distribute games, but the rest of the company has no involvement so I might as well just put Masaka here and call it a day
-			{"DE", "Human"},
-			{"DF", "Altron"},
-			{"E1", "Towachiki"},
-			{"E2", "Yuutaka"},
+			{"DD", "Masaka"}, //Brand that Nippon Computer Systems uses to distribute games... maybe more adequately called that?
+			{"DE", "Human"}, //Or Human Entertainment
+			{"DF", "Altron"}, //mb2gba uses this too for som reason, as well as a few GBA bootlegs
+			{"E2", "Yuutaka"}, //Or is it spelled Yutaka?
 			{"E4", "T&E Soft"},
 			{"E5", "Epoch"},
 			{"E7", "Athena"},
-			{"E8", "Asmik"},
 			{"E9", "Natsume"},
-			{"EA", "King Records"},
 			{"EB", "Atlus"},
-			{"EC", "Epic/Sony Records"},
-			{"EE", "Information Global Services"},
-			{"F0", "A Wave"},
-			{"F3", "Extreme Entertainment"},
 			{"FJ", "Virtual Toys"},
 			{"FQ", "iQue"}, //Sort of. Only WarioWare: Touched, Polarium, and Yoshi: Touch & Go use this, the other three iQue games: New Super Mario Bros, Super Mario 64, and Nintendogs (kiosk demo) use Nintendo instead. Those were all 2007 or later, the latter being on the iQue DSi, so it may be something corporate related going on there
-			{"FR", "Digital Tainment Pool"},
+			{"FR", "Digital Tainment Pool"}, //Or DTP Entertainment if you prefer
 			{"FT", "Daiwon C&A Holdings"},
 			{"GD", "Square Enix"},
 			{"GL", "Gameloft"},
 			{"HF", "Level5"},
 			{"JS", "Digital Leisure"},
-			{"KM", "Deep Silver"},
 			{"KR", "Krea Medie"},
-			{"RW", "RealNetworks"},
-			{"TL", "Telltale"},
+			{"KM", "Deep Silver"},
+			{"RW", "RealNetworks"}, //Or GameHouse, or Real Arcade; which are sorta subsidiaries I guess
 			{"WY", "WayForward"},
 
-			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
-			{"B0", "Acclaim (B0)"}, //Already uses 51
-			{"46", "Angel (46)"}, //Already uses CF; seen in Super Putty (Europe) and Desert Fighter (Europe) which should be theoretically System 3 (Super Putty was published in Japan and US by Varie and US Gold respectively, Desert Fighter was published by Seta elsewhere)
-			{"9D", "Banpresto (9D)"},
-			{"6E", "Elite Systems (6E)"}, //Already uses 0C; this one is used in the Power Slide SNES prototype; this may have something to do with their in-house development studio MotiveTime
-			{"E0", "Jaleco (E0)"}, //Already uses 0A
-			{"C2", "Kemco (C2)"}, //Already uses 7F; not sure what's going on here. This is used by Electrician and Roger Rabbit for FDS, 7F is used by Top Gear 3000, Daikatana GBC and Virtual League Baseball, could be C2 is Kemco Japan and 7F is Kemco Not-Japan? Also used for The Sword of Hope for GBC which was published by Seika
-			{"28", "Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
-			{"34", "Konami (34)"}, //Already uses A4
-			{"4D", "Malibu (4D)"}, //Already uses 44
-			{"5C", "Naxat Soft (5C)"},//Already uses D6
-			{"37", "Taito (37)"}, //Already uses C0
-			{"D0", "Taito (D0)"},
-			{"C4", "Tokuma Shoten Intermedia"}, //Already uses 86 except without the word "Intermedia"; this is used for the FDS games and 86 is used for Madou Monogatari SNES
-			{"E3", "Varie (E3)"}, //Already uses 95
-			{"1F", "Virgin (1F)"}, //Already uses 61, this is found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
-			
-			//Pan Docs (or whatever GB documentation I got them from) probably cut these off, and
-			//if not I want to verify the names are the correct formatting
-			{"22", "pow"},
-			{"3C", "Entertainment I"}, //ndustries?
-			{"25", "san-x"},
-			{"75", "sci/The Sales Curve"}, //Seen in Super SWIV, which is _developed_ by those people, but published by Storm...
-			{"96", "Yonezawa/s''pal"},
+			//hmm
+			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet. Might be Buena Vista Interactive which sort of is Disney and sort of isn't, or both?
+			{"54", "Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
+			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
+			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well. Seems like there's a mixup here with Conspiracy Entertainment? Are they the same company?
+			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
+			{"CA", "Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
 
-			//Questionable
-			{"FF", "LJN (maybe junk)"}, //There is a good chance that this one is just completely invalid: Any time it shows up it's because it's some
-						   //unlicensed software that doesn't care to fill in the headers correctly (looking at you Pro Action Replay), or it's something like a
-						   //SNES game where I'm not detecting the header location correctly and so I'm reading the wrong data; LJN's infamous NES games
-						   //were on a system with no manufacturer code in the header, and by the time they got to the SNES and GB they were bought out by
-						   //Acclaim in 1990, and games like Spiderman and X-Men in Arcade's Revenge generally used Acclaim as the manufacturer 
-						   //code anyway; and there is also an 0x56 up there for LJN for some SNES games that use it instead of Aclaim
-			{"42", "Atlus (42)"}, //Only seen in Project S-11 which is by Paragon 5/Sunsoft and not Atlus (also some cheeky bugger homebrew games that want to use 42), all Atlus games so far use EB
-			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
-			{"38", "Hudson/Capcom"},
-			{"31", "Nintendo (31)"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
-			//Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
+			//So far, only seen once (in a reliable source, i.e. not protos or anything like that)
+			{"09", "Hot-B"}, //Ginga - Card & Puzzle Collection (Japan) (En,Ja)
+			{"0B", "Coconuts"}, //Space Squash (Japan) (Virtual Boy)
+			{"19", "Bandai (B-AI)"}, //Pingu - Sekai de 1ban Genki na Penguin (Japan)
+			{"35", "Hector"}, //California Games II (USA) (might be just Hect?) (game was published by DTMC in USA and Hect in Japan, but DTMC seems to be related to Hect and may be a subdivision/branch?)
+			{"47", "Spectrum Holobyte"}, //Star Trek: The Next Generation: Future's Past (USA) (SNES)
+			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu
+			{"53", "Sammy (America)"}, //Ys III (SNES) (Sammy's USA division, which may or may not be called American Sammy)
+			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge
+			{"8N", "Success"}, //Minna no Soft Series - Tetris Advance (Japan)
+			{"91", "Chunsoft"}, //BS Fuurai no Shiren - Surara o Sukue
+			{"A6", "Kawada"}, //Othello (FDS)
+			{"BF", "Sammy"}, //Gindama Oyakata no Pachinko Hisshouhou (Japan)
+			{"D4", "Ask Kodansha"}, //Magna Braban - Henreki no Yuusha
+			{"D6", "Naxat Soft"}, //Spriggan Powered BS - Prelude
+			{"DB", "Hiro"}, //Daisenryaku (Japan) (Gameboy)
+			{"E1", "Towachiki"}, //Taikyoku Renju
+			{"E8", "Asmik"}, //Dokapon Gaiden - Honoo no Audition (Japan) (might be Asmik Ace?)
+			{"EA", "King Records"}, //Azumanga Daioh Advance
+			{"EC", "Epic/Sony Records"}, //Jerry Boy (SNES)
+			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
+
+			//Only seen once and seems incorrect
+			{"AA", "Broderbund"}, //Only seen in Rally - The Final Round of the World Rally Championship (USA) (Proto), which was by JVC
+			{"D2", "Bothtec / Quest"}, //Only seen in Wakusei Aton Gaiden, which is... apparently published by the Japanese tax agency, so maybe this is wrong
+			
+			//Unverified, I guess I just found some other list somewhere and I forgot by now whoops. So they could be wrong, but probably aren't
+			{"0C", "Elite Systems"},
+			{"1A", "Yanoman"},
+			{"1D", "Clary"},
+			{"24", "PCM Complete"},
 			{"33", "Ocean/Acclaim"}, //This is an important one, because if this is the old licensee code it means it uses
 			//the new licensee code instead (and the extended header in SNES), and also it needs to be 33 for Super Gameboy functions to work on GB
 			//Is this even valid anyway? Ocean already has 67 and probably just uses Acclaim's licensee when it got purchased 
+			{"38", "Hudson/Capcom"}, //Hudson was not, in fact, bought out by Capcom
+			{"3E", "Gremlin"},
+			{"44", "Malibu"},
+			{"57", "Matchbox"},
+			{"59", "Milton Bradley"},
+			{"5B", "Romstar"},
+			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES and Clue SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
+			{"7A", "Triffix Entertainment"},
+			{"7C", "Microprose"},
+			{"80", "Misawa Entertainment"},
+			{"83", "LOZC"},
+			{"87", "Tsukuda Ori"},
+			{"92", "Video System"},
 			{"93", "Ocean/Acclaim/Tsuburava"},
-			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
-			{"30", "Viacom/Infogrames"}, //Only seen in a GBC bootleg called Thunder Blast Man by Sachen. Viacom and Infogrames aren't related
+			{"9F", "Nova"},
+			{"A1", "Hori Electric"},
+			{"A2", "Scorpion Soft"},
+			{"A9", "Technos Japan"},
+			{"B7", "SNK"},
+			{"C9", "UFL"},
+			{"CC", "Use"},
+			{"CD", "Meldac"},
+			{"D3", "Sigma Enterprises"},
+			{"D7", "Copya Systems"},
+			{"EE", "Information Global Services"},
+			{"F0", "A Wave"},
+			{"F3", "Extreme Entertainment"},
 
+			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
+			{"C2", "Kemco (C2)"}, //Already uses 7F; not sure what's going on here. This is used by Electrician and Roger Rabbit for FDS, 7F is used by Top Gear 3000, Daikatana GBC and Virtual League Baseball, could be C2 is Kemco Japan and 7F is Kemco Not-Japan? Also used for The Sword of Hope for GBC which was published by Seika
+			{"28", "Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
+			{"86", "Tokuma Shoten"}, //Only seen in Madou Monogatari SNES (well the fan translation, actually... they wouldn't change it, right?)
+			{"C4", "Tokuma Shoten Intermedia"}, //Possibly the more correct one, used in all the other games
+			{"B9", "Pony Canyon (B9)"},
+			{"CE", "Pony Canyon (CE)"}, //Might also be Fujisankei Communications International (which is owned by Fujisankei Communications Group which also owns Pony Canyon) as seen in SimEarth (SNES)
 
+			//Duplicates that seem dubious... dubiouplicatious... no that's not a good pun
+			{"42", "Atlus (42)"}, //Only seen in Project S-11 which is by Paragon 5/Sunsoft and not Atlus (also some cheeky bugger homebrew games that want to use 42), all Atlus games so far use EB, but also all other Sunsoft games use BB
+			{"46", "Angel (46)"}, //Already uses CF; seen in Super Putty (Europe) and Desert Fighter (Europe) which should be theoretically System 3 (Super Putty was published in Japan and US by Varie and US Gold respectively, Desert Fighter was published by Seta elsewhere)
 
-			{"P8", "Pin Eight"}, //Well... I guess it's not really a licensee code if it's homebrew and therefore by definition unlicensed...
-			{"AK", "Acekard"}, //Yeah, also not really a licensee either I guess; anyway we'll see if anything which isn't the Acecard firmware has this
-
+			//Duplicates that haven't even been seen anywhere (reliable) and hence are very dubious
+			{"B0", "Acclaim (B0)"}, //Already uses 51
+			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
+			{"9D", "Banpresto (9D)"},
+			{"6E", "Elite Systems (6E)"}, //Already uses 0C (allegedly); this one is used in the Power Slide SNES prototype; this may have something to do with their in-house development studio MotiveTime
+			{"E0", "Jaleco (E0)"}, //Already uses 0A
+			{"34", "Konami (34)"}, //Already uses A4
+			{"4D", "Malibu (4D)"}, //Already uses 44
+			{"5C", "Naxat Soft (5C)"},//Already uses D6
+			{"31", "Nintendo (31)"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
+			//Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
+			{"37", "Taito (37)"}, //Already uses C0
+			{"D0", "Taito (D0)"},
+			{"E3", "Varie (E3)"}, //Already uses 95
+			{"1F", "Virgin (1F)"}, //Already uses 61, this is found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
+			
+			//Are these names even correct? Probably not
+			{"22", "pow"},
+			{"3C", "Entertainment I"}, //ndustries?
+			{"25", "san-x"},
+			{"96", "Yonezawa/s''pal"},
+			
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
 			//Banjo-Pilot's beta version that has XXXX as the game code
+
+			//FF is 100% junk; it'll basically only show up when the rest of the header is junk (unlicensed, or SNES game with incorrectly detected header)
 		};
 
 		public readonly static IDictionary<string, string> EXTENDED_LICENSEE_CODES = new Dictionary<string, string>() {
