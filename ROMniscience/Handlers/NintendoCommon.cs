@@ -120,6 +120,7 @@ namespace ROMniscience.Handlers {
 			{"36", "Codemasters"},
 			{"39", "Event Evolution Entertainment"},
 			{"41", "Ubisoft"},
+			{"46", "System 3"}, //The old one
 			{"49", "Irem"},
 			{"4B", "Raya Systems"},
 			{"4F", "U.S. Gold / Eidos"}, //Eidos purchased U.S. Gold in 1996; also this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
@@ -151,6 +152,7 @@ namespace ROMniscience.Handlers {
 			{"6H", "BBC Multimedia"},
 			{"6J", "Software 2000"},
 			{"6L", "BAM! Entertainment"},
+			{"6M", "System 3"}, //The new one. What the fuck? They didn't even change the spelling or anything, it really is the same company. Gee System 3! How come your mum lets you eat _two_ weiners?
 			{"6S", "TDK"},
 			{"6V", "JoWooD Entertainment"},
 			{"71", "Interplay"},
@@ -248,6 +250,7 @@ namespace ROMniscience.Handlers {
 			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu
 			{"53", "Sammy (America)"}, //Ys III (SNES) (Sammy's USA division, which may or may not be called American Sammy)
 			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge
+			{"6E", "Elite Systems"}, //Might and Magic II (Europe) (SNES)
 			{"8C", "Vic Tokai"}, //Zerd no Densetsu (Japan)
 			{"8N", "Success"}, //Minna no Soft Series - Tetris Advance (Japan)
 			{"91", "Chunsoft"}, //BS Fuurai no Shiren - Surara o Sukue
@@ -267,7 +270,6 @@ namespace ROMniscience.Handlers {
 			{"D2", "Bothtec / Quest"}, //Only seen in Wakusei Aton Gaiden, which is... apparently published by the Japanese tax agency, so maybe this is wrong
 			
 			//Unverified, I guess I just found some other list somewhere and I forgot by now whoops. So they could be wrong, but probably aren't
-			{"0C", "Elite Systems"},
 			{"1A", "Yanoman"},
 			{"1D", "Clary"},
 			{"24", "PCM Complete"},
@@ -318,7 +320,7 @@ namespace ROMniscience.Handlers {
 			{"B0", "Acclaim (B0)"}, //Already uses 51
 			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
 			{"9D", "Banpresto (9D)"},
-			{"6E", "Elite Systems (6E)"}, //Already uses 0C (allegedly); this one is used in the Power Slide SNES prototype; this may have something to do with their in-house development studio MotiveTime
+			{"0C", "Elite Systems (0C)"},
 			{"E0", "Jaleco (E0)"}, //Already uses 0A
 			{"34", "Konami (34)"}, //Already uses A4
 			{"4D", "Malibu (4D)"}, //Already uses 44
