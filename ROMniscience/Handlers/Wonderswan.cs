@@ -74,7 +74,7 @@ namespace ROMniscience.Handlers {
 			{5, "Data East"},
 			{6, "Asmik Ace"},
 			{7, "Media Entertainment"},
-			{8, "Nihon Bussan (Nichibutsu)"},
+			{8, "Nichibutsu"},
 			{0xa, "Coconuts Japan"},
 			{0xb, "Sammy"},
 			{0xc, "Sunsoft"},

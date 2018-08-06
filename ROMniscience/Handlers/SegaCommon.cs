@@ -96,7 +96,7 @@ namespace ROMniscience.Handlers {
 			{"T-68", "CSK Research Institute"},
 			{"T-69", "Arena"}, //nice
 			{"T-70", "Virgin"},
-			{"T-71", "Nihon Bussan (Nichibutsu)"},
+			{"T-71", "Nichibutsu"},
 			{"T-72", "Varie"},
 			{"T-73", "Coconuts Japan or Soft Vision"},
 			{"T-74", "Palsoft"},
