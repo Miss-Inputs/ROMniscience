@@ -107,8 +107,10 @@ namespace ROMniscience.Handlers {
 			{"01", "Nintendo"},
 			{"08", "Capcom"},
 			{"0A", "Jaleco"},
+			{"0B", "Coconuts"}, //Alternatively formatted as "Coconuts Japan"
 			{"13", "EA Japan"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number; anyway I don't know what EA actually calls their Japanese branch but that'll do. Might be that Square EA venture / Electronic Arts KK?
 			{"18", "Hudson Soft"},
+			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			{"1M", "Micro Cabin"},
 			{"1Q", "TDK (Japan)"},
 			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
@@ -168,6 +170,7 @@ namespace ROMniscience.Handlers {
 			{"8E", "Character Soft"},
 			{"8F", "I'Max"},
 			{"8P", "Sega"},
+			{"93", "Bec"},
 			{"95", "Varie"},
 			{"97", "Kaneko"},
 			{"99", "Pack-in Video/Victor Interactive/Marvelous Interactive"}, //Merged with Victor in 1997 and then with Marvelous in 2003, so Victor and Marvelous probably used different codes before then (or weren't involved with Nintendo)
@@ -186,6 +189,7 @@ namespace ROMniscience.Handlers {
 			{"AF", "[Bandai] Namco"}, //Namco games have always used this, but when they merged with Bandai, they kept this code (so newer games like that Code Geass DS one use this code as well), which is interesting because Square Enix doesn't reuse Squaresoft or Enix's licensee codes and gets a new one
 			{"AH", "J-Wing"},
 			{"AL", "Media Factory"},
+			{"B0", "Acclaim Japan"},
 			{"B1", "ASCII"},
 			{"B2", "Bandai"},
 			{"B3", "Soft Pro"},
@@ -243,19 +247,22 @@ namespace ROMniscience.Handlers {
 
 			//So far, only seen once (in a reliable source, i.e. not protos or anything like that)
 			{"09", "Hot-B"}, //Ginga - Card & Puzzle Collection (Japan) (En,Ja)
-			{"0B", "Coconuts"}, //Space Squash (Japan) (Virtual Boy)
 			{"19", "Bandai (B-AI)"}, //Pingu - Sekai de 1ban Genki na Penguin (Japan)
+			{"1P", "Creatures"}, //Chee-Chai Alien (Japan) (GBC)
 			{"35", "Hector"}, //California Games II (USA) (might be just Hect?) (game was published by DTMC in USA and Hect in Japan, but DTMC seems to be related to Hect and may be a subdivision/branch?)
 			{"47", "Spectrum Holobyte"}, //Star Trek: The Next Generation: Future's Past (USA) (SNES)
 			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu
 			{"53", "Sammy (America)"}, //Ys III (SNES) (Sammy's USA division, which may or may not be called American Sammy)
 			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge
+			{"62", "Maxis"}, //SimAnt - The Electronic Ant Colony (USA) (SNES) (only release they ever published themselves as far as Nintendo platforms are concerned)
 			{"6E", "Elite Systems"}, //Might and Magic II (Europe) (SNES)
 			{"8C", "Vic Tokai"}, //Zerd no Densetsu (Japan)
 			{"8N", "Success"}, //Minna no Soft Series - Tetris Advance (Japan)
 			{"91", "Chunsoft"}, //BS Fuurai no Shiren - Surara o Sukue
 			{"A6", "Kawada"}, //Othello (FDS)
+			{"A9", "Technos Japan"}, //Shin Nekketsu Kouha - Kunio-tachi no Banka (Japan) [T-En by Aeon Genesis v1.00] (SNES)
 			{"BF", "Sammy"}, //Gindama Oyakata no Pachinko Hisshouhou (Japan)
+			{"C7", "East Cube"}, //Reflect World (FDS) (did they even make any other games?)
 			{"D4", "Ask Kodansha"}, //Magna Braban - Henreki no Yuusha
 			{"D6", "Naxat Soft"}, //Spriggan Powered BS - Prelude
 			{"DB", "Hiro"}, //Daisenryaku (Japan) (Gameboy)
@@ -263,6 +270,7 @@ namespace ROMniscience.Handlers {
 			{"E8", "Asmik"}, //Dokapon Gaiden - Honoo no Audition (Japan) (merged with Ace to become Asmik Ace in 1998)
 			{"EA", "King Records"}, //Azumanga Daioh Advance
 			{"EC", "Epic/Sony Records"}, //Jerry Boy (SNES)
+			{"F3", "Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
 			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
 
 			//Only seen once and seems incorrect
@@ -289,11 +297,9 @@ namespace ROMniscience.Handlers {
 			{"83", "LOZC"},
 			{"87", "Tsukuda Ori"},
 			{"92", "Video System"},
-			{"93", "Ocean/Acclaim/Tsuburava"},
 			{"9F", "Nova"},
 			{"A1", "Hori Electric"},
 			{"A2", "Scorpion Soft"},
-			{"A9", "Technos Japan"},
 			{"B7", "SNK"},
 			{"C9", "UFL"},
 			{"CC", "Use"},
@@ -302,21 +308,16 @@ namespace ROMniscience.Handlers {
 			{"D7", "Copya Systems"},
 			{"EE", "Information Global Services"},
 			{"F0", "A Wave"},
-			{"F3", "Extreme Entertainment"},
 
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
 			{"C2", "Kemco (C2)"}, //Already uses 7F; not sure what's going on here. This is used by Electrician and Roger Rabbit for FDS, 7F is used by Top Gear 3000, Daikatana GBC and Virtual League Baseball, could be C2 is Kemco Japan and 7F is Kemco Not-Japan? Also used for The Sword of Hope for GBC which was published by Seika
 			{"28", "Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
 			{"86", "Tokuma Shoten"}, //Only seen in Madou Monogatari SNES (well the fan translation, actually... they wouldn't change it, right?)
 			{"C4", "Tokuma Shoten Intermedia"}, //Possibly the more correct one, used in all the other games
-			{"B9", "Pony Canyon (B9)"},
 			{"CE", "Pony Canyon (CE)"}, //Might also be Fujisankei Communications International (which is owned by Fujisankei Communications Group which also owns Pony Canyon) as seen in SimEarth (SNES)
-
-			//Duplicates that seem dubious... dubiouplicatious... no that's not a good pun
-			{"42", "Atlus (42)"}, //Only seen in Project S-11 which is by Paragon 5/Sunsoft and not Atlus (also some cheeky bugger homebrew games that want to use 42), all Atlus games so far use EB, but also all other Sunsoft games use BB
-
+			{"42", "Sunsoft (42)"}, //Only seen in Project S-11 which is indeed Sunsoft (also some cheeky bugger homebrew games that want to use 42), all other Sunsoft games use BB, even others on GBC from that year in that country
+			
 			//Duplicates that haven't even been seen anywhere (reliable) and hence are very dubious
-			{"B0", "Acclaim (B0)"}, //Already uses 51
 			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
 			{"9D", "Banpresto (9D)"},
 			{"0C", "Elite Systems (0C)"},
@@ -326,10 +327,10 @@ namespace ROMniscience.Handlers {
 			{"5C", "Naxat Soft (5C)"},//Already uses D6
 			{"31", "Nintendo (31)"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
 			//Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
+			{"B9", "Pony Canyon (B9)"},
 			{"37", "Taito (37)"}, //Already uses C0
 			{"D0", "Taito (D0)"},
 			{"E3", "Varie (E3)"}, //Already uses 95
-			{"1F", "Virgin (1F)"}, //Already uses 61, this is found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			
 			//Are these names even correct? Probably not
 			{"22", "pow"},
