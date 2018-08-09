@@ -72,6 +72,7 @@ namespace ROMniscience.Handlers {
 			{0x32, "ExLoROM"}, //Or would this be LoROM + S-DD1 + FastROM?
 			{0x33, "LoROM + S-A1 + FastROM"},
 			{0x35, "ExHiROM"},
+			{0x3a, "ExHiROM + FastROM + SPC7110"},
 		};
 
 		public static readonly IDictionary<int, string> ROM_TYPES = new Dictionary<int, string>() {
