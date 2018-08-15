@@ -184,7 +184,7 @@ namespace ROMniscience.Handlers {
 			{"9C", "Imagineer"},
 			{"9H", "Bottom Up"},
 			{"9M", "Jaguar"}, //The sewing machine company
-			{"9N", "Marvelous"}, //Before merger in 2003
+			{"9N", "Marvelous Entertainment"}, //Before merger in 2003
 			{"A0", "Telenet"}, //Sometimes known as Telenet Japan, or Nippon Telenet, but I think it's fair to just call it "Telenet"
 			{"A4", "Konami"},
 			{"A5", "K Amusement Leasing"},
