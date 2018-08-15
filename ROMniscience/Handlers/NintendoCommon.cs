@@ -259,10 +259,12 @@ namespace ROMniscience.Handlers {
 			{"8C", "Vic Tokai"}, //Zerd no Densetsu (Japan)
 			{"8N", "Success"}, //Minna no Soft Series - Tetris Advance (Japan)
 			{"91", "Chunsoft"}, //BS Fuurai no Shiren - Surara o Sukue
+			{"9Z", "Crunchyroll"}, //Crunchyroll app on both Wii and Wii U, so I guess that's published by Crunchyroll, well the Wii U version's metadata says so anyway
 			{"A6", "Kawada"}, //Othello (FDS)
 			{"A9", "Technos Japan"}, //Shin Nekketsu Kouha - Kunio-tachi no Banka (Japan) [T-En by Aeon Genesis v1.00] (SNES)
 			{"BF", "Sammy"}, //Gindama Oyakata no Pachinko Hisshouhou (Japan)
 			{"C7", "East Cube"}, //Reflect World (FDS) (did they even make any other games?)
+			{"CU", "Marvelous AQL"}, //Senran Kagura Burst (Europe) (3DS)
 			{"D4", "Ask Kodansha"}, //Magna Braban - Henreki no Yuusha
 			{"D6", "Naxat Soft"}, //Spriggan Powered BS - Prelude
 			{"DB", "Hiro"}, //Daisenryaku (Japan) (Gameboy)
@@ -271,7 +273,14 @@ namespace ROMniscience.Handlers {
 			{"EA", "King Records"}, //Azumanga Daioh Advance
 			{"EC", "Epic/Sony Records"}, //Jerry Boy (SNES)
 			{"F3", "Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
+			{"GN", "OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
+			{"GY", "The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
+			{"RG", "Romino Games"}, //Swords & Soldiers II (Wii U)
 			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
+			{"WB", "Google"}, //YouTube app on Wii and Wii U
+			{"WR", "Warner Bros"}, //Scribblenauts and Super Scribblenauts (Europe) (DS) (or Warner Bros Interactive Entertainment if you prefer to be overly specific)
+			{"XN", "Netflix"}, //Netflix app on Wii and Wii U
+			{"YV", "KnapNok Games"}, //Affordable Space Adventures (Wii U)
 
 			//Only seen once and seems incorrect
 			{"AA", "Broderbund"}, //Only seen in Rally - The Final Round of the World Rally Championship (USA) (Proto), which was by JVC
