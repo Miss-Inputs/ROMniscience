@@ -287,7 +287,7 @@ namespace ROMniscience.Handlers {
 			{"D2", "Bothtec / Quest"}, //Only seen in Wakusei Aton Gaiden, which is... apparently published by the Japanese tax agency, so maybe this is wrong
 			
 			//Unverified, I guess I just found some other list somewhere and I forgot by now whoops. So they could be wrong, but probably aren't
-			{"1A", "Yanoman"},
+			{"1A", "Yanoman"}, //Although seen in Aretha II - Ariel no Fushigi na Tabi (Japan) (Beta 1) (SNES)
 			{"1D", "Clary"},
 			{"24", "PCM Complete"},
 			{"33", "Ocean/Acclaim"}, //This is an important one, because if this is the old licensee code it means it uses
@@ -301,21 +301,21 @@ namespace ROMniscience.Handlers {
 			{"5B", "Romstar"},
 			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES and Clue SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
 			{"7A", "Triffix Entertainment"},
-			{"7C", "Microprose"},
+			{"7C", "Microprose"}, //Seen in Tinhead (Europe) (Proto) (SNES) and F-15 Strike Eagle II (Unknown) (Proto) (Game Boy)
 			{"80", "Misawa Entertainment"},
 			{"83", "LOZC"},
 			{"87", "Tsukuda Ori"},
-			{"92", "Video System"},
+			{"92", "Video System"}, //F-1 World Grand Prix (Europe) (Beta) (Game Boy)
 			{"9F", "Nova"},
 			{"A1", "Hori Electric"},
 			{"A2", "Scorpion Soft"},
 			{"B7", "SNK"},
 			{"C9", "UFL"},
-			{"CC", "Use"},
-			{"CD", "Meldac"},
+			{"CC", "Use"}, 
+			{"CD", "Meldac"}, //Wordtris (USA) (Beta) (Game Boy)
 			{"D3", "Sigma Enterprises"},
 			{"D7", "Copya Systems"},
-			{"EE", "Information Global Services"},
+			{"EE", "Information Global Services"}, //Super Uno (Japan) (Beta) (SNES), Super Shadow of the Beast (USA) (Proto) (SNES)
 			{"F0", "A Wave"},
 
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
@@ -332,7 +332,7 @@ namespace ROMniscience.Handlers {
 			{"0C", "Elite Systems (0C)"},
 			{"E0", "Jaleco (E0)"}, //Already uses 0A
 			{"34", "Konami (34)"}, //Already uses A4
-			{"4D", "Malibu (4D)"}, //Already uses 44
+			{"4D", "Malibu (4D)"}, //Already uses 44 (supposedly)
 			{"5C", "Naxat Soft (5C)"},//Already uses D6
 			{"31", "Nintendo (31)"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
 			//Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
