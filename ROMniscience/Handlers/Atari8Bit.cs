@@ -156,8 +156,62 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Unused", unused, true);
 		}
 
+		public static void addAtariDOS2(ROMInfo info, List<byte[]> sectors) {
+			var fs = new FilesystemDirectory() {
+				name = "Atari DOS2",
+			};
+			//Sectors 1 and 3 have boot record but nobody tells me what that does
+			//This is the wrong way to do it; sectors[359] byte 3 and 4 = number of sectors available, oh well
+			if(sectors.Count <= 367) {
+				return;
+			}
+			for(int i = 360; i < 368; ++i) {
+				byte[] sector = sectors[i];
+				//Flags = sector[0]
+				for (int j = 0; j < 8; ++j) {
+					byte[] fileHeader = sector.Skip(16 * j).Take(16).ToArray();
+					if(fileHeader.All(b => b == 0)) {
+						continue;
+					}
+					short sectorsInFile = (short)(fileHeader[1] | (fileHeader[2] << 8));
+					short startingSector = (short)(fileHeader[3] | (fileHeader[4] << 8));
+					string filename = Encoding.ASCII.GetString(fileHeader.Skip(5).Take(8).ToArray()).TrimEnd();
+					string extension = Encoding.ASCII.GetString(fileHeader.Skip(13).Take(3).ToArray()).TrimEnd();
+					//TODO: Actually get the offset and size of the file
+					fs.addChild(filename + "." + extension, 0, 0);
+				}
+			}
+			info.addFilesystem(fs);
+		}
+		
+		public static void addATRInfo(ROMInfo info, ROMFile file) {
+			info.addInfo("Platform", "Atari 8-bit");
+			var stream = file.stream;
+			short magic = stream.readShortLE(); //Should be 0x0296
+			info.addInfo("Magic", magic, ROMInfo.FormatMode.HEX, true);
+
+			//Skip size in paragraphs (2 bytes)
+			stream.Position += 2;
+			short sectorSize = stream.readShortLE();
+			info.addInfo("Sector size", sectorSize);
+			int sectorCount = sectorSize == 0 ? 0 : (int)(file.length - 16) / sectorSize;
+			//Skip high part of size (1 byte), CRC (4 bytes), unused (4 bytes), flags (1 byte) (bit 0 = write protected, this is an extension though)
+			stream.Position += 10;
+			//DOS2: Sectors 1 to 3 = boot record, sector 360 = table of contents, sector 361 to 368 = directory
+			//DOS3: Sectors 1 to 9 = boot sector, 10 to 15 = empty, 16 to 23 = directory, 18 = FAT
+			var sectors = new List<byte[]>();
+			for (int i = 0; i < sectorCount; ++i) {
+				byte[] sector = stream.read(sectorSize);
+				sectors.Add(sector);
+			}
+			if(sectorSize == 0x80) {
+				//Just guessing here. I don't really know what I'm doing. Not sure how DOS3 or SpartaDOS work.
+				addAtariDOS2(info, sectors);
+			}
+		}
+
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
-			if("bin".Equals(file.extension) || "rom".Equals(file.extension) || "car".Equals(file.extension)) {
+			if ("bin".Equals(file.extension) || "rom".Equals(file.extension) || "car".Equals(file.extension)) {
 				byte[] magic = file.stream.read(4);
 				if (isCARTMagic(magic)) {
 					info.addInfo("Detected format", "CART header");
@@ -167,6 +221,8 @@ namespace ROMniscience.Handlers {
 					info.addInfo("Platform", "Atari 8-bit");
 					info.addInfo("Detected format", "Unheadered");
 				}
+			} else if ("atr".Equals(file.extension)) {
+				addATRInfo(info, file);
 			} else {
 				//TODO: Floppy images
 				info.addInfo("Platform", "Atari 8-bit");
@@ -175,8 +231,12 @@ namespace ROMniscience.Handlers {
 
 		public override bool shouldSkipHeader(ROMFile rom) {
 			//TODO: Definitely don't if it's not a cartridge file at all (just in case of false positives with disk images having CART at the beginning)
-			byte[] magic = rom.stream.read(4);
-			return isCARTMagic(magic);
+			try {
+				byte[] magic = rom.stream.read(4);
+				return isCARTMagic(magic);
+			} finally {
+				rom.stream.Position = 0;
+			}
 		}
 
 		public override int skipHeaderBytes() {
