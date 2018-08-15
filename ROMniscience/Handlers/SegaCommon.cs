@@ -54,7 +54,7 @@ namespace ROMniscience.Handlers {
 			{"T-22", "Micronet"},
 			{"T-23", "VIC Tokai"},
 			{"T-24", "Sammy (Treco)"}, //Another USA division that they used to publish some Genesis games
-			{"T-25", "Nippon Computer Systems (Masaya)"},
+			{"T-25", "Masaya"},
 			{"T-26", "Sigma"},
 			{"T-27", "Toho"},
 			{"T-28", "Hot-B"},

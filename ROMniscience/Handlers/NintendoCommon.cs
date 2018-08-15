@@ -112,7 +112,7 @@ namespace ROMniscience.Handlers {
 			{"01", "Nintendo"},
 			{"08", "Capcom"},
 			{"0A", "Jaleco"},
-			{"0B", "Coconuts"}, //Alternatively formatted as "Coconuts Japan"
+			{"0B", "Coconuts Japan"},
 			{"13", "EA Japan"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number; anyway I don't know what EA actually calls their Japanese branch but that'll do. Might be that Square EA venture / Electronic Arts KK?
 			{"18", "Hudson Soft"},
 			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
@@ -141,7 +141,7 @@ namespace ROMniscience.Handlers {
 			{"56", "LJN"},
 			{"58", "Mattel"},
 			{"5A", "Mindscape"},
-			{"5D", "Midway"}, //For all intents and purposes starts off as Bally Midway (it doesn't, but let's not care about pre-1969), purchased by Williams in 1988 (but as "Bally/Midway"), albeit in 1991 started using the name Midway alone, then in 1996 some screwy stuff happened involving WMS and Time Warner, becomes independent in 1998 (but keeps the subsidiary known as "Atari Games" just to confuse me further until 2000) and then now they're sold to Warner Bros and then there's Tradeswest in there somewhere but only up to 1994? Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Anyway, I don't see any games before 1991 using it, so let's just say Midway
+			{"5D", "Midway/Tradewest/Williams"}, //For all intents and purposes starts off as Bally Midway (it doesn't, but let's not care about pre-1969), purchased by Williams in 1988 (but as "Bally/Midway"), albeit in 1991 started using the name Midway alone, then in 1996 some screwy stuff happened involving WMS and Time Warner, becomes independent in 1998 (but keeps the subsidiary known as "Atari Games" just to confuse me further until 2000) and then now they're sold to Warner Bros and then there's Tradeswest in there somewhere but only up to 1994? Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 			{"5F", "American Softworks"},
 			{"5G", "Majesco"},
 			{"5H", "The 3DO Company"},
@@ -246,7 +246,7 @@ namespace ROMniscience.Handlers {
 			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
 			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well. Seems like there's a mixup here with Conspiracy Entertainment? Are they the same company?
 			{"70", "Infogrames/Atari, SA"}, //Infogrames renamed itself to Atari in 2003 because they could, but they're different than the other Ataris, also purchased and sold off all sorts of companies along the way (e.g. GT Interactive in 1999, Hasbro Interactive in 2001); kinda weird I guess and I may have to look more into this to see just how accurate it is
-			{"7D", "Vivendi"}, //And/or Sierra.. which is weird, because Sierra was merged with Activision in 2010, who at the time were owned by Vivendi, but now they aren't and then they revived the Sierra brand name in 2014. So that's confusing. One of these boxes I have lying around containing a game with this licensee code says Sierra on it, and that was... 2008? So I dunno
+			{"7D", "Vivendi/Sierra"}, //And/or Sierra.. which is weird, because Sierra was merged with Activision in 2010, who at the time were owned by Vivendi, but now they aren't and then they revived the Sierra brand name in 2014. So that's confusing. One of these boxes I have lying around containing a game with this licensee code says Sierra on it, and that was... 2008? So I dunno
 			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
 			{"CA", "Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
 

@@ -106,7 +106,7 @@ namespace ROMniscience.Handlers {
 			{0x2d, "Namco"},
 			{0x2e, "Movic"},
 			{0x2f, "E3 Staff"}, //wat (could also be "Gust")
-			{0x31, "Vanguard"}, //or Elorg
+			{0x31, "Vanguard"}, //or Elorg (wait what, Soviet Russia dissolved before the Wonderswan was even made, unless there's a different Elorg)
 			{0x32, "Megatron"},
 			{0x33, "Wiz"},
 			{0x36, "Capcom"},
