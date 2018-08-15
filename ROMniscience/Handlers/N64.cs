@@ -43,30 +43,6 @@ namespace ROMniscience.Handlers {
 		};
 		public override string name => "Nintendo 64";
 
-		readonly static IDictionary<char, string> COUNTRIES = new Dictionary<char, string> {
-			//This could plausibly use the same country codes as everything else... or could it? Only those Gateway 64 codes are out of place
-			{'\0', "Homebrew"},
-			{'A', "Asia"}, //Or is it worldwide?
-			{'B', "Brazil"},
-			{'C', "China"}, //Although iQue Player dumps don't have product codes...
-			{'D', "Germany"},
-			{'E', "USA"},
-			{'F', "France"},
-			{'G', "Gateway 64 NTSC"},
-			{'H', "Netherlands"},
-			{'I', "Italy"},
-			{'J', "Japan"},
-			{'K', "Korea"},
-			{'L', "Gateway 64 PAL"},
-			{'N', "Canada"},
-			{'P', "Europe"}, //P for PAL I guess
-			{'S', "Spain"},
-			{'U', "Australia"},
-			{'W', "Scandanavia"}, //orly?
-			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"}, //Is this valid?
-		};
-
 		readonly static IDictionary<char, string> N64_MEDIA_TYPES = new Dictionary<char, string> {
 			{'C', "Cartridge with 64DD expansion"}, //F-Zero X was the only game that ended up having an expansion, but Pocket Monsters 
 			//Stadium and Ocarina of Time use this as well (since they were going to have expansions which more or less ended up being Pokemon Stadium (international) and Majora's Mask)
@@ -144,7 +120,7 @@ namespace ROMniscience.Handlers {
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
 			char country = gameCode[3];
-			info.addInfo("Country", country, COUNTRIES);
+			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 			int version = s.read();
 			info.addInfo("Version", version);
 
@@ -273,7 +249,7 @@ namespace ROMniscience.Handlers {
 			string shortTitle = gameCode.Substring(1, 2);
 			info.addInfo("Short title", shortTitle);
 			char country = gameCode[3];
-			info.addInfo("Country", country, COUNTRIES);
+			info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 
 			int version = s.read();
 			info.addInfo("Version", version);

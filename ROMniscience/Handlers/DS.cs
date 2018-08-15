@@ -74,38 +74,6 @@ namespace ROMniscience.Handlers {
 			{'Y', "Game (Y)"},
 		};
 
-		public readonly static IDictionary<char, string> COUNTRIES = new Dictionary<char, string>() {
-			//Not the same as REGIONS, that's involved in region locking stuff but this is just informational really
-			//I have a feeling this list is somewhat wrong and it actually is the same as GB/GBC/GBA... but it might not be and I'd need to find out, and find out is what I plan on doing...
-			{'A', "Worldwide"}, //Is this actually used?
-			{'B', "N/A (B)"}, //Not so sure about this one (in GB/GBA/Gamecube it is Brazil); this only shows up in GameYob DSi and some flashcart firmware whic are both obviously not real product codes
-			{'C', "China"},
-			{'D', "Germany"},
-			{'E', "USA"},
-			{'F', "France"},
-			{'G', "N/A (G)"}, //Where does this appear?
-			{'H', "Netherlands"},
-			{'I', "Italy"},
-			{'J', "Japan"},
-			{'K', "Korea"},
-			{'L', "Canada"}, //Seen in two games that apparently had a Canada-specific release for some reason. Undefined in other Nintendo systems, some in-flight thing for N64
-			{'M', "Sweden"},
-			{'N', "Norway"}, //Only seen in some "Josefine" games as far as I can tell, in GB/GBA/Gamecube/etc N is Canada, but maybe that is wrong
-			{'O', "International"}, //Apparently excluding China? So if that's actually true, not _entirely_ international, but to be fair, how would you word "Everywhere except China"? Only Pokemon gen 5 uses it anyway
-			{'P', "Europe"},
-			{'Q', "Denmark"},
-			{'R', "Russia"},
-			{'S', "Spain"},
-			{'T', "USA, Australia"},
-			{'U', "Australia"},
-			{'V', "Europe, Australia"}, //Seen in DSi games, but given this exists can we stop pretending Australia is part of Europe? We haven't been since 1901
-			{'W', "Europe (W)"}, //Could actually be Taiwan (except DS games weren't released specifically there I think)? Not seen anywhere (well, a Ganbare Goemon demo with an invalid product code)
-			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"},
-			{'Z', "Europe (Z)"}, //Only seen in Keldeo Distribution 2012 and shiny Dialga/Palkia/Giratina 2013 distro carts... hmm.... well, they are European (hey I remember the latter happening here in Australia too)
-			{'#', "Homebrew"},
-		};
-
 		public readonly static IDictionary<int, string> BANNER_VERSIONS = new Dictionary<int, string>() {
 			{1, "Original"},
 			{2, "With Chinese title"}, //Ironically, only Chinese New Super Mario Bros uses this
@@ -393,7 +361,7 @@ namespace ROMniscience.Handlers {
 				info.addInfo("Product code", gameCode);
 				info.addInfo("Type", gameType, GAME_TYPES);
 				info.addInfo("Short title", shortTitle);
-				info.addInfo("Country", country, COUNTRIES);
+				info.addInfo("Country", country, NintendoCommon.COUNTRIES);
 				info.addInfo("Publisher", makerCode, NintendoCommon.LICENSEE_CODES);
 			}
 

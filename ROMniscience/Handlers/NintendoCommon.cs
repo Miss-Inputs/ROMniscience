@@ -34,28 +34,33 @@ namespace ROMniscience.Handlers {
 	class NintendoCommon {
 
 		public static readonly IDictionary<char, string> COUNTRIES = new Dictionary<char, string> {
-			//Used by GBC, GBA, Gamecube/Wii, Pokemon Mini, SNES (with product codes, not the other one in the ROM header), Virtual Boy, and WiiWare
-			//N64 and DS use the same XYYZ product code format where Z is region, but they seem to have their own set of country codes or do they?
-			{'A', "Worldwide"}, //Or perhaps this is just Japan + USA (found in Wario Land 3 GBC)
+			//Used by GBC, GBA, Gamecube/Wii, Pokemon Mini, SNES (with product codes, not the other one in the ROM header), Virtual Boy, N64, DS, and WiiWare
+			{'A', "Worldwide"}, //Sometimes means Japan + USA in the case of N64 and maybe some GBC games, but generally means something among the lines of "more than one country", and in newer systems means region-free
 			{'B', "Brazil"},
 			{'C', "China"},
 			{'D', "Germany"},
-			{'E', "USA"},
+			{'E', "USA"}, //Also includes Latin America
 			{'F', "France"},
+			{'G', "Greece"},
 			{'H', "Netherlands"},
 			{'I', "Italy"},
 			{'J', "Japan"},
 			{'K', "Korea"},
-			{'N', "Canada"}, //Or is it?
-			{'P', "Europe"},
+			{'L', "Canada"},
+			{'M', "Sweden"},
+			{'N', "Norway"},
+			{'O', "International"}, //Basically every region except Japan (or is it except China?); only seen on DSi (and Pokemon gen 5 games at that). Maybe it's actually just USA + Europe + Australia (but those games are completely region free, except maybe not on the iQue thingy)
+			{'P', "Europe"}, //Also includes UK and Australia; though for DSi it seems to mean "Europe and not Australia", since Australia is separate there
 			{'Q', "Denmark"},
-			{'R', "Russia"}, //Maybe?
+			{'R', "Russia"}, 
 			{'S', "Spain"},
-			{'T', "Taiwan (T)"}, //Questionable, only shows up in a bunch of Gamecube multiboot ROMs where the product code is TEST; on DS this is USA + Australia
+			{'T', "USA + Australia"}, //DSi only
 			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
+			{'V', "Europe + Australia"}, //DSi only, otherwise it would just be P/X/Y/Z
 			{'W', "Taiwan"},
-			{'X', "Europe (X)"},
-			{'Y', "Europe (Y)"}, //Not seen very often...
+			{'X', "Europe (X)"}, //Hmm... some Canada and Latin America Wii releases have this. It might just mean "region not specified", but generally means Europe
+			{'Y', "Europe (Y)"}, //Not seen very often... might mean "the part of Europe that doesn't speak English", as it seems to show up in European releases of games where English is not one of the languages
+			{'Z', "Europe (Z)"}, //Seen even less often, and even more confusing. Only seen in obscure Wii releases and DS promotional carts (Europe/Australia Pokemon distributions, basically)
 		};
 
 		public static IDictionary<char, string> DISC_TYPES => new Dictionary<char, string> {
