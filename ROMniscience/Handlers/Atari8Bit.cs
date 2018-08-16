@@ -161,11 +161,13 @@ namespace ROMniscience.Handlers {
 				name = "Atari DOS2",
 			};
 			//Sectors 1 and 3 have boot record but nobody tells me what that does
-			//This is the wrong way to do it; sectors[359] byte 3 and 4 = number of sectors available, oh well
-			if(sectors.Count <= 367) {
+			if (sectors.Count <= 359) {
 				info.addInfo("Has files", false);
 				return;
 			}
+			byte[] vtoc = sectors[359]; //#TODO: VTOC2 if disk is big enough
+			info.addInfo("Number of free sectors", vtoc[3]);
+
 			bool hasFiles = false;
 			for(int i = 360; i < 368; ++i) {
 				byte[] sector = sectors[i];
