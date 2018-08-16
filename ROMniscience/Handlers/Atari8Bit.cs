@@ -163,8 +163,10 @@ namespace ROMniscience.Handlers {
 			//Sectors 1 and 3 have boot record but nobody tells me what that does
 			//This is the wrong way to do it; sectors[359] byte 3 and 4 = number of sectors available, oh well
 			if(sectors.Count <= 367) {
+				info.addInfo("Has files", false);
 				return;
 			}
+			bool hasFiles = false;
 			for(int i = 360; i < 368; ++i) {
 				byte[] sector = sectors[i];
 				//Flags = sector[0]
@@ -173,6 +175,7 @@ namespace ROMniscience.Handlers {
 					if(fileHeader.All(b => b == 0)) {
 						continue;
 					}
+					hasFiles = true;
 					short sectorsInFile = (short)(fileHeader[1] | (fileHeader[2] << 8));
 					short startingSector = (short)(fileHeader[3] | (fileHeader[4] << 8));
 					string filename = Encoding.ASCII.GetString(fileHeader.Skip(5).Take(8).ToArray()).TrimEnd();
@@ -181,6 +184,7 @@ namespace ROMniscience.Handlers {
 					fs.addChild(filename + "." + extension, 0, 0);
 				}
 			}
+			info.addInfo("Has files", hasFiles);
 			info.addFilesystem(fs);
 		}
 		
@@ -190,13 +194,25 @@ namespace ROMniscience.Handlers {
 			short magic = stream.readShortLE(); //Should be 0x0296
 			info.addInfo("Magic", magic, ROMInfo.FormatMode.HEX, true);
 
-			//Skip size in paragraphs (2 bytes)
-			stream.Position += 2;
+			short sizeInParagraphs = stream.readShortLE();
+			info.addInfo("Size in paragraphs", sizeInParagraphs, true);
+
 			short sectorSize = stream.readShortLE();
 			info.addInfo("Sector size", sectorSize);
 			int sectorCount = sectorSize == 0 ? 0 : (int)(file.length - 16) / sectorSize;
-			//Skip high part of size (1 byte), CRC (4 bytes), unused (4 bytes), flags (1 byte) (bit 0 = write protected, this is an extension though)
-			stream.Position += 10;
+			info.addInfo("Sector count", sectorCount);
+
+			//All extensions by something called APE, so might not exist
+			int sizeHighPart = stream.read(); //TODO combine because I am one lazy fucker
+			info.addInfo("Size in paragraphs (high byte)", sizeHighPart, true);
+			int crc = stream.readIntLE();
+			info.addInfo("CRC", crc, true);
+			int unused = stream.readIntLE();
+			info.addInfo("Unused", unused, true);
+			int flags = stream.read();
+			info.addInfo("Flags", flags, true);
+			info.addInfo("Write protected", (flags & 1) > 0, true);
+
 			//DOS2: Sectors 1 to 3 = boot record, sector 360 = table of contents, sector 361 to 368 = directory
 			//DOS3: Sectors 1 to 9 = boot sector, 10 to 15 = empty, 16 to 23 = directory, 18 = FAT
 			var sectors = new List<byte[]>();
@@ -207,6 +223,8 @@ namespace ROMniscience.Handlers {
 			if(sectorSize == 0x80) {
 				//Just guessing here. I don't really know what I'm doing. Not sure how DOS3 or SpartaDOS work.
 				addAtariDOS2(info, sectors);
+			} else {
+				info.addInfo("Has files", false);
 			}
 		}
 
