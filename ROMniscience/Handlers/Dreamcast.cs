@@ -58,9 +58,18 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Requires analog vertical", (peripherals & (1 << 22)) > 0);
 			info.addInfo("Requires expanded analog horizontal", (peripherals & (1 << 23)) > 0);
 			info.addInfo("Requires expanded analog vertical", (peripherals & (1 << 24)) > 0);
-			info.addInfo("Supports gun", (peripherals & (1 << 25)) > 0);
-			info.addInfo("Supports mouse", (peripherals & (1 << 26)) > 0);
-			info.addInfo("Supports keyboard", (peripherals & (1 << 27)) > 0);
+
+			//Hmm... other documentation says "supports gun" but looking at games with this flag set, that's clearly wrong. This works out, though.
+			info.addInfo("Supports keyboard", (peripherals & (1 << 25)) > 0);
+
+			//So... what are these? Are there flags for maracas, racing wheel, fishing rod (motion sensing), and actual gun? Is mouse separate?
+			//The documentation that says bit 25 == gun says that these are mouse and keyboard respectively, but that seems incorrect, except for in homebrew that believes that documentation; otherwise these might just be unused
+			info.addInfo("Supports unknown peripheral 1", (peripherals & (1 << 26)) > 0);
+			info.addInfo("Supports unknown peripheral 2", (peripherals & (1 << 27)) > 0);
+			info.addInfo("Supports unknown peripheral 3", (peripherals & (1 << 28)) > 0);
+			info.addInfo("Supports unknown peripheral 4", (peripherals & (1 << 29)) > 0);
+			info.addInfo("Supports unknown peripheral 5", (peripherals & (1 << 30)) > 0);
+			info.addInfo("Supports unknown peripheral 6", (peripherals & (1 << 31)) > 0);
 		}
 
 		static int calcChecksum(byte[] buf) {
