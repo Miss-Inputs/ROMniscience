@@ -105,7 +105,7 @@ namespace ROMniscience.Handlers {
 			{"T-77", "Takeru/Sur De Wave"},
 			{"T-79", "U.S. Gold"},
 			{"T-81", "Acclaim"},
-			{"T-83", "Gametek"},
+			{"T-83", "GameTek"},
 			{"T-84", "Datawest"},
 			{"T-85", "PCM Complete"},
 			{"T-86", "Absolute Entertainment"},
