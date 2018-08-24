@@ -108,7 +108,7 @@ namespace ROMniscience.Handlers {
 			{"T-83", "Gametek"},
 			{"T-84", "Datawest"},
 			{"T-85", "PCM Complete"},
-			{"T-86", "Absolute"},
+			{"T-86", "Absolute Entertainment"},
 			{"T-87", "Mindscape"},
 			{"T-88", "Domark"},
 			{"T-89", "Parker Bros"},
