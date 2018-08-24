@@ -251,6 +251,7 @@ namespace ROMniscience.Handlers {
 			{"7D", "Vivendi/Sierra"}, //And/or Sierra.. which is weird, because Sierra was merged with Activision in 2010, who at the time were owned by Vivendi, but now they aren't and then they revived the Sierra brand name in 2014. So that's confusing. One of these boxes I have lying around containing a game with this licensee code says Sierra on it, and that was... 2008? So I dunno
 			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
 			{"CA", "Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
+			{"CE", "Pony Canyon/FCI"}, //Seems to be Fujisankei Communications International (as FCI Inc) for USA releases, Pony Canyon for Japanese releases, both are owned by Fujisankei Communications Group
 
 			//So far, only seen once (in a reliable source, i.e. not protos or anything like that)
 			{"09", "Hot-B"}, //Ginga - Card & Puzzle Collection (Japan) (En,Ja)
@@ -332,7 +333,6 @@ namespace ROMniscience.Handlers {
 			{"28", "Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
 			{"86", "Tokuma Shoten"}, //Only seen in Madou Monogatari SNES (well the fan translation, actually... they wouldn't change it, right?)
 			{"C4", "Tokuma Shoten Intermedia"}, //Possibly the more correct one, used in all the other games
-			{"CE", "Pony Canyon (CE)"}, //Might also be Fujisankei Communications International (which is owned by Fujisankei Communications Group which also owns Pony Canyon) as seen in SimEarth (SNES)
 			{"42", "Sunsoft (42)"}, //Only seen in Project S-11 which is indeed Sunsoft (also some cheeky bugger homebrew games that want to use 42), all other Sunsoft games use BB, even others on GBC from that year in that country
 			
 			//Duplicates that haven't even been seen anywhere (reliable) and hence are very dubious
