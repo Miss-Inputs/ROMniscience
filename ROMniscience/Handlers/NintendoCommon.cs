@@ -118,7 +118,7 @@ namespace ROMniscience.Handlers {
 			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			{"1M", "Micro Cabin"},
 			{"1Q", "TDK (Japan)"},
-			{"20", "Zoo"}, //Are they called Zoo Publishing? Zoo Games? Zoo Entertainment? Zoo Digital? I honestly have no fucking clue it's like all four of them at once
+			{"20", "Destination Software"}, //This is a confusing load of fuck, and I hate this entire company. So basically you also have 7J, and at first you'd think 20 is the UK/Europe Zoo Digital Publishing (aka Zoo Games) (aka Zushi Games), and 7J is the USA Destination Software (aka DSI Games). But then that turns out to not be the case. They're sort of the same company and have been traded around and bought out and sold multiple times. Thanks I hate it.
 			{"29", "Seta"},
 			{"2L", "Tamsoft"},
 			{"2N", "Smilesoft"},
@@ -169,6 +169,7 @@ namespace ROMniscience.Handlers {
 			{"79", "Accolade"},
 			{"7F", "Kemco"},
 			{"7G", "Rage Software"},
+			{"7J", "Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
 			{"7L", "Simon & Schuster"},
 			{"82", "Namcot"}, //Some division of Namco that was apparently necessary to create as a separate thing.... I don't know
 			{"8B", "Bullet-Proof Software"},
@@ -239,6 +240,7 @@ namespace ROMniscience.Handlers {
 			{"KM", "Deep Silver"},
 			{"RW", "RealNetworks"}, //Or GameHouse, or Real Arcade; which are sorta subsidiaries I guess
 			{"WY", "WayForward"},
+			{"XN", "Netflix"},
 
 			//Welcome to confusing town, population these
 			{"4Q", "Disney"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet. Disney Interactive Studios spun off Buena Vista Interactive from 2003 to 2007 but that still doesn't explain Spiderman. It's not in any of the other DS downloadable videos. What the crap?
@@ -280,11 +282,13 @@ namespace ROMniscience.Handlers {
 			{"F3", "Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
 			{"GN", "OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
 			{"GY", "The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
+			{"JT", "Empty Clip Studios"}, //Groovin' Blocks (USA) (WiiWare) (retail release is by Zoo)
 			{"RG", "Romino Games"}, //Swords & Soldiers II (Wii U)
 			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
 			{"WB", "Google"}, //YouTube app on Wii and Wii U
+			{"WD", "Amazon"}, //Amazon Instant Video (WiiWare)
 			{"WR", "Warner Bros"}, //Scribblenauts and Super Scribblenauts (Europe) (DS) (or Warner Bros Interactive Entertainment if you prefer to be overly specific)
-			{"XN", "Netflix"}, //Netflix app on Wii and Wii U
+			{"XB", "Hulu"}, //Hulu Plus (WiiWare)
 			{"YV", "KnapNok Games"}, //Affordable Space Adventures (Wii U)
 
 			//Only seen once and seems incorrect
