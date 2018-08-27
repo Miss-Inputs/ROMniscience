@@ -216,7 +216,7 @@ namespace ROMniscience.Handlers {
 			{"CB", "Vap"},
 			{"CF", "Angel"},
 			{"CP", "Enterbrain"},
-			{"D1", "SOFEL"},
+			{"D1", "Sofel"},
 			{"D9", "Banpresto"},
 			{"DA", "Tomy"},
 			{"DD", "Masaya"}, //Brand that Nippon Computer Systems uses to distribute games... maybe more adequately called that?
