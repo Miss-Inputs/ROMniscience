@@ -113,7 +113,7 @@ namespace ROMniscience.Handlers {
 			{"08", "Capcom"},
 			{"0A", "Jaleco"},
 			{"0B", "Coconuts Japan"},
-			{"13", "EA Japan"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number; anyway I don't know what EA actually calls their Japanese branch but that'll do. Might be that Square EA venture / Electronic Arts KK?
+			{"13", "Electronic Arts Victor"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number. Could this be that EA/Square joint thing in modern times?
 			{"18", "Hudson Soft"},
 			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			{"1M", "Micro Cabin"},
