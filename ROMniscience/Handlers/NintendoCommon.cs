@@ -146,7 +146,7 @@ namespace ROMniscience.Handlers {
 			{"5G", "Majesco"},
 			{"5H", "The 3DO Company"},
 			{"5K", "Hasbro"},
-			{"5L", "NewKidsCo"},
+			{"5L", "NewKidCo"},
 			{"5T", "Cryo Interactive"},
 			{"5X", "Microids"},
 			{"60", "Titus"},
