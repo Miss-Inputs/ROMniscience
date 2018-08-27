@@ -279,7 +279,7 @@ namespace ROMniscience.Handlers {
 			{"E1", "Towa Chiki"}, //Taikyoku Renju
 			{"E8", "Asmik"}, //Dokapon Gaiden - Honoo no Audition (Japan) (merged with Ace to become Asmik Ace in 1998)
 			{"EA", "King Records"}, //Azumanga Daioh Advance
-			{"EC", "Epic/Sony Records"}, //Jerry Boy (SNES)
+			{"EC", "Epic / Sony Records"}, //Jerry Boy (SNES)
 			{"F3", "Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
 			{"GN", "OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
 			{"GY", "The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
