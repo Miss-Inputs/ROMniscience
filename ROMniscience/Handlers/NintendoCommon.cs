@@ -117,7 +117,7 @@ namespace ROMniscience.Handlers {
 			{"18", "Hudson Soft"},
 			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			{"1M", "Micro Cabin"},
-			{"1Q", "TDK (Japan)"},
+			{"1Q", "TDK Core"}, //TDK's Japanese game publishing branch
 			{"20", "Destination Software"}, //This is a confusing load of fuck, and I hate this entire company. So basically you also have 7J, and at first you'd think 20 is the UK/Europe Zoo Digital Publishing (aka Zoo Games) (aka Zushi Games), and 7J is the USA Destination Software (aka DSI Games). But then that turns out to not be the case. They're sort of the same company and have been traded around and bought out and sold multiple times. Thanks I hate it.
 			{"29", "Seta"},
 			{"2L", "Tamsoft"},
@@ -160,7 +160,7 @@ namespace ROMniscience.Handlers {
 			{"6J", "Software 2000"},
 			{"6L", "BAM! Entertainment"},
 			{"6M", "System 3"}, //The new one. What the fuck? They didn't even change the spelling or anything, it really is the same company. Gee System 3! How come your mum lets you eat _two_ weiners?
-			{"6S", "TDK"},
+			{"6S", "TDK Mediactive"}, //TDK's Not-Japan publishing branch
 			{"6V", "JoWooD Entertainment"},
 			{"71", "Interplay"},
 			{"72", "JVC"},
@@ -260,7 +260,7 @@ namespace ROMniscience.Handlers {
 			{"35", "Hector"}, //California Games II (USA) (might be just Hect?) (game was published by DTMC in USA and Hect in Japan, but DTMC seems to be related to Hect and may be a subdivision/branch?)
 			{"47", "Spectrum Holobyte"}, //Star Trek: The Next Generation: Future's Past (USA) (SNES)
 			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu
-			{"53", "Sammy (America)"}, //Ys III (SNES) (Sammy's USA division, which may or may not be called American Sammy)
+			{"53", "American Sammy"}, //Ys III (SNES)
 			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge
 			{"62", "Maxis"}, //SimAnt - The Electronic Ant Colony (USA) (SNES) (only release they ever published themselves as far as Nintendo platforms are concerned)
 			{"6E", "Elite Systems"}, //Might and Magic II (Europe) (SNES)
