@@ -141,7 +141,7 @@ namespace ROMniscience.Handlers {
 		}
 
 		public override int skipHeaderBytes() {
-			return 64;
+			return 80;
 		}
 
 		public static void parseCCS64Cart(ROMInfo info, WrappedInputStream s) {
