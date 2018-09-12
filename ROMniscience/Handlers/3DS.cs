@@ -74,10 +74,13 @@ namespace ROMniscience.Handlers {
 			{'E', "Game (Card2)"}, //Would be nice if I knew what that actually meant
 			{'H', "Built-in application"},
 			{'J', "eShop"},
-			{'K', "eShop (K)"}, //Supposedly seen on Mighty Gunvolt, according to 3dbrew but is that the eShop version or standalone version
-			{'S', "3D Classics"}, 
+			{'K', "eShop (K)"}, //Seen on Pokemon Shuffle and Pokemon Rumble World.. hmm. Might just be a case of running out of unique product codes
+			{'S', "3D Classics"}, //Seen on Shin Chan Vol 1, so that's probably wrong
 			{'P', "GBA Virtual Console"},
+			{'Q', "GBC Virtual Console"},
 			{'T', "NES Virtual Console"}, //Is this used for Game Boy/Game Gear VC too?
+			//N: Seen in Pokemon ORAS Special Demo, Pokemon Dream Radar, Poke Transporter (but not Pokemon Bank, which is J)
+			//R: Seen in Pokemon Blue, so could mean "GB VC" or "VC with link cable stuff"
 		};
 
 		private static string combinePrefix(string prefix, string s, bool preserveCase = false) {
@@ -327,7 +330,7 @@ namespace ROMniscience.Handlers {
 						int y = tile_y + ((tileOrder[tile] & 0b1111_1000) >> 3);
 
 						int pixel = data[i] | (data[i + 1] << 8);
-						
+
 						int b = ((pixel >> 0) & 0x1f) << 3;
 						int g = ((pixel >> 5) & 0x3f) << 2;
 						int r = ((pixel >> 11) & 0x1f) << 3;
@@ -355,7 +358,7 @@ namespace ROMniscience.Handlers {
 			byte[] partitionCryptTypes = s.read(8);
 			info.addInfo("Partition crypt types", partitionCryptTypes, true);
 
-			long[] partitionOffsets = new long[8], partitionLengths = new long[8]; 
+			long[] partitionOffsets = new long[8], partitionLengths = new long[8];
 			for(int i = 0; i < 8; ++i) {
 				partitionOffsets[i] = (uint)s.readIntLE() * MEDIA_UNIT;
 				partitionLengths[i] = (uint)s.readIntLE() * MEDIA_UNIT;
