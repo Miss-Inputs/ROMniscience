@@ -197,8 +197,11 @@ namespace ROMniscience.Handlers {
 			if(romFSSize > 0) {
 				info.addInfo(combinePrefix(prefix, "RomFS offset", true), romFSOffset, ROMInfo.FormatMode.HEX);
 				info.addInfo(combinePrefix(prefix, "RomFS size", true), romFSSize, ROMInfo.FormatMode.SIZE);
+
+				if (isDecrypted) {
+					parseRomFS(info, s, partition, romFSOffset);
+				}
 			}
-			//TODO: RomFS as filesystem
 
 			var icon = getIconFile(partition);
 			if(icon != null) {
@@ -244,6 +247,97 @@ namespace ROMniscience.Handlers {
 				libs.Add(sb.ToString());
 			}
 			info.addInfo(combinePrefix(prefix, "Libraries used"), String.Join(", ", libs));
+		}
+
+		static int roundUpToMultiple(int n, int f) {
+			return (int)(Math.Ceiling((double)n / f) * f);
+		}
+
+		private static void iterateRomFSEntry(WrappedInputStream s, FilesystemDirectory currentDirectory, byte[] metadataEntry, long directoryMetadataOffset, long fileMetadataOffset, long fileOffset) {
+			uint firstChildDirectoryOffset = BitConverter.ToUInt32(metadataEntry, 8);
+			uint firstFileOffset = BitConverter.ToUInt32(metadataEntry, 12);
+
+			if (firstChildDirectoryOffset != 0xffffffff) {
+				s.Position = directoryMetadataOffset + firstChildDirectoryOffset;
+				while (true) {
+					byte[] childDirectoryMetadata = s.read(24);
+					uint nextSiblingDirectory = BitConverter.ToUInt32(childDirectoryMetadata, 4);
+
+					uint nameLength = BitConverter.ToUInt32(childDirectoryMetadata, 20);
+					string name = s.read((int)nameLength, Encoding.Unicode);
+
+					FilesystemDirectory childDir = new FilesystemDirectory() {
+						name = name
+					};
+					currentDirectory.addChild(childDir);
+					iterateRomFSEntry(s, childDir, childDirectoryMetadata, directoryMetadataOffset, fileMetadataOffset, fileOffset);
+
+					if(nextSiblingDirectory == 0xffffffff) {
+						break;
+					}
+					s.Position = directoryMetadataOffset + nextSiblingDirectory;
+				}
+			}
+
+			if (firstFileOffset != 0xffffffff) {
+				s.Position = fileMetadataOffset + firstFileOffset;
+				while (true) {
+					byte[] childFileMetadata = s.read(32);
+					uint nextSiblingFile = BitConverter.ToUInt32(childFileMetadata, 4);
+					ulong childFileOffset = BitConverter.ToUInt64(childFileMetadata, 8);
+					ulong childFileSize = BitConverter.ToUInt64(childFileMetadata, 16);
+
+					uint nameLength = BitConverter.ToUInt32(childFileMetadata, 28);
+					string name = s.read((int)nameLength, Encoding.Unicode);
+
+					currentDirectory.addChild(name, (long)childFileOffset + fileOffset, (long)childFileSize);
+
+					if (nextSiblingFile == 0xffffffff) {
+						break;
+					}
+					s.Position = fileMetadataOffset + nextSiblingFile;
+				}
+			}
+		}
+
+		public static void parseRomFS(ROMInfo info, WrappedInputStream s, FilesystemDirectory partition, long offset = 0) {
+			FilesystemDirectory romfs = new FilesystemDirectory() {
+				name = "RomFS"
+			};
+
+			s.Position = offset;
+			string magic = s.read(4, Encoding.ASCII);
+			if (!magic.Equals("IVFC")) {
+				return;
+			}
+
+			s.Position = offset + 8;
+			int masterHashSize = s.readIntLE();
+			s.Position = offset + 0x4c;
+			int level3BlockSize = s.readIntLE();
+			int level3HashBlockSize = 1 << level3BlockSize;
+			int level3Offset = roundUpToMultiple(0x60 + masterHashSize, level3HashBlockSize);
+
+			s.Position = offset + level3Offset + 4;
+			//Header size should be 0x28...
+			int directoryHashTableOffset = s.readIntLE();
+			int directoryHashTableLength = s.readIntLE();
+			int directoryMetadataOffset = s.readIntLE();
+			int directoryMetadataLength = s.readIntLE();
+
+			int fileHashTableOffset = s.readIntLE();
+			int fileHashTableLength = s.readIntLE();
+			int fileMetadataOffset = s.readIntLE();
+			int fileMetadataLength = s.readIntLE();
+
+			int fileDataOffset = s.readIntLE();
+
+			long baseOffset = offset + level3Offset;
+			s.Position = baseOffset + directoryMetadataOffset;
+			byte[] rootDirectory = s.read(directoryMetadataLength);
+			iterateRomFSEntry(s, romfs, rootDirectory, baseOffset + directoryMetadataOffset, baseOffset + fileMetadataOffset, baseOffset + fileDataOffset);
+
+			partition.addChild(romfs);
 		}
 
 		public static void parseExeFS(ROMInfo info, WrappedInputStream s, FilesystemDirectory partition, long offset = 0) {
