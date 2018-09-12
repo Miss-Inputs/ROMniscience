@@ -96,6 +96,16 @@ namespace ROMniscience.Handlers {
 			}
 		}
 
+		private static FilesystemFile getIconFile(FilesystemDirectory partition) {
+			if (partition.contains("ExeFS")) {
+				var exefs = (FilesystemDirectory)partition.getChild("ExeFS");
+				if (exefs.contains("icon")) {
+					return (FilesystemFile)exefs.getChild("icon");
+				}
+			}
+			return null;
+		}
+
 		public static void parseNCCH(ROMInfo info, WrappedInputStream s, string prefix, long offset = 0) {
 			//"NCCD" magic at 0x100
 			s.Position = offset + 0x104;
@@ -163,6 +173,11 @@ namespace ROMniscience.Handlers {
 			long romFSOffset = (uint)s.readIntLE() * MEDIA_UNIT + offset;
 			long romFSSize = (uint)s.readIntLE() * MEDIA_UNIT;
 
+			FilesystemDirectory partition = new FilesystemDirectory() {
+				name = prefix ?? "Main partition"
+			};
+			info.addFilesystem(partition);
+
 			if (plainRegionSize > 0) {
 				info.addInfo(combinePrefix(prefix, "Plain region offset"), plainRegionOffset, ROMInfo.FormatMode.HEX);
 				info.addInfo(combinePrefix(prefix, "Plain region size"), plainRegionSize, ROMInfo.FormatMode.SIZE);
@@ -176,14 +191,19 @@ namespace ROMniscience.Handlers {
 
 				if (isDecrypted) {
 					//If the ROM is encrypted, it'll be all garbled, so there's not much we can do there...
-					parseExeFS(info, s, prefix, exeFSOffset);
+					parseExeFS(info, s, partition, exeFSOffset);
 				}
 			}
 			if(romFSSize > 0) {
 				info.addInfo(combinePrefix(prefix, "RomFS offset", true), romFSOffset, ROMInfo.FormatMode.HEX);
 				info.addInfo(combinePrefix(prefix, "RomFS size", true), romFSSize, ROMInfo.FormatMode.SIZE);
 			}
-			//Should look into RomFS once we start doing filesystem browsing, albeit it also won't work with encrypted dumps
+			//TODO: RomFS as filesystem
+
+			var icon = getIconFile(partition);
+			if(icon != null) {
+				parseSMDH(info, s, prefix, icon.offset);
+			}
 
 			if (isCXI & isDecrypted) {
 				s.Position = offset + 0x200;
@@ -226,7 +246,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo(combinePrefix(prefix, "Libraries used"), String.Join(", ", libs));
 		}
 
-		public static void parseExeFS(ROMInfo info, WrappedInputStream s, string prefix, long offset = 0) {
+		public static void parseExeFS(ROMInfo info, WrappedInputStream s, FilesystemDirectory partition, long offset = 0) {
+			FilesystemDirectory exefs = new FilesystemDirectory() {
+				name = "ExeFS"
+			};
+
 			s.Position = offset;
 			for(int i = 0; i < 10; ++i) {
 				string filename = s.read(8, Encoding.ASCII).TrimEnd('\0');
@@ -234,20 +258,10 @@ namespace ROMniscience.Handlers {
 				long fileSize = (uint)s.readIntLE();
 
 				if (fileSize > 0) {
-					info.addInfo(combinePrefix(prefix, "File name " + i), filename);
-					info.addInfo(combinePrefix(prefix, "File offset " + i), fileOffset, ROMInfo.FormatMode.HEX);
-					info.addInfo(combinePrefix(prefix, "File size " + i), fileSize, ROMInfo.FormatMode.SIZE);
-					//banner contains some kinda 3D graphics and a sound
-					if ("icon".Equals(filename)) {
-						long pos = s.Position;
-						try {
-							parseSMDH(info, s, prefix, fileOffset);
-						} finally {
-							s.Position = pos;
-						}
-					}
+					exefs.addChild(filename, fileOffset, fileSize);
 				}
 			}
+			partition.addChild(exefs);
 		}
 
 		static readonly string[] titleLanguages = {"Japanese", "English", "French", "German", "Italian", "Spanish", "Simplified Chinese", "Korean", "Dutch", "Portugese", "Russian", "Traditional Chinese", "Unknown 1", "Unknown 2", "Unknown 3", "Unknown 4", "Unknown 5"};
