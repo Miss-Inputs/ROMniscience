@@ -131,7 +131,7 @@ namespace ROMniscience.Handlers {
 			s.Position = offset + 0x150;
 			string productCode = s.read(16, Encoding.ASCII).TrimEnd('\0'); //Not just ABBC anymore! It's now CTR-P-ABBC... albeit that's 10 chars?
 			info.addInfo(combinePrefix(prefix, "Product code"), productCode);
-			if (productCode.Length == 16 && !productCode.Equals("CTR-P-CTAP")) {
+			if (productCode.Length == 10 && !productCode.Equals("CTR-P-CTAP")) {
 				info.addInfo(combinePrefix(prefix, "Category"), productCode[4], CATEGORIES);
 				info.addInfo(combinePrefix(prefix, "Type"), productCode[6], GAME_TYPES);
 				info.addInfo(combinePrefix(prefix, "Short title"), productCode.Substring(7, 2));
