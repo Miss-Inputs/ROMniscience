@@ -223,7 +223,9 @@ namespace ROMniscience.GUI {
 				try {
 					args.Value = ROMInfo.formatByteSize(Convert.ToInt64(args.Value));
 					args.FormattingApplied = true;
-				} catch(InvalidCastException) {
+				} catch (InvalidCastException) {
+					args.FormattingApplied = false;
+				} catch (OverflowException) {
 					args.FormattingApplied = false;
 				}
 				return;
@@ -243,7 +245,7 @@ namespace ROMniscience.GUI {
 				args.FormattingApplied = true;
 				return;
 			}
-			
+
 		}
 
 		private void startScan() {
@@ -314,7 +316,7 @@ namespace ROMniscience.GUI {
 			statusBar.Refresh();
 		}
 
-		
+
 		private void addRow(object sender, ROMScanner.HaveRowEventArgs args) {
 			if (table.InvokeRequired) {
 				table.Invoke(new Action<object, ROMScanner.HaveRowEventArgs>(addRow), sender, args);
