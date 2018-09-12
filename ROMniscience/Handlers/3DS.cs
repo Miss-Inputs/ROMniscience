@@ -220,7 +220,27 @@ namespace ROMniscience.Handlers {
 
 				short remasterVersion = s.readShortLE();
 				info.addInfo(combinePrefix(prefix, "Remaster version"), remasterVersion, true);
-				//TODO Rest of the extended header https://www.3dbrew.org/wiki/NCCH/Extended_Header
+
+				s.Position = offset + 0x450;
+				//This makes no sense - it should be at offset + 0x240 according to documentation, but it isn't
+				var dependencyList = new List<string>();
+				for (int i = 0; i < 48; ++i) {
+					string dependency = s.read(8, Encoding.ASCII).TrimEnd('\0');
+					if (dependency.Length == 0) {
+						break;
+					}
+					dependencyList.Add(dependency);
+				}
+				info.addInfo("Dependencies", String.Join(", ", dependencyList), true);
+
+				s.Position = offset + 0x3c0;
+				//TODO: Add readLongLE and readLongBE to WrappedInputStream
+				//This wouldn't work if you used this on a big endian C# environment I would think
+				ulong saveDataSize = BitConverter.ToUInt64(s.read(8), 0);
+				info.addInfo("Save size", saveDataSize, ROMInfo.FormatMode.SIZE);
+
+				//TODO: Access control info stuff https://www.3dbrew.org/wiki/NCCH/Extended_Header
+
 			}
 		}
 
