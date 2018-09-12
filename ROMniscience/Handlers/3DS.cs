@@ -41,6 +41,7 @@ namespace ROMniscience.Handlers {
 			{"cci", "Nintendo 3DS CTR Cart Image"}, //Actual format of .3ds
 			{"3dsx", "Nintendo 3DS homebrew"}, //Often seen with .smdh to store metadata
 			{"cia", "3DS downloadable title (CTR Importable Archive)"},
+			{"cfa", "Nintendo 3DS CTR File Archive"},
 			{"csu", "Nintendo 3DS CTR System Update"},
 			{"cxi", "Nintendo 3DS CTR Executable Image"},
 		};
