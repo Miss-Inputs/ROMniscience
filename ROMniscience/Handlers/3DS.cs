@@ -120,12 +120,13 @@ namespace ROMniscience.Handlers {
 			//Some stuff about a reserved and a logo SHA-256
 			s.Position = offset + 0x150;
 			string productCode = s.read(16, Encoding.ASCII).TrimEnd('\0'); //Not just ABBC anymore! It's now CTR-P-ABBC... albeit that's 10 chars?
-			//Maybe I should skip this if it's CTR-P-CTAP
 			info.addInfo(combinePrefix(prefix, "Product code"), productCode);
-			info.addInfo(combinePrefix(prefix, "Category"), productCode[4], CATEGORIES);
-			info.addInfo(combinePrefix(prefix, "Type"), productCode[6], GAME_TYPES);
-			info.addInfo(combinePrefix(prefix, "Short title"), productCode.Substring(7, 2));
-			info.addInfo(combinePrefix(prefix, "Country"), productCode[9], NintendoCommon.COUNTRIES);
+			if (productCode.Length == 16 && !productCode.Equals("CTR-P-CTAP")) {
+				info.addInfo(combinePrefix(prefix, "Category"), productCode[4], CATEGORIES);
+				info.addInfo(combinePrefix(prefix, "Type"), productCode[6], GAME_TYPES);
+				info.addInfo(combinePrefix(prefix, "Short title"), productCode.Substring(7, 2));
+				info.addInfo(combinePrefix(prefix, "Country"), productCode[9], NintendoCommon.COUNTRIES);
+			}
 			s.Position = offset + 0x180;
 			int extendedHeaderSize = s.readIntLE(); //NOT in media units!
 			info.addInfo(combinePrefix(prefix, "Extended header size"), extendedHeaderSize, ROMInfo.FormatMode.SIZE);
