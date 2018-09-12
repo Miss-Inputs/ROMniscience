@@ -358,6 +358,14 @@ namespace ROMniscience.Handlers {
 			return bitmap;
 		}
 
+		private static Dictionary<int, string> PARTITION_NAMES = new Dictionary<int, string> {
+			{0, "Executable content"},
+			{1, "Electronic manual"},
+			{2, "Download Play child"},
+			{6, "New 3DS update data"},
+			{7, "Update data"},
+		};
+
 		public static void parseNCSD(ROMInfo info, ROMFile file, bool isCCI) {
 			var s = file.stream;
 			s.Position = 0x104;
@@ -386,41 +394,20 @@ namespace ROMniscience.Handlers {
 				short version = s.readShortLE();
 				info.addInfo("Version", version);
 
-				if(partitionLengths[0] > 0) {
-					info.addInfo("Executable content partition offset", partitionOffsets[0], ROMInfo.FormatMode.HEX);
-					info.addInfo("Executable content partition length", partitionLengths[0], ROMInfo.FormatMode.SIZE);
+				for (int i = 0; i < 8; ++i) {
+					string partitionName = "Partition " + (i + 1);
+					if (PARTITION_NAMES.ContainsKey(i)) {
+						partitionName = PARTITION_NAMES[i];
+					}
 
-					parseNCCH(info, s, null, partitionOffsets[0]); //We use no prefix here to consider this the "main" partition so it'll just say "Product code" or "Version" instead of "Executable content version" etc
+					if(partitionLengths[i] > 0 && partitionOffsets[i] > 0) {
+						info.addInfo(combinePrefix(partitionName, "partition offset"), partitionOffsets[i], ROMInfo.FormatMode.HEX);
+						info.addInfo(combinePrefix(partitionName, "partition length"), partitionLengths[i], ROMInfo.FormatMode.SIZE);
+
+						//We use no prefix here with "main" partition so it'll just say "Product code" or "Version" instead of "Executable content version" etc
+						parseNCCH(info, s, i == 0 ? null : partitionName, partitionOffsets[i]);
+					}
 				}
-
-				if (partitionLengths[1] > 0) {
-					info.addInfo("Electronic manual partition offset", partitionOffsets[1], ROMInfo.FormatMode.HEX);
-					info.addInfo("Electronic manual partition length", partitionLengths[1], ROMInfo.FormatMode.SIZE);
-
-					parseNCCH(info, s, "Electronic manual", partitionOffsets[1]);
-				}
-
-				if (partitionLengths[2] > 0) {
-					info.addInfo("Download Play child partition offset", partitionOffsets[2], ROMInfo.FormatMode.HEX);
-					info.addInfo("Download Play child partition length", partitionLengths[2], ROMInfo.FormatMode.SIZE);
-
-					parseNCCH(info, s, "Download Play child", partitionOffsets[2]);
-				}
-
-				if (partitionLengths[6] > 0) {
-					info.addInfo("New 3DS update data partition offset", partitionOffsets[6], ROMInfo.FormatMode.HEX);
-					info.addInfo("New 3DS update data partition length", partitionLengths[6], ROMInfo.FormatMode.SIZE);
-
-					parseNCCH(info, s, "New 3DS update data", partitionOffsets[6]);
-				}
-
-				if (partitionLengths[7] > 0) {
-					info.addInfo("Update data partition offset", partitionOffsets[7], ROMInfo.FormatMode.HEX);
-					info.addInfo("Update data partition length", partitionLengths[7], ROMInfo.FormatMode.SIZE);
-
-					parseNCCH(info, s, "Update data", partitionOffsets[7]);
-				}
-
 			}
 		}
 
