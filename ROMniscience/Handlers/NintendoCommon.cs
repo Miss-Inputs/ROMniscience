@@ -20,7 +20,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- * 
+ *
  * TODO: Does that restrict anyone from using the various dictionaries as documentation (I'd rather it not), and not just the actual code? I hate that I'm not a lawyer
  */
 
@@ -52,7 +52,7 @@ namespace ROMniscience.Handlers {
 			{'O', "International"}, //Basically every region except Japan (or is it except China?); only seen on DSi (and Pokemon gen 5 games at that). Maybe it's actually just USA + Europe + Australia (but those games are completely region free, except maybe not on the iQue thingy)
 			{'P', "Europe"}, //Also includes UK and Australia; though for DSi it seems to mean "Europe and not Australia", since Australia is separate there
 			{'Q', "Denmark"},
-			{'R', "Russia"}, 
+			{'R', "Russia"},
 			{'S', "Spain"},
 			{'T', "USA + Australia"}, //DSi only
 			{'U', "Australia"}, //Usually P or X is used to mean Europe + Australia, but there are a few exclusives
@@ -100,7 +100,7 @@ namespace ROMniscience.Handlers {
 			//Company A / Company B which purchased A or A otherwise got absorbed into
 			//Company A / New name of Company A
 			//[Company B that merged with company A but kept A's licensee code] Company A e.g. [Bandai] Namco (Namco used the code AF before the merger)
-			
+
 			//These are invalid, honestly, but eh
 			{"00", "Nobody"}, //Probably homebrew; although... some 3DS games use this? What the heck, I don't think Smash 4 was published by nobody
 			{"  ", "Nobody"},
@@ -286,6 +286,7 @@ namespace ROMniscience.Handlers {
 			{"JT", "Empty Clip Studios"}, //Groovin' Blocks (USA) (WiiWare) (retail release is by Zoo)
 			{"RG", "Romino Games"}, //Swords & Soldiers II (Wii U)
 			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
+			{"UZ", "Circle Entertainment"}, //Sweet Memories: Blackjack (3DS)
 			{"WB", "Google"}, //YouTube app on Wii and Wii U
 			{"WD", "Amazon"}, //Amazon Instant Video (WiiWare)
 			{"WR", "Warner Bros"}, //Scribblenauts and Super Scribblenauts (Europe) (DS) (or Warner Bros Interactive Entertainment if you prefer to be overly specific)
@@ -295,14 +296,14 @@ namespace ROMniscience.Handlers {
 			//Only seen once and seems incorrect
 			{"AA", "Broderbund"}, //Only seen in Rally - The Final Round of the World Rally Championship (USA) (Proto), which was by JVC
 			{"D2", "Bothtec / Quest"}, //Only seen in Wakusei Aton Gaiden, which is... apparently published by the Japanese tax agency, so maybe this is wrong
-			
+
 			//Unverified, I guess I just found some other list somewhere and I forgot by now whoops. So they could be wrong, but probably aren't
 			{"1A", "Yanoman"}, //Although seen in Aretha II - Ariel no Fushigi na Tabi (Japan) (Beta 1) (SNES)
 			{"1D", "Clary"},
 			{"24", "PCM Complete"},
 			{"33", "Ocean/Acclaim"}, //This is an important one, because if this is the old licensee code it means it uses
 			//the new licensee code instead (and the extended header in SNES), and also it needs to be 33 for Super Gameboy functions to work on GB
-			//Is this even valid anyway? Ocean already has 67 and probably just uses Acclaim's licensee when it got purchased 
+			//Is this even valid anyway? Ocean already has 67 and probably just uses Acclaim's licensee when it got purchased
 			{"38", "Hudson/Capcom"}, //Hudson was not, in fact, bought out by Capcom
 			{"3E", "Gremlin"},
 			{"44", "Malibu"},
@@ -321,7 +322,7 @@ namespace ROMniscience.Handlers {
 			{"A2", "Scorpion Soft"},
 			{"B7", "SNK"},
 			{"C9", "UFL"},
-			{"CC", "Use"}, 
+			{"CC", "Use"},
 			{"CD", "Meldac"}, //Wordtris (USA) (Beta) (Game Boy)
 			{"D3", "Sigma Enterprises"},
 			{"D7", "Copya Systems"},
@@ -334,7 +335,7 @@ namespace ROMniscience.Handlers {
 			{"86", "Tokuma Shoten"}, //Only seen in Madou Monogatari SNES (well the fan translation, actually... they wouldn't change it, right?)
 			{"C4", "Tokuma Shoten Intermedia"}, //Possibly the more correct one, used in all the other games
 			{"42", "Sunsoft (42)"}, //Only seen in Project S-11 which is indeed Sunsoft (also some cheeky bugger homebrew games that want to use 42), all other Sunsoft games use BB, even others on GBC from that year in that country
-			
+
 			//Duplicates that haven't even been seen anywhere (reliable) and hence are very dubious
 			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
 			{"9D", "Banpresto (9D)"},
@@ -349,13 +350,13 @@ namespace ROMniscience.Handlers {
 			{"37", "Taito (37)"}, //Already uses C0
 			{"D0", "Taito (D0)"},
 			{"E3", "Varie (E3)"}, //Already uses 95
-			
+
 			//Are these names even correct? Probably not
 			{"22", "pow"},
 			{"3C", "Entertainment I"}, //ndustries?
 			{"25", "san-x"},
 			{"96", "Yonezawa/s''pal"},
-			
+
 			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
 			//don't fill in the game code or put it as ####, as well as
 			//Banjo-Pilot's beta version that has XXXX as the game code
@@ -543,7 +544,7 @@ namespace ROMniscience.Handlers {
 			//To be precise: With DSi (and 3DS), bit 7 is set when a rating exists, on Wii, bit 7 is unset when a rating exists
 			//Wii U has ratings too, but they're XML. Seemingly very similar, though
 
-			
+
 			for (int i = 0; i < 16; ++i) {
 				int rating = ratings[i];
 				string ratingName;
