@@ -432,6 +432,10 @@ namespace ROMniscience.Handlers {
 			int eulaMinorVersion = s.read();
 			info.addInfo("EULA version", eulaMajorVersion + "." + eulaMinorVersion);
 
+			s.Position = offset + 0x2034;
+			byte[] cecID = s.read(4);
+			info.addInfo("CEC (StreetPass) ID", cecID);
+
 			s.Position = offset + 0x2040;
 			byte[] iconData = s.read(0x480);
 			byte[] largeIconData = s.read(0x1200);
