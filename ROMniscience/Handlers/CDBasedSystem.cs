@@ -38,6 +38,7 @@ namespace ROMniscience.Handlers {
 			{"iso", name + " 2048-byte sector CD image"},
 			//TODO: Support .chd files, which maybe we can pretend are archives of .cue and .bin tracks to maintain checksums
 			//TODO: .toc .nrg and .cdr are in MAME so they can't be _that_ proprietary, but they're low priority because they're weird. .ccd if it's documented somewhere (okay so it sort of is but it's proprietary and unofficial, see https://www.gnu.org/software/ccd2cue/manual/html_node/CCD-sheet-format.html#CCD-sheet-format); need DiscJuggler .cdi for Dreamcast too
+			{"img", name + "CD image"}, //We'll presume this is 2352-byte for now
 		};
 
 		public static readonly IDictionary<string, string> genericCueSheetFiletypeMap = new Dictionary<string, string>() {
@@ -48,7 +49,7 @@ namespace ROMniscience.Handlers {
 			{"mp3", "MP3 audio track"},
 			{"ogg", "Ogg Vorbis audio track"},
 		};
-		
+
 		public override string getFiletypeName(string extension) {
 			//This stops data tracks being read as "Unknown". Caveat is that if you override filetypeMap in the actual handler to add something like BIOSes or executables with a .bin extension, you'll get .bin data tracks recognized as a BIOS or executable accordingly
 			string b = base.getFiletypeName(extension);
@@ -61,10 +62,15 @@ namespace ROMniscience.Handlers {
 		public abstract void addROMInfo(ROMInfo info, ROMFile file, WrappedInputStream stream);
 
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
+			//FIXME: Damn nothing matters anymore just refactor everything on the planet
+
 			//.iso files are 2048 sectors, and since they're read as normal ROM files without any special handling in ROMScanner, we'll specify that sector size here; for cue sheets we've already read that so we just do the thing
 			int sectorSize = 2048;
 			if (file.cdSectorSize != 0) {
 				sectorSize = file.cdSectorSize;
+			}
+			if (file.extension.Equals("img")) {
+				sectorSize = 2352;
 			}
 
 			info.addInfo("Sector size", sectorSize);
