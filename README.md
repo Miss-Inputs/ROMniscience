@@ -43,6 +43,7 @@ At the time of writing:
   - Sega Megadrive/Genesis, and by extension 32X, Mega CD/Sega CD and Sega Pico since they're the same format  
   - Sega Saturn
   - SNES  
+  - Uzebox
   - Vectrex  
   - Virtual Boy
   - Wii, WiiWare, Wii homebrew folders for Homebrew Channel
