@@ -357,10 +357,6 @@ namespace ROMniscience.Handlers {
 			{"25", "san-x"},
 			{"96", "Yonezawa/s''pal"},
 
-			//I'm tempted to put ## and '  ' in here because of homebrew ROMs that
-			//don't fill in the game code or put it as ####, as well as
-			//Banjo-Pilot's beta version that has XXXX as the game code
-
 			//FF is 100% junk; it'll basically only show up when the rest of the header is junk (unlicensed, or SNES game with incorrectly detected header)
 		};
 
