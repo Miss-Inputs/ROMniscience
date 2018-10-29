@@ -114,7 +114,7 @@ namespace ROMniscience.Handlers {
 			{6, 2 * 1024 * 1024},
 			{7, 4 * 1024 * 1024}, //Very rarely used except for some really late titles like Harry Potter
 			{8, 8 * 1024 * 1024}, //Even more rarely used, I've only seen the homebrew video player thing use this
-			
+
 			//These ones seem to be only used for multicarts
 			{0x52, (9 * 1024 * 1024) / 8},
 			{0x53, (10 * 1024 * 1024) / 8},
@@ -356,6 +356,11 @@ namespace ROMniscience.Handlers {
 			info.addInfo("Calculated checksum", calculatedChecksum, ROMInfo.FormatMode.HEX, true);
 			info.addInfo("Checksum valid?", checksum == calculatedChecksum);
 
+			short globalChecksum = f.readShortBE();
+			info.addInfo("Global checksum", globalChecksum, ROMInfo.FormatMode.HEX, true);
+			short calculatedGlobalChecksum = calcGlobalChecksum(f);
+			info.addInfo("Calculated global checksum", calculatedGlobalChecksum, ROMInfo.FormatMode.HEX, true);
+			info.addInfo("Global checksum valid?", globalChecksum == calculatedGlobalChecksum);
 
 			if (!isCGB) {
 				//Game Boy Color automatically colorizes some old Game Boy games via hashing the title and other data, albeit it only does this if licensee code = 01
@@ -367,7 +372,25 @@ namespace ROMniscience.Handlers {
 				info.addInfo("GBC palette disambiguation value", title[3], ROMInfo.FormatMode.HEX);
 			}
 		}
-		
+
+		public short calcGlobalChecksum(WrappedInputStream f) {
+			ushort x = 0;
+			long originalPos = f.Position;
+			try {
+				f.Position = 0;
+				while (f.Position <= 0x14d) {
+					x = (ushort)((x + ((ushort)f.read() & 0xffff)) & 0xffff);
+				}
+				f.Position = 0x150;
+				while (f.Position < f.Length) {
+					x = (ushort)((x + ((ushort)f.read() & 0xffff)) & 0xffff);
+				}
+			} finally {
+				f.Position = originalPos;
+			}
+			return (short)x;
+		}
+
 		public int calcChecksum(WrappedInputStream f) {
 			int x = 0;
 			long originalPos = f.Position;
