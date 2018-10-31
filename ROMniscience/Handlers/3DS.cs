@@ -145,12 +145,13 @@ namespace ROMniscience.Handlers {
 
 			s.Position = offset + 0x188;
 			byte[] flags = s.read(8);
+
 			bool isData = (flags[5] & 1) > 0;
 			bool isExecutable = (flags[5] & 2) > 0;
 			bool isCXI = !(isData & !isExecutable);
 			bool isSystemUpdate = (flags[5] & 4) > 0;
 			bool isElectronicManual = (flags[5] & 8) > 0;
-			bool isTrial = (flags[5] & 16) > 0;
+			bool isTrial = (flags[5] & 16) > 0; //This isn't set on trials...
 			bool isZeroKeyEncrypted = (flags[7] & 1) > 0;
 			bool isDecrypted = (flags[7] & 4) > 0;
 
@@ -380,6 +381,10 @@ namespace ROMniscience.Handlers {
 
 		static readonly string[] titleLanguages = {"Japanese", "English", "French", "German", "Italian", "Spanish", "Simplified Chinese", "Korean", "Dutch", "Portugese", "Russian", "Traditional Chinese", "Unknown 1", "Unknown 2", "Unknown 3", "Unknown 4", "Unknown 5"};
 		public static void parseSMDH(ROMInfo info, WrappedInputStream s, string prefix, long offset = 0) {
+			s.Position = offset + 4;
+			short version = s.readShortLE();
+			info.addInfo("SMDH version", version);
+
 			s.Position = offset + 8;
 
 			for (int i = 0; i < 16; ++i) {
