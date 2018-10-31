@@ -113,7 +113,7 @@ namespace ROMniscience.Handlers {
 			{"08", "Capcom"},
 			{"0A", "Jaleco"},
 			{"0B", "Coconuts Japan"},
-			{"13", "Electronic Arts Victor"}, //This only appears in Japanese games by EA, like Sommelier DS, or the Japanese version of Harry Potter and the Philosopher's Stone for GBC; every other EA game uses the sex number. Could this be that EA/Square joint thing in modern times?
+			{"13", "Electronic Arts Victor"}, //EA's Japanese branch (partnered with Victor Interactive), although in 2003 it supposedly went defunct
 			{"18", "Hudson Soft"},
 			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			{"1M", "Micro Cabin"},
@@ -126,7 +126,7 @@ namespace ROMniscience.Handlers {
 			{"36", "Codemasters"},
 			{"39", "Event Evolution Entertainment"},
 			{"41", "Ubisoft"},
-			{"46", "System 3"}, //The old one
+			{"46", "System 3"}, //The old one, used as their licensee code before they started using the other licensee code whenever and whyever they did that
 			{"49", "Irem"},
 			{"4B", "Raya Systems"},
 			{"4S", "Black Pearl Software"},
@@ -151,7 +151,7 @@ namespace ROMniscience.Handlers {
 			{"64", "LucasArts"},
 			{"67", "Ocean"},
 			{"69", "Electronic Arts"}, //nice
-			{"6B", "Laser Beam Entertainment"}, //Publishing arm of Beam Software
+			{"6B", "Laser Beam Entertainment"}, //Publishing arm of Beam Software.
 			{"6F", "Electro Brain"},
 			{"6H", "BBC Multimedia"},
 			{"6J", "Software 2000"},
@@ -187,7 +187,7 @@ namespace ROMniscience.Handlers {
 			{"A4", "Konami"},
 			{"A5", "K Amusement Leasing"},
 			{"A7", "Takara"}, //Vast Fame also uses this for most of their GBC bootlegs, interestingly
-			{"A8", "Royal Industries"}, //More damn sewing machine companies!
+			{"A8", "Royal Industries"}, //Also a sewing machine company that is also known as Royal Kyougou, which I guess is just Japanese for Royal Industries, so I dunno which is the proper thing to call them
 			{"AD", "Toho"},
 			{"AH", "J-Wing"},
 			{"AL", "Media Factory"},
@@ -204,7 +204,7 @@ namespace ROMniscience.Handlers {
 			{"BJ", "Compile"},
 			{"BL", "MTO"},
 			{"C0", "Taito"},
-			{"C1", "Sunsoft (Chinou Game Series)"}, //I guess it's an educational branch of Sunsoft? Or it might all be published by Ask Odansha
+			{"C1", "Sunsoft (Chinou Game Series)"}, //I guess it's an educational branch of Sunsoft? Or it might all be published by Ask Kodansha
 			{"C3", "Squaresoft"},
 			{"C5", "Data East"},
 			{"C6", "Tonkin House"},
@@ -243,7 +243,6 @@ namespace ROMniscience.Handlers {
 			{"5D", "Midway/Tradewest/Williams"}, //For all intents and purposes starts off as Bally Midway (it doesn't, but let's not care about pre-1969), purchased by Williams in 1988 (but as "Bally/Midway"), albeit in 1991 started using the name Midway alone, then in 1996 some screwy stuff happened involving WMS and Time Warner, becomes independent in 1998 (but keeps the subsidiary known as "Atari Games" just to confuse me further until 2000) and then now they're sold to Warner Bros and then there's Tradeswest in there somewhere but only up to 1994? Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 			{"70", "Infogrames/Atari, SA"}, //Infogrames renamed itself to Atari or purchased the brand name or something in 2003 because they could, but are otherwise unrelated to the OG Atari, also purchased and sold off all sorts of companies along the way (e.g. GT Interactive in 1999, Hasbro Interactive in 2001)
 			{"7D", "Vivendi/Sierra"}, //This is weird, because Sierra was merged with Activision in 2010, who at the time were owned by Vivendi, but now they aren't and then they revived the Sierra brand name in 2014. So that's confusing. One of these boxes I have lying around containing a game with this licensee code says Sierra on it, and that was... 2008? So I dunno
-			{"7J", "Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
 			{"99", "Pack-in Video/Victor Interactive/Marvelous Interactive"}, //Merged with Victor in 1997 and then with Marvelous in 2003, so Victor and Marvelous probably used different codes before then (or weren't involved with Nintendo)
 			{"AF", "[Bandai] Namco"}, //Namco games have always used this, but when they merged with Bandai (Sep 2005), they kept this code (so newer games like that Code Geass DS one use this code as well), which is interesting because Square Enix doesn't reuse Squaresoft or Enix's licensee codes and gets a new one
 
@@ -253,6 +252,7 @@ namespace ROMniscience.Handlers {
 			{"54", "Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
 			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
 			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well. Seems like there's a mixup here with Conspiracy Entertainment? Are they the same company?
+			{"7J", "Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
 			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
 			{"CA", "Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
 			{"CE", "Pony Canyon/FCI"}, //Seems to be Fujisankei Communications International (as FCI Inc) for USA releases, Pony Canyon for Japanese releases, both are owned by Fujisankei Communications Group
@@ -332,7 +332,7 @@ namespace ROMniscience.Handlers {
 			{"80", "Misawa Entertainment"},
 			{"83", "LOZC"},
 			{"87", "Tsukuda Ori"},
-			{"92", "Video System"}, //F-1 World Grand Prix (Europe) (Beta) (Game Boy) (N64 version was by Video System, not sure about this one)
+			{"92", "Video System"}, //F-1 World Grand Prix (Europe) (Beta) (Game Boy) (N64 version was by Video System, not sure about this GBC version)
 			{"9F", "Nova"},
 			{"A1", "Hori Electric"},
 			{"A2", "Scorpion Soft"},
