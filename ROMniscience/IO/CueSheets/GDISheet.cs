@@ -48,7 +48,7 @@ namespace ROMniscience.IO.CueSheets {
 		public override IList<CueFile> filenames => _filenames;
 
 		static readonly Regex GDI_LINE_REGEX = new Regex(
-			@"^(?<trackNumber>\d+)\s+(?<unknown1>\S+)\s+(?<type>\d)\s+(?<sectorSize>\d+)\s+(?:""(?<name>.+)""|(?<name>\S+))\s+(?<unknown2>.+)$"
+			@"^\s?(?<trackNumber>\d+)\s+(?<unknown1>\S+)\s+(?<type>\d)\s+(?<sectorSize>\d+)\s+(?:""(?<name>.+)""|(?<name>\S+))\s+(?<unknown2>.+)$"
 		);
 
 		public GDISheet(Stream cueStream) {
