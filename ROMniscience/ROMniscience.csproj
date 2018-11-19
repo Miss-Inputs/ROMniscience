@@ -183,7 +183,7 @@
     <Compile Include="Handlers\PokemonMini.cs" />
     <Compile Include="Handlers\PSP.cs" />
     <Compile Include="Handlers\Stubs\PCEngineCD.cs" />
-    <Compile Include="Handlers\Stubs\PCFX.cs" />
+    <Compile Include="Handlers\PCFX.cs" />
     <Compile Include="Handlers\Picno.cs" />
     <Compile Include="Handlers\Stubs\Playstation.cs" />
     <Compile Include="Handlers\Stubs\PocketStation.cs" />
