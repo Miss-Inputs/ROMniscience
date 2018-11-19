@@ -34,7 +34,7 @@ namespace ROMniscience.IO.CueSheets {
 	abstract class CueSheet {
 
 		public static readonly IList<string> CUE_EXTENSIONS = new List<string>{
-			//I guess we'd put "gdi" and "ccd" in this list once we implement those
+			//I guess we'd put "ccd" in this list once we implement that
 			"cue", "gdi"
 		};
 		public static bool isCueExtension(String extension) {
