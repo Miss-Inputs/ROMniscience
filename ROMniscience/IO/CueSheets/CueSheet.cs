@@ -49,16 +49,18 @@ namespace ROMniscience.IO.CueSheets {
 		}
 
 		public class CueFile {
-			//TODO Include track number and index; right now we are assuming track 1 is the data part and the only data part we want to look at. This is, in fact, not true just to piss me off; Bandai Playdia discs have two data tracks and PC Engine CD discs have the data on track 2 (track 1 is always an audio track, probably to tell people off for putting the disc in an audio CD player)
 			public string filename { get; set; }
 			public int sectorSize { get; set; }
-			public CueFile(string filename, int sectorSize, bool isData) {
+			public CueFile(string filename, int sectorSize, bool isData, int trackNumber) {
 				this.filename = filename;
 				this.sectorSize = sectorSize;
 				this.isData = isData;
+				this.trackNumber = trackNumber;
+				//Do we need index in cue sheet? Probs not, would be identical to track number unless you're being a frickin' weirdo anyway
 			}
 
 			public bool isData { get; set; }
+			public int trackNumber { get; set; }
 		}
 
 		public abstract IList<CueFile> filenames {
