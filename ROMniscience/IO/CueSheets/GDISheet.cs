@@ -64,12 +64,12 @@ namespace ROMniscience.IO.CueSheets {
 
 					var match = GDI_LINE_REGEX.Match(line);
 					if (match.Success) {
-						//int trackNumber = int.Parse(match.Groups["trackNumber"].Value);
+						int trackNumber = int.Parse(match.Groups["trackNumber"].Value);
 						bool isData = int.Parse(match.Groups["type"].Value) == 4;
 						int sectorSize = int.Parse(match.Groups["sectorSize"].Value);
 						string filename = match.Groups["name"].Value;
 
-						_filenames.Add(new CueFile(filename, sectorSize, isData));
+						_filenames.Add(new CueFile(filename, sectorSize, isData, trackNumber));
 					}
 				}
 			}

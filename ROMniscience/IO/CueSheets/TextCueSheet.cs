@@ -54,6 +54,7 @@ namespace ROMniscience.IO.CueSheets {
 			using (var sr = new StreamReader(cueSheet)) {
 				string currentFile = null;
 				string currentMode = null;
+				int currentTrack = -1;
 				bool isData;
 
 				while (!sr.EndOfStream) {
@@ -64,9 +65,9 @@ namespace ROMniscience.IO.CueSheets {
 
 					var match = FILE_REGEX.Match(line);
 					if (match.Success) {
-						if (currentFile != null && currentMode != null) {
+						if (currentFile != null && currentMode != null && currentTrack != -1) {
 							isData = currentMode.ToUpperInvariant().StartsWith("MODE");
-							_filenames.Add(new CueFile(currentFile, sectorSizeFromMode(currentMode), isData));
+							_filenames.Add(new CueFile(currentFile, sectorSizeFromMode(currentMode), isData, currentTrack));
 							currentFile = null;
 							currentMode = null;
 						}
@@ -79,13 +80,16 @@ namespace ROMniscience.IO.CueSheets {
 							match = TRACK_REGEX.Match(line);
 							if (match.Success) {
 								currentMode = match.Groups["mode"].Value;
+								if (!int.TryParse(match.Groups["number"].Value, out currentTrack)) {
+									currentTrack = -1;
+								}
 							}
 						}
 					}
 				}
 
 				isData = currentMode.ToUpperInvariant().StartsWith("MODE");
-				_filenames.Add(new CueFile(currentFile, sectorSizeFromMode(currentMode), isData));
+				_filenames.Add(new CueFile(currentFile, sectorSizeFromMode(currentMode), isData, currentTrack));
 			}
 		}
 	}
