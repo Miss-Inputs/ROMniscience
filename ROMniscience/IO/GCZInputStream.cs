@@ -75,7 +75,7 @@ namespace ROMniscience.IO {
 					break;
 				}
 			}
-			
+
 			return bytesRead;
 		}
 
@@ -103,7 +103,7 @@ namespace ROMniscience.IO {
 
 			compressedSize = getCompressedSize();
 			uncompressedSize = getUncompressedSize();
-		
+
 			blockPointers = new ulong[numBlocks];
 			hashes = new uint[numBlocks];
 			dataOffset = 32 + (8 * numBlocks) + (4 * numBlocks);
@@ -121,13 +121,28 @@ namespace ROMniscience.IO {
 			}
 		}
 
+		static uint adlerCRC32(byte[] bytes) {
+			//I thought .NET had this builtin, I guess not or maybe I'm dumb
+			const uint MOD_ADLER = 65521;
+
+			uint a = 1;
+			uint b = 0;
+
+			for(int i = 0; i < bytes.Length; ++i) {
+				a = (a + bytes[i]) % MOD_ADLER;
+				b = (b + a) % MOD_ADLER;
+			};
+
+			return (b << 16) | a;
+		}
+
 		byte[] getBlock(int blockNum) {
 			bool compressed = true;
 			//At this point Dolphin is confusing me, but I guess the block size is only 16K which is fine for an uint
 			//I hope it's fine for an int too, because some methods in Stream only take signed ints...
 			uint compressedBlockSize = (uint)getCompressedBlockSize(blockNum);
 			ulong offset = dataOffset + blockPointers[blockNum];
-			
+
 			if((offset & (1UL << 63)) > 0){
 				compressed = false;
 				offset &= ~(1UL << 63);
@@ -141,7 +156,11 @@ namespace ROMniscience.IO {
 				throw new Exception("Ah shit");
 			}
 
-			//I guess we could check the hash here, but ehhhhhhhhhhhhhhhh who cares
+			var expectedHash = hashes[blockNum];
+			var actualHash = adlerCRC32(buf);
+			if(expectedHash != actualHash) {
+				Console.WriteLine("Oh no block {0} might be corrupted expected = {1} actual = {2}", blockNum, expectedHash, actualHash);
+			}
 
 			if (compressed) {
 				var mem = new MemoryStream(buf);
@@ -162,6 +181,9 @@ namespace ROMniscience.IO {
 				innerStream.Position = 32;
 				for(int i = 0; i < numBlocks; ++i) {
 					blockPointers[i] = readInnerULongLE();
+				}
+				for(int i = 0; i < numBlocks; ++i) {
+					hashes[i] = readInnerUIntLE();
 				}
 			} finally {
 				innerStream.Position = pos;
