@@ -281,7 +281,7 @@ namespace ROMniscience.Handlers {
 			{"6E", "/Elite Systems"}, //Might and Magic II (Europe) (SNES)
 			{"6P", "/Ravensburger Interactive"}, //Fix & Foxi - Episode 1 - Lupo (Europe) (En,Fr,De) (GBC)
 			{"6R", "/Sound Source"}, //Extreme Sports with the Berenstain Bears (USA, Europe) (En,Fr,De,Es,It) (GBC)
-			{"6R", "/Wanadoo"}, //Kirikou (GBC) also Gremlins: Stripe vs. Gizmo (Beta) (GBA)
+			{"6X", "/Wanadoo"}, //Kirikou (GBC) also Gremlins: Stripe vs. Gizmo (Beta) (GBA)
 			{"8C", "/Vic Tokai"}, //Zerd no Densetsu (Japan)
 			{"8H", "/TNN"}, //Umihara Kawase (Japan) (SNES)
 			{"8M", "/CyberFront"}, //Densha de Go 2 (GBC)
