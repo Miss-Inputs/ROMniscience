@@ -231,10 +231,12 @@ namespace ROMniscience.Handlers {
 			{"GD", "Square Enix"},
 			{"GL", "Gameloft"},
 			{"HF", "Level5"},
+			{"J8", "D4 Enterprise"},
 			{"JS", "Digital Leisure"},
 			{"KR", "Krea Medie"},
 			{"KM", "Deep Silver"},
 			{"RW", "RealNetworks"}, //Or GameHouse, or Real Arcade; which are sorta subsidiaries I guess
+			{"WR", "Warner Bros"}, //WB Games specifically
 			{"WY", "WayForward"},
 			{"XN", "Netflix"},
 
@@ -263,13 +265,20 @@ namespace ROMniscience.Handlers {
 			{"1P", "Creatures"}, //Chee-Chai Alien (Japan) (GBC)
 			{"35", "Hector"}, //California Games II (USA) (might be just Hect?) (game was published by DTMC in USA and Hect in Japan, but DTMC seems to be related to Hect and may be a subdivision/branch?)
 			{"47", "Spectrum Holobyte"}, //Star Trek: The Next Generation: Future's Past (USA) (SNES)
-			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu
+			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu (FDS)
+			{"4G", "Playmates"}, //Star Trek: Deep Space Nine: Crossroads in Time (USA) (SNES)
+			{"4J", "Fox Interactive"}, //The Pagemaster (USA) (SNES)
+			{"4X", "GT Interactive" }, //Duke Nukem (USA) (GBC); this company was purchased by Infogrames in 1999 I think
 			{"53", "American Sammy"}, //Ys III (SNES); also Ninja Taro (USA) (Beta) (GB); dunno what the difference is between this and non-American Sammy
-			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge
+			{"5M", "Telegames"}, //Yar's Revenge (USA/Europe) (GBC)
+			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge (GBC + GBA)
 			{"6E", "Elite Systems"}, //Might and Magic II (Europe) (SNES)
 			{"6P", "Ravensburger Interactive"}, //Fix & Foxi - Episode 1 - Lupo (Europe) (En,Fr,De) (GBC)
 			{"6R", "Sound Source"}, //Extreme Sports with the Berenstain Bears (USA, Europe) (En,Fr,De,Es,It) (GBC)
+			{"6R", "Wanadoo"}, //Kirikou (GBC) also Gremlins: Stripe vs. Gizmo (Beta) (GBA)
 			{"8C", "Vic Tokai"}, //Zerd no Densetsu (Japan)
+			{"8H", "TNN"}, //Umihara Kawase (Japan) (SNES)
+			{"8M", "CyberFront"}, //Densha de Go 2 (GBC)
 			{"8N", "Success"}, //Minna no Soft Series - Tetris Advance (Japan)
 			{"A6", "Kawada"}, //Othello (FDS)
 			{"A9", "Technos Japan"}, //Shin Nekketsu Kouha - Kunio-tachi no Banka (Japan) [T-En by Aeon Genesis v1.00] (SNES)
@@ -287,20 +296,33 @@ namespace ROMniscience.Handlers {
 			{"F3", "Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
 			{"FE", "Davidson & Associates"}, //Math Blaster - Episode 1 (USA) (SNES)
 			{"GN", "OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
+			{"GT", "505 Games"}, //Picture Perfect Hair Salon (USA) (DSi)
 			{"GY", "The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
 			{"H4", "SNK Playmore"}, //Doki Doki Majo Shinpan (DS)
 			{"HL", "Frontier Developments"}, //LostWinds (USA) (WiiWare)
 			{"HN", "High Voltage"}, //VIP Casino Blackjack (USA) (WiiWare)
+			{"J9", "AQ Interactive"}, //Korg DS-10 Synthesizer series (Japan) (DS)
 			{"JT", "Empty Clip Studios"}, //Groovin' Blocks (USA) (WiiWare) (retail release is by Zoo)
 			{"JY", "Steel Penny"}, //Bruiser and Scratch (USA) (WiiWare)
 			{"NR", "Destineer"}, //Giana Sisters DS (USA)
+			{"NJ", "Enjoy Gaming"}, //System Flaw (Europe) (DSi)
 			{"PV", "Pan Vision Games"}, //Miffy's World (Europe) (DS)
+			{"QQ", "Gamelion Studios"}, //Furry Legends (Europe) (WiiWare)
+			{"RB", "Detune"}, //Korg M01 Music Workstation (Japan) (DS)
 			{"RG", "Romino Games"}, //Swords & Soldiers II (Wii U)
 			{"S3", "Genius Sonority"}, //The Denpa Men demo (3DS)
+			{"SZ", "Storm City Entertainment"}, //System Flaw (USA) (DSi)
+			{"TH", "Kolkom"}, //Girlfriends Forever: Magic Skate (Europe) (WiiWare)
 			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
+			{"Q7", "Nexon"}, //MapleStory DS (Korea)
+			{"QH", "Virtual Play Games"}, //Intellivision Lives (USA) (DS)
 			{"QU", "QubicGames"}, //AiRace Speed demo (3DS)
 			{"UZ", "Circle Entertainment"}, //Sweet Memories: Blackjack (3DS)
-			{"WR", "Warner Bros"}, //Scribblenauts and Super Scribblenauts (Europe) (DS) (or Warner Bros Interactive Entertainment if you prefer to be overly specific)
+			{"VT", "Microforum"}, //Enjoy your massage (USA) (WiiWare)
+			{"X0", "SDP Games"}, //Save the Furries (USA) (WiiWare); also known as Smack Down Productions
+			{"XG", "XGen Studios"}, //Defend Your Castle (WiiWare)
+			{"XJ", "XSeed"}, //Korg DS-10+ Synthesizer (USA) (DS)
+			{"XS", "Aksys Games"}, //Family Glide Hockey (WiiWare)
 			{"YV", "KnapNok Games"}, //Affordable Space Adventures (Wii U)
 
 			//So far only seen once, but probably only would ever be seen once
