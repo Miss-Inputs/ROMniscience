@@ -148,6 +148,7 @@ namespace ROMniscience.Handlers {
 			{"5X", "Microids"},
 			{"60", "Titus"},
 			{"61", "Virgin"},
+			{"62", "Maxis"},
 			{"64", "LucasArts"},
 			{"67", "Ocean"},
 			{"69", "Electronic Arts"}, //nice
@@ -183,6 +184,7 @@ namespace ROMniscience.Handlers {
 			{"9H", "Bottom Up"},
 			{"9M", "Jaguar"}, //The sewing machine company
 			{"9N", "Marvelous Entertainment"}, //Before merger in 2003
+			{"9Z", "Crunchyroll"},
 			{"A0", "Telenet"}, //Sometimes known as Telenet Japan, or Nippon Telenet, but I think it's fair to just call it "Telenet"
 			{"A4", "Konami"},
 			{"A5", "K Amusement Leasing"},
@@ -206,6 +208,7 @@ namespace ROMniscience.Handlers {
 			{"C0", "Taito"},
 			{"C1", "Sunsoft (Chinou Game Series)"}, //I guess it's an educational branch of Sunsoft? Or it might all be published by Ask Kodansha
 			{"C3", "Squaresoft"},
+			{"C4", "Tokuma Shoten"},
 			{"C5", "Data East"},
 			{"C6", "Tonkin House"},
 			{"C8", "Koei"},
@@ -236,165 +239,106 @@ namespace ROMniscience.Handlers {
 			{"KR", "Krea Medie"},
 			{"KM", "Deep Silver"},
 			{"RW", "RealNetworks"}, //Or GameHouse, or Real Arcade; which are sorta subsidiaries I guess
+			{"WB", "Google"}, //YouTube app on Wii/Wii U/3DS, so if "YouTube Inc" is counted as a separate company (as the 3DS banner implies) then it could be that
+			{"WD", "Amazon"}, //Amazon Instant Video (WiiWare)
 			{"WR", "Warner Bros"}, //WB Games specifically
 			{"WY", "WayForward"},
+			{"XB", "Hulu"}, //Hulu Plus (WiiWare)
 			{"XN", "Netflix"},
 
 			//Mostly verified, just that companies buy each other out and change their names and things, so these are a bit weird and dependent on what year it is
 			{"4F", "U.S. Gold/Eidos"}, //Eidos purchased U.S. Gold in 1996; also this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
+			{ "4Q", "Disney/Buena Vista Interactive"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet. Disney Interactive Studios spun off Buena Vista Interactive from 2003 to 2007 but that still doesn't explain Spiderman. It's not in any of the other DS downloadable videos. What the crap?
+			{"54", "GameTek/Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
+			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
 			{"5D", "Midway/Tradewest/Williams"}, //For all intents and purposes starts off as Bally Midway (it doesn't, but let's not care about pre-1969), purchased by Williams in 1988 (but as "Bally/Midway"), albeit in 1991 started using the name Midway alone, then in 1996 some screwy stuff happened involving WMS and Time Warner, becomes independent in 1998 (but keeps the subsidiary known as "Atari Games" just to confuse me further until 2000) and then now they're sold to Warner Bros and then there's Tradeswest in there somewhere but only up to 1994? Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 			{"70", "Infogrames/Atari, SA"}, //Infogrames renamed itself to Atari or purchased the brand name or something in 2003 because they could, but are otherwise unrelated to the OG Atari, also purchased and sold off all sorts of companies along the way (e.g. GT Interactive in 1999, Hasbro Interactive in 2001)
 			{"7D", "Vivendi/Sierra"}, //This is weird, because Sierra was merged with Activision in 2010, who at the time were owned by Vivendi, but now they aren't and then they revived the Sierra brand name in 2014. So that's confusing. One of these boxes I have lying around containing a game with this licensee code says Sierra on it, and that was... 2008? So I dunno
 			{"99", "Pack-in Video/Victor Interactive/Marvelous Interactive"}, //Merged with Victor in 1997 and then with Marvelous in 2003, so Victor and Marvelous probably used different codes before then (or weren't involved with Nintendo)
 			{"AF", "[Bandai] Namco"}, //Namco games have always used this, but when they merged with Bandai (Sep 2005), they kept this code (so newer games like that Code Geass DS one use this code as well), which is interesting because Square Enix doesn't reuse Squaresoft or Enix's licensee codes and gets a new one
-
-			//Welcome to confusing town, population these
-			{"20", "Destination Software"}, //This is a confusing load of fuck, and I hate this entire company. So basically you also have 7J, and at first you'd think 20 is the UK/Europe Zoo Digital Publishing (aka Zoo Games) (aka Zushi Games), and 7J is the USA Destination Software (aka DSI Games). But then that turns out to not be the case. They're sort of the same company and have been traded around and bought out and sold multiple times. Thanks I hate it.
-			{"4Q", "Disney/Buena Vista Interactive"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet. Disney Interactive Studios spun off Buena Vista Interactive from 2003 to 2007 but that still doesn't explain Spiderman. It's not in any of the other DS downloadable videos. What the crap?
-			{"54", "Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
-			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
-			{"5Z", "Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well. Seems like there's a mixup here with Conspiracy Entertainment? Are they the same company?
-			{"7J", "Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
-			{"AC", "Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
-			{"CA", "Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
 			{"CE", "Pony Canyon/FCI"}, //Seems to be Fujisankei Communications International (as FCI Inc) for USA releases, Pony Canyon for Japanese releases, both are owned by Fujisankei Communications Group
 
+			//Welcome to confusing town, population these
+			{"20", "???Destination Software"}, //This is a confusing load of fuck, and I hate this entire company. So basically you also have 7J, and at first you'd think 20 is the UK/Europe Zoo Digital Publishing (aka Zoo Games) (aka Zushi Games), and 7J is the USA Destination Software (aka DSI Games). But then that turns out to not be the case. They're sort of the same company and have been traded around and bought out and sold multiple times. Thanks I hate it.
+			{"5Z", "???Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well. Seems like there's a mixup here with Conspiracy Entertainment? Are they the same company?
+			{"7J", "???Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
+			{"AC", "???Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
+			{"CA", "???Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
+
 			//So far, only seen once (in a reliable source, i.e. not protos or anything like that)
-			{"09", "Hot-B"}, //Ginga - Card & Puzzle Collection (Japan) (En,Ja)
-			{"19", "Bandai (B-AI)"}, //Pingu - Sekai de 1ban Genki na Penguin (Japan)
-			{"1P", "Creatures"}, //Chee-Chai Alien (Japan) (GBC)
-			{"35", "Hector"}, //California Games II (USA) (might be just Hect?) (game was published by DTMC in USA and Hect in Japan, but DTMC seems to be related to Hect and may be a subdivision/branch?)
-			{"47", "Spectrum Holobyte"}, //Star Trek: The Next Generation: Future's Past (USA) (SNES)
-			{"4A", "Gakken"}, //Titanic Mystery - Ao no Senritsu (FDS)
-			{"4G", "Playmates"}, //Star Trek: Deep Space Nine: Crossroads in Time (USA) (SNES)
-			{"4J", "Fox Interactive"}, //The Pagemaster (USA) (SNES)
-			{"4X", "GT Interactive" }, //Duke Nukem (USA) (GBC); this company was purchased by Infogrames in 1999 I think
-			{"53", "American Sammy"}, //Ys III (SNES); also Ninja Taro (USA) (Beta) (GB); dunno what the difference is between this and non-American Sammy
-			{"5M", "Telegames"}, //Yar's Revenge (USA/Europe) (GBC)
-			{"5Q", "Lego"}, //Lego Island 2: The Brickster's Revenge (GBC + GBA)
-			{"6E", "Elite Systems"}, //Might and Magic II (Europe) (SNES)
-			{"6P", "Ravensburger Interactive"}, //Fix & Foxi - Episode 1 - Lupo (Europe) (En,Fr,De) (GBC)
-			{"6R", "Sound Source"}, //Extreme Sports with the Berenstain Bears (USA, Europe) (En,Fr,De,Es,It) (GBC)
-			{"6R", "Wanadoo"}, //Kirikou (GBC) also Gremlins: Stripe vs. Gizmo (Beta) (GBA)
-			{"8C", "Vic Tokai"}, //Zerd no Densetsu (Japan)
-			{"8H", "TNN"}, //Umihara Kawase (Japan) (SNES)
-			{"8M", "CyberFront"}, //Densha de Go 2 (GBC)
-			{"8N", "Success"}, //Minna no Soft Series - Tetris Advance (Japan)
-			{"A6", "Kawada"}, //Othello (FDS)
-			{"A9", "Technos Japan"}, //Shin Nekketsu Kouha - Kunio-tachi no Banka (Japan) [T-En by Aeon Genesis v1.00] (SNES)
-			{"BF", "Sammy"}, //Gindama Oyakata no Pachinko Hisshouhou (Japan)
-			{"C7", "East Cube"}, //Reflect World (FDS) (did they even make any other games?)
-			{"CU", "Marvelous AQL"}, //Senran Kagura Burst (Europe) (3DS)
-			{"D4", "Ask Kodansha"}, //Magna Braban - Henreki no Yuusha
-			{"D6", "Naxat Soft"}, //Spriggan Powered BS - Prelude
-			{"DB", "Hiro"}, //Daisenryaku (Japan) (Gameboy)
-			{"E1", "Towa Chiki"}, //Taikyoku Renju
-			{"E8", "Asmik"}, //Dokapon Gaiden - Honoo no Audition (Japan) (merged with Ace to become Asmik Ace in 1998)
-			{"EA", "King Records"}, //Azumanga Daioh Advance
-			{"EC", "Epic / Sony Records"}, //Jerry Boy (SNES)
-			{"EE", "Information Global Services"}, //Super Shadow of the Beast (USA) (Proto) (SNES)
-			{"F3", "Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
-			{"FE", "Davidson & Associates"}, //Math Blaster - Episode 1 (USA) (SNES)
-			{"GN", "OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
-			{"GT", "505 Games"}, //Picture Perfect Hair Salon (USA) (DSi)
-			{"GY", "The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
-			{"H4", "SNK Playmore"}, //Doki Doki Majo Shinpan (DS)
-			{"HL", "Frontier Developments"}, //LostWinds (USA) (WiiWare)
-			{"HN", "High Voltage"}, //VIP Casino Blackjack (USA) (WiiWare)
-			{"J9", "AQ Interactive"}, //Korg DS-10 Synthesizer series (Japan) (DS)
-			{"JT", "Empty Clip Studios"}, //Groovin' Blocks (USA) (WiiWare) (retail release is by Zoo)
-			{"JY", "Steel Penny"}, //Bruiser and Scratch (USA) (WiiWare)
-			{"NR", "Destineer"}, //Giana Sisters DS (USA)
-			{"NJ", "Enjoy Gaming"}, //System Flaw (Europe) (DSi)
-			{"PV", "Pan Vision Games"}, //Miffy's World (Europe) (DS)
-			{"QQ", "Gamelion Studios"}, //Furry Legends (Europe) (WiiWare)
-			{"RB", "Detune"}, //Korg M01 Music Workstation (Japan) (DS)
-			{"RG", "Romino Games"}, //Swords & Soldiers II (Wii U)
-			{"S3", "Genius Sonority"}, //The Denpa Men demo (3DS)
-			{"SZ", "Storm City Entertainment"}, //System Flaw (USA) (DSi)
-			{"TH", "Kolkom"}, //Girlfriends Forever: Magic Skate (Europe) (WiiWare)
-			{"TL", "Telltale"}, //Strong Badia the Free series (WiiWare)
-			{"Q7", "Nexon"}, //MapleStory DS (Korea)
-			{"QH", "Virtual Play Games"}, //Intellivision Lives (USA) (DS)
-			{"QU", "QubicGames"}, //AiRace Speed demo (3DS)
-			{"UZ", "Circle Entertainment"}, //Sweet Memories: Blackjack (3DS)
-			{"VT", "Microforum"}, //Enjoy your massage (USA) (WiiWare)
-			{"X0", "SDP Games"}, //Save the Furries (USA) (WiiWare); also known as Smack Down Productions
-			{"XG", "XGen Studios"}, //Defend Your Castle (WiiWare)
-			{"XJ", "XSeed"}, //Korg DS-10+ Synthesizer (USA) (DS)
-			{"XS", "Aksys Games"}, //Family Glide Hockey (WiiWare)
-			{"YV", "KnapNok Games"}, //Affordable Space Adventures (Wii U)
-
-			//So far only seen once, but probably only would ever be seen once
-			{"62", "Maxis"}, //SimAnt - The Electronic Ant Colony (USA) (SNES) (only release they ever published themselves as far as Nintendo platforms are concerned)
-			{"9Z", "Crunchyroll"}, //Crunchyroll app on both Wii and Wii U, so I guess that's published by Crunchyroll, well the Wii U version's metadata says so anyway
-			{"WB", "Google"}, //YouTube app on Wii and Wii U
-			{"WD", "Amazon"}, //Amazon Instant Video (WiiWare)
-			{"XB", "Hulu"}, //Hulu Plus (WiiWare)
-
-			//Only seen once and seems incorrect
-			{"AA", "Broderbund"}, //Only seen in Rally - The Final Round of the World Rally Championship (USA) (Proto), which was by JVC although MAME software list says Europress
-			{"D2", "Bothtec / Quest"}, //Only seen in Wakusei Aton Gaiden, which is... apparently published by the Japanese tax agency, so maybe this is wrong
-
-			//Unverified, I guess I just found some other list somewhere and I forgot by now whoops. So they could be wrong, but probably aren't
-			{"1A", "Yanoman"}, //Although seen in Aretha II - Ariel no Fushigi na Tabi (Japan) (Beta 1) (SNES), indeed by Yanoman
-			{"1D", "Clary"},
-			{"24", "PCM Complete"},
-			{"33", "Ocean/Acclaim"}, //This is an important one, because if this is the old licensee code it means it uses
-			//the new licensee code instead (and the extended header in SNES), and also it needs to be 33 for Super Gameboy functions to work on GB
-			//Is this even valid anyway? Ocean already has 67 and probably just uses Acclaim's licensee when it got purchased
-			{"38", "Hudson/Capcom"}, //Hudson was not, in fact, bought out by Capcom
-			{"3E", "Gremlin"},
-			{"44", "Malibu"},
-			{"57", "Matchbox"},
-			{"59", "Milton Bradley"},
-			{"5B", "Romstar"},
-			{"73", "Sculptured Software"}, //Possibly wrong as I've only seen it in Monopoly SNES and Clue SNES (only developed by them, published by Parker Bros), other games developed by them like Doom or The Simpsons: Bart's Nightmare use their publisher's code as you'd expect
-			{"7A", "Triffix Entertainment"},
-			{"80", "Misawa Entertainment"},
-			{"83", "LOZC"},
-			{"87", "Tsukuda Ori"},
-			{"92", "Video System"}, //F-1 World Grand Prix (Europe) (Beta) (Game Boy) (N64 version was by Video System, not sure about this GBC version)
-			{"9F", "Nova"},
-			{"A1", "Hori Electric"},
-			{"A2", "Scorpion Soft"},
-			{"B7", "SNK"},
-			{"C9", "UFL"},
-			{"CC", "Use"},
-			{"CD", "Meldac"}, //Wordtris (USA) (Beta) (Game Boy) (final Wordtris was by Sphere, not Meldac)
-			{"D3", "Sigma Enterprises"},
-			{"D7", "Copya Systems"},
-			{"F0", "A Wave"},
+			{"09", "/Hot-B"}, //Ginga - Card & Puzzle Collection (Japan) (En,Ja)
+			{"19", "/Bandai (B-AI)"}, //Pingu - Sekai de 1ban Genki na Penguin (Japan)
+			{"1P", "/Creatures"}, //Chee-Chai Alien (Japan) (GBC)
+			{"35", "/Hector"}, //California Games II (USA) (might be just Hect?) (game was published by DTMC in USA and Hect in Japan, but DTMC seems to be related to Hect and may be a subdivision/branch?)
+			{"47", "/Spectrum Holobyte"}, //Star Trek: The Next Generation: Future's Past (USA) (SNES)
+			{"4A", "/Gakken"}, //Titanic Mystery - Ao no Senritsu (FDS)
+			{"4G", "/Playmates"}, //Star Trek: Deep Space Nine: Crossroads in Time (USA) (SNES)
+			{"4J", "/Fox Interactive"}, //The Pagemaster (USA) (SNES)
+			{"4X", "/GT Interactive" }, //Duke Nukem (USA) (GBC); this company was purchased by Infogrames in 1999 I think
+			{"53", "/American Sammy"}, //Ys III (SNES); also Ninja Taro (USA) (Beta) (GB); dunno what the difference is between this and non-American Sammy
+			{"5M", "/Telegames"}, //Yar's Revenge (USA/Europe) (GBC)
+			{"5Q", "/Lego"}, //Lego Island 2: The Brickster's Revenge (GBC + GBA)
+			{"6E", "/Elite Systems"}, //Might and Magic II (Europe) (SNES)
+			{"6P", "/Ravensburger Interactive"}, //Fix & Foxi - Episode 1 - Lupo (Europe) (En,Fr,De) (GBC)
+			{"6R", "/Sound Source"}, //Extreme Sports with the Berenstain Bears (USA, Europe) (En,Fr,De,Es,It) (GBC)
+			{"6R", "/Wanadoo"}, //Kirikou (GBC) also Gremlins: Stripe vs. Gizmo (Beta) (GBA)
+			{"8C", "/Vic Tokai"}, //Zerd no Densetsu (Japan)
+			{"8H", "/TNN"}, //Umihara Kawase (Japan) (SNES)
+			{"8M", "/CyberFront"}, //Densha de Go 2 (GBC)
+			{"8N", "/Success"}, //Minna no Soft Series - Tetris Advance (Japan)
+			{"A6", "/Kawada"}, //Othello (FDS)
+			{"A9", "/Technos Japan"}, //Shin Nekketsu Kouha - Kunio-tachi no Banka (Japan) [T-En by Aeon Genesis v1.00] (SNES)
+			{"BF", "/Sammy"}, //Gindama Oyakata no Pachinko Hisshouhou (Japan)
+			{"C7", "/East Cube"}, //Reflect World (FDS) (did they even make any other games?)
+			{"CU", "/Marvelous AQL"}, //Senran Kagura Burst (Europe) (3DS)
+			{"D4", "/Ask Kodansha"}, //Magna Braban - Henreki no Yuusha
+			{"D6", "/Naxat Soft"}, //Spriggan Powered BS - Prelude
+			{"DB", "/Hiro"}, //Daisenryaku (Japan) (Gameboy)
+			{"E1", "/Towa Chiki"}, //Taikyoku Renju
+			{"E8", "/Asmik"}, //Dokapon Gaiden - Honoo no Audition (Japan) (merged with Ace to become Asmik Ace in 1998)
+			{"EA", "/King Records"}, //Azumanga Daioh Advance
+			{"EC", "/Epic / Sony Records"}, //Jerry Boy (SNES)
+			{"EE", "/Information Global Services"}, //Super Shadow of the Beast (USA) (Proto) (SNES)
+			{"F3", "/Extreme Entertainment"}, //Super Solitaire (USA) (En,Fr,De,Es,It) (SNES)
+			{"FE", "/Davidson & Associates"}, //Math Blaster - Episode 1 (USA) (SNES)
+			{"GN", "/OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
+			{"GT", "/505 Games"}, //Picture Perfect Hair Salon (USA) (DSi)
+			{"GY", "/The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
+			{"H4", "/SNK Playmore"}, //Doki Doki Majo Shinpan (DS)
+			{"HL", "/Frontier Developments"}, //LostWinds (USA) (WiiWare)
+			{"HN", "/High Voltage"}, //VIP Casino Blackjack (USA) (WiiWare)
+			{"J9", "/AQ Interactive"}, //Korg DS-10 Synthesizer series (Japan) (DS)
+			{"JT", "/Empty Clip Studios"}, //Groovin' Blocks (USA) (WiiWare) (retail release is by Zoo)
+			{"JY", "/Steel Penny"}, //Bruiser and Scratch (USA) (WiiWare)
+			{"NR", "/Destineer"}, //Giana Sisters DS (USA)
+			{"NJ", "/Enjoy Gaming"}, //System Flaw (Europe) (DSi)
+			{"PV", "/Pan Vision Games"}, //Miffy's World (Europe) (DS)
+			{"QQ", "/Gamelion Studios"}, //Furry Legends (Europe) (WiiWare)
+			{"RB", "/Detune"}, //Korg M01 Music Workstation (Japan) (DS)
+			{"RG", "/Romino Games"}, //Swords & Soldiers II (Wii U)
+			{"S3", "/Genius Sonority"}, //The Denpa Men demo (3DS)
+			{"SZ", "/Storm City Entertainment"}, //System Flaw (USA) (DSi)
+			{"TH", "/Kolkom"}, //Girlfriends Forever: Magic Skate (Europe) (WiiWare)
+			{"TL", "/Telltale"}, //Strong Badia the Free series (WiiWare)
+			{"Q7", "/Nexon"}, //MapleStory DS (Korea)
+			{"QH", "/Virtual Play Games"}, //Intellivision Lives (USA) (DS)
+			{"QU", "/QubicGames"}, //AiRace Speed demo (3DS)
+			{"UZ", "/Circle Entertainment"}, //Sweet Memories: Blackjack (3DS)
+			{"VT", "/Microforum"}, //Enjoy your massage (USA) (WiiWare)
+			{"X0", "/SDP Games"}, //Save the Furries (USA) (WiiWare); also known as Smack Down Productions
+			{"XG", "/XGen Studios"}, //Defend Your Castle (WiiWare)
+			{"XJ", "/XSeed"}, //Korg DS-10+ Synthesizer (USA) (DS)
+			{"XS", "/Aksys Games"}, //Family Glide Hockey (WiiWare)
+			{"YV", "/KnapNok Games"}, //Affordable Space Adventures (Wii U)
 
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?
-			{"C2", "Kemco (C2)"}, //Already uses 7F; not sure what's going on here. This is used by Electrician and Roger Rabbit for FDS, 7F is used by Top Gear 3000, Daikatana GBC and Virtual League Baseball, could be C2 is Kemco Japan and 7F is Kemco Not-Japan? Also used for The Sword of Hope for GBC which was published by Seika
-			{"28", "Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
-			{"86", "Tokuma Shoten"}, //Only seen in Madou Monogatari SNES (well the fan translation, actually... they wouldn't change it, right?)
-			{"C4", "Tokuma Shoten Intermedia"}, //Possibly the more correct one, used in all the other games
-			{"42", "Sunsoft (42)"}, //Only seen in Project S-11 which is indeed Sunsoft (also some cheeky bugger homebrew games that want to use 42), all other Sunsoft games use BB, even others on GBC from that year in that country
-
-			//Duplicates that haven't even been seen anywhere (reliable) and hence are very dubious
-			{"32", "Bandai (32)"}, //Only seen in the Picachu bootleg for SNES, other Bandai games use B2
-			{"9D", "Banpresto (9D)"},
-			{"0C", "Elite Systems (0C)"},
-			{"E0", "Jaleco (E0)"}, //Already uses 0A
-			{"34", "Konami (34)"}, //Already uses A4
-			{"4D", "Malibu (4D)"}, //Already uses 44 (supposedly)
-			{"5C", "Naxat Soft (5C)"},//Already uses D6
-			{"31", "Nintendo (31)"}, //Ehhh?? I've only seen this used in Heisei Gunjin Shougi for Satellaview, which was developed by some company called
-			//Carrozzeria Japan apparently, which might be some brand used by Pioneer that's mostly used for car radios? I don't even know
-			{"B9", "Pony Canyon (B9)"},
-			{"37", "Taito (37)"}, //Already uses C0
-			{"D0", "Taito (D0)"},
-			{"E3", "Varie (E3)"}, //Already uses 95
-
-			//Are these names even correct? Probably not
-			{"22", "pow"},
-			{"3C", "Entertainment I"}, //ndustries?
-			{"25", "san-x"},
-			{"96", "Yonezawa/s''pal"},
+			{"C2", "(dupe) Kemco (C2)"}, //Already uses 7F; not sure what's going on here. This is used by Electrician and Roger Rabbit for FDS, 7F is used by Top Gear 3000, Daikatana GBC and Virtual League Baseball, could be C2 is Kemco Japan and 7F is Kemco Not-Japan? Also used for The Sword of Hope for GBC which was published by Seika
+			{"28", "(dupe) Kemco (28)"}, //Used in Virtual Pro Yakyuu 98 (VB)
+			{"86", "(dupe) Tokuma Shoten (86)"}, //Only seen in Madou Monogatari SNES (well the fan translation, actually... they wouldn't change it, right?)
+			{"42", "(dupe) Sunsoft (42)"}, //Only seen in Project S-11 which is indeed Sunsoft (also some cheeky bugger homebrew games that want to use 42), all other Sunsoft games use BB, even others on GBC from that year in that country
 
 			//FF is 100% junk; it'll basically only show up when the rest of the header is junk (unlicensed, or SNES game with incorrectly detected header)
+			//33 and ZZ also seem to not be valid
 		};
 
 		public readonly static IDictionary<string, string> EXTENDED_LICENSEE_CODES = new Dictionary<string, string>() {
