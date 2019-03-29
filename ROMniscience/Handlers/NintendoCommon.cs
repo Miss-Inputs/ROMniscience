@@ -248,7 +248,7 @@ namespace ROMniscience.Handlers {
 
 			//Mostly verified, just that companies buy each other out and change their names and things, so these are a bit weird and dependent on what year it is
 			{"4F", "U.S. Gold/Eidos"}, //Eidos purchased U.S. Gold in 1996; also this appears in the Gauntlet DS proto, but that wasn't going to be published by Eidos nor did they develop it
-			{ "4Q", "Disney/Buena Vista Interactive"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet. Disney Interactive Studios spun off Buena Vista Interactive from 2003 to 2007 but that still doesn't explain Spiderman. It's not in any of the other DS downloadable videos. What the crap?
+			{"4Q", "Disney/Buena Vista Interactive"}, //What's maximum spooky is that this also shows up in the Spiderman: Friend or Foe trailer, but that was 2007 and Disney hadn't purchased Marvel yet. Disney Interactive Studios spun off Buena Vista Interactive from 2003 to 2007 but that still doesn't explain Spiderman. It's not in any of the other DS downloadable videos. What the crap?
 			{"54", "GameTek/Take-Two Interactive"}, //Oof this one's a really fun one. Some documentation says "Konami/GameTek" which is just garbage because Konami has nothing to do with this, but some older games using this code like Wheel of Fortune on SNES and the InfoGenius Productivity Pak on GB are indeed published under GameTek. Where it gets fun is that GameTek became Take-Two Interactive at some point, and Duke Nukem Advance uses this code too and was published under the Take-Two Interactive name.. but then Dora the Explorer: Dora's World Adventures also uses this code but was published under Global Star Software, which was a company that became 2K Play which is then a branch of 2K Games and if you've lost track of everything I don't blame you and I just spent several tens of minutes googling around for info on Dora the Explorer why do I do this to myself
 			//Anyway this one just seems to cover everything that's owned by Take-Two Interactive
 			{"5D", "Midway/Tradewest/Williams"}, //For all intents and purposes starts off as Bally Midway (it doesn't, but let's not care about pre-1969), purchased by Williams in 1988 (but as "Bally/Midway"), albeit in 1991 started using the name Midway alone, then in 1996 some screwy stuff happened involving WMS and Time Warner, becomes independent in 1998 (but keeps the subsidiary known as "Atari Games" just to confuse me further until 2000) and then now they're sold to Warner Bros and then there's Tradeswest in there somewhere but only up to 1994? Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -274,7 +274,7 @@ namespace ROMniscience.Handlers {
 			{"4A", "/Gakken"}, //Titanic Mystery - Ao no Senritsu (FDS)
 			{"4G", "/Playmates"}, //Star Trek: Deep Space Nine: Crossroads in Time (USA) (SNES)
 			{"4J", "/Fox Interactive"}, //The Pagemaster (USA) (SNES)
-			{"4X", "/GT Interactive" }, //Duke Nukem (USA) (GBC); this company was purchased by Infogrames in 1999 I think
+			{"4X", "/GT Interactive" }, //Duke Nukem (USA) (GBC), this company was purchased by Infogrames in 1999 I think
 			{"53", "/American Sammy"}, //Ys III (SNES); also Ninja Taro (USA) (Beta) (GB); dunno what the difference is between this and non-American Sammy
 			{"5M", "/Telegames"}, //Yar's Revenge (USA/Europe) (GBC)
 			{"5Q", "/Lego"}, //Lego Island 2: The Brickster's Revenge (GBC + GBA)
