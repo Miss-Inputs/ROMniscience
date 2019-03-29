@@ -274,7 +274,7 @@ namespace ROMniscience.Handlers {
 			{"4A", "/Gakken"}, //Titanic Mystery - Ao no Senritsu (FDS)
 			{"4G", "/Playmates"}, //Star Trek: Deep Space Nine: Crossroads in Time (USA) (SNES)
 			{"4J", "/Fox Interactive"}, //The Pagemaster (USA) (SNES)
-			{"4X", "/GT Interactive" }, //Duke Nukem (USA) (GBC), this company was purchased by Infogrames in 1999 I think
+			{"4X", "/GT Interactive"}, //Duke Nukem (USA) (GBC), this company was purchased by Infogrames in 1999 I think
 			{"53", "/American Sammy"}, //Ys III (SNES); also Ninja Taro (USA) (Beta) (GB); dunno what the difference is between this and non-American Sammy
 			{"5M", "/Telegames"}, //Yar's Revenge (USA/Europe) (GBC)
 			{"5Q", "/Lego"}, //Lego Island 2: The Brickster's Revenge (GBC + GBA)
