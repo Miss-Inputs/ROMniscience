@@ -292,7 +292,7 @@ namespace ROMniscience.Handlers {
 			{"C7", "/East Cube"}, //Reflect World (FDS) (did they even make any other games?)
 			{"CU", "/Marvelous AQL"}, //Senran Kagura Burst (Europe) (3DS)
 			{"D4", "/Ask Kodansha"}, //Magna Braban - Henreki no Yuusha
-			{"D6", "/Naxat Soft"}, //Spriggan Powered BS - Prelude
+			{"D6", "/Naxat"}, //Spriggan Powered BS - Prelude
 			{"DB", "/Hiro"}, //Daisenryaku (Japan) (Gameboy)
 			{"E1", "/Towa Chiki"}, //Taikyoku Renju
 			{"E8", "/Asmik"}, //Dokapon Gaiden - Honoo no Audition (Japan) (merged with Ace to become Asmik Ace in 1998)
