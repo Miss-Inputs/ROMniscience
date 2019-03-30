@@ -1,3 +1,5 @@
+Hmm. Tempted to throw all this out and start again. Just in case anyone was reading this.
+
 # ROMniscience
 Lister for ROM images and associated header information, written in C# (targeting both .NET and Mono)
 
@@ -44,6 +46,7 @@ At the time of writing:
   - Sega Megadrive/Genesis, and by extension 32X, Mega CD/Sega CD and Sega Pico since they're the same format  
   - Sega Saturn
   - SNES  
+  - Switch (homebrew only)
   - Uzebox
   - Vectrex  
   - Virtual Boy
