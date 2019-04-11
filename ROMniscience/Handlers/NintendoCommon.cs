@@ -319,7 +319,7 @@ namespace ROMniscience.Handlers {
 			{"S3", "/Genius Sonority"}, //The Denpa Men demo (3DS)
 			{"SZ", "/Storm City Entertainment"}, //System Flaw (USA) (DSi)
 			{"TH", "/Kolkom"}, //Girlfriends Forever: Magic Skate (Europe) (WiiWare)
-			{"TL", "/Telltale"}, //Strong Badia the Free series (WiiWare)
+			{"TL", "/Telltale Games"}, //Strong Badia the Free series (WiiWare)
 			{"Q7", "/Nexon"}, //MapleStory DS (Korea)
 			{"QH", "/Virtual Play Games"}, //Intellivision Lives (USA) (DS)
 			{"QU", "/QubicGames"}, //AiRace Speed demo (3DS)
@@ -327,7 +327,7 @@ namespace ROMniscience.Handlers {
 			{"VT", "/Microforum"}, //Enjoy your massage (USA) (WiiWare)
 			{"X0", "/SDP Games"}, //Save the Furries (USA) (WiiWare); also known as Smack Down Productions
 			{"XG", "/XGen Studios"}, //Defend Your Castle (WiiWare)
-			{"XJ", "/XSeed"}, //Korg DS-10+ Synthesizer (USA) (DS)
+			{"XJ", "/XSeed Games"}, //Korg DS-10+ Synthesizer (USA) (DS)
 			{"XS", "/Aksys Games"}, //Family Glide Hockey (WiiWare)
 			{"YV", "/KnapNok Games"}, //Affordable Space Adventures (Wii U)
 
