@@ -118,6 +118,7 @@ namespace ROMniscience.Handlers {
 			{"1F", "Virgin Japan"}, //Unsure of exact name but it's Virgin but Japanese versions of games. Also found in the Muhammad Ali Heavyweight Boxing prototype (SNES)
 			{"1M", "Micro Cabin"},
 			{"1Q", "TDK Core"}, //TDK's Japanese game publishing branch
+			{"20", "Destination Software"}, //AKA Zoo Digital Publishing, which has its own licensee code as well, and there doesn't seem to be any consistent reason to which is which tbh
 			{"29", "Seta"},
 			{"2L", "Tamsoft"},
 			{"2N", "Smilesoft"},
@@ -168,6 +169,7 @@ namespace ROMniscience.Handlers {
 			{"7C", "Microprose"}, //Seen in Tinhead (Europe) (Proto) (SNES) and F-15 Strike Eagle II (Unknown) (Proto) (Game Boy); which are both prototypes and so therefore unreliable, but they both are indeed by Microprose so this is probably correct
 			{"7F", "Kemco"},
 			{"7G", "Rage Software"},
+			{"7J", "Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
 			{"7L", "Simon & Schuster"},
 			{"82", "Namcot"}, //Some division of Namco that was apparently necessary to create as a separate thing.... I don't know
 			{"8B", "Bullet-Proof Software"},
@@ -228,11 +230,13 @@ namespace ROMniscience.Handlers {
 			{"E9", "Natsume"},
 			{"EB", "Atlus"},
 			{"FJ", "Virtual Toys"},
+			{"FK", "The Game Factory"},
 			{"FQ", "iQue"}, //Sort of. Only WarioWare: Touched, Polarium, and Yoshi: Touch & Go use this, the other three iQue games: New Super Mario Bros, Super Mario 64, and Nintendogs (kiosk demo) use Nintendo instead. Those were all 2007 or later, the latter being on the iQue DSi, so it may be something corporate related going on there
 			{"FR", "Digital Tainment Pool"}, //Or DTP Entertainment if you prefer
 			{"FT", "Daiwon C & A"},
 			{"GD", "Square Enix"},
 			{"GL", "Gameloft"},
+			{"GX", "Commodore Gaming"}, //Supposedly, this is the name of the company that published the Wii C64 Virtual Console games. Seems to be defunct now, whoever they are.
 			{"HF", "Level5"},
 			{"J8", "D4 Enterprise"},
 			{"JS", "Digital Leisure"},
@@ -259,9 +263,7 @@ namespace ROMniscience.Handlers {
 			{"CE", "Pony Canyon/FCI"}, //Seems to be Fujisankei Communications International (as FCI Inc) for USA releases, Pony Canyon for Japanese releases, both are owned by Fujisankei Communications Group
 
 			//Welcome to confusing town, population these
-			{"20", "???Destination Software"}, //This is a confusing load of fuck, and I hate this entire company. So basically you also have 7J, and at first you'd think 20 is the UK/Europe Zoo Digital Publishing (aka Zoo Games) (aka Zushi Games), and 7J is the USA Destination Software (aka DSI Games). But then that turns out to not be the case. They're sort of the same company and have been traded around and bought out and sold multiple times. Thanks I hate it.
 			{"5Z", "???Classified Games"}, //Also appears in the Card Shark (SNES) proto, which as far as I can tell was developed by someone named Bonsai and involved someone named Bicycle as well. Seems like there's a mixup here with Conspiracy Entertainment? Are they the same company?
-			{"7J", "???Zoo Digital Publishing"}, //AKA Zushi Games. See 20 for rambling
 			{"AC", "???Toei Animation"}, //Used in some EXTREMELY obscure "Waiwai Check" games for Satellaview, which according to the title screen of one of them, are made by Hori Electric? Well I'm confused; Tooyama no Kinsan Space Chou - Mr. Gold is actually published by Toei though (apparently)
 			{"CA", "???Konami (Ultra Games)"}, //Definitely Konami but might not be Ultra Games? Published Batman Returns SNES in Japan (but not elsewhere), and Parodius (Europe) for Game Boy
 
@@ -303,7 +305,7 @@ namespace ROMniscience.Handlers {
 			{"FE", "/Davidson & Associates"}, //Math Blaster - Episode 1 (USA) (SNES)
 			{"GN", "/OG International"}, //Cartoon Network Punch Time Explosion XL (Europe) (Wii)
 			{"GT", "/505 Games"}, //Picture Perfect Hair Salon (USA) (DSi)
-			{"GY", "/The Game Factory"}, //Code Lyoko (USA) (DS) (might be "The American Game Factory", both names are used on the box so I dunno)
+			{"GY", "/The American Game Factory"}, //Code Lyoko (USA) (DS) (both this name and "The Game Factory" is used on the box but the latter is already FK)
 			{"H4", "/SNK Playmore"}, //Doki Doki Majo Shinpan (DS)
 			{"HL", "/Frontier Developments"}, //LostWinds (USA) (WiiWare)
 			{"HN", "/High Voltage"}, //VIP Casino Blackjack (USA) (WiiWare)
@@ -312,6 +314,7 @@ namespace ROMniscience.Handlers {
 			{"JY", "/Steel Penny"}, //Bruiser and Scratch (USA) (WiiWare)
 			{"NR", "/Destineer"}, //Giana Sisters DS (USA)
 			{"NJ", "/Enjoy Gaming"}, //System Flaw (Europe) (DSi)
+			{"PQ", "/PopCap Games"}, //Peggle Dual Shot (USA) (DS)
 			{"PV", "/Pan Vision Games"}, //Miffy's World (Europe) (DS)
 			{"QQ", "/Gamelion Studios"}, //Furry Legends (Europe) (WiiWare)
 			{"RB", "/Detune"}, //Korg M01 Music Workstation (Japan) (DS)
@@ -329,6 +332,7 @@ namespace ROMniscience.Handlers {
 			{"XG", "/XGen Studios"}, //Defend Your Castle (WiiWare)
 			{"XJ", "/XSeed Games"}, //Korg DS-10+ Synthesizer (USA) (DS)
 			{"XS", "/Aksys Games"}, //Family Glide Hockey (WiiWare)
+			{"Y4", "/Zen Studios"}, //Marvel Pinball 3D (Europe) (En,Fr,De,Es,It) (eShop) (Demo) (3DS)
 			{"YV", "/KnapNok Games"}, //Affordable Space Adventures (Wii U)
 
 			//Duplicates, may be dubious but some really are used with two different codes and what the heck?

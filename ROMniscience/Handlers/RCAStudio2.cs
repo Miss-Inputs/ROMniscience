@@ -39,6 +39,7 @@ namespace ROMniscience.Handlers {
 		public override string name => "RCA Studio II";
 
 		public override bool shouldSkipHeader(ROMFile rom) {
+			rom.stream.Position = 0;
 			string magic = rom.stream.read(4, Encoding.ASCII);
 			return "RCA2".Equals(magic);
 		}
@@ -60,6 +61,7 @@ namespace ROMniscience.Handlers {
 		public override void addROMInfo(ROMInfo info, ROMFile file) {
 			info.addInfo("Platform", name);
 			WrappedInputStream s = file.stream;
+			s.Position = 0;
 
 			string magic = s.read(4, Encoding.ASCII);
 			info.addInfo("Magic", magic, true); //Should be "RCA2"
